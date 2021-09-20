@@ -32,12 +32,8 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    following: {
-      type: [mongoose.Types.ObjectId],
-    },
-    followedBy: {
-      type: [mongoose.Types.ObjectId],
-    },
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    followedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
 
   {
@@ -53,6 +49,6 @@ userSchema.post("save", function (error, doc, next) {
   else next(error);
 });
 
-const Client = mongoose.model("client", userSchema);
+const Client = mongoose.model("user", userSchema);
 
 module.exports = Client;

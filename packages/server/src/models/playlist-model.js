@@ -47,15 +47,12 @@ const playlistSchema = new Schema(
       default: 0.0,
     },
     userId: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
       required: [true, "User id is required"],
     },
-    tracks: {
-      type: [mongoose.Types.ObjectId],
-    },
-    followedBy: {
-      type: [mongoose.Types.ObjectId],
-    },
+    tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: "track" }],
+    followedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
 
   {

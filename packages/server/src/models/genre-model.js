@@ -19,6 +19,6 @@ const genreSchema = new Schema(
   },
 );
 
-const Genre = mongoose.model("playlist", genreSchema);
+const Genre = mongoose.model("genre", genreSchema);
 
 module.exports = Genre;

@@ -25,12 +25,11 @@ const albumSchema = new Schema(
       default: 0,
     },
     userId: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
       required: [true, "User id is required"],
     },
-    likedBy: {
-      type: [mongoose.Types.ObjectId],
-    },
+    likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
 
   {
@@ -38,6 +37,6 @@ const albumSchema = new Schema(
   },
 );
 
-const Album = mongoose.model("playlist", albumSchema);
+const Album = mongoose.model("album", albumSchema);
 
 module.exports = Album;

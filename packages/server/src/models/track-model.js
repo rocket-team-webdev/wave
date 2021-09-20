@@ -45,20 +45,20 @@ const trackSchema = new Schema(
       required: [true, "Track duration is required"],
     },
     genreId: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "genre",
       required: [true, "Genre id is required"],
     },
     userId: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
       required: [true, "User id is required"],
     },
     albums: {
-      type: [mongoose.Types.ObjectId],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "album" }],
       required: [true, "Albums list is required"],
     },
-    likedBy: {
-      type: [mongoose.Types.ObjectId],
-    },
+    likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
 
   {
