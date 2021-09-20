@@ -32,6 +32,12 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    following: {
+      type: [mongoose.Types.ObjectId],
+    },
+    followedBy: {
+      type: [mongoose.Types.ObjectId],
+    },
   },
 
   {
