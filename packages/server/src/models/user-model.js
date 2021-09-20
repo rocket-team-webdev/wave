@@ -4,7 +4,7 @@ const validator = require("validator");
 
 const userSchema = new Schema(
   {
-    name: {
+    fullName: {
       type: String,
       trim: true,
       required: [true, "User name is required"],
@@ -34,6 +34,14 @@ const userSchema = new Schema(
     },
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     followedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    profilePicture: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: (value) => validator.isURL(value),
+        message: () => `Profile picture is not valid`,
+      },
+    },
   },
 
   {
