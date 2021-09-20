@@ -1,0 +1,29 @@
+{
+  "name": "wave",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/rocket-team-webdev/wave.git",
+  "author": "The Rocket Team <https://github.com/rocket-team-webdev>",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Nacho Montoya",
+      "email": "montoyanacho@gmail.com",
+      "url": "https://github.com/Nachomontoya"
+    }
+  ],
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "client": "yarn workspace client start",
+    "client-build": "yarn workspace client build",
+    "client-test": "yarn workspace client test",
+    "server": "yarn workspace server start",
+    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  }
+}
