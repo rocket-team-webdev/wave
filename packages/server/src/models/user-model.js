@@ -4,8 +4,19 @@ const validator = require("validator");
 
 const userSchema = new Schema(
   {
-    fullName: {
+    firstName: {
       type: String,
+      trim: true,
+      required: [true, "User name is required"],
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      required: [true, "User name is required"],
+    },
+    username: {
+      type: String,
+      unique: true,
       trim: true,
       required: [true, "User name is required"],
     },
@@ -32,6 +43,21 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    country: {
+      type: String,
+      enum: [
+        "Spain",
+        "Argentina",
+        "Morocco",
+        "France",
+        "Italy",
+        "Germany",
+        "USA",
+        "Mexico",
+        "Catalonia",
+      ],
+      required: [true, "The region is required"],
+    },
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     followedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     profilePicture: {
@@ -54,9 +80,11 @@ const userSchema = new Schema(
 userSchema.post("save", function (error, doc, next) {
   if (error.code === 11000 && error.keyPattern.email)
     next(new Error("Email already exists!"));
+  else if (error.code === 11000 && error.keyPattern.username)
+    next(new Error("Username already exists!"));
   else next(error);
 });
 
-const Client = mongoose.model("user", userSchema);
+const User = mongoose.model("user", userSchema);
 
-module.exports = Client;
+module.exports = User;

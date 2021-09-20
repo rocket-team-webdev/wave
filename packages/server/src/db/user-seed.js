@@ -1,34 +1,31 @@
 function getSeedUsers() {
   return [
     {
-      fullName: "Mathias Fortuna",
+      firstName: "Mathias",
+      lastName: "Fortuna",
+      username: "MathiasFortuna",
       email: "mathias@teamrocket.es",
       firebaseId: "idFirebase",
       birthDate: "1993-12-18",
+      country: "Argentina",
     },
     {
-      fullName: "Nacho Montoya",
+      firstName: "Nacho",
+      lastName: "Montoya",
+      username: "nachomon",
       email: "nacho@teamrocket.es",
       firebaseId: "idFirebase",
       birthDate: "1993-12-18",
+      country: "Spain",
     },
     {
-      fullName: "Ricard Garcia",
+      firstName: "Ricard",
+      lastName: "Garcia",
+      username: "derivation",
       email: "rick@teamrocket.es",
       firebaseId: "idFirebase",
       birthDate: "1993-12-18",
-    },
-    {
-      fullName: "Hugo Gomez",
-      email: "huguito@teamrocket.es",
-      firebaseId: "idFirebase",
-      birthDate: "1993-12-18",
-    },
-    {
-      fullName: "Brahim Benalia",
-      email: "brahim@teamrocket.es",
-      firebaseId: "idFirebase",
-      birthDate: "1993-12-18",
+      country: "Catalonia",
     },
   ];
 }
