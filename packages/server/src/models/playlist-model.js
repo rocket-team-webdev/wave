@@ -2,29 +2,33 @@ const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 const validator = require("validator");
 
-const trackSchema = new Schema(
+const playlistSchema = new Schema(
   {
     name: {
       type: String,
       trim: true,
-      required: [true, "Track name is required"],
+      required: [true, "Playlist name is required"],
     },
-    rating: {
-      type: Number,
-      default: 0.0,
+    collaborative: {
+      type: Boolean,
+      default: false,
     },
-    url: {
+
+    description: {
+      type: String,
+      trim: true,
+    },
+    primaryColor: {
+      type: String,
+      trim: true,
+    },
+    cover: {
       type: String,
       trim: true,
       validate: {
         validator: (value) => validator.isURL(value),
-        message: () => `Track url is not valid`,
+        message: () => `Track cover is not valid`,
       },
-      required: [true, "Track url is required"],
-    },
-    popularity: {
-      type: Number,
-      default: 0,
     },
     thumbnail: {
       type: String,
@@ -34,29 +38,22 @@ const trackSchema = new Schema(
         message: () => `Track thumbnail is not valid`,
       },
     },
-    color: {
-      type: String,
+    publicAccessible: {
+      type: Boolean,
+      default: false,
     },
-    released: {
-      type: Date,
-    },
-    duration: {
+    rating: {
       type: Number,
-      required: [true, "Track duration is required"],
-    },
-    genreId: {
-      type: mongoose.Types.ObjectId,
-      required: [true, "Genre id is required"],
+      default: 0.0,
     },
     userId: {
       type: mongoose.Types.ObjectId,
       required: [true, "User id is required"],
     },
-    albums: {
+    tracks: {
       type: [mongoose.Types.ObjectId],
-      required: [true, "Albums list is required"],
     },
-    likedBy: {
+    followedBy: {
       type: [mongoose.Types.ObjectId],
     },
   },
@@ -66,6 +63,6 @@ const trackSchema = new Schema(
   },
 );
 
-const Track = mongoose.model("track", trackSchema);
+const Playlist = mongoose.model("playlist", playlistSchema);
 
-module.exports = Track;
+module.exports = Playlist;
