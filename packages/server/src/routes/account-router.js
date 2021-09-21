@@ -3,8 +3,8 @@ const { accountController } = require("../controllers");
 
 const accountRouter = Router();
 
-accountRouter.get("/", accountController.getUser);
-accountRouter.post("/:id", accountController.updateUser);
+accountRouter.get("/account/", accountController.getUser);
+accountRouter.post("account/:id", accountController.updateUser);
 
 module.exports = {
   accountRouter: accountRouter,

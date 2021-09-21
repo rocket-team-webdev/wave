@@ -1,23 +1,22 @@
 const db = require("../models");
 
-async function getUser(req, res, next) {
+async function getUser(req, res) {
   try {
-    const user = await db.User.findOne({ email: req.body.email });
+    const { email } = req.user;
+    const user = await db.User.findOne({ email });
 
-    if (user)
-      res.status(200).send({
-        data: user,
-      });
-    else
-      res.status(404).send({
-        message: "User not found",
-      });
+    res.status(200).send({
+      data: user,
+    });
   } catch (err) {
-    next(err);
+    res.status(404).send({
+      error: err.message,
+    });
   }
 }
 
-async function updateUser(req, res, next) {
+//! FALTA POR IMPLEMENTAR FIREBASE
+async function updateUser(req, res) {
   const { id: userId } = req.params;
 
   try {
@@ -30,9 +29,8 @@ async function updateUser(req, res, next) {
     });
   } catch (err) {
     res.status(404).send({
-      error: err,
+      error: err.message,
     });
-    next(err);
   }
 }
 

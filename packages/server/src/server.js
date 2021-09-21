@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const cors = require("cors");
 
-const { accountRouter } = require("./routes");
+const { accountRouter, userRouter } = require("./routes");
 
 const app = express();
 
@@ -12,6 +12,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
 
-app.use("/api/account", accountRouter);
+app.use("/api", accountRouter);
+app.use("/api", userRouter);
 
 module.exports = app;
