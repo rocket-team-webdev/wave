@@ -1,8 +1,38 @@
 @import "bootstrap";
 
-.custom-btn{
+.custom-btn {
   @extend .btn;
   background-color: transparent;
   border: 2px solid black;
   border-radius: 5px;
+}
+
+.custom-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.primary-btn {
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.primary-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.secondary-btn {
+  background-color: black;
+  border: 2px solid black;
+  border-radius: 5px;
+  color: white;
+}
+
+.secondary-btn:hover {
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 5px;
+  color: black;
 }

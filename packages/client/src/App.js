@@ -7,7 +7,11 @@ function App() {
   return (
     <div>
       <Button>My button</Button>
+      <Button secondaryBtn fullWidth>
+        My button
+      </Button>
       <Input />
+      <Input fullWidth />
     </div>
   );
 }

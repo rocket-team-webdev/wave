@@ -6,7 +6,7 @@ export default function FloatInput({
   type = "text",
   label = "input-01",
   id = "input-01",
-  classes = "form-input",
+  fullWidth = false,
   value = "",
   placeholder = "",
   handleChange = () => {},
@@ -22,7 +22,7 @@ export default function FloatInput({
         <label htmlFor={id}>{label}</label>
         <input
           type={type}
-          className={classes}
+          className={`${fullWidth && "w-100"} form-input`}
           id={id}
           name={id}
           placeholder={placeholder}
