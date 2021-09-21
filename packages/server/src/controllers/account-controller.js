@@ -27,9 +27,9 @@ async function updateAccount(req, res) {
       data: updatedAccount,
       message: "Success",
     });
-  } catch (err) {
+  } catch (error) {
     res.status(404).send({
-      error: err.message,
+      error: error,
     });
   }
 }

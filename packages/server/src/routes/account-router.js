@@ -8,13 +8,13 @@ const {
 const accountRouter = Router();
 
 accountRouter.get(
-  "/account/",
+  "/account",
   authFirebaseMiddleware,
   accountController.getAccount,
 );
 
 accountRouter.post(
-  "/account/:id",
+  "/account",
   authFirebaseMiddleware,
   accountController.updateAccount,
 );
