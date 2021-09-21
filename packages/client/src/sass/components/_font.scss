@@ -21,16 +21,30 @@
   font-style: normal;
 }
 
-// Styles
+// Font families
 .fnt-label-light,
 .fnt-label-bold {
   font-family: "Pramukh";
-  font-weight: normal;
+}
+
+.fnt-input-light,
+.fnt-input-bold,
+.fnt-caption {
+  font-family: "Switzer";
+}
+
+// Sizes & styles
+.fnt-label-light,
+.fnt-label-bold {
   font-size: 37px;
 }
 
+.fnt-input-light,
+.fnt-input-bold {
+  font-size: 19px;
+}
+
 .fnt-caption {
-  font-family: "Switzer";
   font-size: 15px;
 }
 
@@ -40,6 +54,14 @@
 }
 
 .fnt-label-bold {
+  font-weight: bold;
+}
+
+.fnt-input-light {
+  font-weight: 300;
+}
+
+.fnt-input-bold {
   font-weight: bold;
 }
 

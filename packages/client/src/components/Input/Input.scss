@@ -1,29 +1,43 @@
 @use "../../sass/components/colors" as c;
 
-.form-input {
-  // @extend .form-control;
-  height: 45px;
-  border: 2px solid c.$grayColor;
-  background: c.$lightColor;
-}
-
 .form-input:focus,
 .form-input:active {
   outline: none;
   -webkit-appearance: none;
   box-shadow: none;
-  border: 2px solid black;
   padding: 5px 20px;
 }
 
 label {
   font-size: 36px;
-  font-weight: 900;
-  padding: 8px;
+  text-transform: uppercase;
+}
+
+.form-input {
+  height: 45px;
+}
+
+.positive-label {
+  color: c.$secondaryColor;
+}
+
+.negative-label {
+  color: c.$lightColor;
+}
+
+.positive-input {
+  color: c.$secondaryColor;
+  background: c.$lightColor;
+  border: 2px solid c.$grayColor;
+}
+
+.negative-input {
+  color: c.$secondaryColor;
+  background: c.$lightColor20;
+  border: 2px solid c.$lightColor;
 }
 
 .error-msg {
-  // @extend .invalid-feedback;
   font-size: 16px;
   color: #ab1515;
 }
