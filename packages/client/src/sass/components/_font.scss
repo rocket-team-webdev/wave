@@ -1,0 +1,71 @@
+// @font-face {
+//   font-family: "CabinetGrotesk-Variable";
+//   src: url("../../assets/fonts/CabinetGrotesk-Variable.woff2") format("woff2"),
+//     url("../../assets/fonts/CabinetGrotesk-Variable.woff") format("woff"),
+//     url("../../assets/fonts/CabinetGrotesk-Variable.ttf") format("truetype");
+//   font-weight: 100 900;
+//   font-display: swap;
+//   font-style: normal;
+// }
+
+// @font-face {
+//   font-family: "BespokeSerif-Regular";
+//   src: url("../../assets/fonts/BespokeSerif-Regular.woff2") format("woff2"),
+//     url("../../assets/fonts/BespokeSerif-Regular.woff") format("woff"),
+//     url("../../assets/fonts/BespokeSerif-Regular.ttf") format("truetype");
+//   font-weight: 400;
+//   font-display: swap;
+//   font-style: normal;
+// }
+
+// * {
+//   font-family: "CabinetGrotesk-Variable";
+// }
+
+// .description-text {
+//   font-family: "BespokeSerif-Regular";
+//   font-size: 14px;
+//   line-height: 1.4;
+//   hyphens: auto;
+// }
+
+// Weights
+.font-bold {
+  font-weight: 900;
+}
+
+.font-semi-bold {
+  font-weight: 800;
+}
+
+.font-regular {
+  font-weight: 400;
+}
+
+.font-light {
+  font-weight: 200;
+}
+
+// Sizes
+.small-text {
+  font-size: 10px;
+}
+.intermediate-text {
+  font-size: 16px;
+}
+
+.medium-big-text {
+  font-size: 24px;
+}
+
+.big-text {
+  font-size: 38px;
+}
+
+// Overflow
+.truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 150px;
+}

@@ -1,0 +1,8 @@
+@import "bootstrap";
+
+.custom-btn{
+  @extend .btn;
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 5px;
+}
