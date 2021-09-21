@@ -17,6 +17,26 @@ async function getUser(req, res, next) {
   }
 }
 
+async function updateUser(req, res, next) {
+  const { id: userId } = req.params;
+
+  try {
+    const updatedUser = await db.User.findByIdAndUpdate(userId, req.body, {
+      new: true,
+    });
+
+    res.status(200).send({
+      data: updatedUser,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err,
+    });
+    next(err);
+  }
+}
+
 module.exports = {
   getUser: getUser,
+  updateUser: updateUser,
 };
