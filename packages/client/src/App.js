@@ -19,7 +19,6 @@ function App() {
         type="password"
         placeholder="This is a placeholder"
       />
-      <Input type="file" placeholder="This is a placeholder" />
     </div>
   );
 }
