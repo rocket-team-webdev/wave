@@ -1,22 +1,40 @@
 const db = require("../models");
 
-async function getUser(req, res, next) {
+async function getAccount(req, res) {
   try {
-    const user = await db.User.findOne({ email: req.body.email });
+    const { email } = req.user;
+    const user = await db.User.findOne({ email });
 
-    if (user)
-      res.status(200).send({
-        data: user,
-      });
-    else
-      res.status(404).send({
-        message: "User not found",
-      });
+    res.status(200).send({
+      data: user,
+    });
   } catch (err) {
-    next(err);
+    res.status(404).send({
+      error: err.message,
+    });
+  }
+}
+
+async function updateAccount(req, res) {
+  try {
+    const { email } = req.user;
+    const updatedAccount = await db.User.findOneAndUpdate({ email }, req.body, {
+      new: true,
+    });
+
+    res.status(200).send({
+      id: updatedAccount._id,
+      data: updatedAccount,
+      message: "Success",
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
   }
 }
 
 module.exports = {
-  getUser: getUser,
+  getAccount: getAccount,
+  updateAccount: updateAccount,
 };
