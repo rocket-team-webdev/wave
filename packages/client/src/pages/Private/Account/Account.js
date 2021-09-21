@@ -84,15 +84,15 @@ export default function Account() {
               </select>
 
               <Input
-                type="date"
-                label="Birthdate"
-                id="birthdate"
-                value={formik.values.birthdate}
-                errorMessage={formik.errors.birthdate}
-                hasErrorMessage={formik.touched.birthdate}
-                placeholder={accountData.birthDate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                type="file"
+                label="PROFILE IMAGE"
+                id="profileImage"
+                value={formik.values.profileImage}
+                errorMessage={formik.errors.profileImage}
+                hasErrorMessage={formik.touched.profileImage}
+                placeholder={accountData.profileImage}
+                onChange={formik.profileImage}
+                onBlur={formik.profileImage}
               />
             </div>
             <div className="d-flex">
