@@ -13,10 +13,13 @@ function App() {
         Secondary button
       </Button>
       <Button isSmall>Secondary button</Button>
-      <Input placeholder="This is a placeholder" />
-      <Input isUploadFile placeholder="This is a placeholder" />
-      <Input isNegative placeholder="This is a placeholder" />
-      <Input isNegative isUploadFile placeholder="This is a placeholder" />
+      <Input
+        label="hey"
+        id="aloha"
+        type="password"
+        placeholder="This is a placeholder"
+      />
+      <Input type="file" placeholder="This is a placeholder" />
     </div>
   );
 }

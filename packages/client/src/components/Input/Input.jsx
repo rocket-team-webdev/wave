@@ -6,9 +6,8 @@ export default function FloatInput({
   label = "input-01",
   id = "input-01",
   isNegative = false,
-  isUploadFile = false,
+  type = "",
   fullWidth = false,
-  value = "",
   placeholder = "",
   handleChange = () => {},
   handleBlur = () => {},
@@ -22,14 +21,13 @@ export default function FloatInput({
   let uploadClassNames =
     "custom-upload-input fx-rounded fnt-input-light d-flex align-items-center ps-3 w-100 ";
 
-  if (isUploadFile) {
+  if (type === "file") {
+    inputClassNames += "upload-input m-0 ";
     if (!isNegative) {
       uploadClassNames += "positive-custom-upload-input";
     } else {
       uploadClassNames += "negative-custom-upload-input";
     }
-
-    inputClassNames += "upload-input";
   }
 
   if (isNegative) {
@@ -49,16 +47,15 @@ export default function FloatInput({
       <label className={labelClassNames} htmlFor={id}>
         {label}
       </label>
-      {isUploadFile && (
+      {type === "file" && (
         <div className={uploadClassNames}>{placeholder} for upload file</div>
       )}
       <input
-        type={isUploadFile ? "file" : "text"}
+        type={type}
         className={inputClassNames}
         id={id}
         name={id}
         placeholder={placeholder}
-        value={value}
         onChange={handleChange}
         onBlur={handleBlur}
         onInput={handleInput}
