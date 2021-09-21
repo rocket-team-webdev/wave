@@ -15,16 +15,20 @@ async function getUser(req, res) {
   }
 }
 
-//! FALTA POR IMPLEMENTAR FIREBASE
 async function updateUser(req, res) {
-  const { id: userId } = req.params;
+  const { email } = req.user;
 
   try {
-    const updatedUser = await db.User.findByIdAndUpdate(userId, req.body, {
-      new: true,
-    });
+    const updatedUser = await db.User.findByIdAndUpdate(
+      { email },
+      req.body.user,
+      {
+        new: true,
+      },
+    );
 
     res.status(200).send({
+      id: updatedUser._id,
       data: updatedUser,
     });
   } catch (err) {
