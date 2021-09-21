@@ -3,7 +3,7 @@ const Router = require("express").Router;
 
 const userRouter = Router();
 
-userRouter.post("/register/", userController.signUp);
+userRouter.post("/register", userController.signUp);
 
 module.exports = {
   userRouter,
