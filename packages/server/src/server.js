@@ -12,6 +12,6 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
 
-app.use("/account", accountRouter);
+app.use("/api/account", accountRouter);
 
 module.exports = app;
