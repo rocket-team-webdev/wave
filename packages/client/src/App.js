@@ -1,13 +1,17 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { PUBLIC } from "./constants/routes";
+import { PUBLIC, PRIVATE } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import SignUp from "./pages/Public/SignUp";
+import Account from "./pages/Private/Account";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path={PRIVATE.USER_ACCOUNT}>
+          <Account />
+        </Route>
         <Route path={PUBLIC.SIGNUP}>
           <SignUp />
         </Route>
