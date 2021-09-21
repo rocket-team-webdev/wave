@@ -24,6 +24,7 @@
 body {
   height: 100vh;
   margin: 0;
+  background: rgb(115, 183, 247);
   #root {
     height: 100%;
   }
@@ -53,3 +54,18 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                               Global effects                               */
+/* -------------------------------------------------------------------------- */
+.fx-stroke {
+  border: 2px solid white;
+}
+
+.fx-rounded {
+  border-radius: 8px;
+}
+
+.fx-blur {
+  background: rgba(250, 250, 250, 0.2);
+  backdrop-filter: blur(40px);
+}

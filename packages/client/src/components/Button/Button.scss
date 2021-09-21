@@ -1,38 +1,71 @@
-@import "bootstrap";
+@use "../../sass/components/colors" as c;
 
 .custom-btn {
-  @extend .btn;
-  background-color: transparent;
-  border: 2px solid black;
-  border-radius: 5px;
+  transition: 0.3s;
+  background: unset;
+  width: fit-content;
 }
 
-.custom-btn:hover {
-  background-color: black;
-  color: white;
+// Large button
+.large-btn {
+  padding: 7px 14px;
+  font-weight: bold;
 }
 
-.primary-btn {
-  background-color: transparent;
-  border: 2px solid black;
-  border-radius: 5px;
+.positive-primary-btn,
+.positive-secondary-btn {
+  text-transform: uppercase;
 }
 
-.primary-btn:hover {
-  background-color: black;
-  color: white;
+.positive-primary-btn,
+.positive-secondary-btn:hover {
+  color: c.$secondaryColor;
+  background: c.$lightColor;
+  border: 2px solid c.$secondaryColor;
 }
 
-.secondary-btn {
-  background-color: black;
-  border: 2px solid black;
-  border-radius: 5px;
-  color: white;
+.positive-primary-btn:hover,
+.positive-secondary-btn {
+  color: c.$lightColor;
+  background: c.$secondaryColor;
+  border: 2px solid c.$secondaryColor;
 }
 
-.secondary-btn:hover {
-  background-color: transparent;
-  border: 2px solid black;
-  border-radius: 5px;
-  color: black;
+.positive-primary-btn:focus,
+.positive-secondary-btn:focus {
+  background: c.$grayColor;
+}
+
+.negative-primary-btn,
+.negative-secondary-btn:hover {
+  color: c.$lightColor;
+  background: c.$lightColor20;
+  border: 2px solid c.$lightColor20;
+}
+
+.negative-primary-btn:hover,
+.negative-secondary-btn {
+  color: c.$primaryColor;
+  background: c.$lightColor;
+  border: 2px solid c.$lightColor;
+}
+
+.negative-primary-btn:focus,
+.negative-secondary-btn:focus {
+  border: 2px solid c.$lightColor;
+}
+
+// Small button
+.small-btn {
+  padding: 5px;
+  color: c.$lightColor;
+  border: 2px solid c.$lightColor;
+}
+.small-btn:hover {
+  color: c.$primaryColor;
+  background: c.$lightColor;
+}
+.small-btn:focus {
+  padding: 5px;
+  background: c.$lightColor20;
 }
