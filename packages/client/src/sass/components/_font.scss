@@ -1,0 +1,74 @@
+@font-face {
+  font-family: "Pramukh";
+  src: url("../../assets/fonts/PramukhRounded/PramukhRounded-Variable.woff2")
+      format("woff2"),
+    url("../../assets/fonts/PramukhRounded/PramukhRounded-Variable.woff")
+      format("woff"),
+    url("../../assets/fonts/PramukhRounded/PramukhRounded-Variable.ttf")
+      format("truetype");
+  font-weight: 200 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Switzer";
+  src: url("../../assets/fonts/Switzer/Switzer-Variable.woff2") format("woff2"),
+    url("../../assets/fonts/Switzer/Switzer-Variable.woff") format("woff"),
+    url("../../assets/fonts/Switzer/Switzer-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+// Font families
+.fnt-label-light,
+.fnt-label-bold {
+  font-family: "Pramukh";
+}
+
+.fnt-input-light,
+.fnt-input-bold,
+.fnt-caption {
+  font-family: "Switzer";
+}
+
+// Sizes & styles
+.fnt-label-light,
+.fnt-label-bold {
+  font-size: 37px;
+}
+
+.fnt-input-light,
+.fnt-input-bold {
+  font-size: 19px;
+}
+
+.fnt-caption {
+  font-size: 15px;
+}
+
+// Weights
+.fnt-label-light {
+  font-weight: normal;
+}
+
+.fnt-label-bold {
+  font-weight: bold;
+}
+
+.fnt-input-light {
+  font-weight: 300;
+}
+
+.fnt-input-bold {
+  font-weight: bold;
+}
+
+// Overflow
+.truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 150px;
+}
