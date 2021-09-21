@@ -1,6 +1,6 @@
 const db = require("../models");
 
-async function getUser(req, res) {
+async function getAccount(req, res) {
   try {
     const { email } = req.user;
     const user = await db.User.findOne({ email });
@@ -15,21 +15,17 @@ async function getUser(req, res) {
   }
 }
 
-async function updateUser(req, res) {
-  const { email } = req.user;
-
+async function updateAccount(req, res) {
   try {
-    const updatedUser = await db.User.findByIdAndUpdate(
-      { email },
-      req.body.user,
-      {
-        new: true,
-      },
-    );
+    const { email } = req.user;
+    const updatedAccount = await db.User.findOneAndUpdate({ email }, req.body, {
+      new: true,
+    });
 
     res.status(200).send({
-      id: updatedUser._id,
-      data: updatedUser,
+      id: updatedAccount._id,
+      data: updatedAccount,
+      message: "Success",
     });
   } catch (err) {
     res.status(404).send({
@@ -39,6 +35,6 @@ async function updateUser(req, res) {
 }
 
 module.exports = {
-  getUser: getUser,
-  updateUser: updateUser,
+  getAccount: getAccount,
+  updateAccount: updateAccount,
 };

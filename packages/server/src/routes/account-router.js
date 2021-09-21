@@ -10,12 +10,13 @@ const accountRouter = Router();
 accountRouter.get(
   "/account/",
   authFirebaseMiddleware,
-  accountController.getUser,
+  accountController.getAccount,
 );
+
 accountRouter.post(
-  "account/:id",
+  "/account/:id",
   authFirebaseMiddleware,
-  accountController.updateUser,
+  accountController.updateAccount,
 );
 
 module.exports = {
