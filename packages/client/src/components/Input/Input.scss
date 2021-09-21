@@ -13,7 +13,7 @@
   -webkit-appearance: none;
   box-shadow: none;
   border: 2px solid black;
-  margin-left: 5px;
+  padding: 5px 20px;
 }
 
 // .form-input:focus ~ label,
@@ -31,7 +31,6 @@
 label {
   font-size: 36px;
   font-weight: 900;
-  transition: 0.5;
   padding: 8px;
 }
 
