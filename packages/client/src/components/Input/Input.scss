@@ -1,10 +1,10 @@
+@use "../../sass/components/colors" as c;
+
 .form-input {
   // @extend .form-control;
   height: 45px;
-  border: 1px solid #c4c4c4;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 900;
+  border: 2px solid c.$grayColor;
+  background: c.$lightColor;
 }
 
 .form-input:focus,
@@ -15,18 +15,6 @@
   border: 2px solid black;
   padding: 5px 20px;
 }
-
-// .form-input:focus ~ label,
-// .form-input:active ~ label,
-// .form-input:not(:placeholder-shown) ~ label {
-//   font-size: 16px;
-//   font-weight: 500;
-//   padding: 1rem 0.75rem !important;
-// }
-
-// .form-floating > label {
-//   padding: 2rem 0.75rem !important;
-// }
 
 label {
   font-size: 36px;

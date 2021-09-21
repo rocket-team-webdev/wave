@@ -3,16 +3,24 @@
 .custom-btn {
   transition: 0.3s;
   background: unset;
+  width: fit-content;
 }
 
 // Large button
 .large-btn {
-  padding: 20px;
+  padding: 7px 14px;
+  font-weight: bold;
+}
+
+.positive-primary-btn,
+.positive-secondary-btn {
+  text-transform: uppercase;
 }
 
 .positive-primary-btn,
 .positive-secondary-btn:hover {
-  color: $secondaryColor;
+  color: c.$secondaryColor;
+  background: c.$lightColor;
   border: 2px solid c.$secondaryColor;
 }
 
@@ -20,6 +28,7 @@
 .positive-secondary-btn {
   color: c.$lightColor;
   background: c.$secondaryColor;
+  border: 2px solid c.$secondaryColor;
 }
 
 .positive-primary-btn:focus,
@@ -29,14 +38,16 @@
 
 .negative-primary-btn,
 .negative-secondary-btn:hover {
-  background: c.$lightColor20;
   color: c.$lightColor;
+  background: c.$lightColor20;
+  border: 2px solid c.$lightColor20;
 }
 
 .negative-primary-btn:hover,
 .negative-secondary-btn {
-  background: c.$lightColor;
   color: c.$primaryColor;
+  background: c.$lightColor;
+  border: 2px solid c.$lightColor;
 }
 
 .negative-primary-btn:focus,
@@ -45,6 +56,16 @@
 }
 
 // Small button
-// .small-btn {
-//   padding: 5px;
-// }
+.small-btn {
+  padding: 5px;
+  color: c.$lightColor;
+  border: 2px solid c.$lightColor;
+}
+.small-btn:hover {
+  color: c.$primaryColor;
+  background: c.$lightColor;
+}
+.small-btn:focus {
+  padding: 5px;
+  background: c.$lightColor20;
+}
