@@ -3,7 +3,6 @@
 export const PUBLIC = {
   HOME: "/",
   SIGNUP: "/signup",
-  SIGNOUT: "/signout",
 };
 
 // PRIVATE PAGES

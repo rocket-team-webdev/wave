@@ -3,11 +3,11 @@ import { getCurrentUserToken } from "../services/auth";
 
 const axios = require("axios").default;
 
-export function makeAccountApi() {
-  return axios.create({
-    baseURL: `${API.MAIN}${API.ACCOUNT}`,
-  });
-}
+// export function makeAccountApi() {
+//   return axios.create({
+//     baseURL: `${API.MAIN}${API.ACCOUNT}`,
+//   });
+// }
 
 export function makeRegisterApi() {
   return axios.create({
@@ -19,11 +19,28 @@ export function makeRegisterApi() {
 //   return api.get(``);
 // }
 
-export async function getClient(clientId, api = makeAccountApi()) {
+// export async function getClient(clientId, api = makeAccountApi()) {
+//   const token = await getCurrentUserToken();
+//   return api.get(`/${clientId}`, {
+//     headers: { Authorization: `Bearer ${token}` },
+//   });
+// }
+
+export async function createClient(clientData, api = makeRegisterApi()) {
   const token = await getCurrentUserToken();
-  return api.get(`/${clientId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return api.post(
+    ``,
+    {
+      firstName: clientData.firstName,
+      lastName: clientData.lastName,
+      username: clientData.username,
+      country: clientData.country,
+      birthDate: clientData.birthDate,
+    },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 }
 
 // export async function updateClient(client, api = makeAccountApi()) {
