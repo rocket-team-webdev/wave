@@ -8,15 +8,21 @@ export default function Button({
   fullWidth = false,
   primaryBtn = true,
   secondaryBtn = false,
+  // smallButton = false,
+  isPositive = true,
+  isSmall = false,
   children,
   handleClick = () => {},
   ...props
 }) {
   return (
     <button
-      className={`${fullWidth && "w-100"} ${primaryBtn && "primary-btn"} ${
-        secondaryBtn && "secondary-btn"
-      } custom-btn `}
+      className={` ${primaryBtn && "primary-btn"} ${
+        isPositive && "positive-btn"
+      } ${secondaryBtn && "secondary-btn"}
+      ${isSmall ? "small-btn" : "large-btn .font-label-light"}  
+      ${fullWidth && "w-100"}
+      custom-btn fx-rounded`}
       type={submitButton ? "submit" : "button"}
       disabled={disabled}
       onClick={handleClick}

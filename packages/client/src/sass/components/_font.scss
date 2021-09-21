@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "PramukhRounded-Variable";
+  font-family: "Pramukh";
   src: url("../../assets/fonts/PramukhRounded/PramukhRounded-Variable.woff2")
       format("woff2"),
     url("../../assets/fonts/PramukhRounded/PramukhRounded-Variable.woff")
@@ -12,7 +12,7 @@
 }
 
 @font-face {
-  font-family: "Switzer-Variable";
+  font-family: "Switzer";
   src: url("../../assets/fonts/Switzer/Switzer-Variable.woff2") format("woff2"),
     url("../../assets/fonts/Switzer/Switzer-Variable.woff") format("woff"),
     url("../../assets/fonts/Switzer/Switzer-Variable.ttf") format("truetype");
@@ -21,49 +21,44 @@
   font-style: normal;
 }
 
-* {
-  font-family: "Switzer-Variable";
+// Styles
+.font-label-light {
+  font-family: "Pramukh";
+  font-weight: normal;
+  font-size: 37px;
 }
 
-// .description-text {
-//   font-family: "BespokeSerif-Regular";
-//   font-size: 14px;
-//   line-height: 1.4;
-//   hyphens: auto;
+// .font-bold {
+//   font-weight: 900;
 // }
 
-// Weights
-.font-bold {
-  font-weight: 900;
-}
+// .font-semi-bold {
+//   font-weight: 800;
+// }
 
-.font-semi-bold {
-  font-weight: 800;
-}
+// .font-regular {
+//   font-weight: 400;
+// }
 
-.font-regular {
-  font-weight: 400;
-}
+// .font-light {
+//   font-weight: 200;
+// }
 
-.font-light {
-  font-weight: 200;
-}
+// // Sizes
+// .small-text {
+//   font-size: 10px;
+// }
+// .intermediate-text {
+//   font-size: 16px;
+// }
 
-// Sizes
-.small-text {
-  font-size: 10px;
-}
-.intermediate-text {
-  font-size: 16px;
-}
+// .medium-big-text {
+//   font-size: 24px;
+// }
 
-.medium-big-text {
-  font-size: 24px;
-}
-
-.big-text {
-  font-size: 38px;
-}
+// .big-text {
+//   font-size: 38px;
+// }
 
 // Overflow
 .truncate {

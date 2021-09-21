@@ -6,10 +6,8 @@ import Input from "./components/Input";
 function App() {
   return (
     <div>
-      <Button>My button</Button>
-      <Button secondaryBtn fullWidth>
-        My button
-      </Button>
+      <Button>Primary button</Button>
+      <Button secondaryBtn>Secondary button</Button>
       <Input />
       <Input fullWidth />
     </div>
