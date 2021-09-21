@@ -14,6 +14,7 @@ function App() {
       </Button>
       <Button isSmall>Secondary button</Button>
       <Input placeholder="This is a placeholder" />
+      <Input isUploadFile placeholder="This is a placeholder" />
       <Input isNegative placeholder="This is a placeholder" />
       <Input isNegative isUploadFile placeholder="This is a placeholder" />
     </div>

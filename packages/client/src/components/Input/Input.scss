@@ -1,5 +1,9 @@
 @use "../../sass/components/colors" as c;
 
+.custom-input {
+  position: relative;
+}
+
 .form-input:focus,
 .form-input:active {
   outline: none;
@@ -35,6 +39,27 @@ label {
   color: c.$secondaryColor;
   background: c.$lightColor20;
   border: 2px solid c.$lightColor;
+}
+
+.custom-upload-input {
+  position: absolute;
+  top: 55px;
+  height: 45px;
+}
+
+.positive-custom-upload-input {
+  border: 2px solid c.$grayColor;
+  background: c.$grayColor;
+}
+
+.negative-custom-upload-input {
+  border: 2px solid c.$lightColor;
+  background: c.$lightColor;
+}
+
+// Actual input
+.upload-input {
+  opacity: 0;
 }
 
 .error-msg {

@@ -19,6 +19,18 @@ export default function FloatInput({
 }) {
   let labelClassNames = "fnt-label-light p-0 ";
   let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
+  let uploadClassNames =
+    "custom-upload-input fx-rounded fnt-input-light d-flex align-items-center ps-3 w-100 ";
+
+  if (isUploadFile) {
+    if (!isNegative) {
+      uploadClassNames += "positive-custom-upload-input";
+    } else {
+      uploadClassNames += "negative-custom-upload-input";
+    }
+
+    inputClassNames += "upload-input";
+  }
 
   if (isNegative) {
     labelClassNames += "negative-label";
@@ -33,10 +45,13 @@ export default function FloatInput({
   }
 
   return (
-    <div className="d-flex flex-column mb-1">
+    <div className="custom-input d-flex flex-column mb-1">
       <label className={labelClassNames} htmlFor={id}>
         {label}
       </label>
+      {isUploadFile && (
+        <div className={uploadClassNames}>{placeholder} for upload file</div>
+      )}
       <input
         type={isUploadFile ? "file" : "text"}
         className={inputClassNames}
