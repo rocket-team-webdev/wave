@@ -2,10 +2,17 @@ const db = require("../models");
 
 async function signUp(req, res, next) {
   try {
-    const data = await db.User.create({
-      ...req.user,
-      ...req.body,
-    });
+    const { firebaseId } = req.user;
+
+    const data = await db.User.findOne({ firebaseId });
+
+    if (!data) {
+      await db.User.create({
+        ...req.user,
+        ...req.body,
+      });
+    }
+
     res
       .status(200)
       .send({ message: "Successfully signed up", userId: data._id });

@@ -47,7 +47,6 @@ export function signOut() {
 }
 
 export async function signIn(email, password) {
-  // const auth = getAuth();
   const signInResponse = await signInWithEmailAndPassword(email, password);
   return signInResponse;
 }

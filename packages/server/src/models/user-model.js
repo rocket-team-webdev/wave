@@ -18,7 +18,7 @@ const userSchema = new Schema(
       type: String,
       unique: true,
       trim: true,
-      required: [true, "User name is required"],
+      // required: [true, "User name is required"],
     },
     firebaseId: {
       type: String,
@@ -37,7 +37,7 @@ const userSchema = new Schema(
     },
     birthDate: {
       type: Date,
-      required: [true, "Birth date is required"],
+      // required: [true, "Birth date is required"],
     },
     isArtist: {
       type: Boolean,
@@ -56,7 +56,7 @@ const userSchema = new Schema(
         "Mexico",
         "Catalonia",
       ],
-      required: [true, "The region is required"],
+      // required: [true, "The region is required"],
     },
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     followedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
