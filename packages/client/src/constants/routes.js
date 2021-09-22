@@ -2,13 +2,14 @@
 
 export const PUBLIC = {
   HOME: "/",
-  SIGNUP: "/signup",
+  SIGN_UP: "/sign-up",
+  SIGN_IN: "/sign-in",
 };
 
 // PRIVATE PAGES
 
 export const PRIVATE = {
-  ADMIN_SIGNIN: "/admin",
+  ADMIN_SIGN_IN: "/admin",
 };
 
 // API

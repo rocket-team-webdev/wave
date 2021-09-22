@@ -46,6 +46,11 @@ export function signOut() {
   return auth.signOut();
 }
 
+// export function logIn(){
+// const auth = getAuth();
+
+// }
+
 export function getCurrentUserToken() {
   if (!auth.currentUser) {
     return null;
