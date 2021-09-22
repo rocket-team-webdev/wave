@@ -5,7 +5,7 @@ import Input from "./components/Input";
 
 function App() {
   return (
-    <div>
+    <div classNames="row">
       <Button>Primary button</Button>
       <Button secondaryBtn>Secondary button</Button>
       <Button isNegative>Secondary button</Button>
@@ -17,6 +17,7 @@ function App() {
         label="hey"
         id="aloha"
         type="password"
+        classNames="col col-12 col-md-6"
         placeholder="This is a placeholder"
       />
     </div>
