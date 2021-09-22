@@ -29,7 +29,7 @@ export default function Select({
         value={id}
         onChange={handleChange}
         onBlur={handleBlur}
-        id="gender"
+        id={id}
         {...props}
       >
         {options.map((option) => (

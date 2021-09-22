@@ -46,8 +46,6 @@ export default function Account() {
     try {
       const { data } = await getAccount();
       console.log(data);
-      console.log(data);
-      console.log(data);
       formik.setValues({
         username: data.data.username || "",
         gender: "Male" || "",
@@ -190,6 +188,25 @@ export default function Account() {
                 "Catalonia",
               ]}
             />
+
+            {/* <select
+              className="country-select col-4"
+              value={formik.values.country}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              id="country"
+              disabled={loadStatus.isLoading || loadStatus.isError}
+            >
+              <option value="Spain">Spain</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Morocco">Morocco</option>
+              <option value="France">France</option>
+              <option value="Italy">Italy</option>
+              <option value="Germany">Germany</option>
+              <option value="USA">USA</option>
+              <option value="Mexico">Mexico</option>
+              <option value="Catalonia">Catalonia</option>
+            </select> */}
             <div className="col-12 text-end mt-5">
               <Button submitButton>Edit</Button>
             </div>
