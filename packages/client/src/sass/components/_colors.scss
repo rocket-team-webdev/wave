@@ -1,0 +1,25 @@
+$primaryColor: rgb(115, 183, 247);
+$secondaryColor: rgb(46, 50, 66);
+$grayColor: rgb(233, 233, 233);
+$lightColor: rgb(250, 250, 250);
+$lightColor20: rgba(250, 250, 250, 0.2);
+
+.clr-primary {
+  background: $primaryColor;
+}
+
+.clr-secondary {
+  background: $secondaryColor;
+}
+
+.clr-gray {
+  background: $grayColor;
+}
+
+.clr-light {
+  background: $lightColor;
+}
+
+.clr-light-20 {
+  background: $lightColor20;
+}
