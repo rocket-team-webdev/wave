@@ -54,6 +54,14 @@ export function getCurrentUserToken() {
   return auth.currentUser.getIdToken();
 }
 
+export function deleteCurrentUserAccount() {
+  if (!auth.currentUser) {
+    return null;
+  }
+
+  return auth.deleteUser(auth.currentUser);
+}
+
 export function getCurrentUserEmail() {
   if (!auth.currentUser) {
     return null;

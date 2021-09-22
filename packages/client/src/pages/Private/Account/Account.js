@@ -7,6 +7,7 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 
 import { getAccount, updateAccount } from "../../../api/account-api";
+import { deleteCurrentUserAccount } from "../../../services/auth/auth";
 
 export default function Account() {
   // const [accountData, setAccountData] = useState([]);
@@ -14,6 +15,26 @@ export default function Account() {
     isError: false,
     isLoading: true,
   });
+
+  const handleDeleteAccount = async () => {
+    try {
+      const data = await deleteCurrentUserAccount();
+
+      console.log(data);
+
+      setLoadStatus((prevState) => ({
+        ...prevState,
+        isError: false,
+        error: null,
+      }));
+    } catch (error) {
+      setLoadStatus((prevState) => ({
+        ...prevState,
+        isError: false,
+        error: error,
+      }));
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -195,8 +216,18 @@ export default function Account() {
               <option value="Mexico">Mexico</option>
               <option value="Catalonia">Catalonia</option>
             </select>
-            <div className="col-12 text-end mt-5">
+            {/* <div className="col-12 text-end mt-5">
               <Button submitButton>Edit</Button>
+            </div> */}
+            <div className="row mt-5">
+              <div className="col-6">
+                <Button isNegative handleClick={handleDeleteAccount}>
+                  Delete account
+                </Button>
+              </div>
+              <div className="col-6 text-end">
+                <Button submitButton>Edit</Button>
+              </div>
             </div>
           </form>
         </div>

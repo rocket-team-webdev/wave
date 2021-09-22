@@ -22,8 +22,7 @@ export default function SignUp() {
 
     try {
       const user = await signInWithGoogle();
-      if (!user) history.push("/");
-      console.log(user);
+      if (user) history.push("/account");
     } catch (error) {
       setLoginError(error.message);
     } finally {
