@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import signUpSchema from "./sign-up-schema";
 import {
   getCurrentUserToken,
+  signInWithGoogle,
   signUpWithEmailAndPassword,
 } from "../../../services/auth";
 import { createClient } from "../../../api/account-api";
@@ -12,6 +14,22 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const history = useHistory();
+
+  async function handleLoginWithGoogle(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const user = await signInWithGoogle();
+      if (!user) history.push("/");
+      console.log(user);
+    } catch (error) {
+      setLoginError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -196,6 +214,15 @@ export default function SignUp() {
               Sign in
             </button>
           </form>
+
+          <button
+            type="button"
+            className="w-100 btn btn-lg btn-danger"
+            onClick={handleLoginWithGoogle}
+          >
+            Sign Up with Google
+          </button>
+
           {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
           {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
           {!loading && loginError && !loggedIn && (
