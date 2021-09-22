@@ -8,6 +8,11 @@ export function makeAccountApi() {
     baseURL: `${API.MAIN}${API.ACCOUNT}`,
   });
 }
+// export function makeAccountApi() {
+//   return axios.create({
+//     baseURL: `${API.MAIN}${API.ACCOUNT}`,
+//   });
+// }
 
 export function makeRegisterApi() {
   return axios.create({
@@ -36,6 +41,12 @@ export async function updateAccount(data, api = makeAccountApi()) {
     },
   );
 }
+// export async function getClient(clientId, api = makeAccountApi()) {
+//   const token = await getCurrentUserToken();
+//   return api.get(`/${clientId}`, {
+//     headers: { Authorization: `Bearer ${token}` },
+//   });
+// }
 
 export async function createClient(clientData, api = makeRegisterApi()) {
   const token = await getCurrentUserToken();
