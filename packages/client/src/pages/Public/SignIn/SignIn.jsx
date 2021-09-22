@@ -57,7 +57,10 @@ export default function SignIn() {
       profilePicture: picture,
     };
 
-    await createClient(loggedUserObject);
+    const data = await createClient(loggedUserObject);
+
+    console.log("nuestro backemnd", data);
+    console.log("firebase backemnd", googleResult);
 
     // const response = await signInUserData(googleResult.credential.accessToken);
     // console.log(response);

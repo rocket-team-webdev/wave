@@ -42,6 +42,7 @@ export async function createClient(clientData, api = makeRegisterApi()) {
       username: clientData.username,
       country: clientData.country,
       birthDate: clientData.birthDate,
+      profilePicture: clientData.profilePicture,
     },
     {
       headers: { Authorization: `Bearer ${token}` },
