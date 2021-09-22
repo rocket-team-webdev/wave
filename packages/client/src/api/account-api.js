@@ -33,6 +33,7 @@ export function signInUserData(token) {
 
 export async function getAccount(api = makeAccountApi()) {
   const token = await getCurrentUserToken();
+  console.log("token", token);
   return api.get(``, {
     headers: { Authorization: `Bearer ${token}` },
   });

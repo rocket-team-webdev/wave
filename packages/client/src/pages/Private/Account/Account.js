@@ -92,7 +92,7 @@ export default function Account() {
       <div className="row">
         <div className="col-5">
           <h1 className="fnt-jumbo">Username</h1>
-          <p className="fnt-subtitle-bold mb-0 lh-1">ACOUNT DETAILS</p>
+          <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD RECOVERY</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
@@ -212,7 +212,7 @@ export default function Account() {
 
             <div className="row mt-5">
               <div className="col-6">
-                <Button isNegative handleClick={handleDeleteAccount}>
+                <Button handleClick={handleDeleteAccount}>
                   Delete account
                 </Button>
               </div>
