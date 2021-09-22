@@ -6,6 +6,8 @@ import updateSchema from "./update-schema";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 
+import "../../../components/Input/Input.scss";
+
 import { getAccount, updateAccount } from "../../../api/account-api";
 
 export default function Account() {
@@ -37,7 +39,6 @@ export default function Account() {
         email: values.email,
         country: values.country,
       };
-      console.log(data);
       await updateAccount(data);
     },
   });
@@ -51,7 +52,7 @@ export default function Account() {
         profilePicture: data.data.profilePicture || "",
         firstName: data.data.firstName || "",
         lastName: data.data.lastName || "",
-        birthDate: data.data.birthDate || "01/02/1992",
+        birthDate: data.data.birthDate || "",
         email: data.data.email || "",
         country: data.data.country || "",
       });
@@ -75,7 +76,7 @@ export default function Account() {
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
         </div>
-        <div className="col-7 clr-light">
+        <div className="col-7 clr-light fx-rounded">
           <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
           <form onSubmit={formik.handleSubmit} className="row">
             <Input
@@ -90,20 +91,25 @@ export default function Account() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               disabled={loadStatus.isLoading || loadStatus.isError}
+              options={["male", "female"]}
             />
-            <select
-              label="GENDER"
-              className="custom-select col-4"
-              value={formik.values.gender}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              id="gender"
-              disabled={loadStatus.isLoading || loadStatus.isError}
-            >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-
+            <div className="col-4 d-flex flex-column mb-1">
+              <label className="label-select fnt-label-light" htmlFor="gender">
+                Gender
+              </label>
+              <select
+                label="GENDER"
+                className="form-input fnt-input-light fx-rounded positive-input ps3"
+                value={formik.values.gender}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                id="gender"
+                disabled={loadStatus.isLoading || loadStatus.isError}
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
             <Input
               classNames="col-4"
               type="file"
