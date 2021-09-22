@@ -26,8 +26,6 @@ function UpdatePassword() {
       //   // An error ocurred
       //   // ...
       // });
-
-      console.log(user);
     },
   });
   return (
