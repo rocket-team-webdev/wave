@@ -18,6 +18,7 @@ export default function Account() {
     try {
       const { data } = await getAccount();
       setAccountData(data, accountData);
+      console.log(data);
       // setLoadStatus({ isError: false, isLoading: false });
     } catch (error) {
       // setLoadStatus({ isError: true, isLoading: false, error: error });
@@ -31,8 +32,8 @@ export default function Account() {
   const formik = useFormik({
     initialValues: {
       username: accountData.username,
-      gender: accountData.gender,
-      profilePicture: "",
+      // gender: accountData.gender,
+      profilePicture: accountData.profilePicture,
       firstName: accountData.firstName,
       lastName: accountData.lastName,
       birthDate: accountData.birthDate,
@@ -150,10 +151,14 @@ export default function Account() {
                 id="country"
               >
                 <option value="Spain">Spain</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Morocco">Morocco</option>
+                <option value="France">France</option>
                 <option value="Italy">Italy</option>
                 <option value="Germany">Germany</option>
-                <option value="France">France</option>
-                <option value="Netherlands">Netherlands</option>
+                <option value="USA">USA</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Catalonia">Catalonia</option>
               </select>
             </div>
           </form>
