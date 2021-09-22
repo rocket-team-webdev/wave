@@ -44,26 +44,24 @@ export default function SignIn() {
   });
 
   const handleGoogleSignIn = async () => {
-    const googleResult = await signInWithGoogle();
-    const {
-      family_name: familyName,
-      given_name: givenName,
-      picture,
-    } = googleResult.additionalUserInfo.profile;
+    try {
+      const googleResult = await signInWithGoogle();
+      const {
+        family_name: familyName,
+        given_name: givenName,
+        picture,
+      } = googleResult.additionalUserInfo.profile;
 
-    const loggedUserObject = {
-      firstName: givenName,
-      lastName: familyName,
-      profilePicture: picture,
-    };
+      const loggedUserObject = {
+        firstName: givenName,
+        lastName: familyName,
+        profilePicture: picture,
+      };
 
-    const data = await createClient(loggedUserObject);
-
-    console.log("nuestro backemnd", data);
-    console.log("firebase backemnd", googleResult);
-
-    // const response = await signInUserData(googleResult.credential.accessToken);
-    // console.log(response);
+      await createClient(loggedUserObject);
+    } catch (error) {
+      setLoginError(error);
+    }
   };
 
   return (
@@ -78,6 +76,7 @@ export default function SignIn() {
           <form onSubmit={formik.handleSubmit}>
             <h1 className="fnt-subtitle-bold mb-4">Log in</h1>
             <Input
+              label="email"
               type="email"
               id="email"
               name="email"
@@ -90,6 +89,7 @@ export default function SignIn() {
               classNames="mb-4"
             />
             <Input
+              label="password"
               type="password"
               id="password"
               name="password"
