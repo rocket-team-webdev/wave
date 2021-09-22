@@ -4,12 +4,11 @@ import { useFormik } from "formik";
 import signInSchema from "./sign-in-schema";
 import {
   // signInWithGoogle,
-  getCurrentUserToken,
-  signInWithEmailAndPassword,
+  signIn,
 } from "../../../services/auth";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
-// import { createClient } from "../../../api/account-api";
+import { signInUserData } from "../../../api/account-api";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -28,17 +27,18 @@ export default function SignIn() {
 
       try {
         console.log("signInState", signInState);
-        const result = await signInWithEmailAndPassword(
-          // auth,
+        const signInResponse = await signIn(
           signInState.email,
           signInState.password,
         );
-        console.log("result", result);
 
-        // const data = await createClient(signInState);
-        const token = await getCurrentUserToken();
+        const token = signInResponse.user.multiFactor.user.accessToken;
+        // const firebaseId = logInResponse.user.uid;
+        const response = await signInUserData(token);
+
+        console.log(response);
+
         // TODO: Set to context, validate to db
-        console.log("token", token);
 
         setLoggedIn(true);
       } catch (error) {
@@ -50,9 +50,9 @@ export default function SignIn() {
   });
 
   // Sign in with Google
-  function handleGoogleSignIn() {
-    console.log("Google sign in");
-  }
+  // function handleGoogleSignIn() {
+  //   console.log("Google sign in");
+  // }
   return (
     <>
       <div className="row clr-white">
@@ -101,7 +101,7 @@ export default function SignIn() {
               </div>
               <div className="d-flex justify-content-end col col-12 col-md-8 p-0">
                 <div className="d-inline-flex p-2 pe-4">
-                  <Button handleClick={handleGoogleSignIn()}>Google</Button>
+                  {/* <Button handleClick={}>Google</Button> */}
                 </div>
                 <div className="d-inline-flex p-2">
                   <Button submitButton>Sign in</Button>

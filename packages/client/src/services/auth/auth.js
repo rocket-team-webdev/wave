@@ -46,10 +46,11 @@ export function signOut() {
   return auth.signOut();
 }
 
-// export function logIn(){
-// const auth = getAuth();
-
-// }
+export async function signIn(email, password) {
+  // const auth = getAuth();
+  const signInResponse = await signInWithEmailAndPassword(email, password);
+  return signInResponse;
+}
 
 export function getCurrentUserToken() {
   if (!auth.currentUser) {
