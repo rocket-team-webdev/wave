@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import signUpSchema from "./reset-pass-schema";
 import { sendPasswordResetEmail } from "../../../services/auth";
+import Button from "../../../components/Button";
+import Input from "../../../components/Input";
 
 export default function ResetPassword() {
   const [resetPasswordError, setResetPasswordError] = useState(null);
@@ -32,42 +33,36 @@ export default function ResetPassword() {
   });
 
   return (
-    <div>
-      <body className="text-center">
-        <main className="form-signin">
-          <form onSubmit={formik.handleSubmit}>
-            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+    <>
+      <form onSubmit={formik.handleSubmit}>
+        <div className="fnt-subtitle-bold">Password recovery</div>
 
-            <div className="form-floating">
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                placeholder="name@example.com"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                errorMessage={formik.errors.email}
-                hasErrorMessage={formik.touched.email}
-              />
-              <label htmlFor="floatingInput">Email address</label>
-            </div>
+        <Input
+          label="email"
+          id="email"
+          name="email"
+          type="email"
+          classNames="col mb-3 col-12 col-sm-8 col-md-5"
+          placeholder="name@example.com"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          errorMessage={formik.errors.email || resetPasswordError}
+          hasErrorMessage={formik.touched.email || resetPasswordError}
+        />
 
-            {passwordResetSent && !resetPasswordError && (
-              <p className="text-success">
-                Please visit your email to continue with password recovery
-              </p>
-            )}
+        {passwordResetSent && !resetPasswordError ? (
+          <p className="">
+            Please visit your email to continue with password recovery
+          </p>
+        ) : (
+          <p>&nbsp;</p>
+        )}
 
-            <button className="w-100 btn btn-lg btn-primary" type="submit">
-              Reset password
-            </button>
-          </form>
-
-          {resetPasswordError && <h3>Error: {resetPasswordError}</h3>}
-        </main>
-      </body>
-    </div>
+        <Button isNegative submitButton>
+          Reset password
+        </Button>
+      </form>
+    </>
   );
 }
