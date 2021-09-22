@@ -16,6 +16,9 @@ function App() {
         <Route path={PUBLIC.SIGNUP}>
           <SignUp />
         </Route>
+        <Route path={PUBLIC.SIGNUP}>
+          <SignUp />
+        </Route>
         <Route path={PUBLIC.RESET_PASSWORD}>
           <ResetPassword />
         </Route>

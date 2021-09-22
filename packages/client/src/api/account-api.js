@@ -9,6 +9,12 @@ export function makeAccountApi() {
   });
 }
 
+// export function makeAccountApi() {
+//   return axios.create({
+//     baseURL: `${API.MAIN}${API.ACCOUNT}`,
+//   });
+// }
+
 export function makeRegisterApi() {
   return axios.create({
     baseURL: `${API.MAIN}${API.REGISTER}`,
@@ -30,12 +36,19 @@ export async function updateAccount(data, api = makeAccountApi()) {
   const token = await getCurrentUserToken();
   return api.post(
     ``,
-    { data: data },
+    { ...data },
     {
       headers: { Authorization: `Bearer ${token}` },
     },
   );
 }
+
+// export async function getClient(clientId, api = makeAccountApi()) {
+//   const token = await getCurrentUserToken();
+//   return api.get(`/${clientId}`, {
+//     headers: { Authorization: `Bearer ${token}` },
+//   });
+// }
 
 export async function createClient(clientData, api = makeRegisterApi()) {
   const token = await getCurrentUserToken();
