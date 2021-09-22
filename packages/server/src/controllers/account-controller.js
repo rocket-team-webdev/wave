@@ -1,6 +1,6 @@
 const db = require("../models");
 
-async function getAccount(req, res) {
+async function getAccount(req, res, next) {
   try {
     const { email } = req.user;
     const user = await db.User.findOne({ email });
@@ -12,6 +12,7 @@ async function getAccount(req, res) {
     res.status(404).send({
       error: err.message,
     });
+    next(err);
   }
 }
 

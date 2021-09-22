@@ -3,6 +3,7 @@ $secondaryColor: rgb(46, 50, 66);
 $grayColor: rgb(233, 233, 233);
 $lightColor: rgb(250, 250, 250);
 $lightColor20: rgba(250, 250, 250, 0.2);
+$white: rgb(255, 255, 255);
 
 .clr-primary {
   background: $primaryColor;
@@ -22,4 +23,28 @@ $lightColor20: rgba(250, 250, 250, 0.2);
 
 .clr-light-20 {
   background: $lightColor20;
+}
+
+.clr-white {
+  background: $white;
+}
+
+.fnt-primary {
+  color: $primaryColor;
+}
+
+.fnt-secondary {
+  color: $secondaryColor;
+}
+
+.fnt-gray {
+  color: $grayColor;
+}
+
+.fnt-light {
+  color: $lightColor;
+}
+
+.fnt-light-20 {
+  color: $lightColor20;
 }

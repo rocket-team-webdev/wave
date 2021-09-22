@@ -5,15 +5,38 @@ import updateSchema from "./update-schema";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import Select from "../../../components/Select";
 
 import { getAccount, updateAccount } from "../../../api/account-api";
 
+import { deleteCurrentUserAccount } from "../../../services/auth/auth";
+
 export default function Account() {
-  // const [accountData, setAccountData] = useState([]);
   const [loadStatus, setLoadStatus] = useState({
     isError: false,
     isLoading: true,
   });
+
+  const handleDeleteAccount = async () => {
+    try {
+      console.log("object");
+      const data = await deleteCurrentUserAccount();
+
+      console.log("data", data);
+
+      setLoadStatus((prevState) => ({
+        ...prevState,
+        isError: false,
+        error: null,
+      }));
+    } catch (error) {
+      setLoadStatus((prevState) => ({
+        ...prevState,
+        isError: false,
+        error: error,
+      }));
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +51,6 @@ export default function Account() {
     },
     validationSchema: updateSchema,
     onSubmit: async (values) => {
-      console.log(values);
       const data = {
         username: values.username,
         gender: values.gender,
@@ -39,27 +61,20 @@ export default function Account() {
         email: values.email,
         country: values.country,
       };
-      const { response } = await updateAccount(data);
-      console.log(response);
+      await updateAccount(data);
     },
   });
 
   async function loadAccount() {
     try {
       const { data } = await getAccount();
-      // setAccountData(data, accountData);
-      // console.log("accountData", accountData);
-      console.log(data);
-      console.log(data);
-      console.log(data);
-
       formik.setValues({
         username: data.data.username || "",
         gender: "Male" || "",
         profilePicture: data.data.profilePicture || "",
         firstName: data.data.firstName || "",
         lastName: data.data.lastName || "",
-        birthDate: data.data.birthDate || "01/02/1992",
+        birthDate: data.data.birthDate || "",
         email: data.data.email || "",
         country: data.data.country || "",
       });
@@ -78,13 +93,13 @@ export default function Account() {
       <div className="row">
         <div className="col-5">
           <h1 className="fnt-jumbo">Username</h1>
-          <p className="fnt-subtitle-bold mb-0 lh-1">ACOUNT DETAILS</p>
+          <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD RECOVERY</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
         </div>
-        <div className="col-7">
-          <h1 className="fnt-page-title mb-4">Account details</h1>
+        <div className="col-7 clr-light fx-rounded">
+          <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
           <form onSubmit={formik.handleSubmit} className="row">
             <Input
               classNames="col-4"
@@ -98,20 +113,18 @@ export default function Account() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               disabled={loadStatus.isLoading || loadStatus.isError}
+              options={["male", "female"]}
             />
-            <select
+            <Select
+              classNames="col-4"
               label="GENDER"
-              className="gender-select col-4"
+              id="gender"
               value={formik.values.gender}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              id="gender"
               disabled={loadStatus.isLoading || loadStatus.isError}
-            >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-
+              options={["Male", "Female"]}
+            />
             <Input
               classNames="col-4"
               type="file"
@@ -177,26 +190,36 @@ export default function Account() {
               onBlur={formik.handleBlur}
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
-            <select
-              className="country-select col-4"
+            <Select
+              classNames="col-4"
+              label="COUNTRY"
+              id="country"
               value={formik.values.country}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              id="country"
               disabled={loadStatus.isLoading || loadStatus.isError}
-            >
-              <option value="Spain">Spain</option>
-              <option value="Argentina">Argentina</option>
-              <option value="Morocco">Morocco</option>
-              <option value="France">France</option>
-              <option value="Italy">Italy</option>
-              <option value="Germany">Germany</option>
-              <option value="USA">USA</option>
-              <option value="Mexico">Mexico</option>
-              <option value="Catalonia">Catalonia</option>
-            </select>
-            <div className="col-12 text-end mt-5">
-              <Button submitButton>Edit</Button>
+              options={[
+                "Spain",
+                "Argentina",
+                "Morocco",
+                "France",
+                "Italy",
+                "Germany",
+                "USA",
+                "Mexico",
+                "Catalonia",
+              ]}
+            />
+
+            <div className="row mt-5">
+              <div className="col-6">
+                <Button handleClick={handleDeleteAccount}>
+                  Delete account
+                </Button>
+              </div>
+              <div className="col-6 text-end">
+                <Button submitButton>Edit</Button>
+              </div>
             </div>
           </form>
         </div>

@@ -43,6 +43,7 @@
 // Sizes & styles
 .fnt-jumbo {
   font-size: 205px;
+  line-height: 170px;
 }
 
 .fnt-sidebar {
@@ -89,9 +90,12 @@
   font-weight: 900;
 }
 
-.fnt-subtitle-ligth,
+.fnt-subtitle-light,
 .fnt-label-light {
   font-weight: normal;
+}
+.fnt-subtitle-light:hover {
+  font-weight: 800;
 }
 
 .fnt-sidebar,
