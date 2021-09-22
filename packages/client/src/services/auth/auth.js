@@ -60,11 +60,12 @@ export function getCurrentUserToken() {
 }
 
 export function deleteCurrentUserAccount() {
+  console.log("auth.currentUser", auth.currentUser);
   if (!auth.currentUser) {
     return null;
   }
 
-  return auth.deleteUser(auth.currentUser);
+  return auth.currentUser.delete();
 }
 
 export function getCurrentUserEmail() {

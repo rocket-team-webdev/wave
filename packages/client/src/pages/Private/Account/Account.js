@@ -19,9 +19,10 @@ export default function Account() {
 
   const handleDeleteAccount = async () => {
     try {
+      console.log("object");
       const data = await deleteCurrentUserAccount();
 
-      console.log(data);
+      console.log("data", data);
 
       setLoadStatus((prevState) => ({
         ...prevState,

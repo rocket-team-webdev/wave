@@ -2,7 +2,6 @@ const db = require("../models");
 
 async function getAccount(req, res, next) {
   try {
-    console.log("HOLAAAAA");
     const { email } = req.user;
     const user = await db.User.findOne({ email });
 
