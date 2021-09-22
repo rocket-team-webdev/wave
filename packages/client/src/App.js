@@ -5,7 +5,7 @@ import Input from "./components/Input";
 
 function App() {
   return (
-    <div classNames="row">
+    <div classnames="row">
       <Button>Primary button</Button>
       <Button secondaryBtn>Secondary button</Button>
       <Button isNegative>Secondary button</Button>
