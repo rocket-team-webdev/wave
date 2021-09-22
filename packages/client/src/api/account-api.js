@@ -30,7 +30,7 @@ export async function updateAccount(data, api = makeAccountApi()) {
   const token = await getCurrentUserToken();
   return api.post(
     ``,
-    { data: data },
+    { ...data },
     {
       headers: { Authorization: `Bearer ${token}` },
     },

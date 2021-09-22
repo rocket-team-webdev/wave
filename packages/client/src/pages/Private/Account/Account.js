@@ -9,7 +9,6 @@ import Button from "../../../components/Button";
 import { getAccount, updateAccount } from "../../../api/account-api";
 
 export default function Account() {
-  // const [accountData, setAccountData] = useState([]);
   const [loadStatus, setLoadStatus] = useState({
     isError: false,
     isLoading: true,
@@ -28,7 +27,6 @@ export default function Account() {
     },
     validationSchema: updateSchema,
     onSubmit: async (values) => {
-      console.log(values);
       const data = {
         username: values.username,
         gender: values.gender,
@@ -39,20 +37,14 @@ export default function Account() {
         email: values.email,
         country: values.country,
       };
-      const { response } = await updateAccount(data);
-      console.log(response);
+      console.log(data);
+      await updateAccount(data);
     },
   });
 
   async function loadAccount() {
     try {
       const { data } = await getAccount();
-      // setAccountData(data, accountData);
-      // console.log("accountData", accountData);
-      console.log(data);
-      console.log(data);
-      console.log(data);
-
       formik.setValues({
         username: data.data.username || "",
         gender: "Male" || "",
@@ -83,8 +75,8 @@ export default function Account() {
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
         </div>
-        <div className="col-7">
-          <h1 className="fnt-page-title mb-4">Account details</h1>
+        <div className="col-7 clr-light">
+          <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
           <form onSubmit={formik.handleSubmit} className="row">
             <Input
               classNames="col-4"
@@ -101,7 +93,7 @@ export default function Account() {
             />
             <select
               label="GENDER"
-              className="gender-select col-4"
+              className="custom-select col-4"
               value={formik.values.gender}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
