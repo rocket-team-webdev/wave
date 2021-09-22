@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import "./sass/main.scss";
 
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./sass/main.scss";
