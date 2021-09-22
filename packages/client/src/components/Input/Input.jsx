@@ -5,8 +5,9 @@ import "./Input.scss";
 export default function FloatInput({
   label = "input-01",
   id = "input-01",
-  isNegative = false,
   type = "",
+  classNames,
+  isNegative = false,
   fullWidth = false,
   placeholder = "",
   handleChange = () => {},
@@ -16,6 +17,8 @@ export default function FloatInput({
   hasErrorMessage,
   ...props
 }) {
+  const componentClasses = `${classNames} custom-input d-flex flex-column mb-1`;
+
   let labelClassNames = "fnt-label-light p-0 ";
   let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
   let uploadClassNames =
@@ -43,7 +46,7 @@ export default function FloatInput({
   }
 
   return (
-    <div className="custom-input d-flex flex-column mb-1">
+    <div className={componentClasses}>
       <label className={labelClassNames} htmlFor={id}>
         {label}
       </label>

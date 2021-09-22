@@ -1,10 +1,10 @@
 import React from "react";
 import { useFormik } from "formik";
+import { getAuth /* , updatePassword */ } from "firebase/auth";
 import updatePasswordSchema from "./update-password-schema";
 
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
-import { getCurrentUserToken } from "../../../services/auth";
 
 function UpdatePassword() {
   const formik = useFormik({
@@ -15,9 +15,19 @@ function UpdatePassword() {
     },
     validationSchema: updatePasswordSchema,
     onSubmit: async (updatePasswordState) => {
-      const token = await getCurrentUserToken();
-      console.log(token);
-      console.log(updatePasswordState);
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const newPassword = updatePasswordState.newPassword;
+      console.log(newPassword);
+      console.log(user.getIdToken);
+      // updatePassword(user, newPassword).then(() => {
+      //   // Update successful.
+      // }).catch((error) => {
+      //   // An error ocurred
+      //   // ...
+      // });
+
+      console.log(user);
     },
   });
   return (
@@ -31,11 +41,11 @@ function UpdatePassword() {
             onSubmit={formik.handleSubmit}
             className="clr-light fx-rounded p-5 "
           >
-            <h1 className="fnt-label-bold mb-5">Change your password</h1>
+            <h1 className="fnt-subtitle-bold mb-4">Change your password</h1>
             <Input
               label="current password"
               id="currentPassword"
-              name="currentPassword"
+              // name="currentPassword"
               type="password"
               placeholder="Current password"
               onChange={formik.handleChange}
@@ -46,7 +56,7 @@ function UpdatePassword() {
             <Input
               label="new password"
               id="newPassword"
-              name="newPassword"
+              // name="newPassword"
               type="password"
               placeholder="New password"
               onChange={formik.handleChange}
@@ -57,7 +67,7 @@ function UpdatePassword() {
             <Input
               label="confirm password"
               id="confirmPassword"
-              name="confirmPassword"
+              // name="confirmPassword"
               type="password"
               placeholder="Confirm your new password"
               onChange={formik.handleChange}

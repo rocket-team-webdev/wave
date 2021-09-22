@@ -22,6 +22,11 @@
 }
 
 // Font families
+.fnt-jumbo,
+.fnt-sidebar,
+.fnt-page-title,
+.fnt-subtitle-ligth,
+.fnt-subtitle-bold,
 .fnt-label-light,
 .fnt-label-bold {
   font-family: "Pramukh";
@@ -29,11 +34,30 @@
 
 .fnt-input-light,
 .fnt-input-bold,
+.fnt-song-light,
+.fnt-song-bold,
 .fnt-caption {
   font-family: "Switzer";
 }
 
 // Sizes & styles
+.fnt-jumbo {
+  font-size: 205px;
+}
+
+.fnt-sidebar {
+  font-size: 172px;
+}
+
+.fnt-page-title {
+  font-size: 120px;
+}
+
+.fnt-subtitle-ligth,
+.fnt-subtitle-bold {
+  font-size: 93px;
+}
+
 .fnt-label-light,
 .fnt-label-bold {
   font-size: 37px;
@@ -44,25 +68,41 @@
   font-size: 19px;
 }
 
+.fnt-song-light,
+.fnt-song-bold {
+  font-size: 17px;
+}
+
 .fnt-caption {
   font-size: 15px;
 }
 
 // Weights
+.fnt-label-bold,
+.fnt-song-bold,
+.fnt-input-bold {
+  font-weight: bold;
+}
+
+.fnt-jumbo,
+.fnt-page-title {
+  font-weight: 900;
+}
+
+.fnt-subtitle-ligth,
 .fnt-label-light {
   font-weight: normal;
 }
 
+.fnt-sidebar,
+.fnt-subtitle-bold,
 .fnt-label-bold {
-  font-weight: bold;
+  font-weight: 800;
 }
 
-.fnt-input-light {
+.fnt-input-light,
+.fnt-song-light {
   font-weight: 300;
-}
-
-.fnt-input-bold {
-  font-weight: bold;
 }
 
 // Overflow
