@@ -9,47 +9,69 @@ import Button from "../../../components/Button";
 import { getAccount, updateAccount } from "../../../api/account-api";
 
 export default function Account() {
-  const [accountData, setAccountData] = useState([]);
-  // const [loadStatus, setLoadStatus] = useState({
-  //   isError: false,
-  //   isLoading: true,
-  // });
+  // const [accountData, setAccountData] = useState([]);
+  const [loadStatus, setLoadStatus] = useState({
+    isError: false,
+    isLoading: true,
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      gender: "Male",
+      profilePicture: "",
+      firstName: "",
+      lastName: "",
+      birthDate: "",
+      email: "",
+      country: "",
+    },
+    validationSchema: updateSchema,
+    onSubmit: async (values) => {
+      console.log(values);
+      const data = {
+        username: values.username,
+        gender: values.gender,
+        profilePicture: values.profilePicture,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        birthDate: values.birthDate,
+        email: values.email,
+        country: values.country,
+      };
+      const { response } = await updateAccount(data);
+      console.log(response);
+    },
+  });
 
   async function loadAccount() {
     try {
       const { data } = await getAccount();
-      setAccountData(data, accountData);
-      console.log("accountData", accountData);
+      // setAccountData(data, accountData);
+      // console.log("accountData", accountData);
       console.log(data);
-      // setLoadStatus({ isError: false, isLoading: false });
+      console.log(data);
+      console.log(data);
+
+      formik.setValues({
+        username: data.data.username || "",
+        gender: "Male" || "",
+        profilePicture: data.data.profilePicture || "",
+        firstName: data.data.firstName || "",
+        lastName: data.data.lastName || "",
+        birthDate: data.data.birthDate || "01/02/1992",
+        email: data.data.email || "",
+        country: data.data.country || "",
+      });
+      setLoadStatus({ isError: false, isLoading: false });
     } catch (error) {
-      // setLoadStatus({ isError: true, isLoading: false, error: error });
+      setLoadStatus({ isError: true, isLoading: false, error: error });
     }
   }
 
   useEffect(() => {
     loadAccount();
-    console.log("Setting initial values");
   }, []);
-
-  const formik = useFormik({
-    initialValues: {
-      username: accountData.username,
-      gender: "",
-      profilePicture: accountData.profilePicture,
-      firstName: accountData.firstName,
-      lastName: accountData.lastName,
-      birthDate: accountData.birthDate,
-      email: accountData.email,
-      country: accountData.country,
-    },
-    validationSchema: updateSchema,
-    onSubmit: async (values) => {
-      console.log(values);
-      // eslint-disable-next-line
-      const { data } = await updateAccount();
-    },
-  });
 
   return (
     <div className="mx-5">
@@ -72,9 +94,10 @@ export default function Account() {
               value={formik.values.username}
               errorMessage={formik.errors.username}
               hasErrorMessage={formik.touched.username}
-              placeholder={accountData.username}
+              placeholder={formik.values.username}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <select
               label="GENDER"
@@ -83,9 +106,10 @@ export default function Account() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               id="gender"
+              disabled={loadStatus.isLoading || loadStatus.isError}
             >
-              <option value="Spain">Male</option>
-              <option value="Italy">Female</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
             </select>
 
             <Input
@@ -96,9 +120,10 @@ export default function Account() {
               value={formik.values.profileImage}
               errorMessage={formik.errors.profileImage}
               hasErrorMessage={formik.touched.profileImage}
-              placeholder={accountData.profileImage}
+              placeholder={formik.values.profileImage}
               onChange={formik.profileImage}
               onBlur={formik.profileImage}
+              disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
               classNames="col-4"
@@ -108,9 +133,10 @@ export default function Account() {
               value={formik.values.firstName}
               errorMessage={formik.errors.firstName}
               hasErrorMessage={formik.touched.firstName}
-              placeholder={accountData.firstName}
+              placeholder={formik.values.firstName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
               classNames="col-4"
@@ -120,21 +146,23 @@ export default function Account() {
               value={formik.values.lastName}
               errorMessage={formik.errors.lastName}
               hasErrorMessage={formik.touched.lastName}
-              placeholder={accountData.lastName}
+              placeholder={formik.values.lastName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
               classNames="col-4"
               type="date"
               label="BIRTHDATE"
-              id="birthdate"
-              value={formik.values.birthdate}
-              errorMessage={formik.errors.birthdate}
-              hasErrorMessage={formik.touched.birthdate}
-              placeholder={accountData.birthDate}
+              id="birthDate"
+              value={formik.values.birthDate}
+              errorMessage={formik.errors.birthDate}
+              hasErrorMessage={formik.touched.birthDate}
+              placeholder={formik.values.birthDate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
               classNames="col-8"
@@ -144,9 +172,10 @@ export default function Account() {
               value={formik.values.email}
               errorMessage={formik.errors.email}
               hasErrorMessage={formik.touched.email}
-              placeholder={accountData.email}
+              placeholder={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <select
               className="country-select col-4"
@@ -154,6 +183,7 @@ export default function Account() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               id="country"
+              disabled={loadStatus.isLoading || loadStatus.isError}
             >
               <option value="Spain">Spain</option>
               <option value="Argentina">Argentina</option>
@@ -166,7 +196,7 @@ export default function Account() {
               <option value="Catalonia">Catalonia</option>
             </select>
             <div className="col-12 text-end mt-5">
-              <Button>Edit</Button>
+              <Button submitButton>Edit</Button>
             </div>
           </form>
         </div>

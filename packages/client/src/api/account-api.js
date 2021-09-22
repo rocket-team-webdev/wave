@@ -28,10 +28,13 @@ export async function getAccount(api = makeAccountApi()) {
 
 export async function updateAccount(data, api = makeAccountApi()) {
   const token = await getCurrentUserToken();
-  return api.post(``, {
-    headers: { Authorization: `Bearer ${token}` },
-    data: data,
-  });
+  return api.post(
+    ``,
+    { data: data },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 }
 
 export async function createClient(clientData, api = makeRegisterApi()) {
