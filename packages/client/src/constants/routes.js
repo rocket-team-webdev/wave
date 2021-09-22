@@ -3,6 +3,7 @@
 export const PUBLIC = {
   HOME: "/",
   SIGNUP: "/signup",
+  UPDATE_PASSWORD: "/account/settings/update-password",
 };
 
 // PRIVATE PAGES

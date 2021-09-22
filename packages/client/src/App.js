@@ -4,13 +4,17 @@ import { PUBLIC } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import SignUp from "./pages/Public/SignUp";
 
-import Button from "./components/Button";
-import Input from "./components/Input";
+// import Button from "./components/Button";
+// import Input from "./components/Input";
+import UpdatePassword from "./pages/Public/UpdatePassword";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path={PUBLIC.UPDATE_PASSWORD}>
+          <UpdatePassword />
+        </Route>
         <Route path={PUBLIC.SIGNUP}>
           <SignUp />
         </Route>
@@ -18,7 +22,7 @@ function App() {
           <Home />
         </Route>
       </Switch>
-      <div>
+      {/* <div>
         <Button>Primary button</Button>
         <Button secondaryBtn>Secondary button</Button>
         <Button isNegative>Secondary button</Button>
@@ -32,7 +36,7 @@ function App() {
           type="password"
           placeholder="This is a placeholder"
         />
-      </div>
+      </div> */}
     </BrowserRouter>
   );
 }
