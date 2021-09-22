@@ -1,17 +1,18 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { PUBLIC } from "./constants/routes";
+import { PUBLIC, PRIVATE } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
 import SignUp from "./pages/Public/SignUp";
-
-// import Button from "./components/Button";
-// import Input from "./components/Input";
+import Account from "./pages/Private/Account";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path={PRIVATE.USER_ACCOUNT}>
+          <Account />
+        </Route>
         <Route path={PUBLIC.SIGNUP}>
           <SignUp />
         </Route>
@@ -23,22 +24,6 @@ function App() {
         </Route>
       </Switch>
     </BrowserRouter>
-    // <div classnames="row">
-    //   <Button>Primary button</Button>
-    //   <Button secondaryBtn>Secondary button</Button>
-    //   <Button isNegative>Secondary button</Button>
-    //   <Button isNegative secondaryBtn>
-    //     Secondary button
-    //   </Button>
-    //   <Button isSmall>Secondary button</Button>
-    //   <Input
-    //     label="hey"
-    //     id="aloha"
-    //     type="password"
-    //     classNames="col col-12 col-md-6"
-    //     placeholder="This is a placeholder"
-    //   />
-    // </div>
   );
 }
 

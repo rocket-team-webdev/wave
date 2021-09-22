@@ -10,6 +10,7 @@ export const PUBLIC = {
 
 export const PRIVATE = {
   ADMIN_SIGNIN: "/admin",
+  USER_ACCOUNT: "/account",
 };
 
 // API
