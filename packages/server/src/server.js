@@ -12,7 +12,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
 
-app.use("/api", accountRouter);
+app.use("/api/account", accountRouter);
 app.use("/api", userRouter);
 
 module.exports = app;

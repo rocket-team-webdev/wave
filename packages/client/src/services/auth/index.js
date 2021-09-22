@@ -6,6 +6,7 @@ export {
   signUpWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  signIn,
   getCurrentUserToken,
   getCurrentUserEmail,
 } from "./auth";

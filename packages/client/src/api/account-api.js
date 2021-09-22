@@ -21,6 +21,12 @@ export function makeRegisterApi() {
   });
 }
 
+export function signInUserData(token) {
+  return axios.get(`${API.MAIN}${API.AUTHENTICATE}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 // export function getAllProducts(api = makeAccountApi()) {
 //   return api.get(``);
 // }
@@ -60,6 +66,7 @@ export async function createClient(clientData, api = makeRegisterApi()) {
       username: clientData.username,
       country: clientData.country,
       birthDate: clientData.birthDate,
+      profilePicture: clientData.profilePicture,
     },
     {
       headers: { Authorization: `Bearer ${token}` },
