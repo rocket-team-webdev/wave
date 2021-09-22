@@ -15,7 +15,6 @@ export default function FloatInput({
   handleInput = () => {},
   errorMessage,
   hasErrorMessage,
-  options = [],
   ...props
 }) {
   const componentClasses = `${classNames} custom-input d-flex flex-column mb-1`;
@@ -68,9 +67,6 @@ export default function FloatInput({
       {hasErrorMessage && errorMessage && (
         <p className="error-msg">{errorMessage}</p>
       )}
-      {options.map((option) => (
-        <p key={option}>{option}</p>
-      ))}
     </div>
   );
 }

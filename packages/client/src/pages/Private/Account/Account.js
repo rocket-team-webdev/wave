@@ -5,8 +5,7 @@ import updateSchema from "./update-schema";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
-
-import "../../../components/Input/Input.scss";
+import Select from "../../../components/Select";
 
 import { getAccount, updateAccount } from "../../../api/account-api";
 
@@ -46,6 +45,9 @@ export default function Account() {
   async function loadAccount() {
     try {
       const { data } = await getAccount();
+      console.log(data);
+      console.log(data);
+      console.log(data);
       formik.setValues({
         username: data.data.username || "",
         gender: "Male" || "",
@@ -93,23 +95,16 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
               options={["male", "female"]}
             />
-            <div className="col-4 d-flex flex-column mb-1">
-              <label className="label-select fnt-label-light" htmlFor="gender">
-                Gender
-              </label>
-              <select
-                label="GENDER"
-                className="form-input fnt-input-light fx-rounded positive-input ps3"
-                value={formik.values.gender}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                id="gender"
-                disabled={loadStatus.isLoading || loadStatus.isError}
-              >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
+            <Select
+              classNames="col-4"
+              label="GENDER"
+              id="gender"
+              value={formik.values.gender}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              disabled={loadStatus.isLoading || loadStatus.isError}
+              options={["Male", "Female"]}
+            />
             <Input
               classNames="col-4"
               type="file"
@@ -175,24 +170,26 @@ export default function Account() {
               onBlur={formik.handleBlur}
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
-            <select
-              className="country-select col-4"
+            <Select
+              classNames="col-4"
+              label="COUNTRY"
+              id="country"
               value={formik.values.country}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              id="country"
               disabled={loadStatus.isLoading || loadStatus.isError}
-            >
-              <option value="Spain">Spain</option>
-              <option value="Argentina">Argentina</option>
-              <option value="Morocco">Morocco</option>
-              <option value="France">France</option>
-              <option value="Italy">Italy</option>
-              <option value="Germany">Germany</option>
-              <option value="USA">USA</option>
-              <option value="Mexico">Mexico</option>
-              <option value="Catalonia">Catalonia</option>
-            </select>
+              options={[
+                "Spain",
+                "Argentina",
+                "Morocco",
+                "France",
+                "Italy",
+                "Germany",
+                "USA",
+                "Mexico",
+                "Catalonia",
+              ]}
+            />
             <div className="col-12 text-end mt-5">
               <Button submitButton>Edit</Button>
             </div>
