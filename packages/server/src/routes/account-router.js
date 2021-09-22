@@ -19,6 +19,12 @@ accountRouter.post(
   accountController.updateAccount,
 );
 
+accountRouter.delete(
+  "/account",
+  authFirebaseMiddleware,
+  accountController.deleteAccount,
+);
+
 module.exports = {
   accountRouter: accountRouter,
 };
