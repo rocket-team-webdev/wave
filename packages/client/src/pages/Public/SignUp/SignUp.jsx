@@ -1,35 +1,36 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import signUpSchema from "./sign-up-schema";
 
 import {
   getCurrentUserToken,
-  signInWithGoogle,
+  // signInWithGoogle,
   signUpWithEmailAndPassword,
 } from "../../../services/auth";
 import { createClient } from "../../../api/account-api";
+
+import Layout from "../../../components/Layout";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import Select from "../../../components/Select";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const history = useHistory();
 
-  async function handleLoginWithGoogle(e) {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const user = await signInWithGoogle();
-      if (user) history.push("/account");
-    } catch (error) {
-      setLoginError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+  // async function handleLoginWithGoogle(e) {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     await signInWithGoogle();
+  //   } catch (error) {
+  //     setLoginError(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +39,7 @@ export default function SignUp() {
       firstName: "",
       lastName: "",
       birthDate: "",
-      country: "",
+      country: "Spain",
       email: "",
       password: "",
       confirmPassword: "",
@@ -68,168 +69,141 @@ export default function SignUp() {
     },
   });
   return (
-    <div>
-      <body className="text-center">
-        <main className="form-signin">
-          <form onSubmit={formik.handleSubmit}>
-            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+    <Layout>
+      <div className="row clr-white">
+        <div className="col-7 p-4">
+          <p className="fnt-jumbo fnt-primary mb-0">WELCOME TO WAVE APP.</p>
+          <p className="fnt-jumbo fnt-secondary mb-0">SIGN UP.</p>
+        </div>
+        <div className="col-5 clr-light">
+          <h1 className="fnt-subtitle-bold mb-4">New Account</h1>
+          <form onSubmit={formik.handleSubmit} className="row">
+            <Input
+              classNames="col-6"
+              label="Username"
+              id="username"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+              errorMessage={formik.errors.username}
+              hasErrorMessage={formik.touched.username}
+            />
+            <Input
+              classNames="col-6"
+              label="Profile Picture"
+              id="profilePicture"
+              type="file"
+              placeholder="Choose your file"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.profilePicture}
+              errorMessage={formik.errors.profilePicture}
+              hasErrorMessage={formik.touched.profilePicture}
+            />
+            <Input
+              classNames="col-6"
+              label="First Name"
+              id="firstName"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.firstName}
+              errorMessage={formik.errors.firstName}
+              hasErrorMessage={formik.touched.firstName}
+            />
+            <Input
+              classNames="col-6"
+              label="Last Name"
+              id="lastName"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.lastName}
+              errorMessage={formik.errors.lastName}
+              hasErrorMessage={formik.touched.lastName}
+            />
 
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                name="username"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.username}
-                errorMessage={formik.errors.username}
-                hasErrorMessage={formik.touched.username}
-                // placeholder="name@example.com"
-              />
-              <label htmlFor="floatingInput">Username</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control"
-                id="profilePicture"
-                name="profilePicture"
-                placeholder=""
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.profilePicture}
-                errorMessage={formik.errors.profilePicture}
-                hasErrorMessage={formik.touched.profilePicture}
-              />
-              <label htmlFor="floatingInput">Profile picture</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control"
-                id="firstName"
-                name="firstName"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.firstName}
-                errorMessage={formik.errors.firstName}
-                hasErrorMessage={formik.touched.firstName}
-                // placeholder="name@example.com"
-              />
-              <label htmlFor="floatingInput">First Name</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control"
-                id="lastName"
-                name="lastName"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.lastName}
-                errorMessage={formik.errors.lastName}
-                hasErrorMessage={formik.touched.lastName}
-                // placeholder="name@example.com"
-              />
-              <label htmlFor="floatingInput">Last Name</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control"
-                id="birthDate"
-                name="birthDate"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.birthDate}
-                errorMessage={formik.errors.birthDate}
-                hasErrorMessage={formik.touched.birthDate}
-                // placeholder="name@example.com"
-              />
-              <label htmlFor="floatingInput">Birth date</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control"
-                id="country"
-                name="country"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.country}
-                errorMessage={formik.errors.country}
-                hasErrorMessage={formik.touched.country}
-                // placeholder="name@example.com"
-              />
-              <label htmlFor="floatingInput">Country</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                placeholder="name@example.com"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                errorMessage={formik.errors.email}
-                hasErrorMessage={formik.touched.email}
-              />
-              <label htmlFor="floatingInput">Email address</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                name="password"
-                placeholder="Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-                errorMessage={formik.errors.password}
-                hasErrorMessage={formik.touched.password}
-              />
-              <label htmlFor="floatingPassword">Password</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="password"
-                className="form-control"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmPassword}
-                errorMessage={formik.errors.confirmPassword}
-                hasErrorMessage={formik.touched.confirmPassword}
-              />
-              <label htmlFor="floatingPassword">Confirm password</label>
-            </div>
+            <Input
+              classNames="col-6"
+              label="Birth Date"
+              id="birthDate"
+              type="date"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.birthDate}
+              errorMessage={formik.errors.birthDate}
+              hasErrorMessage={formik.touched.birthDate}
+            />
 
-            <button className="w-100 btn btn-lg btn-primary" type="submit">
-              Sign in
-            </button>
+            <Select
+              classNames="col-6"
+              label="Country"
+              id="country"
+              type="select"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.country}
+              errorMessage={formik.errors.country}
+              hasErrorMessage={formik.touched.country}
+              options={[
+                "Spain",
+                "Argentina",
+                "Morocco",
+                "France",
+                "Italy",
+                "Germany",
+                "USA",
+                "Mexico",
+                "Catalonia",
+              ]}
+            />
+
+            <Input
+              label="Email"
+              id="email"
+              type="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              errorMessage={formik.errors.email}
+              hasErrorMessage={formik.touched.email}
+            />
+
+            <Input
+              classNames="col-6"
+              label="Password"
+              id="password"
+              type="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              errorMessage={formik.errors.password}
+              hasErrorMessage={formik.touched.password}
+            />
+
+            <Input
+              classNames="col-6"
+              label="Confirm Password"
+              id="confirmPassword"
+              type="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.confirmPassword}
+              errorMessage={formik.errors.confirmPassword}
+              hasErrorMessage={formik.touched.confirmPassword}
+            />
+            <div className="col-12 text-end mt-3">
+              <Button type="submit">Sign Up</Button>
+            </div>
           </form>
-
-          <button
-            type="button"
-            className="w-100 btn btn-lg btn-danger"
-            onClick={handleLoginWithGoogle}
-          >
-            Sign Up with Google
-          </button>
-
           {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
           {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
           {!loading && loginError && !loggedIn && (
             <h3>Login error: {loginError}</h3>
           )}
-        </main>
-      </body>
-    </div>
+        </div>
+      </div>
+    </Layout>
   );
 }
