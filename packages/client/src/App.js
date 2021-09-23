@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { PUBLIC, PRIVATE } from "./constants/routes";
+import { useDispatch } from "react-redux";
 
+import { PUBLIC, PRIVATE } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import SignUp from "./pages/Public/SignUp";
 import Account from "./pages/Private/Account";
 import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
-
-// import Button from "./components/Button";
-// import Input from "./components/Input";
+import { onAuthStateChanged } from "./services/auth";
+import { logIn } from "./redux/user/actions";
 
 function App() {
+  const dispatch = useDispatch();
+  // const userState = useSelector((state) => state.user);
+
+  useEffect(() => {
+    onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user);
+        dispatch(
+          logIn({
+            email: user.email,
+            token: "",
+            firstName: "",
+            lastName: "",
+            profilePicture: user.uid,
+            firebaseId: "",
+            isLogged: false,
+          }),
+        );
+      } else {
+        console.log("no user");
+      }
+    });
+  }, []);
   return (
     <BrowserRouter>
       <Switch>

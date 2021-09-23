@@ -5,10 +5,13 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./sass/main.scss";
+import ReduxProvider from "./redux/provider";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ReduxProvider>
+      <App />
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById("root"),
 );
