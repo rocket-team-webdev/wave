@@ -59,8 +59,10 @@ export default function SignIn() {
       };
 
       await createClient(loggedUserObject);
+      setLoggedIn(true);
     } catch (error) {
-      setLoginError(error);
+      console.clear();
+      console.log("Failed Google sign in.");
     }
   };
 
