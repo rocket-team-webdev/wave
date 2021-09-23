@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import signUpSchema from "./sign-up-schema";
@@ -15,15 +14,13 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const history = useHistory();
 
   async function handleLoginWithGoogle(e) {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const user = await signInWithGoogle();
-      if (user) history.push("/account");
+      await signInWithGoogle();
     } catch (error) {
       setLoginError(error.message);
     } finally {
