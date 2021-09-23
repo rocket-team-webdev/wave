@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import updateSchema from "./update-schema";
@@ -13,6 +14,8 @@ import {
   deleteAccount,
 } from "../../../api/account-api";
 import { deleteCurrentUserAccount } from "../../../services/auth/auth";
+import Modal from "../../../components/Modal/Modal";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function Account() {
   const [loadStatus, setLoadStatus] = useState({
@@ -23,6 +26,7 @@ export default function Account() {
     isError: false,
     message: null,
   });
+  const history = useHistory();
 
   const handleDeleteAccount = async () => {
     try {
@@ -33,6 +37,8 @@ export default function Account() {
         isError: false,
         message: null,
       });
+
+      history.push(PUBLIC.HOME);
     } catch (error) {
       setDeleteError({
         isError: true,
@@ -216,7 +222,10 @@ export default function Account() {
 
             <div className="row mt-5">
               <div className="col-6">
-                <Button handleClick={handleDeleteAccount}>
+                <Button
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteAccountModal"
+                >
                   Delete account
                 </Button>
               </div>
@@ -226,6 +235,15 @@ export default function Account() {
             </div>
           </form>
 
+          <Modal
+            id="deleteAccountModal"
+            confirmLabel="Delete Account"
+            cancelLabel="Cancel"
+            title="Delete Account"
+            handleClickConfirm={handleDeleteAccount}
+          >
+            ¿Do you want to delete this account?
+          </Modal>
           {deleteError.isError && <p>{deleteError.message}</p>}
         </div>
       </div>
