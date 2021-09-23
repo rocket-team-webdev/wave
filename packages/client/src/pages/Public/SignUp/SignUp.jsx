@@ -57,8 +57,8 @@ export default function SignUp() {
   });
   return (
     <Layout>
-      <div className="mx-5">
-        <div className="row clr-light">
+      <div className="mx-5 clr-light">
+        <div className="row ">
           <div className="col-7">
             <h1 className="fnt-jumbo fnt-primary mb-0 lh-1">
               WELCOME TO WAVE APP.
