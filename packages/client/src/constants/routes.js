@@ -6,6 +6,7 @@ export const PUBLIC = {
   RESET_PASSWORD: "/reset-password",
   SIGN_UP: "/sign-up",
   SIGN_IN: "/sign-in",
+  REAUTHENTICATE: "/reauthenticate",
 };
 
 // PRIVATE PAGES

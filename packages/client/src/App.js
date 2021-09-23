@@ -7,6 +7,7 @@ import SignUp from "./pages/Public/SignUp";
 import UpdatePassword from "./pages/Public/UpdatePassword";
 import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Private/Account";
+import Reauthenticate from "./pages/Public/Reauthenticate/Reauthenticate";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         </Route>
         <Route path={PRIVATE.USER_ACCOUNT}>
           <Account />
+        </Route>
+        <Route path={PUBLIC.REAUTHENTICATE}>
+          <Reauthenticate />
         </Route>
         <Route path={PUBLIC.SIGN_UP}>
           <SignUp />

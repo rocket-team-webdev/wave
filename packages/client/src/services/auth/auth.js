@@ -62,7 +62,6 @@ export function getCurrentUserToken() {
 }
 
 export function deleteCurrentUserAccount() {
-  console.log("auth.currentUser", auth.currentUser);
   if (!auth.currentUser) {
     return null;
   }
