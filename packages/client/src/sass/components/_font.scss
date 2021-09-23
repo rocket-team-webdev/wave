@@ -25,7 +25,7 @@
 .fnt-jumbo,
 .fnt-sidebar,
 .fnt-page-title,
-.fnt-subtitle-ligth,
+.fnt-subtitle-light,
 .fnt-subtitle-bold,
 .fnt-label-light,
 .fnt-label-bold {
@@ -54,7 +54,7 @@
   font-size: 120px;
 }
 
-.fnt-subtitle-ligth,
+.fnt-subtitle-light,
 .fnt-subtitle-bold {
   font-size: 93px;
 }
@@ -90,9 +90,12 @@
   font-weight: 900;
 }
 
-.fnt-subtitle-ligth,
+.fnt-subtitle-light,
 .fnt-label-light {
   font-weight: normal;
+}
+.fnt-subtitle-light:hover {
+  font-weight: 800;
 }
 
 .fnt-sidebar,
