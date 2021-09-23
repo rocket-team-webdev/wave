@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import updateSchema from "./update-schema";
+
+import Layout from "../../../components/Layout";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
@@ -66,19 +68,19 @@ export default function Account() {
   }, []);
 
   return (
-    <div className="mx-5">
-      <div className="row">
-        <div className="col-6">
+    <Layout>
+      <div className="row clr-white">
+        <div className="col-12 col-md-5 col-lg-6 p-4">
           <h1 className="fnt-jumbo">Username</h1>
           <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
         </div>
-        <div className="col-6 clr-light fx-rounded">
+        <div className="col clr-light">
           <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
           <form onSubmit={formik.handleSubmit} className="row">
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               type="text"
               label="First Name"
               id="firstName"
@@ -91,7 +93,7 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               type="text"
               label="Last Name"
               id="lastName"
@@ -104,7 +106,7 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               type="date"
               label="Birthdate"
               id="birthDate"
@@ -117,7 +119,7 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               type="file"
               label="Profile Image"
               id="profileImage"
@@ -130,7 +132,7 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
-              classNames="col-8"
+              classNames="col-12 col-md-8"
               type="email"
               label="Email"
               id="email"
@@ -143,7 +145,7 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Select
-              classNames="col-4"
+              classNames="col-12 col-md-4"
               label="Country"
               id="country"
               value={formik.values.country}
@@ -175,10 +177,10 @@ export default function Account() {
           </form>
           {loadStatus.isLoading && <h3>Loading...</h3>}
           {!loadStatus.isLoading && loadStatus.isError && (
-            <h3>Login error: {loadStatus.isError}</h3>
+            <h3>Account error: {loadStatus.isError}</h3>
           )}
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
