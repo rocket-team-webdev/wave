@@ -36,8 +36,6 @@ function App() {
     onAuthStateChanged((user) => {
       if (user) {
         handleExistingUser(user);
-      } else {
-        console.log("no user");
       }
     });
   }, []);
