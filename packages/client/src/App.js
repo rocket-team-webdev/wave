@@ -4,9 +4,6 @@ import { PUBLIC } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import SignUp from "./pages/Public/SignUp";
 
-import Button from "./components/Button";
-import Input from "./components/Input";
-
 function App() {
   return (
     <BrowserRouter>
