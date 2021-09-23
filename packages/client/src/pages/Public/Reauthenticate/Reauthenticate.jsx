@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import ReauthenticateSchema from "./reauthenticate-schema";
 
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
-import { reauthenticateUserWithCredential } from "../../../services/auth/auth";
+import {
+  reauthenticateUserWithCredential,
+  deleteCurrentUserAccount,
+} from "../../../services/auth/auth";
+import { deleteAccount } from "../../../api/account-api";
+import { PUBLIC } from "../../../constants/routes";
 
 function Reauthenticate() {
+  const history = useHistory();
+  const [deleteError, setDeleteError] = useState({});
+
   const formik = useFormik({
     initialValues: {
       userPassword: "",
     },
     validationSchema: ReauthenticateSchema,
     onSubmit: async (updatePasswordState) => {
-      console.log("PasswordState", updatePasswordState);
       const { userPassword } = updatePasswordState;
       try {
         await reauthenticateUserWithCredential(userPassword);
+        await deleteAccount();
+        await deleteCurrentUserAccount();
+
+        setDeleteError({});
+
+        history.push(PUBLIC.HOME);
       } catch (error) {
-        console.log("error PasswordState", error);
+        setDeleteError({ error });
       }
     },
   });
@@ -38,8 +52,10 @@ function Reauthenticate() {
             placeholder="User password"
             onChange={formik.handleChange}
             value={formik.values.currentPassword}
-            errorMessage={formik.errors.currentPassword}
-            hasErrorMessage={formik.touched.currentPassword}
+            errorMessage={
+              formik.errors.currentPassword || deleteError.error?.message
+            }
+            hasErrorMessage={formik.touched.currentPassword || deleteError}
           />
 
           <div className="row">

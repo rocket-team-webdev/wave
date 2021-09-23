@@ -7,7 +7,7 @@ import { signInWithGoogle, signIn } from "../../../services/auth";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
-import { PRIVATE } from "../../../constants/routes";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ export default function SignIn() {
 
         // TODO: Set to context, validate to db
         setLoggedIn(true);
-        history.push(PRIVATE.USER_ACCOUNT);
+        history.push(PUBLIC.USER_ACCOUNT);
       } catch (error) {
         setLoginError(error.message);
       } finally {

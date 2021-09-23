@@ -11,40 +11,21 @@ import Select from "../../../components/Select";
 import {
   getAccount,
   updateAccount,
-  deleteAccount,
+  // deleteAccount,
 } from "../../../api/account-api";
-import { deleteCurrentUserAccount } from "../../../services/auth/auth";
-import Modal from "../../../components/Modal/Modal";
+// import { deleteCurrentUserAccount } from "../../../services/auth/auth";
+// import Modal from "../../../components/Modal/Modal";
 import { PUBLIC } from "../../../constants/routes";
 
 export default function Account() {
+  const history = useHistory();
   const [loadStatus, setLoadStatus] = useState({
     isError: false,
     isLoading: true,
   });
-  const [deleteError, setDeleteError] = useState({
-    isError: false,
-    message: null,
-  });
-  const history = useHistory();
 
   const handleDeleteAccount = async () => {
-    try {
-      await deleteAccount();
-      await deleteCurrentUserAccount();
-
-      setDeleteError({
-        isError: false,
-        message: null,
-      });
-
-      history.push(PUBLIC.HOME);
-    } catch (error) {
-      setDeleteError({
-        isError: true,
-        message: error,
-      });
-    }
+    history.push(PUBLIC.REAUTHENTICATE);
   };
 
   const formik = useFormik({
@@ -222,10 +203,7 @@ export default function Account() {
 
             <div className="row mt-5">
               <div className="col-6">
-                <Button
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteAccountModal"
-                >
+                <Button handleClick={handleDeleteAccount}>
                   Delete account
                 </Button>
               </div>
@@ -235,7 +213,7 @@ export default function Account() {
             </div>
           </form>
 
-          <Modal
+          {/* <Modal
             id="deleteAccountModal"
             confirmLabel="Delete Account"
             cancelLabel="Cancel"
@@ -243,8 +221,7 @@ export default function Account() {
             handleClickConfirm={handleDeleteAccount}
           >
             ¿Do you want to delete this account?
-          </Modal>
-          {deleteError.isError && <p>{deleteError.message}</p>}
+          </Modal> */}
         </div>
       </div>
     </div>

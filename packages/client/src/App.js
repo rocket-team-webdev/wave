@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { PUBLIC, PRIVATE } from "./constants/routes";
+import { PUBLIC } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
 import SignUp from "./pages/Public/SignUp";
 import UpdatePassword from "./pages/Public/UpdatePassword";
 import SignIn from "./pages/Public/SignIn";
-import Account from "./pages/Private/Account";
+import Account from "./pages/Public/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate/Reauthenticate";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
         <Route path={PUBLIC.UPDATE_PASSWORD}>
           <UpdatePassword />
         </Route>
-        <Route path={PRIVATE.USER_ACCOUNT}>
+        <Route path={PUBLIC.USER_ACCOUNT}>
           <Account />
         </Route>
         <Route path={PUBLIC.REAUTHENTICATE}>
