@@ -7,10 +7,6 @@ async function signUp(req, res, next) {
     const data = await db.User.findOne({ firebaseId });
 
     if (!data) {
-      Object.keys(req.body).forEach(
-        (k) => req.body[k] == "" && delete req.body[k],
-      );
-
       const newUser = await db.User.create({
         ...req.user,
         ...req.body,

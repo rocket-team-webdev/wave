@@ -35,25 +35,7 @@ async function updateAccount(req, res) {
   }
 }
 
-async function deleteAccount(req, res, next) {
-  try {
-    const { email } = req.user;
-    const deletedAccount = await db.User.findOneAndDelete({ email });
-
-    if (!deletedAccount) res.status(404).send({ message: "User not found!" });
-
-    res.status(200).send({
-      data: deletedAccount,
-      message: "Success",
-    });
-  } catch (error) {
-    res.status(500).send({ error: error });
-    next(error);
-  }
-}
-
 module.exports = {
-  deleteAccount: deleteAccount,
   getAccount: getAccount,
   updateAccount: updateAccount,
 };

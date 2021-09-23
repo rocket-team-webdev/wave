@@ -7,39 +7,13 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
 
-import {
-  getAccount,
-  updateAccount,
-  deleteAccount,
-} from "../../../api/account-api";
-import { deleteCurrentUserAccount } from "../../../services/auth/auth";
+import { getAccount, updateAccount } from "../../../api/account-api";
 
 export default function Account() {
   const [loadStatus, setLoadStatus] = useState({
     isError: false,
     isLoading: true,
   });
-  const [deleteError, setDeleteError] = useState({
-    isError: false,
-    message: null,
-  });
-
-  const handleDeleteAccount = async () => {
-    try {
-      await deleteAccount();
-      await deleteCurrentUserAccount();
-
-      setDeleteError({
-        isError: false,
-        message: null,
-      });
-    } catch (error) {
-      setDeleteError({
-        isError: true,
-        message: error,
-      });
-    }
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -96,7 +70,7 @@ export default function Account() {
       <div className="row">
         <div className="col-5">
           <h1 className="fnt-jumbo">Username</h1>
-          <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
+          <p className="fnt-subtitle-bold mb-0 lh-1">ACOUNT DETAILS</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD RECOVERY</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
@@ -213,20 +187,10 @@ export default function Account() {
                 "Catalonia",
               ]}
             />
-
-            <div className="row mt-5">
-              <div className="col-6">
-                <Button handleClick={handleDeleteAccount}>
-                  Delete account
-                </Button>
-              </div>
-              <div className="col-6 text-end">
-                <Button submitButton>Edit</Button>
-              </div>
+            <div className="col-12 text-end mt-5">
+              <Button submitButton>Edit</Button>
             </div>
           </form>
-
-          {deleteError.isError && <p>{deleteError.message}</p>}
         </div>
       </div>
     </div>

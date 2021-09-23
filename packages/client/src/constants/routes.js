@@ -3,7 +3,8 @@
 export const PUBLIC = {
   HOME: "/",
   UPDATE_PASSWORD: "/account/settings/update-password",
-  RESET_PASSWORD: "/reset-password",
+  RESET_PASSWORD: "/account/settings/reset-password",
+  USER_ACCOUNT: "/account",
   SIGN_UP: "/sign-up",
   SIGN_IN: "/sign-in",
 };
@@ -12,7 +13,6 @@ export const PUBLIC = {
 
 export const PRIVATE = {
   ADMIN_SIGN_IN: "/admin",
-  USER_ACCOUNT: "/account",
 };
 
 // API
