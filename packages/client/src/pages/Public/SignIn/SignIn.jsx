@@ -10,6 +10,7 @@ import {
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import Checkbox from "../../../components/Checkbox";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -122,24 +123,14 @@ export default function SignIn() {
             classNames="mb-4"
           />
           <div className="form-footer-wrapper p-0 row">
-            <div className="col col-12 col-md-4">
-              <input
-                type="checkbox"
-                onChange={handleSaveCredentials}
-                className="me-2"
-                id="rememberAccount"
-                checked={saveCredentials}
-                ref={credentialsCheckbox}
-              />
-              <label
-                type="checkbox"
-                htmlFor="rememberAccount"
-                className="fnt-input-light"
-              >
-                Remember account
-              </label>
-            </div>
-            <div className="d-flex justify-content-end col col-12 col-md-8 p-0">
+            <Checkbox
+              label="Remember account"
+              id="testCheckbox"
+              ref={credentialsCheckbox}
+              checked={saveCredentials}
+              onChange={handleSaveCredentials}
+            />
+            <div className="d-flex justify-content-end col col-12 col-md-7 p-0">
               <div className="d-inline-flex p-2 pe-4">
                 <Button handleClick={handleGoogleSignIn}>Google</Button>
               </div>

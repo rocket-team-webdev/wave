@@ -68,9 +68,9 @@ export function getCurrentUserEmail() {
 
 export function setCredentialsPersistance(checkboxRef) {
   if (checkboxRef.current.checked) {
-    // console.log("Session credentials");
+    console.log("Session credentials");
     return auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
   }
-  // console.log("Local credentials");
+  console.log("Local credentials");
   return auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 }
