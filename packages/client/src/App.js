@@ -10,26 +10,30 @@ import Account from "./pages/Private/Account";
 import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
 import { onAuthStateChanged } from "./services/auth";
 import { logIn } from "./redux/user/actions";
+import { signInUserData } from "./api/account-api";
 
 function App() {
   const dispatch = useDispatch();
   // const userState = useSelector((state) => state.user);
-
+  async function handleExistingUser(firebaseUser) {
+    const token = firebaseUser.multiFactor.user.accessToken;
+    const dbUser = await (await signInUserData(token)).data.data;
+    dispatch(
+      logIn({
+        email: firebaseUser.email,
+        token: firebaseUser.multiFactor.user.accessToken,
+        firstName: dbUser.firstName,
+        lastName: dbUser.lastName,
+        profilePicture: dbUser.profilePicture || "",
+        firebaseId: firebaseUser.uid,
+        isLogged: true,
+      }),
+    );
+  }
   useEffect(() => {
     onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
-        dispatch(
-          logIn({
-            email: user.email,
-            token: "",
-            firstName: "",
-            lastName: "",
-            profilePicture: user.uid,
-            firebaseId: "",
-            isLogged: false,
-          }),
-        );
+        handleExistingUser(user);
       } else {
         console.log("no user");
       }
