@@ -54,12 +54,12 @@ export default function SignIn() {
         const token = signInResponse.user.multiFactor.user.accessToken;
         await signInUserData(token);
         setLoggedIn(true);
+        setLoading(false);
         setTimeout(() => {
           history.push(PUBLIC.HOME);
         }, 500);
       } catch (error) {
         setLoginError(error.message);
-      } finally {
         setLoading(false);
       }
     },

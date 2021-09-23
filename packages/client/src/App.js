@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { PUBLIC } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import SignUp from "./pages/Public/SignUp";

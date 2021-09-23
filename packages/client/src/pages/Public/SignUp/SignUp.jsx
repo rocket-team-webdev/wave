@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import signUpSchema from "./sign-up-schema";
 
 import {
-  getCurrentUserToken,
+  // getCurrentUserToken,
   signUpWithEmailAndPassword,
 } from "../../../services/auth";
 import { createClient } from "../../../api/account-api";
@@ -43,11 +43,11 @@ export default function SignUp() {
           signUpState.email,
           signUpState.password,
         );
-        const data = await createClient(signUpState);
-        const token = await getCurrentUserToken();
-        // TODO: Set to context
-        console.log("data", data);
-        console.log("token", token);
+        await createClient(signUpState);
+        // const token = await getCurrentUserToken();
+        // // TODO: Set to context
+        // console.log("data", data);
+        // console.log("token", token);
         setLoggedIn(true);
       } catch (error) {
         setLoginError(error.message);
