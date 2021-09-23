@@ -1,0 +1,71 @@
+@use "../../sass/components/colors" as c;
+
+.custom-btn {
+  transition: 0.3s;
+  background: unset;
+  width: fit-content;
+}
+
+// Large button
+.large-btn {
+  padding: 0px 14px;
+  font-weight: bold;
+}
+
+.positive-primary-btn,
+.positive-secondary-btn {
+  text-transform: uppercase;
+}
+
+.positive-primary-btn,
+.positive-secondary-btn:hover {
+  color: c.$secondaryColor;
+  background: c.$lightColor;
+  border: 2px solid c.$secondaryColor;
+}
+
+.positive-primary-btn:hover,
+.positive-secondary-btn {
+  color: c.$lightColor;
+  background: c.$secondaryColor;
+  border: 2px solid c.$secondaryColor;
+}
+
+.positive-primary-btn:focus,
+.positive-secondary-btn:focus {
+  background: c.$grayColor;
+}
+
+.negative-primary-btn,
+.negative-secondary-btn:hover {
+  color: c.$lightColor;
+  background: c.$lightColor20;
+  border: 2px solid c.$lightColor20;
+}
+
+.negative-primary-btn:hover,
+.negative-secondary-btn {
+  color: c.$primaryColor;
+  background: c.$lightColor;
+  border: 2px solid c.$lightColor;
+}
+
+.negative-primary-btn:focus,
+.negative-secondary-btn:focus {
+  border: 2px solid c.$lightColor;
+}
+
+// Small button
+.small-btn {
+  padding: 5px;
+  color: c.$lightColor;
+  border: 2px solid c.$lightColor;
+}
+.small-btn:hover {
+  color: c.$primaryColor;
+  background: c.$lightColor;
+}
+.small-btn:focus {
+  padding: 5px;
+  background: c.$lightColor20;
+}
