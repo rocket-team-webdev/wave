@@ -3,19 +3,12 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import updateSchema from "./update-schema";
-
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
 
-import {
-  getAccount,
-  updateAccount,
-  // deleteAccount,
-} from "../../../api/account-api";
-// import { deleteCurrentUserAccount } from "../../../services/auth/auth";
-// import Modal from "../../../components/Modal/Modal";
 import { PUBLIC } from "../../../constants/routes";
+import { getAccount, updateAccount } from "../../../api/account-api";
 
 export default function Account() {
   const history = useHistory();
@@ -212,16 +205,6 @@ export default function Account() {
               </div>
             </div>
           </form>
-
-          {/* <Modal
-            id="deleteAccountModal"
-            confirmLabel="Delete Account"
-            cancelLabel="Cancel"
-            title="Delete Account"
-            handleClickConfirm={handleDeleteAccount}
-          >
-            ¿Do you want to delete this account?
-          </Modal> */}
         </div>
       </div>
     </div>

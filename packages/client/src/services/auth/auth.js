@@ -40,8 +40,8 @@ export function signUpWithEmailAndPassword(email, password) {
   return auth.createUserWithEmailAndPassword(email, password);
 }
 
-export function sendPasswordResetEmail(email, config) {
-  return auth.sendPasswordResetEmail(email, config);
+export function sendPasswordResetEmail(email) {
+  return auth.sendPasswordResetEmail(email);
 }
 
 export function signOut() {

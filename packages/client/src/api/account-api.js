@@ -51,7 +51,6 @@ export async function updateAccount(data, api = makeAccountApi()) {
 
 export async function deleteAccount(api = makeAccountApi()) {
   const token = await getCurrentUserToken();
-  console.log(token);
   return api.delete(``, {
     headers: { Authorization: `Bearer ${token}` },
   });
