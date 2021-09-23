@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Input.scss";
 
-export default function FloatInput({
+export default function Input({
   label = "input-01",
   id = "input-01",
   type = "",

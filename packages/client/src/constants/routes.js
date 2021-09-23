@@ -2,9 +2,11 @@
 
 export const PUBLIC = {
   HOME: "/",
+  UPDATE_PASSWORD: "/account/settings/update-password",
+  RESET_PASSWORD: "/account/settings/reset-password",
   SIGN_UP: "/sign-up",
   SIGN_IN: "/sign-in",
-  RESET_PASSWORD: "/reset-password",
+  REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
 };
 
