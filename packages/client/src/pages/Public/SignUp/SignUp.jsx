@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import signUpSchema from "./sign-up-schema";
+
 import {
   getCurrentUserToken,
   signInWithGoogle,
@@ -22,8 +23,7 @@ export default function SignUp() {
 
     try {
       const user = await signInWithGoogle();
-      if (!user) history.push("/");
-      console.log(user);
+      if (user) history.push("/account");
     } catch (error) {
       setLoginError(error.message);
     } finally {

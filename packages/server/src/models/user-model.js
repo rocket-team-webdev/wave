@@ -14,12 +14,12 @@ const userSchema = new Schema(
       trim: true,
       required: [true, "User name is required"],
     },
-    username: {
-      type: String,
-      unique: true,
-      trim: true,
-      // required: [true, "User name is required"],
-    },
+    // username: {
+    //   type: String,
+    //   unique: true,
+    //   trim: true,
+    //   // required: [true, "User name is required"],
+    // },
     firebaseId: {
       type: String,
       trim: true,

@@ -1,6 +1,6 @@
 const db = require("../models");
 
-async function getAccount(req, res) {
+async function getAccount(req, res, next) {
   try {
     const { email } = req.user;
     const user = await db.User.findOne({ email });
@@ -12,6 +12,7 @@ async function getAccount(req, res) {
     res.status(404).send({
       error: err.message,
     });
+    next(err);
   }
 }
 
@@ -34,7 +35,25 @@ async function updateAccount(req, res) {
   }
 }
 
+async function deleteAccount(req, res, next) {
+  try {
+    const { email } = req.user;
+    const deletedAccount = await db.User.findOneAndDelete({ email });
+
+    if (!deletedAccount) res.status(404).send({ message: "User not found!" });
+
+    res.status(200).send({
+      data: deletedAccount,
+      message: "Success",
+    });
+  } catch (error) {
+    res.status(500).send({ error: error });
+    next(error);
+  }
+}
+
 module.exports = {
+  deleteAccount: deleteAccount,
   getAccount: getAccount,
   updateAccount: updateAccount,
 };

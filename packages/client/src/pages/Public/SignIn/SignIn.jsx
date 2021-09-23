@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import signInSchema from "./sign-in-schema";
 import { createClient, signInUserData } from "../../../api/account-api";
@@ -6,11 +7,13 @@ import { signInWithGoogle, signIn } from "../../../services/auth";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import { PRIVATE } from "../../../constants/routes";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -35,6 +38,7 @@ export default function SignIn() {
 
         // TODO: Set to context, validate to db
         setLoggedIn(true);
+        history.push(PRIVATE.USER_ACCOUNT);
       } catch (error) {
         setLoginError(error.message);
       } finally {
@@ -44,23 +48,24 @@ export default function SignIn() {
   });
 
   const handleGoogleSignIn = async () => {
-    const googleResult = await signInWithGoogle();
-    const {
-      family_name: familyName,
-      given_name: givenName,
-      picture,
-    } = googleResult.additionalUserInfo.profile;
+    try {
+      const googleResult = await signInWithGoogle();
+      const {
+        family_name: familyName,
+        given_name: givenName,
+        picture,
+      } = googleResult.additionalUserInfo.profile;
 
-    const loggedUserObject = {
-      firstName: givenName,
-      lastName: familyName,
-      profilePicture: picture,
-    };
+      const loggedUserObject = {
+        firstName: givenName,
+        lastName: familyName,
+        profilePicture: picture,
+      };
 
-    await createClient(loggedUserObject);
-
-    // const response = await signInUserData(googleResult.credential.accessToken);
-    // console.log(response);
+      await createClient(loggedUserObject);
+    } catch (error) {
+      setLoginError(error);
+    }
   };
 
   return (
@@ -75,6 +80,7 @@ export default function SignIn() {
           <form onSubmit={formik.handleSubmit}>
             <h1 className="fnt-subtitle-bold mb-4">Log in</h1>
             <Input
+              label="email"
               type="email"
               id="email"
               name="email"
@@ -87,6 +93,7 @@ export default function SignIn() {
               classNames="mb-4"
             />
             <Input
+              label="password"
               type="password"
               id="password"
               name="password"
