@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
 import signInSchema from "./sign-in-schema";
 import { createClient, signInUserData } from "../../../api/account-api";
-import { signInWithGoogle, signIn } from "../../../services/auth";
+import {
+  signInWithGoogle,
+  signIn,
+  setCredentialsPersistance,
+} from "../../../services/auth";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
@@ -11,6 +15,19 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [saveCredentials, setSaveCredentials] = useState(false);
+
+  // Save credentials checkbox
+  const credentialsCheckbox = useRef();
+
+  const handleSaveCredentials = () => {
+    if (credentialsCheckbox.current.checked) {
+      setSaveCredentials(true);
+    } else {
+      setSaveCredentials(false);
+    }
+    setCredentialsPersistance(credentialsCheckbox);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -22,6 +39,8 @@ export default function SignIn() {
       setLoading(true);
       setLoggedIn(false);
 
+      // Set save credentials
+      handleSaveCredentials();
       try {
         const signInResponse = await signIn(
           signInState.email,
@@ -64,11 +83,6 @@ export default function SignIn() {
       console.clear();
       console.log("Failed Google sign in.");
     }
-  };
-
-  const handleSaveCredentials = async (e) => {
-    console.log(e.target.checked);
-    console.log("Saved credentials");
   };
 
   return (
@@ -114,6 +128,8 @@ export default function SignIn() {
                 onChange={handleSaveCredentials}
                 className="me-2"
                 id="rememberAccount"
+                checked={saveCredentials}
+                ref={credentialsCheckbox}
               />
               <label
                 type="checkbox"

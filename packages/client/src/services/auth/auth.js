@@ -63,6 +63,14 @@ export function getCurrentUserEmail() {
   if (!auth.currentUser) {
     return null;
   }
-
   return auth.currentUser.email;
+}
+
+export function setCredentialsPersistance(checkboxRef) {
+  if (checkboxRef.current.checked) {
+    // console.log("Session credentials");
+    return auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+  }
+  // console.log("Local credentials");
+  return auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 }
