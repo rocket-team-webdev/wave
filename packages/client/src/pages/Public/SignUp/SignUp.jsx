@@ -5,7 +5,6 @@ import signUpSchema from "./sign-up-schema";
 
 import {
   getCurrentUserToken,
-  // signInWithGoogle,
   signUpWithEmailAndPassword,
 } from "../../../services/auth";
 import { createClient } from "../../../api/account-api";
@@ -19,18 +18,6 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-
-  // async function handleLoginWithGoogle(e) {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   try {
-  //     await signInWithGoogle();
-  //   } catch (error) {
-  //     setLoginError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
 
   const formik = useFormik({
     initialValues: {

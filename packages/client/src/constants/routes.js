@@ -4,9 +4,10 @@ export const PUBLIC = {
   HOME: "/",
   UPDATE_PASSWORD: "/account/settings/update-password",
   RESET_PASSWORD: "/account/settings/reset-password",
-  USER_ACCOUNT: "/account",
   SIGN_UP: "/sign-up",
   SIGN_IN: "/sign-in",
+  REAUTHENTICATE: "/reauthenticate",
+  USER_ACCOUNT: "/account",
 };
 
 // PRIVATE PAGES

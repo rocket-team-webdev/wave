@@ -20,16 +20,16 @@ export default function Select({
         fullWidth && "w-100"
       } ${classNames} d-flex flex-column mb-1`}
     >
-      <label className="label-select fnt-label-light" htmlFor="gender">
+      <label className="label-select fnt-label-light" htmlFor={id}>
         {label}
       </label>
       <select
-        label="GENDER"
         className="form-input fnt-input-light fx-rounded positive-input ps-3"
         value={id}
         onChange={handleChange}
         onBlur={handleBlur}
         id={id}
+        name={id}
         {...props}
       >
         {options.map((option) => (

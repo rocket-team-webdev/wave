@@ -48,6 +48,14 @@ export async function updateAccount(data, api = makeAccountApi()) {
     },
   );
 }
+
+export async function deleteAccount(api = makeAccountApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(``, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 // export async function getClient(clientId, api = makeAccountApi()) {
 //   const token = await getCurrentUserToken();
 //   return api.get(`/${clientId}`, {

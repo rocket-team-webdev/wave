@@ -3,10 +3,11 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { PUBLIC } from "./constants/routes";
 import Home from "./pages/Public/Home";
 import SignUp from "./pages/Public/SignUp";
-import SignIn from "./pages/Public/SignIn";
 import UpdatePassword from "./pages/Public/UpdatePassword";
-// import ResetPassword from "./pages/Public/ResetPassword/";
+import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Public/Account";
+import Reauthenticate from "./pages/Public/Reauthenticate";
+import ResetPassword from "./pages/Public/ResetPassword";
 
 function App() {
   return (
@@ -15,11 +16,14 @@ function App() {
         <Route path={PUBLIC.UPDATE_PASSWORD}>
           <UpdatePassword />
         </Route>
-        {/* <Route path={PUBLIC.RESET_PASSWORD}>
+        <Route path={PUBLIC.RESET_PASSWORD}>
           <ResetPassword />
-        </Route> */}
+        </Route>
         <Route path={PUBLIC.USER_ACCOUNT}>
           <Account />
+        </Route>
+        <Route path={PUBLIC.REAUTHENTICATE}>
+          <Reauthenticate />
         </Route>
         <Route path={PUBLIC.SIGN_UP}>
           <SignUp />
