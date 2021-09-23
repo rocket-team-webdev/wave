@@ -63,12 +63,13 @@ const userSchema = new Schema(
     profilePicture: {
       type: String,
       trim: true,
-      validate: {
-        validator: (value) => validator.isURL(value),
-        message: () => `Profile picture is not valid`,
-      },
     },
   },
+
+  // validate: {
+  //   validator: (value) => validator.isURL(value),
+  //   message: () => `Profile picture is not valid`,
+  // },
 
   {
     strict: false,
