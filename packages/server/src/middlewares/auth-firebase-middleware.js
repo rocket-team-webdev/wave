@@ -29,13 +29,6 @@ async function authRegisterMiddleware(req, res, next) {
   try {
     const bearerToken = await getAuthToken(req.headers);
     const userClaims = await verifyAuthToken(bearerToken);
-    const user = await db.User.findOne({
-      email: userClaims.email,
-    });
-
-    if (user) {
-      throw new Error("User already exists!");
-    }
 
     req.user = {
       email: userClaims.email,

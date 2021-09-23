@@ -8,6 +8,7 @@ export function makeAccountApi() {
     baseURL: `${API.MAIN}${API.ACCOUNT}`,
   });
 }
+
 // export function makeAccountApi() {
 //   return axios.create({
 //     baseURL: `${API.MAIN}${API.ACCOUNT}`,
@@ -17,6 +18,12 @@ export function makeAccountApi() {
 export function makeRegisterApi() {
   return axios.create({
     baseURL: `${API.MAIN}${API.REGISTER}`,
+  });
+}
+
+export function signInUserData(token) {
+  return axios.get(`${API.MAIN}${API.AUTHENTICATE}`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 }
 
@@ -58,6 +65,7 @@ export async function createClient(clientData, api = makeRegisterApi()) {
       username: clientData.username,
       country: clientData.country,
       birthDate: clientData.birthDate,
+      profilePicture: clientData.profilePicture,
     },
     {
       headers: { Authorization: `Bearer ${token}` },
