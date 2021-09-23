@@ -5,7 +5,7 @@ import Home from "./pages/Public/Home";
 import SignUp from "./pages/Public/SignUp";
 import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Private/Account";
-import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
+// import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
 
 function App() {
   return (
@@ -20,9 +20,9 @@ function App() {
         <Route path={PUBLIC.SIGN_IN}>
           <SignIn />
         </Route>
-        <Route path={PUBLIC.RESET_PASSWORD}>
+        {/* <Route path={PUBLIC.RESET_PASSWORD}>
           <ResetPassword />
-        </Route>
+        </Route> */}
         <Route path={PUBLIC.HOME}>
           <Home />
         </Route>

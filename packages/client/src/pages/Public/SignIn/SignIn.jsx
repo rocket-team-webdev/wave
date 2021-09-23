@@ -71,7 +71,6 @@ export default function SignIn() {
       <div className="row clr-white">
         <div className="col col-12 col-md-6 fnt-jumbo p-4">
           <p className="fnt-primary">WELCOME TO WAVEAPP.</p>
-
           <p>LOG IN.</p>
         </div>
         <div className="col col-12 col-md-6 clr-light py-4 px-5 fx-rounded">
