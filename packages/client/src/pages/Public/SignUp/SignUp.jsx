@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import signUpSchema from "./sign-up-schema";
+
 import {
   getCurrentUserToken,
   signInWithGoogle,
