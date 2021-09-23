@@ -7,8 +7,11 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
 
-import { getAccount, updateAccount } from "../../../api/account-api";
-
+import {
+  getAccount,
+  updateAccount,
+  deleteAccount,
+} from "../../../api/account-api";
 import { deleteCurrentUserAccount } from "../../../services/auth/auth";
 
 export default function Account() {
@@ -16,25 +19,25 @@ export default function Account() {
     isError: false,
     isLoading: true,
   });
+  const [deleteError, setDeleteError] = useState({
+    isError: false,
+    message: null,
+  });
 
   const handleDeleteAccount = async () => {
     try {
-      console.log("object");
-      const data = await deleteCurrentUserAccount();
+      await deleteAccount();
+      await deleteCurrentUserAccount();
 
-      console.log("data", data);
-
-      setLoadStatus((prevState) => ({
-        ...prevState,
+      setDeleteError({
         isError: false,
-        error: null,
-      }));
+        message: null,
+      });
     } catch (error) {
-      setLoadStatus((prevState) => ({
-        ...prevState,
-        isError: false,
-        error: error,
-      }));
+      setDeleteError({
+        isError: true,
+        message: error,
+      });
     }
   };
 
@@ -222,6 +225,8 @@ export default function Account() {
               </div>
             </div>
           </form>
+
+          {deleteError.isError && <p>{deleteError.message}</p>}
         </div>
       </div>
     </div>

@@ -16,7 +16,7 @@ accountRouter.post(
 );
 
 accountRouter.delete(
-  "/account",
+  "/",
   authFirebaseMiddleware,
   accountController.deleteAccount,
 );
