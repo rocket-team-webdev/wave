@@ -71,7 +71,6 @@ export default function Account() {
         <div className="col-6">
           <h1 className="fnt-jumbo">Username</h1>
           <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
-          <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD RECOVERY</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
         </div>
@@ -174,6 +173,10 @@ export default function Account() {
               </div>
             </div>
           </form>
+          {loadStatus.isLoading && <h3>Loading...</h3>}
+          {!loadStatus.isLoading && loadStatus.isError && (
+            <h3>Login error: {loadStatus.isError}</h3>
+          )}
         </div>
       </div>
     </div>

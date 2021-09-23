@@ -21,7 +21,6 @@ export default function SignUp() {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
       profilePicture: "",
       firstName: "",
       lastName: "",
@@ -65,29 +64,6 @@ export default function SignUp() {
         <div className="col-5 clr-light">
           <h1 className="fnt-subtitle-bold mb-4">New Account</h1>
           <form onSubmit={formik.handleSubmit} className="row">
-            <Input
-              classNames="col-6"
-              label="Username"
-              id="username"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.username}
-              errorMessage={formik.errors.username}
-              hasErrorMessage={formik.touched.username}
-            />
-            <Input
-              classNames="col-6"
-              label="Profile Picture"
-              id="profilePicture"
-              type="file"
-              placeholder="Choose your file"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.profilePicture}
-              errorMessage={formik.errors.profilePicture}
-              hasErrorMessage={formik.touched.profilePicture}
-            />
             <Input
               classNames="col-6"
               label="First Name"
@@ -146,6 +122,18 @@ export default function SignUp() {
               ]}
             />
 
+            <Input
+              classNames="col-6"
+              label="Profile Picture"
+              id="profilePicture"
+              type="file"
+              placeholder="Choose your file"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.profilePicture}
+              errorMessage={formik.errors.profilePicture}
+              hasErrorMessage={formik.touched.profilePicture}
+            />
             <Input
               label="Email"
               id="email"
