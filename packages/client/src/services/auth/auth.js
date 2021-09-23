@@ -1,6 +1,8 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
+import { updatePassword, reauthenticateWithCredential } from "firebase/auth";
+
 if (!firebase.apps.length) {
   const firebaseConfig = {
     apiKey: "AIzaSyAkNV3TlhB3J6zhmWBK_3XMY90z845Z2tA",
@@ -74,4 +76,16 @@ export function getCurrentUserEmail() {
   }
 
   return auth.currentUser.email;
+}
+
+export function updateUserPassword(newPassword) {
+  return updatePassword(auth.currentUser, newPassword);
+}
+
+export function reauthenticateUserWithCredential(userPassword) {
+  const credential = firebase.auth.EmailAuthProvider.credential(
+    auth.currentUser.email,
+    userPassword,
+  );
+  return reauthenticateWithCredential(auth.currentUser, credential);
 }

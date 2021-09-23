@@ -2,15 +2,19 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { PUBLIC, PRIVATE } from "./constants/routes";
 import Home from "./pages/Public/Home";
+import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
 import SignUp from "./pages/Public/SignUp";
+import UpdatePassword from "./pages/Public/UpdatePassword";
 import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Private/Account";
-import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path={PUBLIC.UPDATE_PASSWORD}>
+          <UpdatePassword />
+        </Route>
         <Route path={PRIVATE.USER_ACCOUNT}>
           <Account />
         </Route>

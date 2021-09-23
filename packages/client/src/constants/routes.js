@@ -2,9 +2,10 @@
 
 export const PUBLIC = {
   HOME: "/",
+  UPDATE_PASSWORD: "/account/settings/update-password",
+  RESET_PASSWORD: "/reset-password",
   SIGN_UP: "/sign-up",
   SIGN_IN: "/sign-in",
-  RESET_PASSWORD: "/reset-password",
 };
 
 // PRIVATE PAGES
