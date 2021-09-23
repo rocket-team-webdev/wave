@@ -17,9 +17,6 @@ function App() {
         <Route path={PUBLIC.SIGN_UP}>
           <SignUp />
         </Route>
-        <Route path={PUBLIC.SIGNUP}>
-          <SignUp />
-        </Route>
         <Route path={PUBLIC.SIGN_IN}>
           <SignIn />
         </Route>
