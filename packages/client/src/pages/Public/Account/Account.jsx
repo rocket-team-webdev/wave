@@ -51,7 +51,7 @@ export default function Account() {
         profilePicture: data.data.profilePicture || "",
         firstName: data.data.firstName || "",
         lastName: data.data.lastName || "",
-        birthDate: data.data.birthDate || "",
+        birthDate: data.data.birthDate.substr(0, 10) || "",
         email: data.data.email || "",
         country: data.data.country || "",
       });

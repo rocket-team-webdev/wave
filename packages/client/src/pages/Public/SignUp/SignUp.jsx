@@ -36,7 +36,6 @@ export default function SignUp() {
       setLoggedIn(false);
 
       try {
-        console.log("signUpState", signUpState);
         await signUpWithEmailAndPassword(
           signUpState.email,
           signUpState.password,
