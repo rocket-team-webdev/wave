@@ -20,7 +20,7 @@ async function authFirebaseMiddleware(req, res, next) {
 
     next();
   } catch (error) {
-    res.status(401).send({ error: error });
+    res.status(401).send({ error: error.message });
     next(error);
   }
 }
@@ -37,7 +37,7 @@ async function authRegisterMiddleware(req, res, next) {
 
     next();
   } catch (error) {
-    res.status(401).send({ error: error });
+    res.status(401).send({ error: error.message });
     next(error);
   }
 }
