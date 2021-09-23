@@ -5,13 +5,13 @@ export const PUBLIC = {
   SIGN_UP: "/sign-up",
   SIGN_IN: "/sign-in",
   RESET_PASSWORD: "/reset-password",
+  USER_ACCOUNT: "/account",
 };
 
 // PRIVATE PAGES
 
 export const PRIVATE = {
   ADMIN_SIGN_IN: "/admin",
-  USER_ACCOUNT: "/account",
 };
 
 // API
