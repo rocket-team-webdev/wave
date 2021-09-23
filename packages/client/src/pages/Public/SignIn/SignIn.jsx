@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import signInSchema from "./sign-in-schema";
 import { createClient, signInUserData } from "../../../api/account-api";
@@ -13,7 +12,6 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +36,6 @@ export default function SignIn() {
 
         // TODO: Set to context, validate to db
         setLoggedIn(true);
-        history.push(PUBLIC.USER_ACCOUNT);
       } catch (error) {
         setLoginError(error.message);
       } finally {
