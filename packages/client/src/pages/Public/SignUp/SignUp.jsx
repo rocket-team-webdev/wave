@@ -12,6 +12,7 @@ import "./SignUp.scss";
 import Layout from "../../../components/Layout";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import Select from "../../../components/Select";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -56,122 +57,142 @@ export default function SignUp() {
   });
   return (
     <Layout>
-      <div className="row clr-light">
-        <div className="col">
-          <span className="fnt-jumbo fnt-primary">WELCOME TO WAVE APP.</span>
-          <span className="fnt-jumbo fnt-secondary">SIGN IN.</span>
-        </div>
-        <div className="col">
-          <body className="text-center">
-            <div className="form-signin">
-              <form onSubmit={formik.handleSubmit}>
-                <h1 className="fnt-subtitle-bold">New Account</h1>
-                <Input
-                  label="Username"
-                  id="username"
-                  type="text"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.username}
-                  errorMessage={formik.errors.username}
-                  hasErrorMessage={formik.touched.username}
-                />
-                <Input
-                  label="Profile Picture"
-                  id="profilePicture"
-                  type="file"
-                  placeholder="Choose your file"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.profilePicture}
-                  errorMessage={formik.errors.profilePicture}
-                  hasErrorMessage={formik.touched.profilePicture}
-                />
-                <Input
-                  label="First Name"
-                  id="firstName"
-                  type="text"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.firstName}
-                  errorMessage={formik.errors.firstName}
-                  hasErrorMessage={formik.touched.firstName}
-                />
-                <Input
-                  label="Last Name"
-                  id="lastName"
-                  type="text"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.lastName}
-                  errorMessage={formik.errors.lastName}
-                  hasErrorMessage={formik.touched.lastName}
-                />
+      <div className="mx-5">
+        <div className="row clr-light">
+          <div className="col-7">
+            <h1 className="fnt-jumbo fnt-primary mb-0 lh-1">
+              WELCOME TO WAVE APP.
+            </h1>
+            <h1 className="fnt-jumbo fnt-secondary mb-0 lh-1">SIGN IN.</h1>
+          </div>
+          <div className="col-5">
+            <h1 className="fnt-subtitle-bold">New Account</h1>
+            <form onSubmit={formik.handleSubmit} className="row">
+              <Input
+                classNames="col-6"
+                label="Username"
+                id="username"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.username}
+                errorMessage={formik.errors.username}
+                hasErrorMessage={formik.touched.username}
+              />
+              <Input
+                classNames="col-6"
+                label="Profile Picture"
+                id="profilePicture"
+                type="file"
+                placeholder="Choose your file"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.profilePicture}
+                errorMessage={formik.errors.profilePicture}
+                hasErrorMessage={formik.touched.profilePicture}
+              />
+              <Input
+                classNames="col-6"
+                label="First Name"
+                id="firstName"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.firstName}
+                errorMessage={formik.errors.firstName}
+                hasErrorMessage={formik.touched.firstName}
+              />
+              <Input
+                classNames="col-6"
+                label="Last Name"
+                id="lastName"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.lastName}
+                errorMessage={formik.errors.lastName}
+                hasErrorMessage={formik.touched.lastName}
+              />
 
-                <Input
-                  label="Birth Date"
-                  id="birthDate"
-                  type="date"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.birthDate}
-                  errorMessage={formik.errors.birthDate}
-                  hasErrorMessage={formik.touched.birthDate}
-                />
+              <Input
+                classNames="col-6"
+                label="Birth Date"
+                id="birthDate"
+                type="date"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.birthDate}
+                errorMessage={formik.errors.birthDate}
+                hasErrorMessage={formik.touched.birthDate}
+              />
 
-                <Input
-                  label="Country"
-                  id="country"
-                  type="select"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.country}
-                  errorMessage={formik.errors.country}
-                  hasErrorMessage={formik.touched.country}
-                />
+              <Select
+                classNames="col-6"
+                label="Country"
+                id="country"
+                type="select"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.country}
+                errorMessage={formik.errors.country}
+                hasErrorMessage={formik.touched.country}
+                options={[
+                  "Spain",
+                  "Argentina",
+                  "Morocco",
+                  "France",
+                  "Italy",
+                  "Germany",
+                  "USA",
+                  "Mexico",
+                  "Catalonia",
+                ]}
+              />
 
-                <Input
-                  label="Email"
-                  id="email"
-                  type="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  errorMessage={formik.errors.email}
-                  hasErrorMessage={formik.touched.email}
-                />
+              <Input
+                label="Email"
+                id="email"
+                type="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                errorMessage={formik.errors.email}
+                hasErrorMessage={formik.touched.email}
+              />
 
-                <Input
-                  label="Password"
-                  id="password"
-                  type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  errorMessage={formik.errors.password}
-                  hasErrorMessage={formik.touched.password}
-                />
+              <Input
+                classNames="col-6"
+                label="Password"
+                id="password"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                errorMessage={formik.errors.password}
+                hasErrorMessage={formik.touched.password}
+              />
 
-                <Input
-                  label="Confirm Password"
-                  id="confirmPassword"
-                  type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.confirmPassword}
-                  errorMessage={formik.errors.confirmPassword}
-                  hasErrorMessage={formik.touched.confirmPassword}
-                />
-
+              <Input
+                classNames="col-6"
+                label="Confirm Password"
+                id="confirmPassword"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirmPassword}
+                errorMessage={formik.errors.confirmPassword}
+                hasErrorMessage={formik.touched.confirmPassword}
+              />
+              <div className="col-12 text-end mt-3">
                 <Button type="submit">Sign Up</Button>
-              </form>
-              {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
-              {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
-              {!loading && loginError && !loggedIn && (
-                <h3>Login error: {loginError}</h3>
-              )}
-            </div>
-          </body>
+              </div>
+            </form>
+            {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
+            {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
+            {!loading && loginError && !loggedIn && (
+              <h3>Login error: {loginError}</h3>
+            )}
+          </div>
         </div>
       </div>
     </Layout>
