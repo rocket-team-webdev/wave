@@ -7,14 +7,10 @@ const {
 
 const accountRouter = Router();
 
-accountRouter.get(
-  "/account",
-  authFirebaseMiddleware,
-  accountController.getAccount,
-);
+accountRouter.get("/", authFirebaseMiddleware, accountController.getAccount);
 
 accountRouter.post(
-  "/account",
+  "/",
   authFirebaseMiddleware,
   accountController.updateAccount,
 );

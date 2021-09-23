@@ -1,6 +1,8 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
+import { updatePassword, reauthenticateWithCredential } from "firebase/auth";
+
 if (!firebase.apps.length) {
   const firebaseConfig = {
     apiKey: "AIzaSyAkNV3TlhB3J6zhmWBK_3XMY90z845Z2tA",
@@ -38,8 +40,8 @@ export function signUpWithEmailAndPassword(email, password) {
   return auth.createUserWithEmailAndPassword(email, password);
 }
 
-export function sendPasswordResetEmail(email, config) {
-  return auth.sendPasswordResetEmail(email, config);
+export function sendPasswordResetEmail(email) {
+  return auth.sendPasswordResetEmail(email);
 }
 
 export function signOut() {
@@ -59,6 +61,15 @@ export function getCurrentUserToken() {
   return auth.currentUser.getIdToken();
 }
 
+export function deleteCurrentUserAccount() {
+  console.log("auth.currentUser", auth.currentUser);
+  if (!auth.currentUser) {
+    return null;
+  }
+
+  return auth.currentUser.delete();
+}
+
 export function getCurrentUserEmail() {
   if (!auth.currentUser) {
     return null;
@@ -73,4 +84,16 @@ export function setCredentialsPersistance(checkboxRef) {
   }
   console.log("Local credentials");
   return auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+}
+
+export function updateUserPassword(newPassword) {
+  return updatePassword(auth.currentUser, newPassword);
+}
+
+export function reauthenticateUserWithCredential(userPassword) {
+  const credential = firebase.auth.EmailAuthProvider.credential(
+    auth.currentUser.email,
+    userPassword,
+  );
+  return reauthenticateWithCredential(auth.currentUser, credential);
 }
