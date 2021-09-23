@@ -26,7 +26,7 @@ export default function SignUp() {
       firstName: "",
       lastName: "",
       birthDate: "",
-      country: "",
+      country: "Spain",
       email: "",
       password: "",
       confirmPassword: "",
