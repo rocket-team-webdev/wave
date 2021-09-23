@@ -23,8 +23,6 @@ export default function Account() {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      gender: "Male",
       profilePicture: "",
       firstName: "",
       lastName: "",
@@ -35,8 +33,6 @@ export default function Account() {
     validationSchema: updateSchema,
     onSubmit: async (values) => {
       const data = {
-        username: values.username,
-        gender: values.gender,
         profilePicture: values.profilePicture,
         firstName: values.firstName,
         lastName: values.lastName,
@@ -52,8 +48,6 @@ export default function Account() {
     try {
       const { data } = await getAccount();
       formik.setValues({
-        username: data.data.username || "",
-        gender: "Male" || "",
         profilePicture: data.data.profilePicture || "",
         firstName: data.data.firstName || "",
         lastName: data.data.lastName || "",
@@ -74,57 +68,20 @@ export default function Account() {
   return (
     <div className="mx-5">
       <div className="row">
-        <div className="col-5">
+        <div className="col-6">
           <h1 className="fnt-jumbo">Username</h1>
           <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD RECOVERY</p>
           <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
           <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
         </div>
-        <div className="col-7 clr-light fx-rounded">
+        <div className="col-6 clr-light fx-rounded">
           <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
           <form onSubmit={formik.handleSubmit} className="row">
             <Input
-              classNames="col-4"
+              classNames="col-6"
               type="text"
-              label="USERNAME"
-              id="username"
-              value={formik.values.username}
-              errorMessage={formik.errors.username}
-              hasErrorMessage={formik.touched.username}
-              placeholder={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              disabled={loadStatus.isLoading || loadStatus.isError}
-              options={["male", "female"]}
-            />
-            <Select
-              classNames="col-4"
-              label="GENDER"
-              id="gender"
-              value={formik.values.gender}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              disabled={loadStatus.isLoading || loadStatus.isError}
-              options={["Male", "Female"]}
-            />
-            <Input
-              classNames="col-4"
-              type="file"
-              label="PROFILE IMAGE"
-              id="profileImage"
-              value={formik.values.profileImage}
-              errorMessage={formik.errors.profileImage}
-              hasErrorMessage={formik.touched.profileImage}
-              placeholder={formik.values.profileImage}
-              onChange={formik.profileImage}
-              onBlur={formik.profileImage}
-              disabled={loadStatus.isLoading || loadStatus.isError}
-            />
-            <Input
-              classNames="col-4"
-              type="text"
-              label="FIRST NAME"
+              label="First Name"
               id="firstName"
               value={formik.values.firstName}
               errorMessage={formik.errors.firstName}
@@ -135,9 +92,9 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
-              classNames="col-4"
+              classNames="col-6"
               type="text"
-              label="LAST NAME"
+              label="Last Name"
               id="lastName"
               value={formik.values.lastName}
               errorMessage={formik.errors.lastName}
@@ -148,9 +105,9 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
-              classNames="col-4"
+              classNames="col-6"
               type="date"
-              label="BIRTHDATE"
+              label="Birthdate"
               id="birthDate"
               value={formik.values.birthDate}
               errorMessage={formik.errors.birthDate}
@@ -161,9 +118,22 @@ export default function Account() {
               disabled={loadStatus.isLoading || loadStatus.isError}
             />
             <Input
+              classNames="col-6"
+              type="file"
+              label="Profile Image"
+              id="profileImage"
+              value={formik.values.profileImage}
+              errorMessage={formik.errors.profileImage}
+              hasErrorMessage={formik.touched.profileImage}
+              placeholder={formik.values.profileImage}
+              onChange={formik.profileImage}
+              onBlur={formik.profileImage}
+              disabled={loadStatus.isLoading || loadStatus.isError}
+            />
+            <Input
               classNames="col-8"
               type="email"
-              label="EMAIL"
+              label="Email"
               id="email"
               value={formik.values.email}
               errorMessage={formik.errors.email}
@@ -175,7 +145,7 @@ export default function Account() {
             />
             <Select
               classNames="col-4"
-              label="COUNTRY"
+              label="Country"
               id="country"
               value={formik.values.country}
               onChange={formik.handleChange}
@@ -193,7 +163,6 @@ export default function Account() {
                 "Catalonia",
               ]}
             />
-
             <div className="row mt-5">
               <div className="col-6">
                 <Button handleClick={handleDeleteAccount}>
