@@ -3,6 +3,12 @@ import { getCurrentUserToken } from "../services/auth";
 
 const axios = require("axios").default;
 
+export function makeAccountApi() {
+  return axios.create({
+    baseURL: `${API.MAIN}${API.ACCOUNT}`,
+  });
+}
+
 // export function makeAccountApi() {
 //   return axios.create({
 //     baseURL: `${API.MAIN}${API.ACCOUNT}`,
@@ -15,10 +21,33 @@ export function makeRegisterApi() {
   });
 }
 
+export function signInUserData(token) {
+  return axios.get(`${API.MAIN}${API.AUTHENTICATE}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 // export function getAllProducts(api = makeAccountApi()) {
 //   return api.get(``);
 // }
 
+export async function getAccount(api = makeAccountApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(``, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function updateAccount(data, api = makeAccountApi()) {
+  const token = await getCurrentUserToken();
+  return api.post(
+    ``,
+    { ...data },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+}
 // export async function getClient(clientId, api = makeAccountApi()) {
 //   const token = await getCurrentUserToken();
 //   return api.get(`/${clientId}`, {
@@ -36,6 +65,7 @@ export async function createClient(clientData, api = makeRegisterApi()) {
       username: clientData.username,
       country: clientData.country,
       birthDate: clientData.birthDate,
+      profilePicture: clientData.profilePicture,
     },
     {
       headers: { Authorization: `Bearer ${token}` },

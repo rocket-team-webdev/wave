@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 
 import signUpSchema from "./sign-up-schema";
+
 import {
   getCurrentUserToken,
   signUpWithEmailAndPassword,
