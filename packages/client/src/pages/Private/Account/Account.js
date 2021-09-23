@@ -45,6 +45,9 @@ export default function Account() {
   async function loadAccount() {
     try {
       const { data } = await getAccount();
+      console.log(data);
+      console.log(data);
+
       formik.setValues({
         username: data.data.username || "",
         gender: "Male" || "",
