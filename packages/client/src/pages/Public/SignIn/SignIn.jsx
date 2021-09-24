@@ -11,6 +11,7 @@ import {
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Checkbox from "../../../components/Checkbox";
+import Toast from "../../../components/Toast";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -143,9 +144,11 @@ export default function SignIn() {
         </form>
         {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
         {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
-        {!loading && loginError && !loggedIn && (
+        {/* {!loading && loginError && !loggedIn && (
           <h3>Login error: {loginError}</h3>
-        )}
+        )} */}
+
+        {!loading && loginError && !loggedIn && <Toast message={loginError} />}
       </div>
     </div>
   );
