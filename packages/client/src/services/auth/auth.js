@@ -40,6 +40,10 @@ export function signUpWithEmailAndPassword(email, password) {
   return auth.createUserWithEmailAndPassword(email, password);
 }
 
+export function emailVerification() {
+  return auth.currentUser.sendEmailVerification();
+}
+
 export function sendPasswordResetEmail(email) {
   return auth.sendPasswordResetEmail(email);
 }
@@ -78,11 +82,9 @@ export function getCurrentUserEmail() {
 
 export function setCredentialsPersistance(checkboxRef) {
   if (checkboxRef.current.checked) {
-    console.log("Session credentials");
-    return auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    return auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
   }
-  console.log("Local credentials");
-  return auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  return auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 }
 
 export function updateUserPassword(newPassword) {

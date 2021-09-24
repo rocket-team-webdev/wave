@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import updatePasswordSchema from "./update-password-schema";
 
@@ -8,9 +9,11 @@ import {
   updateUserPassword,
   reauthenticateUserWithCredential,
 } from "../../../services/auth/auth";
+import { PUBLIC } from "../../../constants/routes";
 
 function UpdatePassword() {
   const [status, setStatus] = useState({});
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -26,9 +29,13 @@ function UpdatePassword() {
         await reauthenticateUserWithCredential(currentPassword);
         await updateUserPassword(newPassword);
         setStatus({
-          message: "Password updated successfully",
+          message:
+            "Password updated successfully, redirecting to account page...",
           class: "",
         });
+        setTimeout(() => {
+          history.push(PUBLIC.USER_ACCOUNT);
+        }, 2000);
       } catch (error) {
         setStatus({ message: "Wrong current password", class: "error-msg" });
       }
