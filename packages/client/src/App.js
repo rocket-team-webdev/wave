@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { PUBLIC } from "./constants/routes";
-import Home from "./pages/Public/Home";
-import SignUp from "./pages/Public/SignUp";
-import UpdatePassword from "./pages/Public/UpdatePassword";
-import SignIn from "./pages/Public/SignIn";
-import Account from "./pages/Public/Account";
 import { onAuthStateChanged } from "./services/auth";
 import { logIn } from "./redux/user/actions";
 import { signInUserData } from "./api/account-api";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import OnlyPublicRoute from "./components/OnlyPublicRoute/OnlyPublicRoute";
+import Home from "./pages/Public/Home";
+import SignUp from "./pages/Public/SignUp";
+import UpdatePassword from "./pages/Public/UpdatePassword";
+import SignIn from "./pages/Public/SignIn";
+import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
 
@@ -42,7 +42,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <PrivateRoute path={PUBLIC.USER_ACCOUNT}>
+        <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
           <Account />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>

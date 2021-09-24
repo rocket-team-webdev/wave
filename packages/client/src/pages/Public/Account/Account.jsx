@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import updateSchema from "./update-schema";
@@ -78,9 +78,13 @@ export default function Account() {
         <div className="row">
           <div className="col-5">
             <h1 className="fnt-jumbo">Username</h1>
-            <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
+            <NavLink to={PUBLIC.USER_ACCOUNT}>
+              <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
+            </NavLink>
             <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD RECOVERY</p>
-            <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
+            <NavLink to={PUBLIC.UPDATE_PASSWORD}>
+              <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
+            </NavLink>
             <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
           </div>
           <div className="col-7 clr-light fx-rounded">
