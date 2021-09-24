@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import signInSchema from "./sign-in-schema";
 import { createClient, signInUserData } from "../../../api/account-api";
 import {
@@ -14,7 +15,7 @@ import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import { PUBLIC } from "../../../constants/routes";
 import Checkbox from "../../../components/Checkbox";
-import Toast from "../../../components/Toast";
+// import Toast from "../../../components/Toast";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -62,6 +63,7 @@ export default function SignIn() {
       } catch (error) {
         setLoginError(error.message);
         setLoading(false);
+        toast(error.message, { type: "error" });
       }
     },
   });
@@ -89,8 +91,7 @@ export default function SignIn() {
     } catch (error) {
       // setLoginError(error);
       setLoggedIn(true);
-      console.clear();
-      console.log("Failed Google sign in.");
+      toast(error.message, { type: "error", theme: "colored" });
     }
   };
 
@@ -156,7 +157,7 @@ export default function SignIn() {
           <h3>Login error: {loginError}</h3>
         )} */}
 
-        {!loading && loginError && !loggedIn && <Toast message={loginError} />}
+        {/* {!loading && loginError && !loggedIn && <Toast message={loginError} />} */}
       </div>
     </Layout>
   );

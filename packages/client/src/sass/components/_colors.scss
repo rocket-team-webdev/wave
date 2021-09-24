@@ -8,6 +8,10 @@ $lightDanger: rgba(255, 206, 208, 1);
 $darkDanger: rgba(218, 95, 100, 1);
 $darkWarning: rgb(255, 236, 181);
 
+:root {
+  --toastify-color-error: rgba(218, 95, 100, 1);
+}
+
 .clr-primary {
   background: $primaryColor;
 }

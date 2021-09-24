@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import { PUBLIC } from "./constants/routes";
 import { onAuthStateChanged } from "./services/auth";
 import { logIn } from "./redux/user/actions";
@@ -40,31 +41,35 @@ function App() {
     });
   }, []);
   return (
-    <BrowserRouter>
-      <Switch>
-        <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
-          <Account />
-        </PrivateRoute>
-        <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>
-          <UpdatePassword />
-        </PrivateRoute>
-        <PrivateRoute path={PUBLIC.RESET_PASSWORD}>
-          <ResetPassword />
-        </PrivateRoute>
-        <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
-          <Reauthenticate />
-        </PrivateRoute>
-        <OnlyPublicRoute path={PUBLIC.SIGN_UP}>
-          <SignUp />
-        </OnlyPublicRoute>
-        <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
-          <SignIn />
-        </OnlyPublicRoute>
-        <PrivateRoute path={PUBLIC.HOME}>
-          <Home />
-        </PrivateRoute>
-      </Switch>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Switch>
+          <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
+            <Account />
+          </PrivateRoute>
+          <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>
+            <UpdatePassword />
+          </PrivateRoute>
+          <PrivateRoute path={PUBLIC.RESET_PASSWORD}>
+            <ResetPassword />
+          </PrivateRoute>
+          <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
+            <Reauthenticate />
+          </PrivateRoute>
+          <OnlyPublicRoute path={PUBLIC.SIGN_UP}>
+            <SignUp />
+          </OnlyPublicRoute>
+          <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
+            <SignIn />
+          </OnlyPublicRoute>
+          <PrivateRoute path={PUBLIC.HOME}>
+            <Home />
+          </PrivateRoute>
+        </Switch>
+      </BrowserRouter>
+
+      <ToastContainer draggable theme="colored" />
+    </>
   );
 }
 
