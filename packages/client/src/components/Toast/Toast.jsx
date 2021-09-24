@@ -3,7 +3,7 @@ import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import "./Toast.scss";
 
 export default function Toast() {
-  const fer = useRef();
+  const fer = useRef([]);
 
   // var toastTrigger = document.getElementById("liveToastBtn");
   // var toastLiveExample = document.getElementById("liveToast");
@@ -16,46 +16,63 @@ export default function Toast() {
   // }
 
   const handler = () => {
-    const toast = new bootstrap.Toast(fer.current);
-    toast.show();
+    fer.current.forEach((element) => {
+      const toast = new bootstrap.Toast(element);
+      toast.show();
+    });
   };
 
   return (
     <>
       <button
         type="button"
-        className="btn btn-primary"
+        classNameName="btn btn-primary"
         id="liveToastBtn"
         onClick={handler}
       >
         Show live toast
       </button>
 
-      <div className="toast-container">
+      <div className="toast-container position-fixed end-0 top-0 p-5">
         <div
-          className="toast"
+          className="toast align-items-center clr-danger position-relative"
           role="alert"
           aria-live="assertive"
           aria-atomic="true"
-          ref={fer}
+          ref={(element) => {
+            fer.current.push(element);
+          }}
         >
-          <div className="toast-header">
-            {/* <img src="..." className="rounded me-2" alt="..." /> */}
-            <strong className="me-auto">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto
-              perferendis ab vero libero? Quia neque cumque rerum. Cumque
-              corporis earum commodi iure? Odio vitae qui, facilis quidem a
-              harum quod!
-            </strong>
-            {/* <small className="text-muted">2 seconds ago</small> */}
+          <div className="d-flex">
+            <div className="toast-body fnt-danger">
+              Hello, world! This is a toast message.
+            </div>
             <button
               type="button"
-              className="btn-close"
+              className="btn-close me-2 m-auto"
               data-bs-dismiss="toast"
               aria-label="Close"
             />
           </div>
-          {/* <div className="toast-body">{errorMessage}</div> */}
+        </div>
+        <div
+          className="toast align-items-center clr-danger position-relative"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          ref={(element) => {
+            fer.current.push(element);
+          }}
+        >
+          <div className="d-flex">
+            <div className="toast-body fnt-danger">Test.</div>
+            <button
+              type="button"
+              className="btn-close me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            />
+          </div>
         </div>
       </div>
     </>

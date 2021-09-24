@@ -4,6 +4,8 @@ $grayColor: rgb(233, 233, 233);
 $lightColor: rgb(250, 250, 250);
 $lightColor20: rgba(250, 250, 250, 0.2);
 $white: rgb(255, 255, 255);
+$lightDanger: rgba(255, 206, 208, 1);
+$darkDanger: rgba(218, 95, 100, 1);
 
 .clr-primary {
   background: $primaryColor;
@@ -29,6 +31,10 @@ $white: rgb(255, 255, 255);
   background: $white;
 }
 
+.clr-danger {
+  background: $lightDanger;
+}
+
 .fnt-primary {
   color: $primaryColor;
 }
@@ -47,4 +53,8 @@ $white: rgb(255, 255, 255);
 
 .fnt-light-20 {
   color: $lightColor20;
+}
+
+.fnt-danger {
+  color: $darkDanger;
 }
