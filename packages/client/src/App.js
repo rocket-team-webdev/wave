@@ -34,7 +34,7 @@ function App() {
   }
   useEffect(() => {
     onAuthStateChanged((user) => {
-      if (user) {
+      if (user && user.emailVerified) {
         handleExistingUser(user);
       }
     });

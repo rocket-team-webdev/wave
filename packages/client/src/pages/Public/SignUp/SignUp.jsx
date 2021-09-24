@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import { useHistory } from "react-router-dom";
 
 import signUpSchema from "./sign-up-schema";
-
 import {
   // getCurrentUserToken,
   signUpWithEmailAndPassword,
+  signOut,
 } from "../../../services/auth";
 import { createClient } from "../../../api/account-api";
 import "./SignUp.scss";
@@ -14,11 +15,14 @@ import Layout from "../../../components/Layout";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
+import { emailVerification } from "../../../services/auth/auth";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [registerError, setRegisterError] = useState(null);
+  const [registered, setRegistered] = useState(false);
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -35,22 +39,22 @@ export default function SignUp() {
     validationSchema: signUpSchema,
     onSubmit: async (signUpState) => {
       setLoading(true);
-      setLoggedIn(false);
+      setRegistered(false);
 
       try {
-        console.log("signUpState", signUpState);
         await signUpWithEmailAndPassword(
           signUpState.email,
           signUpState.password,
         );
+        await emailVerification();
         await createClient(signUpState);
-        // const token = await getCurrentUserToken();
-        // // TODO: Set to context
-        // console.log("data", data);
-        // console.log("token", token);
-        setLoggedIn(true);
+        await signOut();
+        setRegistered(true);
+        setTimeout(() => {
+          history.push(PUBLIC.HOME);
+        }, 5000);
       } catch (error) {
-        setLoginError(error.message);
+        setRegisterError(error.message);
       } finally {
         setLoading(false);
       }
@@ -185,10 +189,15 @@ export default function SignUp() {
               <Button type="submit">Sign Up</Button>
             </div>
           </form>
-          {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
-          {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
-          {!loading && loginError && !loggedIn && (
-            <h3>Login error: {loginError}</h3>
+          {loading && !registerError && !registered && <h3>Loading...</h3>}
+          {!loading && !registerError && registered && (
+            <h3>
+              Signed up! Check your email, we&aposve sent you a verification
+              message. We&aposll redirect you to the sign in page in no time...
+            </h3>
+          )}
+          {!loading && registerError && !registered && (
+            <h3>Sign up error: {registerError}</h3>
           )}
         </div>
       </div>
