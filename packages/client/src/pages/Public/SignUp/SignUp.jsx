@@ -12,10 +12,12 @@ import { createClient } from "../../../api/account-api";
 
 import "./SignUp.scss";
 
+import JumboText from "../../../components/JumboText/JumboText";
 import Layout from "../../../components/Layout";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
+
 import { emailVerification } from "../../../services/auth/auth";
 import { PUBLIC } from "../../../constants/routes";
 
@@ -90,10 +92,7 @@ export default function SignUp() {
   return (
     <Layout>
       <div className="row clr-white">
-        <div className="col-12 col-md-5 col-lg-6 p-4 fnt-jumbo p-4">
-          <p className="fnt-primary mb-0">WELCOME TO WAVEAPP.</p>
-          <p className="fnt-secondary mb-0">SIGN UP.</p>
-        </div>
+        <JumboText secText="Sign up." isNegative />
         <div className="col clr-light">
           <h1 className="fnt-subtitle-bold mb-4">New Account</h1>
           <form onSubmit={formik.handleSubmit} className="row">

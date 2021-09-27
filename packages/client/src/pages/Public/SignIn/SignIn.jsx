@@ -9,6 +9,7 @@ import {
   setCredentialsPersistance,
 } from "../../../services/auth";
 
+import JumboText from "../../../components/JumboText";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
@@ -99,10 +100,7 @@ export default function SignIn() {
   return (
     <Layout>
       <div className="row clr-white">
-        <div className="col col-12 col-md-6 fnt-jumbo p-4">
-          <p className="fnt-primary mb-0">WELCOME TO WAVEAPP.</p>
-          <p className="fnt-secondary mb-0">LOG IN.</p>
-        </div>
+        <JumboText secText="Log in." />
         <div className="col col-12 col-md-6 clr-light py-4 px-5 fx-rounded">
           <form onSubmit={formik.handleSubmit}>
             <h1 className="fnt-subtitle-bold mb-4">Log in</h1>

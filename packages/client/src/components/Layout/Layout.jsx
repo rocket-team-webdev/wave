@@ -9,7 +9,7 @@ function Layout({ children }) {
   return (
     <div className="d-flex flex-column layout-wrapper">
       <Header />
-      <main className="flex-grow-1 p-5">{children}</main>
+      <main className="clr-primary flex-grow-1 p-5">{children}</main>
       <Footer />
     </div>
   );
