@@ -26,7 +26,6 @@ export default function SignUp() {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
       profilePicture: "",
       firstName: "",
       lastName: "",
@@ -63,38 +62,15 @@ export default function SignUp() {
   return (
     <Layout>
       <div className="row clr-white">
-        <div className="col-7 p-4">
+        <div className="col-12 col-md-5 col-lg-6 p-4">
           <p className="fnt-jumbo fnt-primary mb-0">WELCOME TO WAVE APP.</p>
           <p className="fnt-jumbo fnt-secondary mb-0">SIGN UP.</p>
         </div>
-        <div className="col-5 clr-light">
+        <div className="col clr-light">
           <h1 className="fnt-subtitle-bold mb-4">New Account</h1>
           <form onSubmit={formik.handleSubmit} className="row">
             <Input
-              classNames="col-6"
-              label="Username"
-              id="username"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.username}
-              errorMessage={formik.errors.username}
-              hasErrorMessage={formik.touched.username}
-            />
-            <Input
-              classNames="col-6"
-              label="Profile Picture"
-              id="profilePicture"
-              type="file"
-              placeholder="Choose your file"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.profilePicture}
-              errorMessage={formik.errors.profilePicture}
-              hasErrorMessage={formik.touched.profilePicture}
-            />
-            <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               label="First Name"
               id="firstName"
               type="text"
@@ -105,7 +81,7 @@ export default function SignUp() {
               hasErrorMessage={formik.touched.firstName}
             />
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               label="Last Name"
               id="lastName"
               type="text"
@@ -117,7 +93,7 @@ export default function SignUp() {
             />
 
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               label="Birth Date"
               id="birthDate"
               type="date"
@@ -129,7 +105,7 @@ export default function SignUp() {
             />
 
             <Select
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               label="Country"
               id="country"
               type="select"
@@ -152,6 +128,19 @@ export default function SignUp() {
             />
 
             <Input
+              classNames="col-12 col-md-6"
+              label="Profile Picture"
+              id="profilePicture"
+              type="file"
+              placeholder="Choose your file"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.profilePicture}
+              errorMessage={formik.errors.profilePicture}
+              hasErrorMessage={formik.touched.profilePicture}
+            />
+            <Input
+              classNames="col-12"
               label="Email"
               id="email"
               type="email"
@@ -163,7 +152,7 @@ export default function SignUp() {
             />
 
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               label="Password"
               id="password"
               type="password"
@@ -175,7 +164,7 @@ export default function SignUp() {
             />
 
             <Input
-              classNames="col-6"
+              classNames="col-12 col-md-6"
               label="Confirm Password"
               id="confirmPassword"
               type="password"
