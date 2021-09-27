@@ -26,7 +26,7 @@ function Header({ props }) {
     >
       <div className="row m-0 w-100 d-flex align-items-center">
         <div className="col-9 p-0">
-          <div className="fake-logo">
+          <div className="logo-container">
             <Link to={PUBLIC.HOME}>
               <img src={waveappLogo} alt="Wave App Logo" />
             </Link>
@@ -38,13 +38,15 @@ function Header({ props }) {
               {userState.firstName}
             </Link>
           </div>
-          <div className="">
-            <Link to={PUBLIC.SIGN_IN}>
-              <Button isSmall handleClick={handleSignOut}>
-                Sign out
-              </Button>
-            </Link>
-          </div>
+          {userState.isLogged && (
+            <div className="">
+              <Link to={PUBLIC.SIGN_IN}>
+                <Button isSmall handleClick={handleSignOut}>
+                  Sign out
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

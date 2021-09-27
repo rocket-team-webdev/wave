@@ -17,6 +17,8 @@ import Checkbox from "../../../components/Checkbox";
 // import googleIcon from "../../../assets/images/google-icon.svg";
 
 import { PUBLIC } from "../../../constants/routes";
+import FormWrapper from "../../../components/FormWrapper";
+import JumboText from "../../../components/JumboText";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -98,76 +100,77 @@ export default function SignIn() {
 
   return (
     <Layout>
-      <div className="row clr-white">
-        <div className="col col-12 col-md-6 fnt-jumbo p-4">
-          <p className="fnt-primary mb-0">WELCOME TO WAVEAPP.</p>
-          <p className="fnt-secondary mb-0">LOG IN.</p>
+      <div className="row">
+        <div className="col-6">
+          <JumboText secText="Sign In." />
         </div>
-        <div className="col col-12 col-md-6 clr-light py-4 px-5 fx-rounded">
-          <form onSubmit={formik.handleSubmit}>
-            <h1 className="fnt-subtitle-bold mb-4">Log in</h1>
-            <Input
-              label="email"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="name@example.com"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              errorMessage={formik.errors.email}
-              hasErrorMessage={formik.touched.email}
-              classNames="mb-1"
-            />
-            <Input
-              label="password"
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-              errorMessage={formik.errors.password}
-              hasErrorMessage={formik.touched.password}
-              classNames="mb-1"
-            />
-            <div className="fnt-caption">
-              Forgot your password? Reset it,{" "}
-              <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
-            </div>
-            <div className="form-footer-wrapper p-0 mt-4 row">
-              <Checkbox
-                label="Remember account"
-                id="testCheckbox"
-                ref={credentialsCheckbox}
-                checked={saveCredentials}
-                onChange={handleSaveCredentials}
+        <div className="col-6">
+          {/* <div className="col col-12 col-md-6 clr-light py-4 px-5 fx-rounded"> */}
+          <FormWrapper formTitle="Log in">
+            <form onSubmit={formik.handleSubmit} className="row">
+              <Input
+                label="email"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                errorMessage={formik.errors.email}
+                hasErrorMessage={formik.touched.email}
+                classNames="mb-1"
               />
-              <div className="d-flex justify-content-end col col-12 col-md-7 p-0">
-                <div className="d-inline-flex p-2 pe-2">
-                  <Button handleClick={handleGoogleSignIn}>
-                    <i className="fab fa-google" />
-                  </Button>
-                </div>
-                <div className="p-2">
-                  <Button submitButton>Log in</Button>
+              <Input
+                label="password"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                errorMessage={formik.errors.password}
+                hasErrorMessage={formik.touched.password}
+                classNames="mb-1"
+              />
+              <div className="fnt-caption">
+                Forgot your password? Reset it,{" "}
+                <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
+              </div>
+              <div className="fnt-caption mt-4 row">
+                <Checkbox
+                  label="Remember account"
+                  id="testCheckbox"
+                  ref={credentialsCheckbox}
+                  checked={saveCredentials}
+                  onChange={handleSaveCredentials}
+                />
+                <div className="d-flex justify-content-end col col-12 col-md-7 p-0">
+                  <div className="d-inline-flex p-2 pe-2">
+                    <Button handleClick={handleGoogleSignIn}>
+                      <i className="fab fa-google" />
+                    </Button>
+                  </div>
+                  <div className="p-2">
+                    <Button submitButton>Log in</Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-          <div className="fnt-caption">
-            First time in WaveApp?
-            <br />
-            Please, <Link to={PUBLIC.SIGN_UP}>sign up.</Link>
-          </div>
-          {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
-          {!loading && !loginError && loggedIn && (
-            <h3>Logged in! Redirecting to Home...</h3>
-          )}
-          {!loading && loginError && !loggedIn && (
-            <h3>Login error: {loginError}</h3>
-          )}
+              <div className="fnt-caption">
+                First time in WaveApp?
+                <br />
+                Please, <Link to={PUBLIC.SIGN_UP}>sign up.</Link>
+              </div>
+            </form>
+            {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
+            {!loading && !loginError && loggedIn && (
+              <h3>Logged in! Redirecting to Home...</h3>
+            )}
+            {!loading && loginError && !loggedIn && (
+              <h3>Login error: {loginError}</h3>
+            )}
+          </FormWrapper>
         </div>
       </div>
     </Layout>

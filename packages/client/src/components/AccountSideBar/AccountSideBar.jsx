@@ -1,17 +1,35 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 function AccountSideBar() {
+  const userState = useSelector((state) => state.user);
+
   return (
     <div>
-      <h1 className="fnt-jumbo mt-0 pt-0 fnt-primary">USERNAME</h1>
-      <Link to="/account">
-        <p className="fnt-subtitle-bold mb-0">ACCOUNT DETAILS</p>
-      </Link>
-      <Link to="/account/settings/update-password">
-        <p className="fnt-subtitle-light mb-0">PASSWORD UPDATE</p>
-      </Link>
-      {/* <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p> */}
+      <h1 className="fnt-jumbo mt-0 pt-0 fnt-primary fnt-uppercase">
+        {userState.firstName}
+      </h1>
+      <div>
+        <NavLink
+          exact
+          to="/account"
+          className="fnt-subtitle-light col-12"
+          activeClassName="fnt-subtitle-bold"
+        >
+          ACCOUNT DETAILS
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          exact
+          to="/account/settings/update-password"
+          className="fnt-subtitle-light  col-12"
+          activeClassName="fnt-subtitle-bold"
+        >
+          PASSWORD UPDATE
+        </NavLink>
+      </div>
     </div>
   );
 }

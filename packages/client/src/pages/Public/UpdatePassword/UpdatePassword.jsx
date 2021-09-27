@@ -10,6 +10,9 @@ import {
   reauthenticateUserWithCredential,
 } from "../../../services/auth/auth";
 import { PUBLIC } from "../../../constants/routes";
+import AccountSideBar from "../../../components/AccountSideBar";
+import Layout from "../../../components/Layout";
+import FormWrapper from "../../../components/FormWrapper";
 
 function UpdatePassword() {
   const [status, setStatus] = useState({});
@@ -43,61 +46,59 @@ function UpdatePassword() {
   });
 
   return (
-    <>
+    <Layout>
       <div className="row">
-        <div className="col col-6 p-5">
-          <h1>Username</h1>
+        <div className="col-6 pt-2">
+          <AccountSideBar />
         </div>
-        <div className="col col-6 p-5">
-          <form
-            onSubmit={formik.handleSubmit}
-            className="clr-light fx-rounded p-5 "
-          >
-            <h1 className="fnt-subtitle-bold mb-4">Change your password</h1>
-            <Input
-              label="current password"
-              id="currentPassword"
-              type="password"
-              placeholder="Current password"
-              onChange={formik.handleChange}
-              value={formik.values.currentPassword}
-              errorMessage={formik.errors.currentPassword}
-              hasErrorMessage={formik.touched.currentPassword}
-            />
-            <Input
-              label="new password"
-              id="newPassword"
-              type="password"
-              placeholder="New password"
-              onChange={formik.handleChange}
-              value={formik.values.newPassword}
-              errorMessage={formik.errors.newPassword}
-              hasErrorMessage={formik.touched.newPassword}
-            />
-            <Input
-              label="confirm password"
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirm your new password"
-              onChange={formik.handleChange}
-              value={formik.values.confirmPassword}
-              errorMessage={formik.errors.confirmPassword}
-              hasErrorMessage={formik.touched.confirmPassword}
-            />
-            <div className="row">
-              {status && (
-                <div className={`mt-5 col-auto me-auto" ${status.class}`}>
-                  {status.message}
+        <div className="col-6">
+          <FormWrapper formTitle="Change your password">
+            <form onSubmit={formik.handleSubmit} className="row">
+              <Input
+                label="current password"
+                id="currentPassword"
+                type="password"
+                placeholder="Current password"
+                onChange={formik.handleChange}
+                value={formik.values.currentPassword}
+                errorMessage={formik.errors.currentPassword}
+                hasErrorMessage={formik.touched.currentPassword}
+              />
+              <Input
+                label="new password"
+                id="newPassword"
+                type="password"
+                placeholder="New password"
+                onChange={formik.handleChange}
+                value={formik.values.newPassword}
+                errorMessage={formik.errors.newPassword}
+                hasErrorMessage={formik.touched.newPassword}
+              />
+              <Input
+                label="confirm password"
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm your new password"
+                onChange={formik.handleChange}
+                value={formik.values.confirmPassword}
+                errorMessage={formik.errors.confirmPassword}
+                hasErrorMessage={formik.touched.confirmPassword}
+              />
+              <div className="row pe-0">
+                {status && (
+                  <div className={`mt-5 col-auto me-auto" ${status.class}`}>
+                    {status.message}
+                  </div>
+                )}
+                <div className="mt-5 col-auto ms-auto pe-0">
+                  <Button type="submit">Change Password</Button>
                 </div>
-              )}
-              <div className="mt-5 col-auto ms-auto">
-                <Button type="submit">Change Password</Button>
               </div>
-            </div>
-          </form>
+            </form>
+          </FormWrapper>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }
 
