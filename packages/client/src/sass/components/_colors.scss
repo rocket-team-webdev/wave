@@ -9,6 +9,8 @@ $lightDangerColor: rgb(255, 206, 208);
 $darkSuccessColor: rgb(93, 172, 101);
 $lightSuccessColor: rgb(192, 238, 202);
 
+$playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
+
 .clr-primary {
   background: $primaryColor;
 }

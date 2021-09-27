@@ -1,19 +1,26 @@
+@use "../../sass/components/colors" as c;
+
 .content {
   overflow-y: scroll;
+  // box-shadow: inset -10px 0px 60px rgb(255, 255, 255);
+
+  // -webkit-mask: linear-gradient(to right, black 70%, transparent 90%);
   .playlist-card {
+    background: c.$playlistGradient;
     min-height: 200px;
     min-width: 270px;
-    border: 2px solid white;
   }
 
   .artist-card {
     max-width: 120px;
     img {
-      object-fit: cover;
+      mix-blend-mode: multiply;
       border: 2px solid white;
       border-radius: 50%;
+      object-fit: cover;
       width: 120px;
       height: 120px;
+      filter: grayscale(100%);
     }
     p {
       max-width: 120px;
