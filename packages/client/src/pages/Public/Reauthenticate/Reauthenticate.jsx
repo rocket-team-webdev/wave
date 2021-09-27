@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import ReauthenticateSchema from "./reauthenticate-schema";
 
 import Button from "../../../components/Button";
@@ -9,12 +10,15 @@ import Input from "../../../components/Input";
 import {
   reauthenticateUserWithCredential,
   deleteCurrentUserAccount,
+  signOut,
 } from "../../../services/auth/auth";
+import { logOut } from "../../../redux/user/actions";
 import { deleteAccount } from "../../../api/account-api";
 import { PUBLIC } from "../../../constants/routes";
 
 function Reauthenticate() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +32,10 @@ function Reauthenticate() {
         await deleteAccount();
         await deleteCurrentUserAccount();
 
-        history.push(PUBLIC.HOME);
+        await signOut();
+        dispatch(logOut());
+
+        history.push(PUBLIC.SIGN_IN);
       } catch (error) {
         toast(error.message, { type: "error" });
       }
