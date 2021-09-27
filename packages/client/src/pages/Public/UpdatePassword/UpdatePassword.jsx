@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import updatePasswordSchema from "./update-password-schema";
 
 import Button from "../../../components/Button";
@@ -12,7 +13,7 @@ import {
 import { PUBLIC } from "../../../constants/routes";
 
 function UpdatePassword() {
-  const [status, setStatus] = useState({});
+  // const [status, setStatus] = useState({});
   const history = useHistory();
 
   const formik = useFormik({
@@ -28,16 +29,23 @@ function UpdatePassword() {
       try {
         await reauthenticateUserWithCredential(currentPassword);
         await updateUserPassword(newPassword);
-        setStatus({
-          message:
-            "Password updated successfully, redirecting to account page...",
-          class: "",
+        // setStatus({
+        //   message:
+        //     "Password updated successfully, redirecting to account page...",
+        //   class: "",
+        // });
+        toast("Password updated successfully, redirecting to account page...", {
+          type: "success",
         });
+
         setTimeout(() => {
           history.push(PUBLIC.USER_ACCOUNT);
         }, 2000);
       } catch (error) {
-        setStatus({ message: "Wrong current password", class: "error-msg" });
+        toast(error.message, {
+          type: "error",
+        });
+        // setStatus({ message: "Wrong current password", class: "error-msg" });
       }
     },
   });
@@ -85,11 +93,11 @@ function UpdatePassword() {
               hasErrorMessage={formik.touched.confirmPassword}
             />
             <div className="row">
-              {status && (
+              {/* {status && (
                 <div className={`mt-5 col-auto me-auto" ${status.class}`}>
                   {status.message}
                 </div>
-              )}
+              )} */}
               <div className="mt-5 col-auto ms-auto">
                 <Button type="submit">Change Password</Button>
               </div>
