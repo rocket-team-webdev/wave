@@ -11,6 +11,7 @@ import Select from "../../../components/Select";
 
 import { PUBLIC } from "../../../constants/routes";
 import { getAccount, updateAccount } from "../../../api/account-api";
+import AccountSideBar from "../../../components/AccountSideBar";
 
 export default function Account() {
   const history = useHistory();
@@ -71,11 +72,9 @@ export default function Account() {
     <Layout>
       <div className="row clr-white">
         <div className="col-7 pt-2">
-          <h1 className="fnt-jumbo mt-0 pt-0 fnt-primary">USERNAME</h1>
-          <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
-          <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
-          <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
+          <AccountSideBar />
         </div>
+
         <div className="col-5 clr-light">
           <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
           <form onSubmit={formik.handleSubmit} className="row">
