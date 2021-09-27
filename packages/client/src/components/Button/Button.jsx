@@ -19,7 +19,7 @@ export default function Button({
   if (isSmall) {
     classNames += "fnt-caption small-btn px-2 ";
   } else {
-    classNames += "fnt-label-bold large-btn ";
+    classNames += "fnt-label-bold large-btn p-2 px-3 ";
     if (primaryBtn && !isNegative && !secondaryBtn) {
       classNames += "positive-primary-btn";
     } else if (primaryBtn && isNegative && !secondaryBtn) {

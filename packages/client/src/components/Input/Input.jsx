@@ -19,7 +19,7 @@ export default function Input({
 }) {
   const componentClasses = `${classNames} custom-input d-flex flex-column mb-1`;
 
-  let labelClassNames = "fnt-input-bold p-0 mb-2 ";
+  let labelClassNames = "fnt-label-bold p-0 mb-2 ";
   let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
   let uploadClassNames =
     "custom-upload-input fx-rounded fnt-input-light d-flex align-items-center px-3 ";
