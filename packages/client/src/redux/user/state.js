@@ -7,6 +7,7 @@ const initialState = {
   firebaseId: "",
   isRegistering: false,
   isLogged: false,
+  mongoId: "",
 };
 
 export default initialState;

@@ -36,6 +36,7 @@ function App() {
         profilePicture: dbUser.profilePicture || "",
         firebaseId: firebaseUser.uid,
         isLogged: true,
+        mongoId: dbUser._id,
       }),
     );
     setLoading(false);
