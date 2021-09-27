@@ -17,7 +17,7 @@ export default function Button({
   let classNames = "custom-btn fx-rounded d-flex align-items-center ";
 
   if (isSmall) {
-    classNames += "fnt-caption small-btn";
+    classNames += "fnt-caption small-btn px-2 ";
   } else {
     classNames += "fnt-label-bold large-btn ";
     if (primaryBtn && !isNegative && !secondaryBtn) {
