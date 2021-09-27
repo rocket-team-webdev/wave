@@ -1,0 +1,22 @@
+.content {
+  overflow-y: scroll;
+  .playlist-card {
+    min-height: 200px;
+    min-width: 270px;
+    border: 2px solid white;
+  }
+
+  .artist-card {
+    max-width: 120px;
+    img {
+      object-fit: cover;
+      border: 2px solid white;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+    }
+    p {
+      max-width: 120px;
+    }
+  }
+}
