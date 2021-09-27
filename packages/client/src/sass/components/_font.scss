@@ -28,6 +28,7 @@
 .fnt-subtitle-light,
 .fnt-subtitle-bold {
   font-family: "Pramukh";
+  transition: all 0.2s;
 }
 
 .fnt-label-light,
@@ -38,6 +39,7 @@
 .fnt-song-bold,
 .fnt-caption {
   font-family: "Switzer";
+  transition: all 0.2s;
 }
 
 // Sizes & styles
@@ -57,6 +59,7 @@
 .fnt-subtitle-light,
 .fnt-subtitle-bold {
   font-size: 93px;
+  line-height: 1;
 }
 
 .fnt-label-light,

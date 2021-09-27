@@ -72,9 +72,9 @@ export default function Account() {
       <div className="row clr-white">
         <div className="col-12 col-md-5 col-lg-6 p-4">
           <h1 className="fnt-jumbo">Username</h1>
-          <p className="fnt-subtitle-bold mb-0 lh-1">ACCOUNT DETAILS</p>
-          <p className="fnt-subtitle-light mb-0 lh-1">PASSWORD UPDATE</p>
-          <p className="fnt-subtitle-light mb-0 lh-1">LOGOUT</p>
+          <p className="fnt-subtitle-bold mb-0">ACCOUNT DETAILS</p>
+          <p className="fnt-subtitle-light mb-0">PASSWORD UPDATE</p>
+          <p className="fnt-subtitle-light mb-0">LOGOUT</p>
         </div>
         <div className="col clr-light">
           <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
@@ -166,7 +166,7 @@ export default function Account() {
             />
             <div className="row mt-5">
               <div className="col-6">
-                <Button handleClick={handleDeleteAccount}>
+                <Button handleClick={handleDeleteAccount} isDanger>
                   Delete account
                 </Button>
               </div>
