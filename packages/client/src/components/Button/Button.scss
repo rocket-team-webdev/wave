@@ -17,7 +17,8 @@
 }
 
 .positive-primary-btn,
-.positive-secondary-btn {
+.positive-secondary-btn,
+.danger-btn {
   text-transform: uppercase;
 }
 
@@ -57,6 +58,21 @@
 .negative-primary-btn:focus,
 .negative-secondary-btn:focus {
   border: 2px solid c.$lightColor;
+}
+
+.danger-btn {
+  color: c.$darkDangerColor;
+  border: 2px solid c.$darkDangerColor;
+}
+
+.danger-btn:hover {
+  color: c.$lightColor;
+  background: c.$darkDangerColor;
+  border: 2px solid c.$darkDangerColor;
+}
+
+.danger-btn:focus {
+  background: c.$lightDangerColor;
 }
 
 // Small button
