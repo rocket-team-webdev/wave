@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import signInSchema from "./sign-in-schema";
 import { createClient, signInUserData } from "../../../api/account-api";
 import {
@@ -12,8 +12,9 @@ import {
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
-import { PUBLIC } from "../../../constants/routes";
 import Checkbox from "../../../components/Checkbox";
+
+import { PUBLIC } from "../../../constants/routes";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -148,6 +149,11 @@ export default function SignIn() {
               </div>
             </div>
           </form>
+          <div className="fnt-caption">
+            First time in WaveApp?
+            <br />
+            Please, <Link to={PUBLIC.SIGN_UP}>sign up</Link>
+          </div>
           {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
           {!loading && !loginError && loggedIn && (
             <h3>Logged in! Redirecting to Home...</h3>
