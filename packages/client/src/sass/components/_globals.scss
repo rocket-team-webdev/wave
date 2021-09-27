@@ -24,7 +24,6 @@
 body {
   height: 100vh;
   margin: 0;
-  background: rgb(115, 183, 247);
   #root {
     height: 100%;
   }
@@ -64,6 +63,7 @@ a:visited {
 
 a:hover {
   font-weight: normal;
+  color: inherit;
 }
 /* -------------------------------------------------------------------------- */
 /*                               Global effects                               */
