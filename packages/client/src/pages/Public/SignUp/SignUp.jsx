@@ -168,7 +168,7 @@ export default function SignUp() {
               hasErrorMessage={formik.touched.profilePicture}
             />
             <Input
-              classNames="col-12"
+              classNames="col-12 col-md-6"
               label="Email"
               id="email"
               type="email"
@@ -202,7 +202,7 @@ export default function SignUp() {
               errorMessage={formik.errors.confirmPassword}
               hasErrorMessage={formik.touched.confirmPassword}
             />
-            <div className="d-flex justify-content-end col-12 text-end mt-3">
+            <div className="d-flex justify-content-end col-12 text-end mt-4 p-0">
               <div className="d-inline-flex p-2 pe-2">
                 <Button handleClick={handleGoogleSignIn}>
                   <i className="fab fa-google" />

@@ -132,6 +132,10 @@ export default function SignIn() {
               hasErrorMessage={formik.touched.password}
               classNames="mb-1"
             />
+            <div className="fnt-caption">
+              Forgot your password? Reset it,{" "}
+              <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
+            </div>
             <div className="form-footer-wrapper p-0 mt-4 row">
               <Checkbox
                 label="Remember account"
@@ -155,7 +159,7 @@ export default function SignIn() {
           <div className="fnt-caption">
             First time in WaveApp?
             <br />
-            Please, <Link to={PUBLIC.SIGN_UP}>sign up</Link>
+            Please, <Link to={PUBLIC.SIGN_UP}>sign up.</Link>
           </div>
           {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
           {!loading && !loginError && loggedIn && (
