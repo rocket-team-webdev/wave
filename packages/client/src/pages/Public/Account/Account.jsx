@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import updateSchema from "./update-schema";
 import Input from "../../../components/Input";
@@ -13,10 +14,7 @@ import Layout from "../../../components/Layout";
 
 export default function Account() {
   const history = useHistory();
-  const [loadStatus, setLoadStatus] = useState({
-    isError: false,
-    isLoading: true,
-  });
+  const [loadStatus, setLoadStatus] = useState(false);
 
   const handleDeleteAccount = async () => {
     history.push(PUBLIC.REAUTHENTICATE);
@@ -51,6 +49,8 @@ export default function Account() {
 
   async function loadAccount() {
     try {
+      setLoadStatus(true);
+
       const { data } = await getAccount();
       formik.setValues({
         username: data.data.username || "",
@@ -62,9 +62,10 @@ export default function Account() {
         email: data.data.email || "",
         country: data.data.country || "",
       });
-      setLoadStatus({ isError: false, isLoading: false });
+
+      setLoadStatus(false);
     } catch (error) {
-      setLoadStatus({ isError: true, isLoading: false, error: error });
+      toast(error.message, { type: "error" });
     }
   }
 
@@ -101,7 +102,7 @@ export default function Account() {
                 placeholder={formik.values.username}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
                 options={["male", "female"]}
               />
               <Select
@@ -111,7 +112,7 @@ export default function Account() {
                 value={formik.values.gender}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
                 options={["Male", "Female"]}
               />
               <Input
@@ -125,7 +126,7 @@ export default function Account() {
                 placeholder={formik.values.profileImage}
                 onChange={formik.profileImage}
                 onBlur={formik.profileImage}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-4"
@@ -138,7 +139,7 @@ export default function Account() {
                 placeholder={formik.values.firstName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-4"
@@ -151,7 +152,7 @@ export default function Account() {
                 placeholder={formik.values.lastName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-4"
@@ -164,7 +165,7 @@ export default function Account() {
                 placeholder={formik.values.birthDate}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-8"
@@ -177,7 +178,7 @@ export default function Account() {
                 placeholder={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Select
                 classNames="col-4"
@@ -186,7 +187,7 @@ export default function Account() {
                 value={formik.values.country}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
                 options={[
                   "Spain",
                   "Argentina",

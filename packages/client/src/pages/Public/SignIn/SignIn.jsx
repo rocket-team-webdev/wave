@@ -1,30 +1,28 @@
 import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { trigger } from "../../../utils/customEvents";
+
 import signInSchema from "./sign-in-schema";
 import { createClient, signInUserData } from "../../../api/account-api";
 import {
   signInWithGoogle,
   signIn,
+  signOut,
   setCredentialsPersistance,
 } from "../../../services/auth";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
-import { PUBLIC } from "../../../constants/routes";
 import Checkbox from "../../../components/Checkbox";
-// import Toast from "../../../components/Toast";
+import { isRegistering } from "../../../redux/user/actions";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const history = useHistory();
   const [saveCredentials, setSaveCredentials] = useState(false);
-
-  // Save credentials checkbox
+  const dispatch = useDispatch();
   const credentialsCheckbox = useRef();
 
   const handleSaveCredentials = () => {
@@ -44,7 +42,6 @@ export default function SignIn() {
     validationSchema: signInSchema,
     onSubmit: async (signInState) => {
       setLoading(true);
-      setLoggedIn(false);
 
       // Set save credentials
       handleSaveCredentials();
@@ -55,13 +52,12 @@ export default function SignIn() {
         );
         const token = signInResponse.user.multiFactor.user.accessToken;
         await signInUserData(token);
-        setLoggedIn(true);
-        setLoading(false);
-        setTimeout(() => {
-          history.push(PUBLIC.HOME);
-        }, 500);
+
+        if (!signInResponse.user.multiFactor.user.emailVerified) {
+          signOut();
+          toast("Please verify your email!", { type: "error" });
+        }
       } catch (error) {
-        setLoginError(error.message);
         setLoading(false);
         toast(error.message, { type: "error" });
       }
@@ -69,6 +65,8 @@ export default function SignIn() {
   });
 
   const handleGoogleSignIn = async () => {
+    dispatch(isRegistering(true));
+
     try {
       const googleResult = await signInWithGoogle();
       const {
@@ -84,14 +82,10 @@ export default function SignIn() {
       };
 
       await createClient(loggedUserObject);
-      setLoggedIn(true);
-      setTimeout(() => {
-        history.push(PUBLIC.HOME);
-      }, 500);
+      dispatch(isRegistering(false));
+      trigger("setLoginReduxState");
     } catch (error) {
-      // setLoginError(error);
-      setLoggedIn(true);
-      toast(error.message, { type: "error", theme: "colored" });
+      toast(error.message, { type: "error" });
     }
   };
 
@@ -151,8 +145,9 @@ export default function SignIn() {
           </form>
         </div>
 
-        {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
-        {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
+        {/* {loading && !loginError && !loggedIn && <h3>Loading...</h3>} */}
+        {loading && <h3>Loading...</h3>}
+        {/* {!loading && !loginError && loggedIn && <h3>Logged in!</h3>} */}
         {/* {!loading && loginError && !loggedIn && (
           <h3>Login error: {loginError}</h3>
         )} */}

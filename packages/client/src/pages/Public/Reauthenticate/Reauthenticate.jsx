@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import ReauthenticateSchema from "./reauthenticate-schema";
 
 import Button from "../../../components/Button";
@@ -14,7 +15,6 @@ import { PUBLIC } from "../../../constants/routes";
 
 function Reauthenticate() {
   const history = useHistory();
-  const [deleteError, setDeleteError] = useState({});
 
   const formik = useFormik({
     initialValues: {
@@ -28,11 +28,9 @@ function Reauthenticate() {
         await deleteAccount();
         await deleteCurrentUserAccount();
 
-        setDeleteError({});
-
         history.push(PUBLIC.HOME);
       } catch (error) {
-        setDeleteError({ error });
+        toast(error.message, { type: "error" });
       }
     },
   });
@@ -52,10 +50,8 @@ function Reauthenticate() {
             placeholder="User password"
             onChange={formik.handleChange}
             value={formik.values.currentPassword}
-            errorMessage={
-              formik.errors.currentPassword || deleteError.error?.message
-            }
-            hasErrorMessage={formik.touched.currentPassword || deleteError}
+            errorMessage={formik.errors.currentPassword}
+            hasErrorMessage={formik.touched.currentPassword}
           />
 
           <div className="row">

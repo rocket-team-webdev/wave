@@ -5,6 +5,7 @@ const initialState = {
   lastName: "",
   profilePicture: "",
   firebaseId: "",
+  isRegistering: false,
   isLogged: false,
 };
 

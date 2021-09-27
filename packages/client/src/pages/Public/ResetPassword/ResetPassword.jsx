@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import resetPasswordSchema from "./reset-pass-schema";
 import { sendPasswordResetEmail } from "../../../services/auth";
@@ -8,8 +9,7 @@ import Input from "../../../components/Input";
 import { PUBLIC } from "../../../constants/routes";
 
 export default function ResetPassword() {
-  const [resetPasswordError, setResetPasswordError] = useState(null);
-  const [passwordResetSent, setPasswordResetSent] = useState(false);
+  // const [passwordResetSent, setPasswordResetSent] = useState(false);
 
   const config = {
     url: PUBLIC.HOME,
@@ -21,14 +21,16 @@ export default function ResetPassword() {
     },
     validationSchema: resetPasswordSchema,
     onSubmit: async (form) => {
-      setPasswordResetSent(false);
-      setResetPasswordError(null);
+      // setPasswordResetSent(false);
 
       try {
         await sendPasswordResetEmail(form.email, config);
-        setPasswordResetSent(true);
+        // setPasswordResetSent(true);
+        toast("Please visit your email to continue with password recovery", {
+          type: "success",
+        });
       } catch (error) {
-        setResetPasswordError(error.message);
+        toast(error.message, { type: "error" });
       }
     },
   });
@@ -47,17 +49,17 @@ export default function ResetPassword() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
-          errorMessage={formik.errors.email || resetPasswordError}
-          hasErrorMessage={formik.touched.email || resetPasswordError}
+          errorMessage={formik.errors.email}
+          hasErrorMessage={formik.touched.email}
         />
 
-        {passwordResetSent && !resetPasswordError ? (
+        {/* {passwordResetSent ? (
           <p className="">
             Please visit your email to continue with password recovery
           </p>
         ) : (
           <p>&nbsp;</p>
-        )}
+        )} */}
 
         <Button isNegative submitButton>
           Reset password
