@@ -12,14 +12,15 @@ import { createClient } from "../../../api/account-api";
 
 import "./SignUp.scss";
 
+import JumboText from "../../../components/JumboText/JumboText";
 import Layout from "../../../components/Layout";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
+
 import { emailVerification } from "../../../services/auth/auth";
 import { PUBLIC } from "../../../constants/routes";
 import FormWrapper from "../../../components/FormWrapper";
-import JumboText from "../../../components/JumboText";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -92,9 +93,7 @@ export default function SignUp() {
   return (
     <Layout>
       <div className="row">
-        <div className="col-6">
-          <JumboText secText="Sign up." />
-        </div>
+        <JumboText secText="Sign up." />
         <div className="col-6">
           <FormWrapper formTitle="Create New Account">
             <form onSubmit={formik.handleSubmit} className="row">

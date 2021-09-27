@@ -39,9 +39,7 @@ export default function ResetPassword() {
   return (
     <Layout>
       <div className="row">
-        <div className="col-6">
-          <JumboText secText="Reset your password." />
-        </div>
+        <JumboText secText="Reset your password." />
         <div className="col-6">
           <FormWrapper formTitle="Password recovery">
             <form onSubmit={formik.handleSubmit} className="row">

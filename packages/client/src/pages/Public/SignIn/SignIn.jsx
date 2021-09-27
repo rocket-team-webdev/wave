@@ -9,6 +9,7 @@ import {
   setCredentialsPersistance,
 } from "../../../services/auth";
 
+import JumboText from "../../../components/JumboText";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
@@ -18,7 +19,6 @@ import Checkbox from "../../../components/Checkbox";
 
 import { PUBLIC } from "../../../constants/routes";
 import FormWrapper from "../../../components/FormWrapper";
-import JumboText from "../../../components/JumboText";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -101,9 +101,7 @@ export default function SignIn() {
   return (
     <Layout>
       <div className="row">
-        <div className="col-6">
-          <JumboText secText="Sign In." />
-        </div>
+        <JumboText secText="Sign In." />
         <div className="col-6">
           {/* <div className="col col-12 col-md-6 clr-light py-4 px-5 fx-rounded"> */}
           <FormWrapper formTitle="Log in">
