@@ -6,6 +6,7 @@ const initialState = {
   profilePicture: "",
   firebaseId: "",
   isLogged: false,
+  mongoId: "",
 };
 
 export default initialState;
