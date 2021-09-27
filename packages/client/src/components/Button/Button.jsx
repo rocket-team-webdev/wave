@@ -7,6 +7,7 @@ export default function Button({
   secondaryBtn = false,
   isNegative = false,
   isSmall = false,
+  isDanger = false,
   fullWidth = false,
   submitButton = false,
   disabled = false,
@@ -17,17 +18,19 @@ export default function Button({
   let classNames = "custom-btn fx-rounded d-flex align-items-center ";
 
   if (isSmall) {
-    classNames += "fnt-caption small-btn";
+    classNames += "fnt-caption small-btn px-2 ";
   } else {
     classNames += "fnt-label-bold large-btn p-2 px-3 ";
-    if (primaryBtn && !isNegative && !secondaryBtn) {
-      classNames += "positive-primary-btn";
+    if (isDanger) {
+      classNames += " danger-btn ";
+    } else if (primaryBtn && !isNegative && !secondaryBtn) {
+      classNames += "positive-primary-btn ";
     } else if (primaryBtn && isNegative && !secondaryBtn) {
-      classNames += "negative-primary-btn";
+      classNames += "negative-primary-btn ";
     } else if (secondaryBtn && !isNegative) {
-      classNames += "positive-secondary-btn";
+      classNames += "positive-secondary-btn ";
     } else {
-      classNames += "negative-secondary-btn";
+      classNames += "negative-secondary-btn ";
     }
   }
 

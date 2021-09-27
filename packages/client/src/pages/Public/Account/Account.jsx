@@ -71,11 +71,11 @@ export default function Account() {
   return (
     <Layout>
       <div className="row clr-white">
-        <div className="col-7 pt-2">
+        <div className="col-6 pt-2">
           <AccountSideBar />
         </div>
 
-        <div className="col-5 clr-light">
+        <div className="col-6 clr-light">
           <h1 className="fnt-subtitle-bold mb-4">Account details</h1>
           <form onSubmit={formik.handleSubmit} className="row">
             <Input
@@ -165,7 +165,7 @@ export default function Account() {
             />
             <div className="row mt-5">
               <div className="col-6">
-                <Button handleClick={handleDeleteAccount}>
+                <Button handleClick={handleDeleteAccount} isDanger>
                   Delete account
                 </Button>
               </div>
