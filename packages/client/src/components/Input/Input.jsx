@@ -64,8 +64,10 @@ export default function Input({
         onInput={handleInput}
         {...props}
       />
-      {hasErrorMessage && errorMessage && (
-        <p className="error-msg">{errorMessage}</p>
+      {hasErrorMessage && errorMessage ? (
+        <p className="error-msg mt-1 mb-0">{errorMessage}</p>
+      ) : (
+        <p className="error-msg mt-1 mb-0">&nbsp;</p>
       )}
     </div>
   );

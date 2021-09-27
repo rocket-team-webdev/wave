@@ -4,11 +4,12 @@ import { useHistory } from "react-router-dom";
 
 import signUpSchema from "./sign-up-schema";
 import {
-  // getCurrentUserToken,
+  signInWithGoogle,
   signUpWithEmailAndPassword,
   signOut,
 } from "../../../services/auth";
 import { createClient } from "../../../api/account-api";
+
 import "./SignUp.scss";
 
 import Layout from "../../../components/Layout";
@@ -59,12 +60,39 @@ export default function SignUp() {
       }
     },
   });
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const googleResult = await signInWithGoogle();
+      const {
+        family_name: familyName,
+        given_name: givenName,
+        picture,
+      } = googleResult.additionalUserInfo.profile;
+
+      const loggedUserObject = {
+        firstName: givenName,
+        lastName: familyName,
+        profilePicture: picture,
+      };
+
+      await createClient(loggedUserObject);
+      setTimeout(() => {
+        history.push(PUBLIC.HOME);
+      }, 500);
+    } catch (error) {
+      // setLoginError(error);
+      console.clear();
+      console.log("Failed Google sign in.");
+    }
+  };
+
   return (
     <Layout>
       <div className="row clr-white">
-        <div className="col-12 col-md-5 col-lg-6 p-4">
-          <p className="fnt-jumbo fnt-primary mb-0">WELCOME TO WAVE APP.</p>
-          <p className="fnt-jumbo fnt-secondary mb-0">SIGN UP.</p>
+        <div className="col-12 col-md-5 col-lg-6 p-4 fnt-jumbo p-4">
+          <p className="fnt-primary mb-0">WELCOME TO WAVEAPP.</p>
+          <p className="fnt-secondary mb-0">SIGN UP.</p>
         </div>
         <div className="col clr-light">
           <h1 className="fnt-subtitle-bold mb-4">New Account</h1>
@@ -174,8 +202,15 @@ export default function SignUp() {
               errorMessage={formik.errors.confirmPassword}
               hasErrorMessage={formik.touched.confirmPassword}
             />
-            <div className="col-12 text-end mt-3">
-              <Button type="submit">Sign Up</Button>
+            <div className="d-flex justify-content-end col-12 text-end mt-3">
+              <div className="d-inline-flex p-2 pe-2">
+                <Button handleClick={handleGoogleSignIn}>
+                  <i className="fab fa-google" />
+                </Button>
+              </div>
+              <div className="p-2">
+                <Button type="submit">Sign Up</Button>
+              </div>
             </div>
           </form>
           {loading && !registerError && !registered && <h3>Loading...</h3>}

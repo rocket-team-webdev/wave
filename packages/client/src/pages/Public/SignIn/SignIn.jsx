@@ -14,6 +14,8 @@ import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import Checkbox from "../../../components/Checkbox";
 
+// import googleIcon from "../../../assets/images/google-icon.svg";
+
 import { PUBLIC } from "../../../constants/routes";
 
 export default function SignIn() {
@@ -98,9 +100,8 @@ export default function SignIn() {
     <Layout>
       <div className="row clr-white">
         <div className="col col-12 col-md-6 fnt-jumbo p-4">
-          <p className="fnt-primary">WELCOME TO WAVEAPP.</p>
-
-          <p>LOG IN.</p>
+          <p className="fnt-primary mb-0">WELCOME TO WAVEAPP.</p>
+          <p className="fnt-secondary mb-0">LOG IN.</p>
         </div>
         <div className="col col-12 col-md-6 clr-light py-4 px-5 fx-rounded">
           <form onSubmit={formik.handleSubmit}>
@@ -116,7 +117,7 @@ export default function SignIn() {
               value={formik.values.email}
               errorMessage={formik.errors.email}
               hasErrorMessage={formik.touched.email}
-              classNames="mb-4"
+              classNames="mb-1"
             />
             <Input
               label="password"
@@ -129,9 +130,9 @@ export default function SignIn() {
               value={formik.values.password}
               errorMessage={formik.errors.password}
               hasErrorMessage={formik.touched.password}
-              classNames="mb-4"
+              classNames="mb-1"
             />
-            <div className="form-footer-wrapper p-0 row">
+            <div className="form-footer-wrapper p-0 mt-4 row">
               <Checkbox
                 label="Remember account"
                 id="testCheckbox"
@@ -140,11 +141,13 @@ export default function SignIn() {
                 onChange={handleSaveCredentials}
               />
               <div className="d-flex justify-content-end col col-12 col-md-7 p-0">
-                <div className="d-inline-flex p-2 pe-4">
-                  <Button handleClick={handleGoogleSignIn}>Google</Button>
+                <div className="d-inline-flex p-2 pe-2">
+                  <Button handleClick={handleGoogleSignIn}>
+                    <i className="fab fa-google" />
+                  </Button>
                 </div>
-                <div className="d-inline-flex p-2">
-                  <Button submitButton>Sign in</Button>
+                <div className="p-2">
+                  <Button submitButton>Log in</Button>
                 </div>
               </div>
             </div>

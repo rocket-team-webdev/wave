@@ -14,7 +14,7 @@ export default function Button({
   handleClick = () => {},
   ...props
 }) {
-  let classNames = "custom-btn fx-rounded ";
+  let classNames = "custom-btn fx-rounded d-flex align-items-center ";
 
   if (isSmall) {
     classNames += "fnt-caption small-btn";
