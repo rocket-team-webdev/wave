@@ -8,6 +8,11 @@ $darkDangerColor: rgb(218, 95, 100);
 $lightDangerColor: rgb(255, 206, 208);
 $darkSuccessColor: rgb(93, 172, 101);
 $lightSuccessColor: rgb(192, 238, 202);
+$darkWarning: rgb(255, 236, 181);
+
+:root {
+  --toastify-color-error: rgba(218, 95, 100, 1);
+}
 
 $playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
 
@@ -35,6 +40,14 @@ $playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
   background: $white;
 }
 
+.clr-danger {
+  background: $lightDangerColor;
+}
+
+.clr-warning {
+  background: $darkWarning;
+}
+
 .fnt-primary {
   color: $primaryColor;
 }
@@ -57,4 +70,8 @@ $playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
 
 .fnt-white {
   color: $white !important;
+}
+
+.fnt-danger {
+  color: $darkDangerColor;
 }
