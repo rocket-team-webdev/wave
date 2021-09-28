@@ -37,7 +37,7 @@ export default function HomeMyWave({
           {playlistsList.map((playlistName) => (
             <PlaylistCard
               key={playlistName}
-              classNames="mb-3"
+              // classNames=""
               playlistName={playlistName}
             />
           ))}
