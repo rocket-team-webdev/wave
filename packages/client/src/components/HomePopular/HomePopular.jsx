@@ -42,7 +42,7 @@ export default function HomePopular({ genresList = [], artistsList = [] }) {
         <HomeElement label="Artists">
           {artistsList.map((artistName) => (
             <ArtistCard
-              classNames="me-4 mb-3"
+              // classNames=""
               key={artistName}
               artistName={artistName}
             />
