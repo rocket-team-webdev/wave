@@ -1,6 +1,7 @@
-import React from "react";
-
+import React, { useState } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
+import { useSelector } from "react-redux";
+
 import "react-h5-audio-player/lib/styles.css";
 
 import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
@@ -12,6 +13,48 @@ import "./MusicPlayer.scss";
 export default function MusicPlayer() {
   const isShuffle = true;
   const isLiked = true;
+  /******************************** */
+  const queueState = useSelector((state) => state.queue);
+  // const dispatch = useDispatch();
+  const [currentSong, setCurrentSong] = useState(0);
+  const songObject = queueState.queue[currentSong];
+  const [isShuffle, setIsShuffle] = useState(false);
+  // const [repeat, setRepeat] = useState("no");
+
+  const randomNumber = (max) => {
+    return Math.floor(Math.random() * (max + 1));
+  };
+
+  const nextSong = () => {
+    if (isShuffle) {
+      setCurrentSong(randomNumber(queueState.queue.length - 1));
+      return;
+    }
+    if (queueState.queue.length > currentSong + 1)
+      setCurrentSong(currentSong + 1);
+    // TODO: else disable next button
+  };
+  const previousSong = () => {
+    if (currentSong > 0) setCurrentSong(currentSong - 1);
+    // TODO: else prev next button
+  };
+
+  const shuffle = (inputArray) => {
+    const resultArray = [];
+    for (let i = inputArray.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [resultArray[i], resultArray[j]] = [inputArray[j], inputArray[i]];
+    }
+    return resultArray;
+  };
+
+  const shuffleToggle = () => {
+    setIsShuffle(!isShuffle);
+    // if (isShuffle) dispatch(setQueue(shuffle(queueState.queue)));
+    console.log("original", queueState.queue);
+    console.log("shuffled", shuffle(queueState.queue));
+  };
+
   return (
     <div className="rhap_main-container clr-white">
       <div className="rhap_song-info">
@@ -32,16 +75,21 @@ export default function MusicPlayer() {
         </button>
         <div className="rhap_song-text">
           <p className="rhap_song-tittle mb-0 fnt-song-bold lh-1 pe-4">
-            Like Toy Soldiers
+            {songObject.name}
           </p>
-          <p className="rhap_song-artist mb-0 fnt-song-light lh-1">Eminem</p>
+          <p className="rhap_song-artist mb-0 fnt-song-light lh-1">
+            {songObject.artist}
+          </p>
         </div>
       </div>
       <AudioPlayer
         // autoPlay
         showSkipControls
         showJumpControls={false}
-        src="https://res.cloudinary.com/dz5nspe7f/video/upload/v1632147267/music-uploads/bensound-creativeminds_vjqm2b.mp3"
+        src={songObject.url}
+        onClickNext={nextSong}
+        onClickPrevious={previousSong}
+        onEnded={nextSong}
         layout="horizontal-reverse"
         customIcons={{
           play: <FaPlay />,
@@ -52,8 +100,9 @@ export default function MusicPlayer() {
         customControlsSection={[
           RHAP_UI.ADDITIONAL_CONTROLS,
           RHAP_UI.MAIN_CONTROLS,
-          <div className="rhap_shuffle-controls" key="shuffle">
+          <div className="rhap_shuffle-controls" key={songObject.url}>
             <button
+              onClick={shuffleToggle}
               disabled="true"
               type="button"
               className={`${
@@ -67,6 +116,22 @@ export default function MusicPlayer() {
         ]}
         // onPlay={(e) => console.log("onPlay")}
         // other props here
+        // header={`${songObject.name} - ${songObject.artist}`}
+        // showSkipControls
+        // showJumpControls={false}
+        // onClickNext={nextSong}
+        // onClickPrevious={previousSong}
+        // onPlay={(e) => {
+        //   console.log("e", e);
+        // }}
+        // onEnded={nextSong}
+        // customAdditionalControls={[
+        //   <button key={songObject.url} onClick={shuffleToggle} type="button">
+        //     SHUFFLE {isShuffle && "🆗"}
+        //   </button>,
+        // ]}
+        // onPlayError={ TODO pop up saying there was an error}
+        // onChangeCurrentTimeError={TODO pop up saying there was an error}
       />
     </div>
   );
