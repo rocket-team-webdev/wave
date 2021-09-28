@@ -54,6 +54,8 @@
 .rhap_progress-filled {
   background-color: c.$secondaryColor;
 }
+
+// New customize shuffle button
 .rhap_shuffle-controls {
   display: flex;
   flex: 1 1 auto;
@@ -77,8 +79,23 @@
 .shuffle-off {
   color: c.$lightColor20;
 }
-
 .rhap_button-shuffle:hover {
   opacity: 0.9;
   transition-duration: 0.2s;
+}
+
+// Responsive design for audio player
+@media (max-width: 768px) {
+  .rhap_horizontal-reverse {
+    flex-direction: column;
+  }
+  .rhap_progress-section {
+    margin-bottom: 12px;
+  }
+  .rhap_controls-section {
+    margin-right: 0px !important;
+  }
+  .rhap_volume-controls {
+    display: none;
+  }
 }
