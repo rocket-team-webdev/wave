@@ -34,6 +34,9 @@ export default function Home() {
     "Red Hot Chili Peppers",
     "Fatboy Slim",
     "Arctic Monkeys",
+    "Last Shadow Puppets",
+    "The Who",
+    "Idles",
   ];
 
   const playlistsList = [
@@ -57,7 +60,7 @@ export default function Home() {
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         <div className="col col-12 col-md-6 p-0 left-side">
           <JumboText secText={userFirstName} cols="12" isNegative />
-          <form className="mt-5" action="">
+          <form className="my-5" action="">
             <Input
               label="searchbar"
               id="searchbar"
@@ -68,8 +71,8 @@ export default function Home() {
         </div>
         <div className="col col-12 col-md-5 fx-rounded p-0">
           {/* Popular/MyWave */}
-          <div className="d-flex flex-column align-items-end mb-2">
-            <p className="fnt-caption fnt-light m-2">App view</p>
+          <div className="d-flex justify-content-between align-items-center mb-5">
+            <p className="fnt-label-bold fnt-light">App view</p>
             <RadioButtons handleChange={handleChangeView} />
           </div>
           {/* Switch view */}

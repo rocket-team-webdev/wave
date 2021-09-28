@@ -25,7 +25,7 @@ export default function HomeMyWave({
         <HomeElement label="Artists">
           {artistsList.map((artistName) => (
             <ArtistCard
-              classNames="me-4 mb-3"
+              // classNames=""
               key={artistName}
               artistName={artistName}
             />
