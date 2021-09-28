@@ -5,14 +5,14 @@
   .playlist-card {
     background: c.$playlistGradient;
     min-height: 200px;
-    min-width: 270px;
+    // min-width: 270px;
   }
 
   .artist-card {
     max-width: 120px;
 
     img {
-      mix-blend-mode: multiply;
+      // mix-blend-mode: multiply;
       border: 2px solid white;
       border-radius: 50%;
       object-fit: cover;
@@ -20,9 +20,7 @@
       height: 120px;
       filter: grayscale(100%);
     }
-    img:hover {
-      mix-blend-mode: normal;
-    }
+
     p {
       max-width: 120px;
     }
