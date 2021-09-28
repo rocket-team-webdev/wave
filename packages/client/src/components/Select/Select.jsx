@@ -6,6 +6,7 @@ export default function Select({
   label = "input-01",
   id = "input-01",
   classNames,
+  // value,
   fullWidth = false,
   handleChange = () => {},
   handleBlur = () => {},
@@ -25,7 +26,7 @@ export default function Select({
       </label>
       <select
         className="form-input fnt-input-light fx-rounded positive-input ps-3"
-        value={id}
+        // value={value}
         onChange={handleChange}
         onBlur={handleBlur}
         id={id}

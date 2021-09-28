@@ -19,33 +19,53 @@ export default function Home() {
     });
   };
 
-  const fileOnChange = async (event) => {
-    const file = event.target.files[0];
-    const fd = new FormData();
-    fd.append("file", file);
-    await uploadCover(fd);
-    console.log("SE SUBIOOO");
-  };
+  // const fileOnChange = async (event) => {
+  //   const file = event.target.files[0];
+  //   const fd = new FormData();
+  //   fd.append("file", file);
+  //   await uploadCover(fd);
+  //   console.log("SE SUBIOOO");
+  // };
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      title: "",
+      artist: "",
+      album: "",
+      genre: "",
+      thumbnail: "",
+      track: "",
     },
     validationSchema: uploadSchema,
     onSubmit: async (signInState) => {
       try {
-        console.log("signInState", signInState);
-        await uploadCover();
-        console.log("SE HIZOOO");
+        const formData = new FormData();
+        formData.append("title", signInState.title);
+        formData.append("artist", signInState.artist);
+        formData.append("album", signInState.album);
+        formData.append("genre", signInState.genre);
+        formData.append("thumbnail", signInState.thumbnail);
+        formData.append("track", signInState.track);
+
+        console.log("formData", formData);
+        await uploadCover(formData);
+        console.log("SE SUBIOOO");
       } catch (error) {
         toast(error.message, { type: "error" });
       }
     },
   });
 
+  const thumbnailOnChange = async (event) => {
+    formik.setFieldValue("thumbnail", event.target.files[0]);
+  };
+
+  const trackOnChange = async (event) => {
+    formik.setFieldValue("track", event.target.files[0]);
+  };
+
   return (
-    <Layout>
+    <Layout isNegative>
       <div className="row ">
         <div className="col col-12 col-md-6 p-4">
           <p className="fnt-sidebar fnt-light">Upload your song</p>
@@ -58,11 +78,11 @@ export default function Home() {
               type="file"
               placeholder="Upload file"
               isNegative
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.genre}
-              errorMessage={formik.errors.genre}
-              hasErrorMessage={formik.touched.genre}
+              onChange={trackOnChange}
+              onBlur={trackOnChange}
+              // value={formik.values.genre}
+              // errorMessage={formik.errors.genre}
+              // hasErrorMessage={formik.touched.genre}
             />
 
             <div>
@@ -114,7 +134,7 @@ export default function Home() {
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
-                options={["Album1", "Album2", "Album3"]}
+                options={["", "Album 1", "Album 2"]}
               />
               <Select
                 classNames="col-12 col-md-6"
@@ -127,8 +147,9 @@ export default function Home() {
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
-                options={["Genre1", "Genre2", "Genre3"]}
+                options={["", "rock", "jazz"]}
               />
+
               <Input
                 classNames="col-12 col-md-6"
                 label="thumbnail"
@@ -136,11 +157,11 @@ export default function Home() {
                 type="file"
                 placeholder="Upload file"
                 isNegative
-                onChange={fileOnChange}
-                onBlur={fileOnChange}
-                // value={formik.values.genre}
-                // errorMessage={formik.errors.genre}
-                // hasErrorMessage={formik.touched.genre}
+                onChange={thumbnailOnChange}
+                onBlur={thumbnailOnChange}
+                // value={formik.values.thumbnail}
+                errorMessage={formik.errors.thumbnail}
+                hasErrorMessage={formik.touched.thumbnail}
               />
             </div>
 

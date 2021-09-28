@@ -1,78 +1,104 @@
-// const db = require("../models");
+const db = require("../models");
 const { cloudinary } = require("../services/cloudinary");
 const fs = require("fs");
 const path = require("path");
 
-async function uploadCover(req, res, next) {
-  try {
-    //TODO: Mocking cover file
-    const fileStr =
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/M7ubXdtdb1xSFyeilBapySVU8h8OoFaooFSqiihIVIpQBKci6KEg9Q6H9kovIHoCIVQJJCKE1ENFjnAgcaSGC6rEnxBwA04Tx43t2FnvDAfjkNibxgHxnWb2e/u992bee7tCa00YFsffekFY+nUzFtjW0LrvjRXrCDIAaPLlW0nHL0SsZtVoaF98mLrx3pdhOqLtYPHChahZcYYO7KvPFxvRl5XPp1sN3adWiD1ZAqD6XYK1b/dvE5IWryTt2udLFedwc1+9kLp+vbbpoDh+6TklxBeAi9TL0taeWpdmZzQDry0AcO+jQ12RyohqqoYoo8RDwJrU+qXkjWtfi8Xxt58BdQuwQs9qC/afLwCw8tnQbqYAPsgxE1S6F3EAIXux2oQFKm0ihMsOF71dHYx+f3NND68ghCu1YIoePPQN1pGRABkJ6Bus96CutRZMydTl+TvuiRW1m3n0eDl0vRPcEysqdXn+jsQPsrHMquGeXEaY4Yk4wxWcY5V/9scqOMOVUFthatyTy8QyqwZ+kDURKoMWxNKr2EeqVKcTNOajqKoBgOE28U4tdQl5p5bwCw7BWquaZSzAPlwjlithJtp3pTImSqQRrb2Z8PHGigD4RZuNX6JYj6wj7O4TFLbCO/Mn/m8R+h6rYSUb3ekokRY6f/YukArN979jcW+V/S8g0eT/N3VN3kTqWbQ428m9/8k0P/1aIhF36PccEl6EhOcAUCrXKZXXWS3XKd2vc/TRBG9O5ELC17MmWubD2nKhUKZa26Ba2+D3P+4/MNCFwg59oWVeYhkzgN/JDR8deKBoD7Y+ljEjGZ0sosXVTvbc6RHirr2reNy1OXd6pJsQ+gqjk8VWFYmHrwBzW/n+uMPFiRwHB2I7ih8ciHFxIkd/3Omk5tCDV1t+2nNu5sxxpDFNx+huNhVT3/zMDz8usXC3ddaHBj1GHj/As08fwTS7Kt1HBTmyN29vdwAw+/wbwLVOJ3uAD1wi/dUH7Qei66PfyuRj4Ik9is+hglfbkbfR3cnZm7chlUWLdwmprtCohX4HUtlOcQjLYCu+fzGJH2QRKvP3UNz8bWk1qMxjGTOMThZ3kvgLI5AzFfo379UAAAAASUVORK5CYII=";
+// async function uploadCover(req, res, next) {
+//   try {
+//     //TODO: Mocking cover file
+//     const fileStr =
+//       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/M7ubXdtdb1xSFyeilBapySVU8h8OoFaooFSqiihIVIpQBKci6KEg9Q6H9kovIHoCIVQJJCKE1ENFjnAgcaSGC6rEnxBwA04Tx43t2FnvDAfjkNibxgHxnWb2e/u992bee7tCa00YFsffekFY+nUzFtjW0LrvjRXrCDIAaPLlW0nHL0SsZtVoaF98mLrx3pdhOqLtYPHChahZcYYO7KvPFxvRl5XPp1sN3adWiD1ZAqD6XYK1b/dvE5IWryTt2udLFedwc1+9kLp+vbbpoDh+6TklxBeAi9TL0taeWpdmZzQDry0AcO+jQ12RyohqqoYoo8RDwJrU+qXkjWtfi8Xxt58BdQuwQs9qC/afLwCw8tnQbqYAPsgxE1S6F3EAIXux2oQFKm0ihMsOF71dHYx+f3NND68ghCu1YIoePPQN1pGRABkJ6Bus96CutRZMydTl+TvuiRW1m3n0eDl0vRPcEysqdXn+jsQPsrHMquGeXEaY4Yk4wxWcY5V/9scqOMOVUFthatyTy8QyqwZ+kDURKoMWxNKr2EeqVKcTNOajqKoBgOE28U4tdQl5p5bwCw7BWquaZSzAPlwjlithJtp3pTImSqQRrb2Z8PHGigD4RZuNX6JYj6wj7O4TFLbCO/Mn/m8R+h6rYSUb3ekokRY6f/YukArN979jcW+V/S8g0eT/N3VN3kTqWbQ428m9/8k0P/1aIhF36PccEl6EhOcAUCrXKZXXWS3XKd2vc/TRBG9O5ELC17MmWubD2nKhUKZa26Ba2+D3P+4/MNCFwg59oWVeYhkzgN/JDR8deKBoD7Y+ljEjGZ0sosXVTvbc6RHirr2reNy1OXd6pJsQ+gqjk8VWFYmHrwBzW/n+uMPFiRwHB2I7ih8ciHFxIkd/3Omk5tCDV1t+2nNu5sxxpDFNx+huNhVT3/zMDz8usXC3ddaHBj1GHj/As08fwTS7Kt1HBTmyN29vdwAw+/wbwLVOJ3uAD1wi/dUH7Qei66PfyuRj4Ik9is+hglfbkbfR3cnZm7chlUWLdwmprtCohX4HUtlOcQjLYCu+fzGJH2QRKvP3UNz8bWk1qMxjGTOMThZ3kvgLI5AzFfo379UAAAAASUVORK5CYII=";
 
-    console.log("fileStr ------------", fileStr);
+//     console.log("fileStr ------------", fileStr);
 
-    const cloudinaryResponse = await cloudinary.uploader.upload(fileStr, {
-      upload_preset: "covers-preset",
-    });
+//     const cloudinaryResponse = await cloudinary.uploader.upload(fileStr, {
+//       upload_preset: "covers-preset",
+//     });
 
-    console.log(cloudinaryResponse);
+//     console.log(cloudinaryResponse);
 
-    res.status(200).send({ message: "cloudinary uploaded" });
-  } catch (error) {
-    res.status(500).send({ error: error });
-    next(error);
-  }
-}
+//     res.status(200).send({ message: "cloudinary uploaded" });
+//   } catch (error) {
+//     res.status(500).send({ error: error });
+//     next(error);
+//   }
+// }
 
 async function uploadTrack(req, res, next) {
   try {
-    console.log("req.file", req.file);
+    console.log("req.files", req.files);
+    console.log("req.body", req.body);
 
-    const { mimetype } = req.file;
+    const track = req.files["track"][0];
+    const thumbnail = req.files["thumbnail"][0];
 
-    if (mimetype === "audio/mpeg") {
-      const uploadLocation = path.join(
+    if (track.mimetype === "audio/mpeg") {
+      const trackLocation = path.join(
         __dirname,
         "../../",
         "uploads",
-        req.file.originalname,
+        track.originalname,
+      );
+      const thumbnailLocation = path.join(
+        __dirname,
+        "../../",
+        "uploads",
+        thumbnail.originalname,
       );
 
       // write the BLOB to the server as a file
       fs.writeFileSync(
-        uploadLocation,
-        Buffer.from(new Uint8Array(req.file.buffer)),
+        trackLocation,
+        Buffer.from(new Uint8Array(track.buffer)),
+      );
+      fs.writeFileSync(
+        thumbnailLocation,
+        Buffer.from(new Uint8Array(thumbnail.buffer)),
       );
 
       // upload to cloudinary
-      const cloudinaryResponse = await cloudinary.uploader.upload(
-        uploadLocation,
+      const cldTrackRes = await cloudinary.uploader.upload(trackLocation, {
+        upload_preset: "tracks-preset",
+        resource_type: "video",
+      });
+      const cldThumbnailRes = await cloudinary.uploader.upload(
+        thumbnailLocation,
         {
-          upload_preset: "tracks-preset",
-          resource_type: "video",
+          upload_preset: "covers-preset",
+          resource_type: "image",
         },
       );
 
-      console.log(cloudinaryResponse);
+      console.log(cldTrackRes);
+      console.log(cldThumbnailRes);
 
       // delete uploaded file
-      fs.unlink(uploadLocation, (deleteErr) => {
+      fs.unlink(trackLocation, (deleteErr) => {
         if (deleteErr) return res.status(500).send(deleteErr);
-        console.log("temp file was deleted");
+      });
+      fs.unlink(thumbnailLocation, (deleteErr) => {
+        if (deleteErr) return res.status(500).send(deleteErr);
       });
 
       // Mogodb store data
-      // await db.Track.create({
-      //   name: ,
-      //   url: ,
-      //   thumbnail: ,
-      //   duration: ,
-      //   genreId: ,
-      //   userId: ,
-      //   albums: ,
-      // });
+      const { firebaseId } = req.user;
+      const { _id: userId } = await db.User.findOne({ firebaseId });
+      const { _id: genreId } = await db.Genre.findOne({ name: req.body.genre });
+      const { _id: albumId } = await db.Album.findOne({
+        title: req.body.album,
+      });
 
-      return res.status(200).send({ message: "cloudinary video uploaded" });
+      await db.Track.create({
+        name: req.body.title,
+        url: cldTrackRes.secure_url,
+        thumbnail: cldThumbnailRes.secure_url,
+        duration: cldTrackRes.duration,
+        genreId: genreId,
+        userId: userId,
+        albums: [albumId],
+      });
+
+      return res.status(200).send({ message: "cloudinary track uploaded" });
     }
 
     return res
@@ -85,6 +111,6 @@ async function uploadTrack(req, res, next) {
 }
 
 module.exports = {
-  uploadCover,
+  // uploadCover,
   uploadTrack,
 };
