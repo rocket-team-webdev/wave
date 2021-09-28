@@ -24,13 +24,10 @@ export default function MusicPlayer() {
   const audioPlayer = useRef(null);
 
   const nextSong = () => {
-    // if (repeatState !== "song") {
     if (queueState.queue.length > listPosition + 1)
       setListPosition(listPosition + 1);
     else if (repeatState === "queue") setListPosition(0);
     // TODO: else disable next button
-    // } else setListPosition(listPosition);
-    // }
   };
   const previousSong = () => {
     if (listPosition > 0) setListPosition(listPosition - 1);
