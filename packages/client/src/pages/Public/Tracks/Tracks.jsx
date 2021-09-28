@@ -3,7 +3,7 @@ import React from "react";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
-// import SongCard from "../../../components/SongCard/SongCard";
+import SongCard from "../../../components/SongCard/SongCard";
 
 export default function Songs() {
   return (
@@ -17,14 +17,17 @@ export default function Songs() {
       </div>
       <div className="row">
         <div className="col-6">
-          {playlistsList.map((songName) => (
+          <h1>Uploaded</h1>
+          <SongCard />
+          {/* {playlistsList.map((songName) => (
             <SongCard key={playlistName} songName={songName} hasHeart />
-          ))}
+          ))} */}
         </div>
         <div className="col-6">
-          {playlistsList.map((songName) => (
+          <h1>Liked</h1>
+          {/* {playlistsList.map((songName) => (
             <SongCard key={playlistName} songName={songName} hasHeart />
-          ))}
+          ))} */}
         </div>
       </div>
     </Layout>
