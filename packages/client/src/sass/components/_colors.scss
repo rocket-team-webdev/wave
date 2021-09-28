@@ -39,7 +39,7 @@ $darkWarning: rgb(255, 236, 181);
 }
 
 .clr-danger {
-  background: $lightDanger;
+  background: $lightDangerColor;
 }
 
 .clr-warning {
@@ -68,6 +68,8 @@ $darkWarning: rgb(255, 236, 181);
 
 .fnt-white {
   color: $white !important;
+}
+
 .fnt-danger {
-  color: $darkDanger;
+  color: $darkDangerColor;
 }

@@ -127,14 +127,7 @@ export default function SignIn() {
                 hasErrorMessage={formik.touched.password}
                 classNames="mb-4"
               />
-              <div className="form-footer-wrapper p-0 row">
-                <Checkbox
-                  label="Remember account"
-                  id="testCheckbox"
-                  ref={credentialsCheckbox}
-                  checked={saveCredentials}
-                  onChange={handleSaveCredentials}
-                />
+              <div className="form-footer-wrapper">
                 <div className="fnt-caption">
                   Forgot your password? Reset it,{" "}
                   <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
