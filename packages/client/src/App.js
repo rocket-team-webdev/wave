@@ -17,6 +17,7 @@ import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
+import Tracks from "./pages/Public/Tracks";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,6 +83,9 @@ function App() {
             <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
               <SignIn />
             </OnlyPublicRoute>
+            <PrivateRoute path={PUBLIC.MY_SONGS}>
+              <Tracks />
+            </PrivateRoute>
             <PrivateRoute path={PUBLIC.HOME}>
               <Home />
             </PrivateRoute>
