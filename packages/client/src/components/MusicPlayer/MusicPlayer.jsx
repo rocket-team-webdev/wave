@@ -3,6 +3,7 @@ import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
 
 import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
+import { MdRepeat, MdRepeatOne } from "react-icons/md";
 import { IoMdRepeat } from "react-icons/io";
 import { ImShuffle } from "react-icons/im";
 
@@ -115,15 +116,15 @@ export default function MusicPlayer() {
           loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
         }}
         customControlsSection={[
-          <div className="rhap_shuffle-controls" key={songObject.duration}>
+          <div className="rhap_repeat-controls" key={songObject.duration}>
             <button
               onClick={repeatToggle}
               type="button"
-              // className={`${
-              //   isShuffle ? "shuffle-on" : "shuffle-off"
-              // } rhap_button-shuffle `}
+              className={`${
+                repeatState === "false" ? "button-off" : "button-on"
+              } rhap_button-repeat`}
             >
-              <ImShuffle />
+              {repeatState === "song" ? <MdRepeatOne /> : <MdRepeat />}
             </button>
           </div>,
           RHAP_UI.ADDITIONAL_CONTROLS,
@@ -133,7 +134,7 @@ export default function MusicPlayer() {
               onClick={shuffleToggle}
               type="button"
               className={`${
-                isShuffle ? "shuffle-on" : "shuffle-off"
+                isShuffle ? "button-on" : "button-off"
               } rhap_button-shuffle `}
             >
               <ImShuffle />
