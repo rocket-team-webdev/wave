@@ -3,7 +3,7 @@ import React from "react";
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 
-import MusicPlayer from "../../../components/MusicPlayer";
+// import MusicPlayer from "../../../components/MusicPlayer";
 
 export default function Home() {
   return (
@@ -11,7 +11,6 @@ export default function Home() {
       {/* <div className="d-flex flex-row justify-content-between row p-0 g-4"> */}
       <div className="row">
         <JumboText secText="Username" isNegative cols="7" />
-        <MusicPlayer />
         <div className="col-5 col-12 col-md-5 clr-light-20 fx-rounded fnt-subtitle-light p-0">
           Right element
           <br />
