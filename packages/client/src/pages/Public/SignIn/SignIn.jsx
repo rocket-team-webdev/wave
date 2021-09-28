@@ -14,6 +14,7 @@ import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import { PUBLIC } from "../../../constants/routes";
 import Checkbox from "../../../components/Checkbox";
+import Upload from "../../../components/Upload";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -95,6 +96,7 @@ export default function SignIn() {
 
   return (
     <Layout>
+      <Upload />
       <div className="row clr-white">
         <div className="col col-12 col-md-6 fnt-jumbo p-4">
           <p className="fnt-primary">WELCOME TO WAVEAPP.</p>
