@@ -1,0 +1,48 @@
+import React from "react";
+
+import HomeElement from "../HomeElement";
+import Button from "../Button";
+import PlaylistCard from "../PlaylistCard";
+import ArtistCard from "../ArtistCard";
+
+export default function HomeMyWave({
+  genresList = false,
+  artistsList = false,
+  playlistsList = false,
+}) {
+  return (
+    <div>
+      {genresList && (
+        <HomeElement label="Genres">
+          {genresList.map((genre) => (
+            <div key={genre} className="mb-2 me-2">
+              <Button isSmall>{genre.toUpperCase()}</Button>
+            </div>
+          ))}
+        </HomeElement>
+      )}
+      {artistsList && (
+        <HomeElement label="Artists">
+          {artistsList.map((artistName) => (
+            <ArtistCard
+              classNames="me-4 mb-3"
+              key={artistName}
+              artistName={artistName}
+            />
+          ))}
+        </HomeElement>
+      )}
+      {playlistsList && (
+        <HomeElement label="Playlists">
+          {playlistsList.map((playlistName) => (
+            <PlaylistCard
+              key={playlistName}
+              classNames="mb-3"
+              playlistName={playlistName}
+            />
+          ))}
+        </HomeElement>
+      )}
+    </div>
+  );
+}

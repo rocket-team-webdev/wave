@@ -8,7 +8,7 @@ export default function ArtistCard({ classNames, artistName }) {
   return (
     <div className={componentClasses}>
       <img className="mb-3" src={imageURL} alt={artistName} />
-      <p className="fnt-input-light fnt-light text-center m-0 truncate">
+      <p className="fnt-caption fnt-light text-center m-0 truncate">
         {artistName}
       </p>
     </div>

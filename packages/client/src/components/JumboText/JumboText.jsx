@@ -1,7 +1,7 @@
 import React from "react";
 
-function JumboText({
-  priText = "Welcome to WaveApp.",
+export default function JumboText({
+  priText = "Welcome to WaveApp,",
   secText = false,
   isNegative = false,
   cols = "6",
@@ -17,5 +17,3 @@ function JumboText({
     </div>
   );
 }
-
-export default JumboText;
