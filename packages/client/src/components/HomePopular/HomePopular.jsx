@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import HomeElement from "../HomeElement";
 import Button from "../Button";
 import PlaylistCard from "../PlaylistCard";
 import ArtistCard from "../ArtistCard";
 
-export default function HomePopular({
-  genresList = [],
-  artistsList = [],
-  playlistsList = [],
-}) {
+import { getAllPlaylists } from "../../api/playlists-api";
+
+export default function HomePopular({ genresList = [], artistsList = [] }) {
+  const [loadStatus, setLoadStatus] = useState(false);
+  const [playlists, setPlaylists] = useState([]);
+
+  const loadPlaylists = async () => {
+    try {
+      setLoadStatus(true);
+      const { data } = await getAllPlaylists();
+      await setPlaylists(data.playlists);
+      setLoadStatus(false);
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
+
+  useEffect(() => {
+    loadPlaylists();
+  }, []);
+
   return (
     <div>
       {genresList && (
@@ -32,17 +49,21 @@ export default function HomePopular({
           ))}
         </HomeElement>
       )}
-      {playlistsList && (
-        <HomeElement label="Playlists">
-          {playlistsList.map((playlistName) => (
-            <PlaylistCard
-              key={playlistName}
-              // classNames=""
-              playlistName={playlistName}
-              hasHeart
-            />
-          ))}
-        </HomeElement>
+      {!loadStatus ? (
+        playlists && (
+          <HomeElement label="Playlists">
+            {playlists.map((playlist) => (
+              <PlaylistCard
+                key={playlist._id}
+                // classNames=""
+                playlistName={playlist.name}
+                hasHeart
+              />
+            ))}
+          </HomeElement>
+        )
+      ) : (
+        <HomeElement label="Playlists">Loading...</HomeElement>
       )}
     </div>
   );

@@ -102,11 +102,7 @@ export default function Home() {
           </div>
           {/* Switch view */}
           {popularView ? (
-            <HomePopular
-              genresList={genresList}
-              artistsList={artistsList}
-              playlistsList={playlistsList}
-            />
+            <HomePopular genresList={genresList} artistsList={artistsList} />
           ) : (
             <HomeMyWave
               artistsList={artistsList}
