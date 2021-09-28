@@ -12,14 +12,13 @@ import "./MusicPlayer.scss";
 
 export default function MusicPlayer() {
   // const isShuffle = true;
-  const isLiked = true;
+  // const isLiked = true;
 
   const queueState = useSelector((state) => state.queue);
-  // const dispatch = useDispatch();
   const [currentSong, setCurrentSong] = useState(0);
   const songObject = queueState.queue[currentSong];
   const [isShuffle, setIsShuffle] = useState(false);
-  // const [repeat, setRepeat] = useState("no");
+  const [isLiked, setIsLiked] = useState(true);
 
   const randomNumber = (max) => {
     return Math.floor(Math.random() * (max + 1));
@@ -55,6 +54,10 @@ export default function MusicPlayer() {
     console.log("shuffled", shuffle(queueState.queue));
   };
 
+  const likeSong = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
     <div className="rhap_main-container clr-white">
       <div className="rhap_song-info">
@@ -65,7 +68,7 @@ export default function MusicPlayer() {
             className="rhap_thumb-album-img"
           />
         </div>
-        <button type="button" className="rhap_like-button">
+        <button type="button" className="rhap_like-button" onClick={likeSong}>
           {" "}
           {isLiked ? (
             <FaHeart className="rhap_like-icon" />
