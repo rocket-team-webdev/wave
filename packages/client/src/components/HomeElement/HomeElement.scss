@@ -2,9 +2,6 @@
 
 .content {
   overflow-y: scroll;
-  // box-shadow: inset -10px 0px 60px rgb(255, 255, 255);
-
-  // -webkit-mask: linear-gradient(to right, black 70%, transparent 90%);
   .playlist-card {
     background: c.$playlistGradient;
     min-height: 200px;
@@ -13,6 +10,7 @@
 
   .artist-card {
     max-width: 120px;
+
     img {
       mix-blend-mode: multiply;
       border: 2px solid white;
@@ -22,8 +20,15 @@
       height: 120px;
       filter: grayscale(100%);
     }
+    img:hover {
+      mix-blend-mode: normal;
+    }
     p {
       max-width: 120px;
+    }
+
+    &:hover {
+      font-weight: bold;
     }
   }
 }

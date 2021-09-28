@@ -25,6 +25,7 @@ export default function Home() {
     "electronic",
     "lounge",
     "grunge",
+    "other",
   ];
 
   const artistsList = [
@@ -82,7 +83,7 @@ export default function Home() {
             {/* !!! TODO map playlists from user */}
             {playlistsList.map((playlistName) => (
               <PlaylistCard
-                classNames="me-4"
+                classNames="me-3 mb-3"
                 key={playlistName}
                 playlistName={playlistName}
               />
