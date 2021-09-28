@@ -2,6 +2,7 @@
 
 .rhap_container {
   background-color: c.$white;
+  box-shadow: none;
 }
 
 .rhap_controls-section {
@@ -83,8 +84,26 @@
   opacity: 0.9;
   transition-duration: 0.2s;
 }
+.song-info-wrapper {
+  min-width: 30%;
+  max-width: 35%;
+}
+.thumb-album-img {
+  height: 35px;
+  width: 35px;
+}
+.like-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  // overflow: hidden;
+  cursor: pointer;
+  font-size: 15px;
+}
 
-// Responsive design for audio player
+/* -------------------------------------------------------------------------- */
+/*                               Responsive Design                            */
+/* -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .rhap_horizontal-reverse {
     flex-direction: column;
