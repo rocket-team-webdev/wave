@@ -35,7 +35,7 @@ label {
 }
 
 .negative-input {
-  color: c.$secondaryColor;
+  color: c.$lightColor;
   background: c.$lightColor20;
   border: 2px solid c.$lightColor;
 }
@@ -55,6 +55,10 @@ label {
 .negative-custom-upload-input {
   border: 2px solid c.$lightColor;
   background: c.$lightColor;
+}
+
+.negative-input::placeholder {
+  color: c.$lightColor60;
 }
 
 // Actual input

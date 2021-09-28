@@ -206,7 +206,7 @@ export default function SignUp() {
               />
               <div className="fnt-caption">
                 Already have an account?{" "}
-                <Link to={PUBLIC.SIGN_IN}>sign in.</Link>
+                <Link to={PUBLIC.SIGN_IN}>Sign in.</Link>
               </div>
               <div className="d-flex justify-content-end col-12 text-end mt-4 p-0">
                 <div className="d-inline-flex p-2 pe-2">
