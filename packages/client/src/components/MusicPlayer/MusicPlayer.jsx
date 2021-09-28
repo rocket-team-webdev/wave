@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -10,7 +10,6 @@ import "react-h5-audio-player/lib/styles.css";
 import "./MusicPlayer.scss";
 
 import { clearShuffle, setShuffle } from "../../redux/music-queue/actions";
-// import { setQueue } from "../../redux/music-queue/actions";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
@@ -21,11 +20,17 @@ export default function MusicPlayer() {
     : queueState.queue[listPosition];
   const [isShuffle, setIsShuffle] = useState(false);
   const [isLiked, setIsLiked] = useState(true);
+  const [repeatState, setRepeatState] = useState("false");
+  const audioPlayer = useRef(null);
 
   const nextSong = () => {
+    // if (repeatState !== "song") {
     if (queueState.queue.length > listPosition + 1)
       setListPosition(listPosition + 1);
+    else if (repeatState === "queue") setListPosition(0);
     // TODO: else disable next button
+    // } else setListPosition(listPosition);
+    // }
   };
   const previousSong = () => {
     if (listPosition > 0) setListPosition(listPosition - 1);
@@ -49,6 +54,20 @@ export default function MusicPlayer() {
       );
     else dispatch(clearShuffle());
     setIsShuffle(!isShuffle);
+  };
+
+  const repeatToggle = () => {
+    const toggleStates = ["false", "song", "queue"];
+    const statePosition = toggleStates.findIndex(
+      (element) => element === repeatState,
+    );
+    if (statePosition === 0) audioPlayer.current.audio.current.loop = true;
+    else audioPlayer.current.audio.current.loop = false;
+    setRepeatState(
+      toggleStates[
+        statePosition === toggleStates.length - 1 ? 0 : statePosition + 1
+      ],
+    );
   };
 
   const likeSong = () => {
@@ -89,6 +108,8 @@ export default function MusicPlayer() {
         onClickNext={nextSong}
         onClickPrevious={previousSong}
         onEnded={nextSong}
+        customAdditionalControls={[]}
+        ref={audioPlayer}
         layout="horizontal-reverse"
         customIcons={{
           play: <FaPlay />,
@@ -97,6 +118,17 @@ export default function MusicPlayer() {
           loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
         }}
         customControlsSection={[
+          <div className="rhap_shuffle-controls" key={songObject.duration}>
+            <button
+              onClick={repeatToggle}
+              type="button"
+              // className={`${
+              //   isShuffle ? "shuffle-on" : "shuffle-off"
+              // } rhap_button-shuffle `}
+            >
+              <ImShuffle />
+            </button>
+          </div>,
           RHAP_UI.ADDITIONAL_CONTROLS,
           RHAP_UI.MAIN_CONTROLS,
           <div className="rhap_shuffle-controls" key={songObject.url}>
