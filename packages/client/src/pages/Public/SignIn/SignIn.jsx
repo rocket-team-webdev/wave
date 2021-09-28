@@ -129,7 +129,7 @@ export default function SignIn() {
               />
               <div className="form-footer-wrapper">
                 <div className="fnt-caption">
-                  Forgot your password? Reset it{" "}
+                  Forgot your password? Reset it
                   <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
                 </div>
                 <div className="fnt-caption mt-4 row">
