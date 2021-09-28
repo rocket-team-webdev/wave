@@ -1,7 +1,5 @@
-const { verifyAuthToken } = require("./auth");
-const { getAuthToken } = require("./get-auth-token");
+const { cloudinary } = require("./config");
 
 module.exports = {
-  verifyAuthToken: verifyAuthToken,
-  getAuthToken: getAuthToken,
+  cloudinary,
 };

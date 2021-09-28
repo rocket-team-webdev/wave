@@ -1,5 +1,6 @@
 const { trackController } = require("../controllers");
-
+const multer = require("multer"); //use multer to upload blob data
+const upload = multer(); // setup the multer
 const Router = require("express").Router;
 
 const {
@@ -8,7 +9,11 @@ const {
 
 const trackRouter = Router();
 
-trackRouter.post("/upload", authFirebaseMiddleware, trackController.upload);
+trackRouter.post(
+  "/upload",
+  [authFirebaseMiddleware, upload.single("file")],
+  trackController.uploadTrack,
+);
 
 module.exports = {
   trackRouter,

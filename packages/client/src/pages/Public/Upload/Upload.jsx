@@ -8,6 +8,7 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import Select from "../../../components/Select";
 import DragAndDrop from "../../../components/DragAndDrop";
+import { uploadCover } from "../../../api/example";
 
 export default function Home() {
   const [filesState, setFilesState] = useState([]);
@@ -16,6 +17,14 @@ export default function Home() {
     Object.values(files).forEach((file) => {
       setFilesState((prevState) => [...prevState, file.name]);
     });
+  };
+
+  const fileOnChange = async (event) => {
+    const file = event.target.files[0];
+    const fd = new FormData();
+    fd.append("file", file);
+    await uploadCover(fd);
+    console.log("SE SUBIOOO");
   };
 
   const formik = useFormik({
@@ -27,6 +36,8 @@ export default function Home() {
     onSubmit: async (signInState) => {
       try {
         console.log("signInState", signInState);
+        await uploadCover();
+        console.log("SE HIZOOO");
       } catch (error) {
         toast(error.message, { type: "error" });
       }
@@ -125,11 +136,11 @@ export default function Home() {
                 type="file"
                 placeholder="Upload file"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.genre}
-                errorMessage={formik.errors.genre}
-                hasErrorMessage={formik.touched.genre}
+                onChange={fileOnChange}
+                onBlur={fileOnChange}
+                // value={formik.values.genre}
+                // errorMessage={formik.errors.genre}
+                // hasErrorMessage={formik.touched.genre}
               />
             </div>
 

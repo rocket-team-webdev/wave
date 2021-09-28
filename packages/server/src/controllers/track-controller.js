@@ -1,9 +1,9 @@
 // const db = require("../models");
-const cloudinary = require("cloudinary").v2;
+const { cloudinary } = require("../services/cloudinary");
+const fs = require("fs");
+const path = require("path");
 
-async function upload(req, res, next) {
-  // const { firebaseId } = req.user;
-
+async function uploadCover(req, res, next) {
   try {
     //TODO: Mocking cover file
     const fileStr =
@@ -11,12 +11,9 @@ async function upload(req, res, next) {
 
     console.log("fileStr ------------", fileStr);
 
-    const cloudinaryResponse = await cloudinary.v2.uploader.unsigned_upload(
-      fileStr,
-      {
-        upload_preset: "covers-preset",
-      },
-    );
+    const cloudinaryResponse = await cloudinary.uploader.upload(fileStr, {
+      upload_preset: "covers-preset",
+    });
 
     console.log(cloudinaryResponse);
 
@@ -27,6 +24,67 @@ async function upload(req, res, next) {
   }
 }
 
+async function uploadTrack(req, res, next) {
+  try {
+    console.log("req.file", req.file);
+
+    const { mimetype } = req.file;
+
+    if (mimetype === "audio/mpeg") {
+      const uploadLocation = path.join(
+        __dirname,
+        "../../",
+        "uploads",
+        req.file.originalname,
+      );
+
+      // write the BLOB to the server as a file
+      fs.writeFileSync(
+        uploadLocation,
+        Buffer.from(new Uint8Array(req.file.buffer)),
+      );
+
+      // upload to cloudinary
+      const cloudinaryResponse = await cloudinary.uploader.upload(
+        uploadLocation,
+        {
+          upload_preset: "tracks-preset",
+          resource_type: "video",
+        },
+      );
+
+      console.log(cloudinaryResponse);
+
+      // delete uploaded file
+      fs.unlink(uploadLocation, (deleteErr) => {
+        if (deleteErr) return res.status(500).send(deleteErr);
+        console.log("temp file was deleted");
+      });
+
+      // Mogodb store data
+      // await db.Track.create({
+      //   name: ,
+      //   url: ,
+      //   thumbnail: ,
+      //   duration: ,
+      //   genreId: ,
+      //   userId: ,
+      //   albums: ,
+      // });
+
+      return res.status(200).send({ message: "cloudinary video uploaded" });
+    }
+
+    return res
+      .status(400)
+      .send({ message: "This file format is not supported!" });
+  } catch (error) {
+    res.status(500).send({ error: error });
+    next(error);
+  }
+}
+
 module.exports = {
-  upload,
+  uploadCover,
+  uploadTrack,
 };
