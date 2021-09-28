@@ -8,6 +8,11 @@ $darkDangerColor: rgb(218, 95, 100);
 $lightDangerColor: rgb(255, 206, 208);
 $darkSuccessColor: rgb(93, 172, 101);
 $lightSuccessColor: rgb(192, 238, 202);
+$darkWarning: rgb(255, 236, 181);
+
+:root {
+  --toastify-color-error: rgba(218, 95, 100, 1);
+}
 
 .clr-primary {
   background: $primaryColor;
@@ -33,6 +38,14 @@ $lightSuccessColor: rgb(192, 238, 202);
   background: $white;
 }
 
+.clr-danger {
+  background: $lightDanger;
+}
+
+.clr-warning {
+  background: $darkWarning;
+}
+
 .fnt-primary {
   color: $primaryColor;
 }
@@ -55,4 +68,6 @@ $lightSuccessColor: rgb(192, 238, 202);
 
 .fnt-white {
   color: $white !important;
+.fnt-danger {
+  color: $darkDanger;
 }

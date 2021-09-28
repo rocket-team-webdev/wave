@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import updateSchema from "./update-schema";
 
@@ -16,10 +17,7 @@ import FormWrapper from "../../../components/FormWrapper";
 
 export default function Account() {
   const history = useHistory();
-  const [loadStatus, setLoadStatus] = useState({
-    isError: false,
-    isLoading: true,
-  });
+  const [loadStatus, setLoadStatus] = useState(false);
 
   const handleDeleteAccount = async () => {
     history.push(PUBLIC.REAUTHENTICATE);
@@ -50,18 +48,21 @@ export default function Account() {
 
   async function loadAccount() {
     try {
+      setLoadStatus(true);
+
       const { data } = await getAccount();
       formik.setValues({
         profilePicture: data.data.profilePicture || "",
         firstName: data.data.firstName || "",
         lastName: data.data.lastName || "",
-        birthDate: data.data.birthDate.substr(0, 10) || "",
+        birthDate: data.data.birthDate || "",
         email: data.data.email || "",
         country: data.data.country || "",
       });
-      setLoadStatus({ isError: false, isLoading: false });
+
+      setLoadStatus(false);
     } catch (error) {
-      setLoadStatus({ isError: true, isLoading: false, error: error });
+      toast(error.message, { type: "error" });
     }
   }
 
@@ -175,10 +176,6 @@ export default function Account() {
                 </div>
               </div>
             </form>
-            {loadStatus.isLoading && <h3>Loading...</h3>}
-            {!loadStatus.isLoading && loadStatus.isError && (
-              <h3>Account error: {loadStatus.isError}</h3>
-            )}
           </FormWrapper>
         </div>
       </div>

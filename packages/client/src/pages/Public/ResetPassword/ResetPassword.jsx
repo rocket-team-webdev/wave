@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import resetPasswordSchema from "./reset-pass-schema";
 import { sendPasswordResetEmail } from "../../../services/auth";
@@ -11,9 +12,6 @@ import FormWrapper from "../../../components/FormWrapper";
 import JumboText from "../../../components/JumboText";
 
 export default function ResetPassword() {
-  const [resetPasswordError, setResetPasswordError] = useState(null);
-  const [passwordResetSent, setPasswordResetSent] = useState(false);
-
   const config = {
     url: PUBLIC.HOME,
     handleCodeInApp: true,
@@ -24,14 +22,13 @@ export default function ResetPassword() {
     },
     validationSchema: resetPasswordSchema,
     onSubmit: async (form) => {
-      setPasswordResetSent(false);
-      setResetPasswordError(null);
-
       try {
         await sendPasswordResetEmail(form.email, config);
-        setPasswordResetSent(true);
+        toast("Please visit your email to continue with password recovery", {
+          type: "success",
+        });
       } catch (error) {
-        setResetPasswordError(error.message);
+        toast(error.message, { type: "error" });
       }
     },
   });
@@ -53,15 +50,10 @@ export default function ResetPassword() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
-                errorMessage={formik.errors.email || resetPasswordError}
-                hasErrorMessage={formik.touched.email || resetPasswordError}
+                errorMessage={formik.errors.email}
+                hasErrorMessage={formik.touched.email}
               />
 
-              {passwordResetSent && !resetPasswordError && (
-                <p className="">
-                  Please visit your email to continue with password recovery
-                </p>
-              )}
               <div className="mt-5 col-auto ms-auto">
                 <Button submitButton>Reset password</Button>
               </div>

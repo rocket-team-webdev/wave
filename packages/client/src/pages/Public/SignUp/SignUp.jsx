@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import signUpSchema from "./sign-up-schema";
 import {
@@ -9,8 +10,6 @@ import {
   signOut,
 } from "../../../services/auth";
 import { createClient } from "../../../api/account-api";
-
-import "./SignUp.scss";
 
 import JumboText from "../../../components/JumboText/JumboText";
 import Layout from "../../../components/Layout";
@@ -22,10 +21,11 @@ import { emailVerification } from "../../../services/auth/auth";
 import { PUBLIC } from "../../../constants/routes";
 import FormWrapper from "../../../components/FormWrapper";
 
+import "./SignUp.scss";
+
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
-  const [registerError, setRegisterError] = useState(null);
-  const [registered, setRegistered] = useState(false);
+
   const history = useHistory();
 
   const formik = useFormik({
@@ -42,7 +42,6 @@ export default function SignUp() {
     validationSchema: signUpSchema,
     onSubmit: async (signUpState) => {
       setLoading(true);
-      setRegistered(false);
 
       try {
         await signUpWithEmailAndPassword(
@@ -52,12 +51,17 @@ export default function SignUp() {
         await emailVerification();
         await createClient(signUpState);
         await signOut();
-        setRegistered(true);
+
+        toast(
+          " Signed up! Check your email, we&aposve sent you a verification message. We&aposll redirect you to the sign in page in no time...",
+          { type: "warning" },
+        );
+
         setTimeout(() => {
           history.push(PUBLIC.HOME);
         }, 5000);
       } catch (error) {
-        setRegisterError(error.message);
+        toast(error.message, { type: "error" });
       } finally {
         setLoading(false);
       }
@@ -84,9 +88,7 @@ export default function SignUp() {
         history.push(PUBLIC.HOME);
       }, 500);
     } catch (error) {
-      // setLoginError(error);
-      console.clear();
-      console.log("Failed Google sign in.");
+      toast(error.message, { type: "error" });
     }
   };
 
@@ -217,17 +219,7 @@ export default function SignUp() {
                 </div>
               </div>
             </form>
-            {loading && !registerError && !registered && <h3>Loading...</h3>}
-            {!loading && !registerError && registered && (
-              <h3>
-                Signed up! Check your email, we&aposve sent you a verification
-                message. We&aposll redirect you to the sign in page in no
-                time...
-              </h3>
-            )}
-            {!loading && registerError && !registered && (
-              <h3>Sign up error: {registerError}</h3>
-            )}
+            {loading && <h3>Loading...</h3>}
           </FormWrapper>
         </div>
       </div>

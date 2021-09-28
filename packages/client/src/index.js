@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./sass/main.scss";
+import "react-toastify/dist/ReactToastify.css";
+
 import ReduxProvider from "./redux/provider";
 
 ReactDOM.render(
