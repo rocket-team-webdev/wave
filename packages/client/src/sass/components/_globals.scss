@@ -24,7 +24,6 @@
 body {
   height: 100vh;
   margin: 0;
-  background: rgb(115, 183, 247);
   #root {
     height: 100%;
   }
@@ -48,10 +47,23 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: none;
-  border-bottom: 1px solid black;
+  // border: none;
+  // border-bottom: 1px solid black;
   -webkit-text-fill-color: black;
   -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+a:hover {
+  font-weight: normal;
+  color: inherit;
 }
 /* -------------------------------------------------------------------------- */
 /*                               Global effects                               */

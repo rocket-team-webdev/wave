@@ -26,24 +26,27 @@
 .fnt-sidebar,
 .fnt-page-title,
 .fnt-subtitle-light,
-.fnt-subtitle-bold,
-.fnt-label-light,
-.fnt-label-bold {
+.fnt-subtitle-bold {
   font-family: "Pramukh";
+  transition: all 0.2s;
 }
 
+.fnt-label-light,
+.fnt-label-bold,
 .fnt-input-light,
 .fnt-input-bold,
 .fnt-song-light,
 .fnt-song-bold,
 .fnt-caption {
   font-family: "Switzer";
+  transition: all 0.2s;
 }
 
 // Sizes & styles
 .fnt-jumbo {
   font-size: 205px;
   line-height: 170px;
+  text-transform: uppercase;
 }
 
 .fnt-sidebar {
@@ -57,11 +60,12 @@
 .fnt-subtitle-light,
 .fnt-subtitle-bold {
   font-size: 93px;
+  line-height: 1;
 }
 
 .fnt-label-light,
 .fnt-label-bold {
-  font-size: 37px;
+  font-size: 19px;
 }
 
 .fnt-input-light,
@@ -76,6 +80,7 @@
 
 .fnt-caption {
   font-size: 15px;
+  line-height: 1.2;
 }
 
 // Weights
@@ -107,6 +112,10 @@
 .fnt-input-light,
 .fnt-song-light {
   font-weight: 300;
+}
+
+.fnt-uppercase {
+  text-transform: uppercase;
 }
 
 // Overflow

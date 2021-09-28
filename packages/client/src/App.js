@@ -70,9 +70,9 @@ function App() {
             <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>
               <UpdatePassword />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.RESET_PASSWORD}>
+            <OnlyPublicRoute path={PUBLIC.RESET_PASSWORD}>
               <ResetPassword />
-            </PrivateRoute>
+            </OnlyPublicRoute>
             <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
               <Reauthenticate />
             </PrivateRoute>
