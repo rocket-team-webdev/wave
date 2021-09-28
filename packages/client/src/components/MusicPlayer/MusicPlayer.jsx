@@ -1,51 +1,48 @@
 import React, { useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
-// import { useSelector, useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "react-h5-audio-player/lib/styles.css";
+import { clearShuffle, setShuffle } from "../../redux/music-queue/actions";
 // import { setQueue } from "../../redux/music-queue/actions";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
-  // const dispatch = useDispatch();
-  const [currentSong, setCurrentSong] = useState(0);
-  const songObject = queueState.queue[currentSong];
+  const dispatch = useDispatch();
+  const [listPosition, setListPosition] = useState(0);
+  const songObject = queueState.isShuffled
+    ? queueState.queue[queueState.shuffleOrder[listPosition]]
+    : queueState.queue[listPosition];
   const [isShuffle, setIsShuffle] = useState(false);
   // const [repeat, setRepeat] = useState("no");
 
-  const randomNumber = (max) => {
-    return Math.floor(Math.random() * (max + 1));
-  };
-
   const nextSong = () => {
-    if (isShuffle) {
-      setCurrentSong(randomNumber(queueState.queue.length - 1));
-      return;
-    }
-    if (queueState.queue.length > currentSong + 1)
-      setCurrentSong(currentSong + 1);
+    if (queueState.queue.length > listPosition + 1)
+      setListPosition(listPosition + 1);
     // TODO: else disable next button
   };
   const previousSong = () => {
-    if (currentSong > 0) setCurrentSong(currentSong - 1);
-    // TODO: else prev next button
+    if (listPosition > 0) setListPosition(listPosition - 1);
+    // TODO: else disable prev button
   };
 
-  const shuffle = (inputArray) => {
-    const resultArray = [];
-    for (let i = inputArray.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [resultArray[i], resultArray[j]] = [inputArray[j], inputArray[i]];
+  const shuffledArray = (arrayLength, min) => {
+    // Durstenfeld shuffle with minimum
+    const resultArray = Array.from(Array(arrayLength).keys());
+    for (let i = resultArray.length - 1; i > min; i -= 1) {
+      const j = Math.floor(Math.random() * (i - (min + 1)) + min + 1);
+      [resultArray[i], resultArray[j]] = [resultArray[j], resultArray[i]];
     }
     return resultArray;
   };
 
   const shuffleToggle = () => {
+    if (!isShuffle)
+      dispatch(
+        setShuffle(shuffledArray(queueState.queue.length, listPosition)),
+      );
+    else dispatch(clearShuffle());
     setIsShuffle(!isShuffle);
-    // if (isShuffle) dispatch(setQueue(shuffle(queueState.queue)));
-    console.log("original", queueState.queue);
-    console.log("shuffled", shuffle(queueState.queue));
   };
 
   return (
@@ -58,9 +55,6 @@ export default function MusicPlayer() {
         showJumpControls={false}
         onClickNext={nextSong}
         onClickPrevious={previousSong}
-        // onPlay={(e) => {
-        //   console.log("e", e);
-        // }}
         onEnded={nextSong}
         customAdditionalControls={[
           <button key={songObject.url} onClick={shuffleToggle} type="button">
