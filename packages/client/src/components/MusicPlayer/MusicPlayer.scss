@@ -88,7 +88,7 @@
   color: c.$secondaryColor;
 }
 .shuffle-off {
-  color: c.$lightColor20;
+  color: rgb(184, 189, 174);
 }
 .rhap_button-shuffle:hover {
   opacity: 0.9;
@@ -102,7 +102,7 @@
   padding-right: 1.5rem;
   // min-width: 30%;
   // max-width: 35%;
-  width: 30%;
+  width: 35%;
 }
 .rhap_thumb-album-img {
   height: 35px;
@@ -118,6 +118,8 @@
 }
 .rhap_song-text{
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* -------------------------------------------------------------------------- */

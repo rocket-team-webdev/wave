@@ -11,9 +11,9 @@ import { ImShuffle } from "react-icons/im";
 import "./MusicPlayer.scss";
 
 export default function MusicPlayer() {
-  const isShuffle = true;
+  // const isShuffle = true;
   const isLiked = true;
-  /******************************** */
+
   const queueState = useSelector((state) => state.queue);
   // const dispatch = useDispatch();
   const [currentSong, setCurrentSong] = useState(0);
@@ -103,7 +103,6 @@ export default function MusicPlayer() {
           <div className="rhap_shuffle-controls" key={songObject.url}>
             <button
               onClick={shuffleToggle}
-              disabled="true"
               type="button"
               className={`${
                 isShuffle ? "shuffle-on" : "shuffle-off"
