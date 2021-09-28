@@ -14,6 +14,8 @@ $darkWarning: rgb(255, 236, 181);
   --toastify-color-error: rgba(218, 95, 100, 1);
 }
 
+$playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
+
 .clr-primary {
   background: $primaryColor;
 }
