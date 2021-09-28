@@ -11,30 +11,30 @@ import "./MusicPlayer.scss";
 
 export default function MusicPlayer() {
   const isShuffle = true;
-  const isLiked = false;
+  const isLiked = true;
   return (
-    <div className="d-flex audio-player">
-      <div className="song-info-wrapper d-flex align-items-center justify-content-between clr-white ps-5 pe-4">
-        <div className="thumb-album">
+    <div className="rhap_main-container clr-white">
+      <div className="rhap_song-info">
+        <div className="rhap_album-thumb">
           <img
             src="https://loudcave.es/wp-content/uploads/2021/04/cbf7b52dab62a3eb745e6730068abc4a.1000x1000x1.jpg"
             alt="album-cover"
-            className="thumb-album-img"
+            className="rhap_thumb-album-img"
           />
         </div>
-        <button type="button" className="like-button">
+        <button type="button" className="rhap_like-button">
           {" "}
           {isLiked ? (
-            <FaHeart className="like-icon" />
+            <FaHeart className="rhap_like-icon" />
           ) : (
-            <FaRegHeart className="like-icon" />
+            <FaRegHeart className="rhap_like-icon" />
           )}
         </button>
-        <div className="song-text d-flex">
-          <p className="song-tittle mb-0 fnt-song-bold lh-1 pe-4">
+        <div className="rhap_song-text">
+          <p className="rhap_song-tittle mb-0 fnt-song-bold lh-1 pe-4">
             Like Toy Soldiers
           </p>
-          <p className="artist-tittle mb-0 fnt-song-light lh-1">Eminem</p>
+          <p className="rhap_song-artist mb-0 fnt-song-light lh-1">Eminem</p>
         </div>
       </div>
       <AudioPlayer
@@ -65,7 +65,6 @@ export default function MusicPlayer() {
           </div>,
           RHAP_UI.VOLUME_CONTROLS,
         ]}
-        className="pe-5"
         // onPlay={(e) => console.log("onPlay")}
         // other props here
       />

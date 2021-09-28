@@ -1,8 +1,18 @@
 @use "../../sass/components/colors" as c;
 
+.rhap_main-container {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // overflow-x: hidden;
+}
 .rhap_container {
   background-color: c.$white;
   box-shadow: none;
+  padding-right: 3rem;
 }
 
 .rhap_controls-section {
@@ -84,15 +94,21 @@
   opacity: 0.9;
   transition-duration: 0.2s;
 }
-.song-info-wrapper {
-  min-width: 30%;
-  max-width: 35%;
+.rhap_song-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 3rem;
+  padding-right: 1.5rem;
+  // min-width: 30%;
+  // max-width: 35%;
+  width: 30%;
 }
-.thumb-album-img {
+.rhap_thumb-album-img {
   height: 35px;
   width: 35px;
 }
-.like-button {
+.rhap_like-button {
   background-color: transparent;
   border: none;
   padding: 0;
@@ -100,11 +116,37 @@
   cursor: pointer;
   font-size: 15px;
 }
+.rhap_song-text{
+  display: flex;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                               Responsive Design                            */
 /* -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
+  .rhap_main-container {
+    display: block;
+  }
+  .rhap_song-info{
+    justify-content: center;
+    // padding: 0rem 3rem;
+    // padding-left: 0px;
+    // padding-right: 0px;
+    margin-top: 12px;
+    width: 100%;
+  }
+  .rhap_album-thumb{
+    display:none;
+  }
+
+  .rhap_song-text{
+    display: block;
+    margin-left: 24px;
+  }
+  .rhap_container {
+    padding-right: 1.5rem;
+  }
+  
   .rhap_horizontal-reverse {
     flex-direction: column;
   }
@@ -117,4 +159,8 @@
   .rhap_volume-controls {
     display: none;
   }
+  .rhap_shuffle-controls {
+    margin-right: 0px;
+  }
+  
 }
