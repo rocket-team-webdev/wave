@@ -4,7 +4,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 
 import { FaPlay, FaPause } from "react-icons/fa";
-// import { IoMdRepeat } from "react-icons/io";
+import { IoMdRepeat } from "react-icons/io";
 
 import "./MusicPlayer.scss";
 
@@ -19,7 +19,9 @@ export default function MusicPlayer() {
         layout="horizontal-reverse"
         customIcons={{
           play: <FaPlay />,
-          pause: <FaPause style={{ color: "red" }} />,
+          pause: <FaPause />,
+          loop: <IoMdRepeat />,
+          loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
         }}
         // onPlay={(e) => console.log("onPlay")}
         // other props here

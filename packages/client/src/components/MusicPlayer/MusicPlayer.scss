@@ -1,5 +1,53 @@
 @use "../../sass/components/colors" as c;
 
-.rhap_container{
+.rhap_container {
   background-color: c.$white;
-} 
+}
+
+.rhap_main-controls-button,
+.rhap_repeat-button,
+.rhap_volume-button {
+  color: c.$secondaryColor;
+}
+
+.rhap_volume-bar {
+  height: 2px;
+  background-color: c.$secondaryColor;
+}
+.rhap_volume-indicator {
+  top: -5px;
+  background-color: c.$white;
+  opacity: 1;
+  box-shadow: none;
+  border: 2px solid c.$secondaryColor;
+}
+.rhap_play-pause-button {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+// .rhap_current-time,
+// .rhap_total-time{
+//   font-weight: bold;
+// }
+
+.rhap_progress-indicator {
+  background-color: c.$white;
+  border: 2px solid c.$secondaryColor;
+  opacity: 1;
+  box-shadow: none;
+  font-size: 20px;
+  width: 12px;
+  height: 12px;
+  top: -5px;
+}
+.rhap_progress-bar {
+  background-color: c.$lightColor20;
+  height: 2px;
+  opacity: 1;
+}
+.rhap_progress-filled {
+  background-color: c.$secondaryColor;
+  // height: 80%;
+}
