@@ -1,0 +1,13 @@
+@use "../../sass/components/colors" as c;
+
+header {
+  border-bottom: 2px solid c.$lightColor;
+}
+
+.layout-wrapper {
+  min-height: 100vh;
+}
+
+footer {
+  border-top: 2px solid c.$lightColor;
+}

@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import resetPasswordSchema from "./reset-pass-schema";
 import { sendPasswordResetEmail } from "../../../services/auth";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import { PUBLIC } from "../../../constants/routes";
+import Layout from "../../../components/Layout";
+import FormWrapper from "../../../components/FormWrapper";
+import JumboText from "../../../components/JumboText";
 
 export default function ResetPassword() {
-  const [resetPasswordError, setResetPasswordError] = useState(null);
-  const [passwordResetSent, setPasswordResetSent] = useState(false);
-
   const config = {
     url: PUBLIC.HOME,
     handleCodeInApp: true,
@@ -21,48 +22,45 @@ export default function ResetPassword() {
     },
     validationSchema: resetPasswordSchema,
     onSubmit: async (form) => {
-      setPasswordResetSent(false);
-      setResetPasswordError(null);
-
       try {
         await sendPasswordResetEmail(form.email, config);
-        setPasswordResetSent(true);
+        toast("Please visit your email to continue with password recovery", {
+          type: "success",
+        });
       } catch (error) {
-        setResetPasswordError(error.message);
+        toast(error.message, { type: "error" });
       }
     },
   });
 
   return (
-    <>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="fnt-subtitle-bold">Password recovery</div>
-        <Input
-          label="email"
-          id="email"
-          name="email"
-          type="email"
-          classNames="col mb-3 col-12 col-sm-8 col-md-5"
-          placeholder="name@example.com"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-          errorMessage={formik.errors.email || resetPasswordError}
-          hasErrorMessage={formik.touched.email || resetPasswordError}
-        />
+    <Layout>
+      <div className="row">
+        <JumboText secText="Reset your password." />
+        <div className="col-6">
+          <FormWrapper formTitle="Password recovery">
+            <form onSubmit={formik.handleSubmit} className="row">
+              <Input
+                label="email"
+                id="email"
+                name="email"
+                type="email"
+                classNames="mb-1"
+                placeholder="name@example.com"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                errorMessage={formik.errors.email}
+                hasErrorMessage={formik.touched.email}
+              />
 
-        {passwordResetSent && !resetPasswordError ? (
-          <p className="">
-            Please visit your email to continue with password recovery
-          </p>
-        ) : (
-          <p>&nbsp;</p>
-        )}
-
-        <Button isNegative submitButton>
-          Reset password
-        </Button>
-      </form>
-    </>
+              <div className="mt-5 col-auto ms-auto">
+                <Button submitButton>Reset password</Button>
+              </div>
+            </form>
+          </FormWrapper>
+        </div>
+      </div>
+    </Layout>
   );
 }

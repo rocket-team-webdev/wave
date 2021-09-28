@@ -20,7 +20,7 @@ export default function Select({
         fullWidth && "w-100"
       } ${classNames} d-flex flex-column mb-1`}
     >
-      <label className="label-select fnt-label-light" htmlFor={id}>
+      <label className="label-select fnt-input-bold mb-2" htmlFor={id}>
         {label}
       </label>
       <select

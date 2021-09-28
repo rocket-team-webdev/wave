@@ -65,6 +65,14 @@ export function getCurrentUserToken() {
   return auth.currentUser.getIdToken();
 }
 
+export function getCurrentUser() {
+  if (!auth.currentUser) {
+    return null;
+  }
+
+  return auth.currentUser;
+}
+
 export function deleteCurrentUserAccount() {
   if (!auth.currentUser) {
     return null;
@@ -98,3 +106,31 @@ export function reauthenticateUserWithCredential(userPassword) {
   );
   return reauthenticateWithCredential(auth.currentUser, credential);
 }
+
+// export async function handleGoogleSignIn() {
+//   try {
+//     const googleResult = await signInWithGoogle();
+//     const {
+//       family_name: familyName,
+//       given_name: givenName,
+//       picture,
+//     } = googleResult.additionalUserInfo.profile;
+
+//     const loggedUserObject = {
+//       firstName: givenName,
+//       lastName: familyName,
+//       profilePicture: picture,
+//     };
+
+//     await createClient(loggedUserObject);
+//     // setLoggedIn(true);
+//     setTimeout(() => {
+//       history.push(PUBLIC.HOME);
+//     }, 500);
+//   } catch (error) {
+//     // setLoginError(error);
+//     // setLoggedIn(true);
+//     console.clear();
+//     console.log("Failed Google sign in.");
+//   }
+// }

@@ -19,10 +19,10 @@ export default function Input({
 }) {
   const componentClasses = `${classNames} custom-input d-flex flex-column mb-1`;
 
-  let labelClassNames = "fnt-label-light p-0 ";
+  let labelClassNames = "fnt-label-bold p-0 mb-2 ";
   let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
   let uploadClassNames =
-    "custom-upload-input fx-rounded fnt-input-light d-flex align-items-center ps-3 w-100 ";
+    "custom-upload-input fx-rounded fnt-input-light d-flex align-items-center px-3 ";
 
   if (type === "file") {
     inputClassNames += "upload-input m-0 ";
@@ -51,7 +51,7 @@ export default function Input({
         {label}
       </label>
       {type === "file" && (
-        <div className={uploadClassNames}>{placeholder} for upload file</div>
+        <div className={uploadClassNames}>Choose your file</div>
       )}
       <input
         type={type}
@@ -64,8 +64,10 @@ export default function Input({
         onInput={handleInput}
         {...props}
       />
-      {hasErrorMessage && errorMessage && (
-        <p className="error-msg">{errorMessage}</p>
+      {hasErrorMessage && errorMessage ? (
+        <p className="error-msg mt-1 mb-0">{errorMessage}</p>
+      ) : (
+        <p className="error-msg mt-1 mb-0">&nbsp;</p>
       )}
     </div>
   );
