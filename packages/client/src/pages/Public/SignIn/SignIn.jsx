@@ -17,7 +17,7 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import Checkbox from "../../../components/Checkbox";
-import Upload from "../../../components/Upload";
+// import Upload from "../../../components/Upload";
 import { isRegistering } from "../../../redux/user/actions";
 
 export default function SignIn() {
@@ -92,7 +92,7 @@ export default function SignIn() {
 
   return (
     <Layout>
-      <Upload />
+      {/* <Upload /> */}
       <div className="row clr-white">
         <div className="col col-12 col-md-6 fnt-jumbo p-4">
           <p className="fnt-primary">WELCOME TO WAVEAPP.</p>
