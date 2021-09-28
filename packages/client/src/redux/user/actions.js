@@ -1,4 +1,4 @@
-import { SET_LOGIN, SET_LOGOUT } from "./types";
+import { SET_LOGIN, SET_LOGOUT, SET_REGISTER } from "./types";
 // import { API } from "../../constants/routes";
 // const axios = require("axios");
 
@@ -16,6 +16,11 @@ import { SET_LOGIN, SET_LOGOUT } from "./types";
 
 export const logIn = (value) => ({
   type: SET_LOGIN,
+  payload: value,
+});
+
+export const isRegistering = (value) => ({
+  type: SET_REGISTER,
   payload: value,
 });
 

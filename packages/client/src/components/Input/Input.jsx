@@ -50,9 +50,7 @@ export default function Input({
       <label className={labelClassNames} htmlFor={id}>
         {label}
       </label>
-      {type === "file" && (
-        <div className={uploadClassNames}>{placeholder} for upload file</div>
-      )}
+      {type === "file" && <div className={uploadClassNames}>{placeholder}</div>}
       <input
         type={type}
         className={inputClassNames}
