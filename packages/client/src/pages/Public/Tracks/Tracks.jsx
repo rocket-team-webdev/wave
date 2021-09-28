@@ -58,6 +58,7 @@ export default function Songs() {
               <SongCard
                 key={song._id}
                 songNumber={song.songNumber}
+                songName={song.songName}
                 songImg={song.songImg}
                 groupName={song.groupName}
                 artist={song.albumName}
