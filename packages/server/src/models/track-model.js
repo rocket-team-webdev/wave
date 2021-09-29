@@ -14,10 +14,6 @@ const trackSchema = new Schema(
       trim: true,
       required: [true, "Track artist is required"],
     },
-    rating: {
-      type: Number,
-      default: 0.0,
-    },
     url: {
       type: String,
       trim: true,
@@ -26,6 +22,10 @@ const trackSchema = new Schema(
         message: () => `Track url is not valid`,
       },
       required: [true, "Track url is required"],
+    },
+    popularity: {
+      type: Number,
+      default: 0,
     },
     color: {
       type: String,
