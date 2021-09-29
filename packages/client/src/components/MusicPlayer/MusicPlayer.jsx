@@ -3,7 +3,12 @@ import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
 
 import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
-import { MdRepeat, MdRepeatOne } from "react-icons/md";
+import {
+  MdRepeat,
+  MdRepeatOne,
+  MdSkipNext,
+  MdSkipPrevious,
+} from "react-icons/md";
 import { IoMdRepeat } from "react-icons/io";
 import { ImShuffle } from "react-icons/im";
 
@@ -22,16 +27,25 @@ export default function MusicPlayer() {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isLiked, setIsLiked] = useState(true);
   const [repeatState, setRepeatState] = useState("false");
+  const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
 
+  // const nextDisabled = true;
+
   const nextSong = () => {
-    if (queueState.queue.length > listPosition + 1)
+    if (queueState.queue.length > listPosition + 1) {
       setListPosition(listPosition + 1);
-    else if (repeatState === "queue") setListPosition(0);
-    // TODO: else disable next button
+      setPrevButtonDisabled(false);
+    } else if (repeatState === "queue") setListPosition(0);
+    else setPrevButtonDisabled(true);
   };
   const previousSong = () => {
-    if (listPosition > 0) setListPosition(listPosition - 1);
+    if (listPosition > 0) {
+      setListPosition(listPosition - 1);
+      setNextButtonDisabled(false);
+    } else setNextButtonDisabled(true);
+
     // TODO: else disable prev button
   };
 
@@ -106,7 +120,7 @@ export default function MusicPlayer() {
         onClickNext={nextSong}
         onClickPrevious={previousSong}
         onEnded={nextSong}
-        customAdditionalControls={[]}
+        // customAdditionalControls={[]}
         ref={audioPlayer}
         layout="horizontal-reverse"
         customIcons={{
@@ -114,6 +128,20 @@ export default function MusicPlayer() {
           pause: <FaPause />,
           loop: <IoMdRepeat />,
           loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
+          previous: (
+            <MdSkipPrevious
+              className={`${
+                prevButtonDisabled ? "next-prev-off" : "next-prev-on"
+              }`}
+            />
+          ),
+          next: (
+            <MdSkipNext
+              className={`${
+                nextButtonDisabled ? "next-prev-off" : "next-prev-on"
+              }`}
+            />
+          ),
         }}
         customControlsSection={[
           <div className="rhap_repeat-controls" key={songObject.duration}>
