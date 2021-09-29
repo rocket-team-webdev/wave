@@ -66,6 +66,11 @@ a:hover {
   color: inherit;
 }
 
+button {
+  border: none;
+  background: unset;
+}
+
 button:active {
   outline: 0;
 }

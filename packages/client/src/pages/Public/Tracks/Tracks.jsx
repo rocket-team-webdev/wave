@@ -8,35 +8,39 @@ import SongCard from "../../../components/SongCard/SongCard";
 const songs = [
   {
     songNumber: 1,
-    songImg: "",
+    songImg:
+      "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
     songName: "Glory Box",
     artist: "Portishead",
     albumName: "Dummy",
-    time: "3:45",
+    time: 134.582857,
   },
   {
     songNumber: 2,
-    songImg: "",
+    songImg:
+      "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
     songName: "Song 2",
     artist: "Portishead",
     albumName: "Dummy",
-    time: "3:45",
+    time: 140,
   },
   {
     songNumber: 3,
-    songImg: "",
+    songImg:
+      "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
     songName: "Song 3",
     artist: "Portishead",
     albumName: "Dummy",
-    time: "3:45",
+    time: 140,
   },
   {
     songNumber: 4,
-    songImg: "",
+    songImg:
+      "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
     songName: "Song 4",
     artist: "Portishead",
     albumName: "Dummy",
-    time: "3:45",
+    time: 140,
   },
 ];
 
@@ -56,12 +60,12 @@ export default function Songs() {
           {songs &&
             songs.map((song) => (
               <SongCard
-                key={song._id}
+                key={song.songName}
                 songNumber={song.songNumber}
                 songName={song.songName}
                 songImg={song.songImg}
-                groupName={song.groupName}
-                artist={song.albumName}
+                artist={song.artist}
+                albumName={song.albumName}
                 time={song.time}
               />
             ))}
