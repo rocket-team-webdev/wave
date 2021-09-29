@@ -49,7 +49,7 @@ const songs = [
 export default function Songs() {
   return (
     <Layout isNegative>
-      <div className="row">
+      <div className="row mb-5">
         <div className="col col-9">
           <JumboText priText="My Songs" isNegative />
         </div>

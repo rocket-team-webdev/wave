@@ -37,6 +37,7 @@
 .fnt-input-bold,
 .fnt-song-light,
 .fnt-song-regular,
+.fnt-artist,
 .fnt-song-bold,
 .fnt-caption {
   font-family: "Switzer";
@@ -80,6 +81,10 @@
   font-size: 17px;
 }
 
+.fnt-artist {
+  font-size: 15px;
+}
+
 .fnt-caption {
   font-size: 15px;
   line-height: 1.2;
@@ -99,6 +104,7 @@
 
 .fnt-subtitle-light,
 .fnt-song-regular,
+.fnt-artist,
 .fnt-label-light {
   font-weight: normal;
 }
