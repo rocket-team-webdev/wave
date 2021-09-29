@@ -11,6 +11,7 @@ export const PUBLIC = {
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
   USERS: "/users",
+  TRACK_UPLOAD: "",
 };
 
 // PRIVATE PAGES

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { PUBLIC } from "../../constants/routes";
+import { setQueue } from "../../redux/music-queue/actions";
 
 import "./SongCard.scss";
 
@@ -14,10 +15,24 @@ export default function SongCard({
   time,
   userId,
   playCounter = 0,
+  songUrl,
+  genreId,
+  isLiked,
 }) {
-  const [isLiked, setIsLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
   const userState = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const songObject = {
+    name: songName,
+    url: songUrl,
+    duration: time,
+    genreId: genreId,
+    userId: userId,
+    artist: artist,
+    album: albumName,
+    isLiked: isLiked,
+  };
 
   const handleIsOwned = () => {
     if (userId === userState.mongoId) {
@@ -26,11 +41,11 @@ export default function SongCard({
   };
 
   const handleLike = () => {
-    setIsLiked(!isLiked);
+    setLiked(!liked);
   };
 
   const handlePlay = () => {
-    console.log("playing =>", songName);
+    dispatch(setQueue(songObject));
   };
 
   const handleEditSong = () => {
@@ -71,7 +86,7 @@ export default function SongCard({
         </div>
         <div className="d-flex fnt-primary px-2">
           <button className="text-center" type="button" onClick={handleLike}>
-            {isLiked ? (
+            {liked ? (
               <i className="fas fa-heart fnt-secondary" />
             ) : (
               <i className="far fa-heart fnt-secondary" />

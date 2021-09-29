@@ -49,7 +49,7 @@ import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 //   },
 // ];
 
-export default function Songs() {
+export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
   const [likedSongs, setLikedSongs] = useState();
 
@@ -100,6 +100,9 @@ export default function Songs() {
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
+                songUrl={song.url}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
               />
             ))}
         </div>
@@ -115,6 +118,9 @@ export default function Songs() {
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
+                songUrl={song.url}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
               />
             ))}
         </div>
