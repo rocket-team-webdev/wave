@@ -3,7 +3,7 @@ import React from "react";
 import "./Input.scss";
 
 export default function Input({
-  label = "input-01",
+  label = false,
   id = "input-01",
   type = "",
   classNames,
@@ -47,9 +47,11 @@ export default function Input({
 
   return (
     <div className={componentClasses}>
-      <label className={labelClassNames} htmlFor={id}>
-        {label}
-      </label>
+      {label && (
+        <label className={labelClassNames} htmlFor={id}>
+          {label}
+        </label>
+      )}
       {type === "file" && (
         <div className={uploadClassNames}>Choose your file</div>
       )}

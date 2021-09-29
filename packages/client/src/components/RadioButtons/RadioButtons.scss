@@ -1,0 +1,6 @@
+@use "../../sass/components/colors" as c;
+
+.home-radio {
+  @extend .btn;
+  color: c.$colorPrimary;
+}
