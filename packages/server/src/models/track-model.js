@@ -27,10 +27,6 @@ const trackSchema = new Schema(
       },
       required: [true, "Track url is required"],
     },
-    popularity: {
-      type: Number,
-      default: 0,
-    },
     color: {
       type: String,
     },
