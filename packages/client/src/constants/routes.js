@@ -24,4 +24,5 @@ export const API = {
   REGISTER: "/register",
   AUTHENTICATE: "/authenticate",
   PLAYLISTS: "/playlists",
+  USER: "/user",
 };
