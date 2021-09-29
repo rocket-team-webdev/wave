@@ -3,19 +3,20 @@ import { getCurrentUserToken } from "../services/auth";
 
 const axios = require("axios").default;
 
-export function uploadTrackApi() {
+export function makeTrackApi() {
   return axios.create({
-    baseURL: `${API.MAIN}${API.UPLOAD}`,
+    baseURL: `${API.MAIN}${API.TRACK}`,
   });
 }
 
-export async function uploadTrack(data, api = uploadTrackApi()) {
+export async function uploadTrack(file = {}, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
-  return api.post(
-    ``,
-    { ...data },
-    {
-      headers: { Authorization: `Bearer ${token}` },
+
+  return api.post(``, file, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // "Content-Type": `multipart/form-data; boundary="MyBoundary"`,
+      "Content-Type": `multipart/form-data"`,
     },
-  );
+  });
 }

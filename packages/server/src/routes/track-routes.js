@@ -11,7 +11,7 @@ const trackRouter = Router();
 const mdlUpload = upload.fields([{ name: "thumbnail" }, { name: "track" }]);
 
 trackRouter.post(
-  "/upload",
+  "",
   [authFirebaseMiddleware, mdlUpload],
   trackController.uploadTrack,
 );

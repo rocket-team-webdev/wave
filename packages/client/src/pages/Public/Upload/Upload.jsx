@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
@@ -8,9 +8,22 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import Select from "../../../components/Select";
 import DragAndDrop from "../../../components/DragAndDrop";
-import { uploadCover } from "../../../api/example";
+import { uploadTrack } from "../../../api/tracks-api";
+import { getGenres } from "../../../api/genre-api";
 
 export default function Home() {
+  const [genres, setGenres] = useState([]);
+
+  useEffect(async () => {
+    const { data } = await getGenres();
+
+    if (data.genres) {
+      const genresArr = data.genres.map((genre) => genre.name);
+      genresArr.unshift("");
+      setGenres(genresArr);
+    }
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -31,11 +44,11 @@ export default function Home() {
         formData.append("artist", signInState.artist);
         formData.append("album", signInState.album);
         formData.append("genre", signInState.genre);
-        formData.append("thumbnail", signInState.thumbnail);
+        // formData.append("thumbnail", signInState.thumbnail);
         formData.append("track", signInState.track);
 
         console.log("formData", formData);
-        await uploadCover(formData);
+        await uploadTrack(formData);
         return toast("Track uploaded!", { type: "success" });
       } catch (error) {
         return toast(error.message, { type: "error" });
@@ -43,9 +56,9 @@ export default function Home() {
     },
   });
 
-  const thumbnailOnChange = async (event) => {
-    formik.setFieldValue("thumbnail", event.target.files[0]);
-  };
+  // const thumbnailOnChange = async (event) => {
+  //   formik.setFieldValue("thumbnail", event.target.files[0]);
+  // };
 
   const trackOnChange = async (files) => {
     formik.setFieldValue("track", files[0]);
@@ -80,7 +93,7 @@ export default function Home() {
                 label="artist"
                 type="artist"
                 id="artist"
-                classNames="col-12 col-md-6"
+                classNames="col-12"
                 placeholder=""
                 isNegative
                 onChange={formik.handleChange}
@@ -88,6 +101,20 @@ export default function Home() {
                 value={formik.values.artist}
                 errorMessage={formik.errors.artist}
                 hasErrorMessage={formik.touched.artist}
+              />
+              <Select
+                classNames="col-12 col-md-6"
+                label="genre"
+                id="genre"
+                type="select"
+                isNegative
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.genre}
+                errorMessage={formik.errors.genre}
+                hasErrorMessage={formik.touched.genre}
+                // options={["", "rock", "jazz"]}
+                options={genres}
               />
               <Select
                 classNames="col-12 col-md-6"
@@ -102,21 +129,8 @@ export default function Home() {
                 hasErrorMessage={formik.touched.album}
                 options={["", "Album 1", "Album 2"]}
               />
-              <Select
-                classNames="col-12 col-md-6"
-                label="genre"
-                id="genre"
-                type="select"
-                isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.genre}
-                errorMessage={formik.errors.genre}
-                hasErrorMessage={formik.touched.genre}
-                options={["", "rock", "jazz"]}
-              />
 
-              <Input
+              {/* <Input
                 classNames="col-12 col-md-6"
                 label="thumbnail"
                 id="thumbnail"
@@ -128,7 +142,7 @@ export default function Home() {
                 // value={formik.values.thumbnail}
                 errorMessage={formik.errors.thumbnail}
                 hasErrorMessage={formik.touched.thumbnail}
-              />
+              /> */}
             </div>
 
             <div className="d-flex justify-content-end my-5">
