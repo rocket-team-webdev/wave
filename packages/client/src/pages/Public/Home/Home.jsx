@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
+import { getGenres } from "../../../api/genre-api";
 
 import homeSearchSchema from "./home-search-schema";
 
@@ -14,24 +17,10 @@ import RadioButtons from "../../../components/RadioButtons";
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [popularView, setpopularView] = useState(true);
+  const [genresList, setGenresList] = useState([]);
 
   const userState = useSelector((state) => state.user);
   const userFirstName = userState.firstName;
-
-  const genresList = [
-    "soul",
-    "funk",
-    "jazz",
-    "folk",
-    "indie",
-    "metal",
-    "classical",
-    "country",
-    "electronic",
-    "lounge",
-    "grunge",
-    "other",
-  ];
 
   const artistsList = [
     "Chet Baker",
@@ -72,6 +61,20 @@ export default function Home() {
     },
   });
 
+  const loadGenres = async () => {
+    try {
+      const { data } = await getGenres();
+      console.log("All genres: ", data.genres);
+      setGenresList(data.genres);
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
+
+  useEffect(() => {
+    loadGenres();
+  }, []);
+
   return (
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
@@ -105,6 +108,7 @@ export default function Home() {
             <HomePopular genresList={genresList} artistsList={artistsList} />
           ) : (
             <HomeMyWave
+              genresList={genresList}
               artistsList={artistsList}
               playlistsList={playlistsList}
             />

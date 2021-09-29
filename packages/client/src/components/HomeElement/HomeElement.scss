@@ -1,5 +1,9 @@
 @use "../../sass/components/colors" as c;
 
+.home-element-title {
+  max-width: 250px;
+}
+
 .content {
   .playlist-card {
     background: c.$playlistGradient;

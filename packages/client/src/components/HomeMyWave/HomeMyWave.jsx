@@ -112,20 +112,20 @@ export default function HomeMyWave({
   const followings = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
 
   return (
-    <div className="d-flex flex-column">
+    <div className="row m-0">
+      {genresList && (
+        <HomeElement label="Genres" cols="6">
+          {genresList.map((genre) => (
+            <div key={genre} className="mb-2 me-2">
+              <Button isSmall>{genre.name.toUpperCase()}</Button>
+            </div>
+          ))}
+        </HomeElement>
+      )}
       {followings && (
         <HomeElement label="Following users" cols="6">
           {followings.map((following) => (
             <UserCard key={following} userName={following} />
-          ))}
-        </HomeElement>
-      )}
-      {genresList && (
-        <HomeElement label="Genres">
-          {genresList.map((genre) => (
-            <div key={genre} className="mb-2 me-2">
-              <Button isSmall>{genre.toUpperCase()}</Button>
-            </div>
           ))}
         </HomeElement>
       )}
@@ -141,7 +141,18 @@ export default function HomeMyWave({
         </HomeElement>
       )}
       {playlistsList && (
-        <HomeElement label="Playlists">
+        <HomeElement label="My playlists">
+          {playlistsList.map((playlistName) => (
+            <PlaylistCard
+              key={playlistName}
+              // classNames=""
+              playlistName={playlistName}
+            />
+          ))}
+        </HomeElement>
+      )}
+      {playlistsList && (
+        <HomeElement label="Following playlists">
           {playlistsList.map((playlistName) => (
             <PlaylistCard
               key={playlistName}

@@ -28,12 +28,12 @@ export default function HomePopular({ genresList = [], artistsList = [] }) {
   }, []);
 
   return (
-    <div>
+    <div className="row m-0">
       {genresList && (
         <HomeElement label="Genres">
           {genresList.map((genre) => (
-            <div key={genre} className="mb-2 me-2">
-              <Button isSmall>{genre.toUpperCase()}</Button>
+            <div key={genre.name} className="mb-2 me-2">
+              <Button isSmall>{genre.name.toUpperCase()}</Button>
             </div>
           ))}
         </HomeElement>
