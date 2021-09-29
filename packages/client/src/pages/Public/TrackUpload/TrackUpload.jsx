@@ -3,35 +3,36 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
 import Layout from "../../../components/Layout";
-import uploadSchema from "./upload-in-schema";
+import uploadSchema from "./track-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import Select from "../../../components/Select";
 import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
 import { getGenres } from "../../../api/genre-api";
-import { getUserAlbum } from "../../../api/album-api";
+// import { getUserAlbum } from "../../../api/album-api";
+import AddIcon from "../../../components/SVGicons/AddIcon";
 
-export default function Home() {
+export default function TrackUpload() {
   const [genresState, setGenres] = useState([]);
-  const [albumsState, setAlbums] = useState([]);
+  // const [albumsState, setAlbums] = useState([]);
 
   useEffect(async () => {
     const { data } = await getGenres();
-    const {
-      data: { albums },
-    } = await getUserAlbum();
+    // const {
+    //   data: { albums },
+    // } = await getUserAlbum();
 
     if (data.genres) {
       const genresArr = data.genres.map((genre) => genre.name);
       genresArr.unshift("Select genre");
       setGenres(genresArr);
     }
-    if (albums) {
-      const albumsArr = albums.map((album) => album.title);
-      albumsArr.unshift("Select album");
-      setAlbums(albumsArr);
-    }
+    // if (albums) {
+    //   const albumsArr = albums.map((album) => album.title);
+    //   albumsArr.unshift("Select album");
+    //   setAlbums(albumsArr);
+    // }
   }, []);
 
   const formik = useFormik({
@@ -127,7 +128,7 @@ export default function Home() {
                 options={genresState}
               />
               <Select
-                classNames="col-12 col-md-6"
+                classNames="col-11 col-md-5"
                 label="album"
                 id="album"
                 type="select"
@@ -137,9 +138,15 @@ export default function Home() {
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
-                options={albumsState}
-                // options={["", "Album 1", "Album 2"]}
+                // options={albumsState}
+                options={["", "Album 1", "Album 2"]}
               />
+
+              <div className="col-1 ms-0 ps-0 pt-6">
+                <Button isNegative>
+                  <AddIcon color="" size={25} />
+                </Button>
+              </div>
 
               {/* <Input
                 classNames="col-12 col-md-6"

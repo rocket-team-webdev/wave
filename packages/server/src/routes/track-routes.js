@@ -8,7 +8,7 @@ const {
 } = require("../middlewares/auth-firebase-middleware");
 
 const trackRouter = Router();
-const mdlUpload = upload.fields([{ name: "thumbnail" }, { name: "track" }]);
+const mdlUpload = upload.fields([{ name: "track" }]);
 
 trackRouter.post(
   "",

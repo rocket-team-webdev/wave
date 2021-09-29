@@ -17,7 +17,7 @@ import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
-import Upload from "./pages/Public/Upload";
+import TrackUpload from "./pages/Public/TrackUpload";
 
 function App() {
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ function App() {
               <SignIn />
             </OnlyPublicRoute>
             <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
-              <Upload />
+              <TrackUpload />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.HOME}>
               <Home />
