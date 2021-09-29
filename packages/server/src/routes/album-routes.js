@@ -8,10 +8,10 @@ const {
 } = require("../middlewares/auth-firebase-middleware");
 
 const albumRouter = Router();
-
 const mdlUpload = upload.fields([{ name: "thumbnail" }]);
 
-albumRouter.get(
+albumRouter.get("", authFirebaseMiddleware, albumController.getAlbums);
+albumRouter.post(
   "",
   [authFirebaseMiddleware, mdlUpload],
   albumController.addAlbums,
