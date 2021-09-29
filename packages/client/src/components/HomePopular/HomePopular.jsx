@@ -42,7 +42,7 @@ export default function HomePopular({ artistsList = [] }) {
   }, []);
 
   return (
-    <div className="row m-0">
+    <div className="row gx-4 gy-5">
       {genresList && (
         <HomeElement label="Genres">
           {genresList.map((genre) => (
@@ -53,7 +53,7 @@ export default function HomePopular({ artistsList = [] }) {
         </HomeElement>
       )}
       {artistsList && (
-        <HomeElement label="Artists">
+        <HomeElement label="Popular artists">
           {artistsList.map((artistName) => (
             <ArtistCard
               // classNames=""
@@ -65,7 +65,7 @@ export default function HomePopular({ artistsList = [] }) {
       )}
       {!loadStatus ? (
         playlists && (
-          <HomeElement label="Playlists">
+          <HomeElement label="Popular playlists">
             {playlists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}

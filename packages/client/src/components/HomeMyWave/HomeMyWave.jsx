@@ -19,7 +19,6 @@ import PlaylistCard from "../PlaylistCard";
 // } from "../../api/user-api";
 
 export default function HomeMyWave({
-  genresList = false,
   artistsList = false,
   playlistsList = false,
 }) {
@@ -109,6 +108,7 @@ export default function HomeMyWave({
   //   loadUserLikedTracks();
   // }, []);
 
+  const genresList = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
   const followings = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
   const mySongs = [
     "Channel Suite 1",
@@ -124,7 +124,7 @@ export default function HomeMyWave({
   ];
 
   return (
-    <div className="row m-0">
+    <div className="row gx-4 gy-5">
       {genresList && (
         <HomeElement
           label="My genres"
@@ -132,7 +132,7 @@ export default function HomeMyWave({
         >
           {genresList.map((genre) => (
             <div key={genre} className="mb-2 me-2">
-              <Button isSmall>{genre.name.toUpperCase()}</Button>
+              <Button isSmall>{genre.toUpperCase()}</Button>
             </div>
           ))}
         </HomeElement>
