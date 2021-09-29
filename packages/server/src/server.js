@@ -8,6 +8,7 @@ const {
   userRouter,
   trackRouter,
   genreRouter,
+  albumRouter,
   playlistsRouter,
 } = require("./routes");
 
@@ -24,6 +25,7 @@ app.use("/api", userRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/tracks", trackRouter);
 app.use("/api/genres", genreRouter);
+app.use("/api/albums", albumRouter);
 app.use("/api/playlists", playlistsRouter);
 
 module.exports = app;

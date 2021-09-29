@@ -10,17 +10,27 @@ import Select from "../../../components/Select";
 import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
 import { getGenres } from "../../../api/genre-api";
+import { getUserAlbum } from "../../../api/album-api";
 
 export default function Home() {
-  const [genres, setGenres] = useState([]);
+  const [genresState, setGenres] = useState([]);
+  const [albumsState, setAlbums] = useState([]);
 
   useEffect(async () => {
     const { data } = await getGenres();
+    const {
+      data: { albums },
+    } = await getUserAlbum();
 
     if (data.genres) {
       const genresArr = data.genres.map((genre) => genre.name);
-      genresArr.unshift("");
+      genresArr.unshift("Select genre");
       setGenres(genresArr);
+    }
+    if (albums) {
+      const albumsArr = albums.map((album) => album.title);
+      albumsArr.unshift("Select album");
+      setAlbums(albumsArr);
     }
   }, []);
 
@@ -114,7 +124,7 @@ export default function Home() {
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
                 // options={["", "rock", "jazz"]}
-                options={genres}
+                options={genresState}
               />
               <Select
                 classNames="col-12 col-md-6"
@@ -127,7 +137,8 @@ export default function Home() {
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
-                options={["", "Album 1", "Album 2"]}
+                options={albumsState}
+                // options={["", "Album 1", "Album 2"]}
               />
 
               {/* <Input
