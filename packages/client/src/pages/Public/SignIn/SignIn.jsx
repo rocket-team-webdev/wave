@@ -19,6 +19,7 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import Checkbox from "../../../components/Checkbox";
+// import Upload from "../../../components/Upload";
 import { isRegistering } from "../../../redux/user/actions";
 
 import { PUBLIC } from "../../../constants/routes";

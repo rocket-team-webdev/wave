@@ -54,9 +54,14 @@ const trackSchema = new Schema(
       ref: "user",
       required: [true, "User id is required"],
     },
+    // albums: {
+    //   type: [{ type: mongoose.Schema.Types.ObjectId, ref: "album" }],
+    //   required: [true, "Albums list is required"],
+    // },
     albums: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "album" }],
-      required: [true, "Albums list is required"],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "album",
+      required: [true, "Album is required"],
     },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
