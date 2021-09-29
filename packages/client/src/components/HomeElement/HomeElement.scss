@@ -1,0 +1,36 @@
+@use "../../sass/components/colors" as c;
+
+.content {
+  .playlist-card {
+    background: c.$playlistGradient;
+    min-height: 200px;
+
+    .heart-wrapper {
+      button {
+        border: none;
+        background: unset;
+      }
+    }
+  }
+
+  .artist-card {
+    width: 80px;
+
+    img {
+      border: 2px solid white;
+      border-radius: 50%;
+      object-fit: cover;
+      width: 80px;
+      height: 80px;
+      filter: grayscale(100%);
+    }
+
+    p {
+      max-width: 80px;
+    }
+
+    &:hover {
+      font-weight: bold;
+    }
+  }
+}

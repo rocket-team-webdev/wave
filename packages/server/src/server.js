@@ -8,6 +8,7 @@ const {
   userRouter,
   trackRouter,
   genreRouter,
+  playlistsRouter,
 } = require("./routes");
 
 const app = express();
@@ -23,5 +24,6 @@ app.use("/api", userRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/tracks", trackRouter);
 app.use("/api/genres", genreRouter);
+app.use("/api/playlists", playlistsRouter);
 
 module.exports = app;

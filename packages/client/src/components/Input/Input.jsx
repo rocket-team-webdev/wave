@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "./Input.scss";
 
 export default function Input({
-  label = "input-01",
+  label = false,
   id = "input-01",
   type = "",
   classNames,
@@ -34,9 +34,9 @@ export default function Input({
   if (type === "file") {
     inputClassNames += "upload-input m-0 ";
     if (!isNegative) {
-      uploadClassNames += "positive-custom-upload-input text-truncate ";
+      uploadClassNames += "positive-custom-upload-input truncate ";
     } else {
-      uploadClassNames += "negative-custom-upload-input text-truncate ";
+      uploadClassNames += "negative-custom-upload-input truncate ";
     }
   }
 
@@ -54,9 +54,11 @@ export default function Input({
 
   return (
     <div className={componentClasses}>
-      <label className={labelClassNames} htmlFor={id}>
-        {label}
-      </label>
+      {label && (
+        <label className={labelClassNames} htmlFor={id}>
+          {label}
+        </label>
+      )}
       {type === "file" && <div className={uploadClassNames}>{fileName}</div>}
       <input
         type={type}

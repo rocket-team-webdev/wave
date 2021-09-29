@@ -18,7 +18,7 @@
   }
 
   // Guides
-  //   outline: 2px solid blue;
+  // outline: 2px solid blue;
 }
 
 body {
@@ -49,8 +49,8 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   // border: none;
   // border-bottom: 1px solid black;
-  -webkit-text-fill-color: black;
-  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  // -webkit-text-fill-color: black;
+  // -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
 a,
@@ -65,6 +65,11 @@ a:hover {
   font-weight: normal;
   color: inherit;
 }
+
+button:active {
+  outline: 0;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                               Global effects                               */
 /* -------------------------------------------------------------------------- */

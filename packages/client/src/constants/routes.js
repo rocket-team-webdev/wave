@@ -26,4 +26,5 @@ export const API = {
   AUTHENTICATE: "/authenticate",
   TRACK: "/tracks",
   GENRE: "/genres",
+  PLAYLISTS: "/playlists",
 };
