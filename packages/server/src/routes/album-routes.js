@@ -11,12 +11,12 @@ const albumRouter = Router();
 const mdlUpload = upload.fields([{ name: "thumbnail" }]);
 
 albumRouter.get("", authFirebaseMiddleware, albumController.getAlbums);
+
 albumRouter.post(
   "",
   [authFirebaseMiddleware, mdlUpload],
-  albumController.addAlbums,
+  albumController.addAlbum,
 );
-
 module.exports = {
   albumRouter,
 };
