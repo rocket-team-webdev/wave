@@ -1,10 +1,11 @@
-import React, { /* useState, */ useEffect } from "react";
-import { toast } from "react-toastify";
+import React /* useState, */ /* useEffect */ from "react";
+// import { toast } from "react-toastify";
 
 import HomeElement from "../HomeElement";
 import Button from "../Button";
-import PlaylistCard from "../PlaylistCard";
+import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
+import PlaylistCard from "../PlaylistCard";
 
 // import {
 //   getUserFollowers,
@@ -31,85 +32,94 @@ export default function HomeMyWave({
   // const [userLikedTracks, setUserLikedTracks] = useState([]);
 
   // Users
-  const loadUserFollowers = async () => {
-    try {
-      const { data } = await getUserFollowers();
-      console.log(data);
-      // setUserFollowers(???)
-    } catch (err) {
-      toast(err.message, { type: "error" });
-    }
-  };
+  // const loadUserFollowers = async () => {
+  //   try {
+  //     const { data } = await getUserFollowers();
+  //     console.log(data);
+  //     // setUserFollowers(???)
+  //   } catch (err) {
+  //     toast(err.message, { type: "error" });
+  //   }
+  // };
 
-  const loadUserFollowing = async () => {
-    try {
-      const { data } = await getUserFollowings();
-      console.log(data);
-      // setUserFollowings(???)
-    } catch (err) {
-      toast(err.message, { type: "error" });
-    }
-  };
+  // const loadUserFollowing = async () => {
+  //   try {
+  //     const { data } = await getUserFollowings();
+  //     console.log(data);
+  //     // setUserFollowings(???)
+  //   } catch (err) {
+  //     toast(err.message, { type: "error" });
+  //   }
+  // };
 
-  // Playlists
-  const loadUserPlaylists = async () => {
-    try {
-      const { data } = await getUserPlaylists();
-      console.log(data);
-      // setUserPlaylists(data.playlists)
-    } catch (err) {
-      toast(err.message, { type: "error" });
-    }
-  };
+  // // Playlists
+  // const loadUserPlaylists = async () => {
+  //   try {
+  //     const { data } = await getUserPlaylists();
+  //     console.log(data);
+  //     // setUserPlaylists(data.playlists)
+  //   } catch (err) {
+  //     toast(err.message, { type: "error" });
+  //   }
+  // };
 
-  const loadUserFollowingPlaylists = async () => {
-    try {
-      const { data } = await getFollowingPlaylists();
-      console.log(data);
-      // setUserFollowingPlaylists(???)
-    } catch (err) {
-      toast(err.message, { type: "error" });
-    }
-  };
+  // const loadUserFollowingPlaylists = async () => {
+  //   try {
+  //     const { data } = await getFollowingPlaylists();
+  //     console.log(data);
+  //     // setUserFollowingPlaylists(???)
+  //   } catch (err) {
+  //     toast(err.message, { type: "error" });
+  //   }
+  // };
 
-  // Tracks
-  const loadUserTracks = async () => {
-    try {
-      const { data } = await getUserTracks();
-      console.log(data);
-      // setUserTracks(???)
-    } catch (err) {
-      toast(err.message, { type: "error" });
-    }
-  };
+  // // Tracks
+  // const loadUserTracks = async () => {
+  //   try {
+  //     const { data } = await getUserTracks();
+  //     console.log(data);
+  //     // setUserTracks(???)
+  //   } catch (err) {
+  //     toast(err.message, { type: "error" });
+  //   }
+  // };
 
-  const loadUserLikedTracks = async () => {
-    try {
-      const { data } = await getUserLikedTracks();
-      console.log(data);
-      // setUserLikedTracks(???)
-    } catch (err) {
-      toast(err.message, { type: "error" });
-    }
-  };
+  // const loadUserLikedTracks = async () => {
+  //   try {
+  //     const { data } = await getUserLikedTracks();
+  //     console.log(data);
+  //     // setUserLikedTracks(???)
+  //   } catch (err) {
+  //     toast(err.message, { type: "error" });
+  //   }
+  // };
 
-  // On load
-  useEffect(() => {
-    // Users
-    loadUserFollowers();
-    loadUserFollowing();
+  // // On load
+  // useEffect(() => {
+  //   // Users
+  //   loadUserFollowers();
+  //   loadUserFollowing();
 
-    // Playlists
-    loadUserPlaylists();
-    loadUserFollowingPlaylists();
+  //   // Playlists
+  //   loadUserPlaylists();
+  //   loadUserFollowingPlaylists();
 
-    // Tracks
-    loadUserTracks();
-    loadUserLikedTracks();
-  }, []);
+  //   // Tracks
+  //   loadUserTracks();
+  //   loadUserLikedTracks();
+  // }, []);
+
+  const followings = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
 
   return (
-    <div>
+    <div className="d-flex flex-column">
+      {followings && (
+        <HomeElement label="Following users" cols="6">
+          {followings.map((following) => (
+            <UserCard key={following} userName={following} />
+          ))}
+        </HomeElement>
+      )}
       {genresList && (
         <HomeElement label="Genres">
           {genresList.map((genre) => (
