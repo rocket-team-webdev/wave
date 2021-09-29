@@ -11,6 +11,8 @@ import JumboText from "../../../components/JumboText";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 
+// import MusicPlayer from "../../../components/MusicPlayer";
+
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [popularView, setpopularView] = useState(true);

@@ -18,6 +18,8 @@ import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
 import Upload from "./pages/Public/Upload";
+import Tracks from "./pages/Public/Tracks";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
   const dispatch = useDispatch();
@@ -86,12 +88,16 @@ function App() {
             <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
               <Upload />
             </PrivateRoute>
+            <PrivateRoute path={PUBLIC.MY_SONGS}>
+              <Tracks />
+            </PrivateRoute>
             <PrivateRoute path={PUBLIC.HOME}>
               <Home />
             </PrivateRoute>
           </Switch>
         </BrowserRouter>
       )}
+      <MusicPlayer />
 
       <ToastContainer draggable theme="colored" />
     </>

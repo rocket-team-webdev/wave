@@ -1,0 +1,47 @@
+.play-hover {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  img {
+    width: 50px;
+  }
+}
+
+.play-hover:hover {
+  cursor: pointer;
+  i {
+    opacity: 1;
+    top: 35%;
+    z-index: 500;
+  }
+}
+
+.play-hover i {
+  display: block;
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  color: inherit;
+}
+
+.card-hover:hover {
+  background-color: rgb(250, 250, 250, 0.2);
+  i {
+    opacity: 1;
+    top: 35%;
+    z-index: 500;
+  }
+}
+
+.dropdown-wrapper {
+  color: rgb(250, 250, 250);
+}
+
+.dropdown-item:hover {
+  background-color: rgb(250, 250, 250, 0.2) !important;
+  color: rgb(250, 250, 250) !important;
+}
