@@ -24,7 +24,7 @@ export async function getFollowingPlaylists(api = makeUserApi()) {
   return api.get("/playlists/following");
 }
 
-export async function getPlaylists(id, api = makeUserApi()) {
+export async function getPlaylist(id, api = makeUserApi()) {
   return api.get(`/playlists/following/${id}`);
 }
 
