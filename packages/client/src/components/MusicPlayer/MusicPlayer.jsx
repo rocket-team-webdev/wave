@@ -127,7 +127,6 @@ export default function MusicPlayer() {
               {repeatState === "song" ? <MdRepeatOne /> : <MdRepeat />}
             </button>
           </div>,
-          RHAP_UI.ADDITIONAL_CONTROLS,
           RHAP_UI.MAIN_CONTROLS,
           <div className="rhap_shuffle-controls" key={songObject.url}>
             <button
