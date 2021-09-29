@@ -14,6 +14,7 @@ import { getGenres } from "../../../api/genre-api";
 import AddIcon from "../../../components/SVGicons/AddIcon";
 
 export default function TrackUpload() {
+  const [loading, setLoading] = useState(false);
   const [genresState, setGenres] = useState([]);
   // const [albumsState, setAlbums] = useState([]);
 
@@ -51,17 +52,20 @@ export default function TrackUpload() {
           return toast("Choose a track!", { type: "error" });
 
         const formData = new FormData();
-        formData.append("title", signInState.title);
+        formData.append("name", signInState.name);
         formData.append("artist", signInState.artist);
         formData.append("album", signInState.album);
         formData.append("genre", signInState.genre);
-        // formData.append("thumbnail", signInState.thumbnail);
         formData.append("track", signInState.track);
 
-        console.log("formData", formData);
+        console.log("formData", signInState);
+        setLoading(true);
         await uploadTrack(formData);
+        setLoading(false);
+
         return toast("Track uploaded!", { type: "success" });
       } catch (error) {
+        setLoading(false);
         return toast(error.message, { type: "error" });
       }
     },
@@ -88,17 +92,17 @@ export default function TrackUpload() {
             <h1 className="fnt-subtitle-bold mb-4">Song details</h1>
             <div className="row">
               <Input
-                label="title"
-                type="title"
-                id="title"
+                label="name"
+                type="name"
+                id="name"
                 classNames="col-12"
                 placeholder="example: "
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.title}
-                errorMessage={formik.errors.title}
-                hasErrorMessage={formik.touched.title}
+                value={formik.values.name}
+                errorMessage={formik.errors.name}
+                hasErrorMessage={formik.touched.name}
               />
               <Input
                 label="artist"
@@ -147,21 +151,8 @@ export default function TrackUpload() {
                   <AddIcon color="" size={25} />
                 </Button>
               </div>
-
-              {/* <Input
-                classNames="col-12 col-md-6"
-                label="thumbnail"
-                id="thumbnail"
-                type="file"
-                placeholder="Upload file"
-                isNegative
-                // handleChange={thumbnailOnChange}
-                // handleBlur={thumbnailOnChange}
-                // value={formik.values.thumbnail}
-                errorMessage={formik.errors.thumbnail}
-                hasErrorMessage={formik.touched.thumbnail}
-              /> */}
             </div>
+            {loading && <h3>Loading...</h3>}
 
             <div className="d-flex justify-content-end my-5">
               <Button isNegative submitButton>

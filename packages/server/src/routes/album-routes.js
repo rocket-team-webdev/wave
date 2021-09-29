@@ -14,7 +14,7 @@ albumRouter.get("", authFirebaseMiddleware, albumController.getAlbums);
 albumRouter.post(
   "",
   [authFirebaseMiddleware, mdlUpload],
-  albumController.addAlbums,
+  albumController.addAlbum,
 );
 
 module.exports = {

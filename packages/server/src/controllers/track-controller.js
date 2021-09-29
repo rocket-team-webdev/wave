@@ -42,11 +42,11 @@ async function uploadTrack(req, res, next) {
         title: req.body.album,
       });
 
-      trackObj.name = req.body.title;
+      trackObj.name = req.body.name;
       trackObj.url = cldTrackRes.secure_url;
       trackObj.duration = cldTrackRes.duration;
       trackObj.userId = userId;
-      if (album) trackObj.albums = [album._id];
+      if (album) trackObj.albums = album._id;
       if (genre) trackObj.genreId = genre._id;
 
       await db.Track.create(trackObj);
