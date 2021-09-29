@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import HomeElement from "../HomeElement";
@@ -6,12 +6,25 @@ import Button from "../Button";
 import PlaylistCard from "../PlaylistCard";
 import ArtistCard from "../ArtistCard";
 
+import { getGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
 
-export default function HomePopular({ genresList = [], artistsList = [] }) {
+export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
+  const [genresList, setGenresList] = useState([]);
   const [playlists, setPlaylists] = useState([]);
 
+  // Popular genres
+  const loadGenres = async () => {
+    try {
+      const { data } = await getGenres();
+      setGenresList(data.genres);
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
+
+  // Popular playlists
   const loadPlaylists = async () => {
     try {
       setLoadStatus(true);
@@ -24,6 +37,7 @@ export default function HomePopular({ genresList = [], artistsList = [] }) {
   };
 
   useEffect(() => {
+    loadGenres();
     loadPlaylists();
   }, []);
 

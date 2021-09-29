@@ -110,11 +110,26 @@ export default function HomeMyWave({
   // }, []);
 
   const followings = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
+  const mySongs = [
+    "Channel Suite 1",
+    "Dani California",
+    "Clint Eastwood",
+    "Kings' Season",
+  ];
+  const likedSongs = [
+    "Snow (Hey Oh)",
+    "Glassworks",
+    "Man with a movie camera",
+    "Wish you were here",
+  ];
 
   return (
     <div className="row m-0">
       {genresList && (
-        <HomeElement label="Genres" cols="6">
+        <HomeElement
+          label="My genres"
+          cols={genresList && followings ? "6" : "12"}
+        >
           {genresList.map((genre) => (
             <div key={genre} className="mb-2 me-2">
               <Button isSmall>{genre.name.toUpperCase()}</Button>
@@ -123,7 +138,10 @@ export default function HomeMyWave({
         </HomeElement>
       )}
       {followings && (
-        <HomeElement label="Following users" cols="6">
+        <HomeElement
+          label="Following users"
+          cols={genresList && followings ? "6" : "12"}
+        >
           {followings.map((following) => (
             <UserCard key={following} userName={following} />
           ))}
@@ -131,34 +149,56 @@ export default function HomeMyWave({
       )}
       {artistsList && (
         <HomeElement label="Artists">
-          {artistsList.map((artistName) => (
+          {artistsList.map((artist) => (
             <ArtistCard
               // classNames=""
-              key={artistName}
-              artistName={artistName}
+              key={artist}
+              artistName={artist}
             />
           ))}
         </HomeElement>
       )}
       {playlistsList && (
         <HomeElement label="My playlists">
-          {playlistsList.map((playlistName) => (
+          {playlistsList.map((playlist) => (
             <PlaylistCard
-              key={playlistName}
+              key={playlist}
               // classNames=""
-              playlistName={playlistName}
+              playlistName={playlist}
             />
           ))}
         </HomeElement>
       )}
       {playlistsList && (
         <HomeElement label="Following playlists">
-          {playlistsList.map((playlistName) => (
+          {playlistsList.map((playlist) => (
             <PlaylistCard
-              key={playlistName}
+              key={playlist}
               // classNames=""
-              playlistName={playlistName}
+              playlistName={playlist}
             />
+          ))}
+        </HomeElement>
+      )}
+      {mySongs && (
+        <HomeElement label="My songs">
+          {mySongs.map((song, i) => (
+            <>
+              {/* TODO Track component here */}
+              <p key={song}>{`${i + 1} | Song name `}</p>
+              <br />
+            </>
+          ))}
+        </HomeElement>
+      )}
+      {likedSongs && (
+        <HomeElement label="Liked songs">
+          {likedSongs.map((song, i) => (
+            <>
+              {/* TODO Track component here */}
+              <p key={song}>{`${i + 1} | Song name `}</p>
+              <br />
+            </>
           ))}
         </HomeElement>
       )}

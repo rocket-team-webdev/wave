@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-
-import { getGenres } from "../../../api/genre-api";
 
 import homeSearchSchema from "./home-search-schema";
 
@@ -17,7 +14,6 @@ import RadioButtons from "../../../components/RadioButtons";
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [popularView, setpopularView] = useState(true);
-  const [genresList, setGenresList] = useState([]);
 
   const userState = useSelector((state) => state.user);
   const userFirstName = userState.firstName;
@@ -40,14 +36,6 @@ export default function Home() {
     "derivation rock",
   ];
 
-  const handleChangeView = (e) => {
-    if (e.target.id === "myWaveRadio") {
-      setpopularView(false);
-    } else {
-      setpopularView(true);
-    }
-  };
-
   const formik = useFormik({
     initialValues: {
       searchbar: "",
@@ -61,19 +49,14 @@ export default function Home() {
     },
   });
 
-  const loadGenres = async () => {
-    try {
-      const { data } = await getGenres();
-      console.log("All genres: ", data.genres);
-      setGenresList(data.genres);
-    } catch (err) {
-      toast(err.message, { type: "error" });
+  // Personal/MyWave
+  const handleChangeView = (e) => {
+    if (e.target.id === "myWaveRadio") {
+      setpopularView(false);
+    } else {
+      setpopularView(true);
     }
   };
-
-  useEffect(() => {
-    loadGenres();
-  }, []);
 
   return (
     <Layout isNegative>
@@ -105,10 +88,9 @@ export default function Home() {
           </div>
           {/* Switch view */}
           {popularView ? (
-            <HomePopular genresList={genresList} artistsList={artistsList} />
+            <HomePopular artistsList={artistsList} />
           ) : (
             <HomeMyWave
-              genresList={genresList}
               artistsList={artistsList}
               playlistsList={playlistsList}
             />
