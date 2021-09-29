@@ -10,6 +10,7 @@ async function getMyTracks(req, res, next) {
       {
         likes: { $size: "$likedBy" },
         name: 1,
+        artist: 1,
         rating: 1,
         popularity: 1,
         color: 1,
@@ -43,6 +44,7 @@ async function getMyLikedTracks(req, res, next) {
       {
         likes: { $size: "$likedBy" },
         name: 1,
+        artist: 1,
         rating: 1,
         popularity: 1,
         color: 1,

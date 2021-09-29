@@ -9,6 +9,11 @@ const trackSchema = new Schema(
       trim: true,
       required: [true, "Track name is required"],
     },
+    artist: {
+      type: String,
+      trim: true,
+      required: [true, "Track artist is required"],
+    },
     rating: {
       type: Number,
       default: 0.0,
@@ -49,7 +54,7 @@ const trackSchema = new Schema(
     album: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "album",
-      required: [true, "Albums list is required"],
+      required: [true, "Album id is required"],
     },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },

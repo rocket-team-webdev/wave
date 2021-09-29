@@ -7,6 +7,7 @@ async function getSeedTrack() {
   return [
     {
       name: "Song 1",
+      artist: "Bensound",
       url: "https://res.cloudinary.com/dz5nspe7f/video/upload/v1632147267/music-uploads/bensound-creativeminds_vjqm2b.mp3",
       duration: 140,
       genreId: genreId,
@@ -15,6 +16,7 @@ async function getSeedTrack() {
     },
     {
       name: "Song 2",
+      artist: "Bensound",
       url: "https://res.cloudinary.com/dz5nspe7f/video/upload/v1632147266/music-uploads/bensound-happyrock_bg3hh6.mp3",
       duration: 180,
       genreId: genreId,
