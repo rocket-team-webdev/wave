@@ -1,0 +1,199 @@
+@use "../../sass/components/colors" as c;
+
+.rhap_main-container {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // overflow-x: hidden;
+}
+.rhap_container {
+  background-color: c.$white;
+  box-shadow: none;
+  padding-right: 3rem;
+}
+
+.rhap_controls-section {
+  margin-right: 32px !important;
+}
+
+.rhap_main-controls-button,
+.rhap_repeat-button,
+.rhap_volume-button {
+  color: c.$secondaryColor;
+}
+
+.rhap_volume-bar {
+  height: 2px;
+  background-color: c.$secondaryColor;
+}
+.rhap_volume-indicator {
+  top: -5px;
+  background-color: c.$white;
+  opacity: 1;
+  box-shadow: none;
+  border: 2px solid c.$secondaryColor;
+}
+.rhap_play-pause-button {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.rhap_current-time,
+.rhap_total-time {
+  font-weight: 600;
+}
+
+.rhap_progress-indicator {
+  background-color: c.$white;
+  border: 2px solid c.$secondaryColor;
+  opacity: 1;
+  box-shadow: none;
+  font-size: 20px;
+  width: 14px;
+  height: 14px;
+  top: -6px;
+}
+.rhap_progress-bar {
+  background-color: c.$lightColor20;
+  height: 2px;
+  opacity: 1;
+}
+.rhap_progress-filled {
+  background-color: c.$secondaryColor;
+}
+
+// New customize shuffle and buttons
+.rhap_repeat-controls {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  align-items: center;
+  // margin-right: 16px;
+}
+.rhap_shuffle-controls {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 16px;
+}
+.rhap_button-repeat {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.rhap_button-shuffle {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+.next-prev-on {
+  color: c.$secondaryColor;
+  cursor: pointer;
+}
+
+.next-prev-off {
+  color: rgb(184, 189, 174);
+  cursor: default;
+}
+
+.button-on {
+  color: c.$secondaryColor;
+}
+.button-off {
+  color: rgb(184, 189, 174);
+}
+.rhap_button-shuffle:hover {
+  opacity: 0.9;
+  transition-duration: 0.2s;
+}
+.rhap_song-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 3rem;
+  padding-right: 1.5rem;
+  // min-width: 30%;
+  // max-width: 35%;
+  width: 35%;
+}
+.rhap_thumb-album-img {
+  height: 35px;
+  width: 35px;
+}
+.rhap_like-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  // overflow: hidden;
+  cursor: pointer;
+  font-size: 15px;
+}
+.rhap_song-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               Responsive Design                            */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .rhap_main-container {
+    display: block;
+  }
+  .rhap_song-info {
+    justify-content: center;
+    // padding: 0rem 3rem;
+    // padding-left: 0px;
+    // padding-right: 0px;
+    margin-top: 12px;
+    width: 100%;
+  }
+  .rhap_album-thumb {
+    display: none;
+  }
+
+  .rhap_song-text {
+    display: block;
+    margin-left: 24px;
+  }
+  .rhap_container {
+    padding-right: 1.5rem;
+  }
+
+  .rhap_horizontal-reverse {
+    flex-direction: column;
+  }
+  .rhap_progress-section {
+    margin-bottom: 12px;
+  }
+  .rhap_controls-section {
+    margin-right: 0px !important;
+  }
+  .rhap_volume-controls {
+    display: none;
+  }
+  .rhap_shuffle-controls {
+    justify-content: end;
+    margin-right: 0px;
+  }
+  .rhap_repeat-controls {
+    justify-content: start;
+  }
+}

@@ -1,4 +1,4 @@
-import { SET, ADD, CLEAR } from "./types";
+import { SET, ADD, CLEAR, SET_SHUFFLE, CLEAR_SHUFFLE } from "./types";
 
 export const setQueue = (value) => ({
   type: SET,
@@ -12,4 +12,13 @@ export const addSong = (value) => ({
 
 export const clearQueue = () => ({
   type: CLEAR,
+});
+
+export const setShuffle = (value) => ({
+  type: SET_SHUFFLE,
+  payload: value,
+});
+
+export const clearShuffle = () => ({
+  type: CLEAR_SHUFFLE,
 });

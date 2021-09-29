@@ -39,7 +39,8 @@
 .fnt-song-regular,
 .fnt-artist,
 .fnt-song-bold,
-.fnt-caption {
+.fnt-caption,
+.fnt-smallest {
   font-family: "Switzer";
   transition: all 0.2s;
 }
@@ -90,10 +91,16 @@
   line-height: 1.2;
 }
 
+.fnt-smallest {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
 // Weights
 .fnt-label-bold,
 .fnt-song-bold,
-.fnt-input-bold {
+.fnt-input-bold,
+.fnt-smallest {
   font-weight: bold;
 }
 
