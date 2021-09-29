@@ -9,6 +9,7 @@ export const PUBLIC = {
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
   TRACK_UPLOAD: "/tracks/upload",
+  ADD_ALBUM: "/albums/add",
 };
 
 // PRIVATE PAGES

@@ -6,7 +6,7 @@ import AddIcon from "../SVGicons/AddIcon";
 
 import "./DragAndDrop.scss";
 
-export default function DragAndDrop({ handleChange }) {
+export default function DragAndDrop({ handleChange, acceptFiles = "audio/*" }) {
   const baseStyle = {
     flex: 1,
     display: "flex",
@@ -54,7 +54,7 @@ export default function DragAndDrop({ handleChange }) {
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ onDrop, accept: "audio/*", maFiles: 1 });
+  } = useDropzone({ onDrop, accept: acceptFiles, maFiles: 1 });
 
   const style = useMemo(
     () => ({

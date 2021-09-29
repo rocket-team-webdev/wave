@@ -28,7 +28,7 @@ async function addAlbum(req, res, next) {
 
     // Album cover by default
     albumObj.thumbnail =
-      "https://res.cloudinary.com/dz5nspe7f/image/upload/v1632915420/covers-preset/default-album_cugdui.png";
+      "https://res.cloudinary.com/dz5nspe7f/image/upload/v1632928589/default-preset/default-album_rakgsq.png";
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];

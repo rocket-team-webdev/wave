@@ -18,6 +18,7 @@ import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
 import TrackUpload from "./pages/Public/TrackUpload";
+import CreateAlbum from "./pages/Public/CreateAlbum";
 
 function App() {
   const dispatch = useDispatch();
@@ -83,6 +84,9 @@ function App() {
             <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
               <SignIn />
             </OnlyPublicRoute>
+            <PrivateRoute path={PUBLIC.ADD_ALBUM}>
+              <CreateAlbum />
+            </PrivateRoute>
             <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
               <TrackUpload />
             </PrivateRoute>
