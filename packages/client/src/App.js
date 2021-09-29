@@ -18,6 +18,7 @@ import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
 import TrackUpload from "./pages/Public/TrackUpload";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
   const dispatch = useDispatch();
@@ -92,6 +93,7 @@ function App() {
           </Switch>
         </BrowserRouter>
       )}
+      <MusicPlayer />
 
       <ToastContainer draggable theme="colored" />
     </>
