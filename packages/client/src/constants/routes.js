@@ -27,4 +27,7 @@ export const API = {
   REGISTER: "/register",
   AUTHENTICATE: "/authenticate",
   PLAYLISTS: "/playlists",
+  ME: "/me",
+  TRACKS: "/tracks",
+  LIKED: "/liked",
 };
