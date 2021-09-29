@@ -31,8 +31,6 @@ export default function MusicPlayer() {
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
 
-  // const nextDisabled = true;
-
   const nextSong = () => {
     if (queueState.queue.length > listPosition + 1) {
       setListPosition(listPosition + 1);
