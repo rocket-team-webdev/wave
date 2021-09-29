@@ -8,9 +8,10 @@ async function getMyTracks(req, res, next) {
     const tracks = await db.Track.find(
       { userId },
       {
-        likes: { $size: "$likedBy" },
         name: 1,
         artist: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         rating: 1,
         popularity: 1,
         color: 1,
@@ -42,9 +43,10 @@ async function getMyLikedTracks(req, res, next) {
     const tracks = await db.Track.find(
       { likedBy: userId },
       {
-        likes: { $size: "$likedBy" },
         name: 1,
         artist: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         rating: 1,
         popularity: 1,
         color: 1,
