@@ -26,14 +26,6 @@ const trackSchema = new Schema(
       type: Number,
       default: 0,
     },
-    thumbnail: {
-      type: String,
-      trim: true,
-      validate: {
-        validator: (value) => validator.isURL(value),
-        message: () => `Track thumbnail is not valid`,
-      },
-    },
     color: {
       type: String,
     },
@@ -54,8 +46,9 @@ const trackSchema = new Schema(
       ref: "user",
       required: [true, "User id is required"],
     },
-    albums: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "album" }],
+    album: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "album",
       required: [true, "Albums list is required"],
     },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],

@@ -11,7 +11,7 @@ async function getSeedTrack() {
       duration: 140,
       genreId: genreId,
       userId: userId,
-      albums: [albumId],
+      album: albumId,
     },
     {
       name: "Song 2",
@@ -19,7 +19,7 @@ async function getSeedTrack() {
       duration: 180,
       genreId: genreId,
       userId: userId,
-      albums: [albumId],
+      album: albumId,
     },
   ];
 }
