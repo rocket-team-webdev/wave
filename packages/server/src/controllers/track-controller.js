@@ -50,6 +50,10 @@ async function uploadTrack(req, res, next) {
       if (genre) trackObj.genreId = genre._id;
 
       await db.Track.create(trackObj);
+      await db.Album.updateOne(
+        { _id: album._id },
+        { $inc: { totalTracks: 1 } },
+      );
 
       return res.status(200).send({ message: "cloudinary track uploaded" });
     }
