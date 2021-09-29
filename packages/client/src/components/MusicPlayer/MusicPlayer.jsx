@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -36,17 +36,22 @@ export default function MusicPlayer() {
   const nextSong = () => {
     if (queueState.queue.length > listPosition + 1) {
       setListPosition(listPosition + 1);
-      setPrevButtonDisabled(false);
     } else if (repeatState === "queue") setListPosition(0);
-    else setPrevButtonDisabled(true);
+
+    if (listPosition >= queueState.queue.length - 2 && repeatState !== "queue")
+      setNextButtonDisabled(true);
+    else setNextButtonDisabled(false);
+    if (listPosition <= 1) setPrevButtonDisabled(false);
   };
   const previousSong = () => {
     if (listPosition > 0) {
       setListPosition(listPosition - 1);
       setNextButtonDisabled(false);
-    } else setNextButtonDisabled(true);
-
-    // TODO: else disable prev button
+    }
+    if (listPosition <= 1) setPrevButtonDisabled(true);
+    else setPrevButtonDisabled(false);
+    if (listPosition >= queueState.queue.length - 2)
+      setNextButtonDisabled(false);
   };
 
   const shuffledArray = (arrayLength, min) => {
@@ -75,6 +80,7 @@ export default function MusicPlayer() {
     );
     if (statePosition === 0) audioPlayer.current.audio.current.loop = true;
     else audioPlayer.current.audio.current.loop = false;
+    if (statePosition === 1) setNextButtonDisabled(false);
     setRepeatState(
       toggleStates[
         statePosition === toggleStates.length - 1 ? 0 : statePosition + 1
@@ -85,6 +91,16 @@ export default function MusicPlayer() {
   const likeSong = () => {
     setIsLiked(!isLiked);
   };
+
+  useEffect(() => {
+    if (queueState.queue.length > 1) {
+      setPrevButtonDisabled(true);
+      setNextButtonDisabled(false);
+    } else {
+      setPrevButtonDisabled(true);
+      setNextButtonDisabled(true);
+    }
+  }, []);
 
   return (
     <div className="rhap_main-container clr-white">
