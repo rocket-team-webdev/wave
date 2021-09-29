@@ -20,3 +20,8 @@ export async function uploadTrack(file = {}, api = makeTrackApi()) {
     },
   });
 }
+
+export async function deleteTrack(songId, api = makeTrackApi()) {
+  console.log("Api function to delete --> ", songId);
+  return api.delete(`/${songId}`);
+}

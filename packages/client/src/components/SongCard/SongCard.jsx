@@ -3,9 +3,12 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { PUBLIC } from "../../constants/routes";
 
+import { deleteTrack } from "../../api/tracks-api";
+
 import "./SongCard.scss";
 
 export default function SongCard({
+  songId,
   songNumber,
   songImg,
   songName,
@@ -37,8 +40,9 @@ export default function SongCard({
     console.log("editing =>", songName);
   };
 
-  const handleDeleteSong = () => {
-    console.log("Removing =>", songName);
+  const handleDeleteSong = async () => {
+    console.log("Removing =>", songId);
+    await deleteTrack(songId);
   };
 
   const timeIntoString = (seconds) => {

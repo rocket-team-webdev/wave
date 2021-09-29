@@ -78,6 +78,7 @@ async function uploadTrack(req, res, next) {
 
       trackObj.name = req.body.title;
       trackObj.url = cldTrackRes.secure_url;
+      trackObj.public_id = cldTrackRes.public_id;
       trackObj.duration = cldTrackRes.duration;
       trackObj.userId = userId;
       if (album) trackObj.albums = [album._id];
@@ -97,6 +98,27 @@ async function uploadTrack(req, res, next) {
   }
 }
 
+async function deleteTrack(req, res, next) {
+  console.log("Deleting... ", req.params);
+  const { id } = req.params;
+  console.log(id);
+  try {
+    // ----
+    // Delete from Cloudinary
+    // const track = req.files["track"][0];
+    //   const cldTrackRes = await cloudinary.uploader.destroy(trackLocation)
+    // ----
+    // Delete from MongoDB Atlas
+    const track = await db.Track.findOne({ _id: id });
+    console.log(track);
+    return res.status(200).send({ message: "Successfully deleted track" });
+  } catch (error) {
+    res.status(500).send({ error: error });
+    next(error);
+  }
+}
+
 module.exports = {
   uploadTrack,
+  deleteTrack,
 };

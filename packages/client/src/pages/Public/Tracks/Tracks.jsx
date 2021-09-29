@@ -95,6 +95,7 @@ export default function Songs() {
             uploadedSongs.map((song, index) => (
               <SongCard
                 key={song._id}
+                songId={song._id}
                 songNumber={index + 1}
                 songName={song.name}
                 songImg={song.album.thumbnail}
@@ -111,6 +112,7 @@ export default function Songs() {
             likedSongs.map((song, index) => (
               <SongCard
                 key={song._id}
+                songId={song._id}
                 songNumber={index + 1}
                 songName={song.name}
                 songImg={song.album.thumbnail}
