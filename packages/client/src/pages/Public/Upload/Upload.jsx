@@ -137,8 +137,8 @@ export default function Home() {
                 type="file"
                 placeholder="Upload file"
                 isNegative
-                handleChange={thumbnailOnChange}
-                handleBlur={thumbnailOnChange}
+                // handleChange={thumbnailOnChange}
+                // handleBlur={thumbnailOnChange}
                 // value={formik.values.thumbnail}
                 errorMessage={formik.errors.thumbnail}
                 hasErrorMessage={formik.touched.thumbnail}
