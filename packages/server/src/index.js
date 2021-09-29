@@ -2,11 +2,11 @@ const app = require("./server");
 const { config } = require("./config/config");
 const connect = require("./db/connect");
 // const {
-//   // seedUsers,
-//   // seedGenres,
-//   // seedAlbum,
-//   // seedTrack,
-//   // seedPlaylist,
+//   seedUsers,
+//   seedGenres,
+//   seedAlbum,
+// seedTrack,
+//   seedPlaylist,
 // } = require("./db/seed");
 
 connect()

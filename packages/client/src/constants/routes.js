@@ -2,6 +2,8 @@
 
 export const PUBLIC = {
   HOME: "/",
+  MY_SONGS: "/tracks",
+  ALBUMS: "/albums",
   UPDATE_PASSWORD: "/account/settings/update-password",
   RESET_PASSWORD: "/account/settings/reset-password",
   SIGN_UP: "/sign-up",
@@ -9,6 +11,7 @@ export const PUBLIC = {
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
   TRACK_UPLOAD: "/tracks/upload",
+  USERS: "/users",
 };
 
 // PRIVATE PAGES
@@ -28,4 +31,7 @@ export const API = {
   GENRE: "/genres",
   ALBUM: "/albums",
   PLAYLISTS: "/playlists",
+  ME: "/me",
+  TRACKS: "/tracks",
+  LIKED: "/liked",
 };
