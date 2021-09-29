@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
 import { setQueue } from "../../redux/music-queue/actions";
 
@@ -18,6 +20,7 @@ export default function SongCard({
   songUrl,
   genreId,
   isLiked,
+  songId,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
@@ -42,6 +45,12 @@ export default function SongCard({
 
   const handleLike = () => {
     setLiked(!liked);
+    try {
+      likeTrack(songId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setLiked(!liked);
+    }
   };
 
   const handlePlay = () => {
