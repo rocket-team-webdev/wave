@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { PUBLIC } from "../../constants/routes";
 
 import "./SongCard.scss";
 
 export default function SongCard({
-  songNumber = 1,
-  songImg = "",
-  songName = "Glory Box",
-  artist = "Portishead",
-  // albumName = "Dummy",
-  time = 140,
-  userId = "",
-  playCounter = 153360,
+  songNumber,
+  songImg,
+  songName,
+  artist,
+  albumName,
+  time,
+  userId,
+  playCounter = 0,
 }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isOwned, setIsOwned] = useState(false);
@@ -40,10 +41,6 @@ export default function SongCard({
     console.log("Removing =>", songName);
   };
 
-  const handleGoToUser = () => {
-    console.log("going");
-  };
-
   const timeIntoString = (seconds) => {
     const data = parseInt(seconds, 10);
     let minute = Math.floor((data / 60) % 60);
@@ -51,6 +48,13 @@ export default function SongCard({
     let second = data % 60;
     second = second < 10 ? `0${second}` : second;
     return `${minute}:${second}`;
+  };
+
+  const formatPlayCounter = (counter) => {
+    const result = counter
+      .toString()
+      .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+    return result;
   };
 
   useEffect(() => {
@@ -78,14 +82,14 @@ export default function SongCard({
           <h3 className="m-0 text-start fnt-song-bold">{songName}</h3>
           <h4 className="m-0  text-start fnt-artist">{artist}</h4>
         </div>
-        {/* <Link
+        <Link
           className="m-0 text-start fnt-song-regular px-2 col"
-          to={albumName}
+          to={`${PUBLIC.ALBUMS}/${albumName}`}
         >
           {albumName}
-        </Link> */}
+        </Link>
         <h4 className="m-0 text-start fnt-song-regular px-2 col">
-          {playCounter}
+          {formatPlayCounter(playCounter)}
         </h4>
         <h4 className="m-0 text-start fnt-song-regular px-2 col">
           {timeIntoString(time)}
@@ -102,7 +106,7 @@ export default function SongCard({
           </button>
           {isOwned ? (
             <ul
-              className="dropdown-menu clr-secondary p-1"
+              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
               aria-labelledby="contextSongMenu"
             >
               <button
@@ -123,16 +127,17 @@ export default function SongCard({
             </ul>
           ) : (
             <ul
-              className="dropdown-menu clr-secondary p-1"
+              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
               aria-labelledby="contextSongMenu"
             >
-              <button
-                className="dropdown-item fnt-light fnt-song-regular "
-                type="button"
-                onClick={handleGoToUser}
-              >
-                Go to user
-              </button>
+              <Link to={`${PUBLIC.USERS}/${userId}`}>
+                <p
+                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                  type="button"
+                >
+                  Go to user
+                </p>
+              </Link>
             </ul>
           )}
         </div>
