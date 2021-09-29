@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { PUBLIC } from "../../../constants/routes";
 
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
@@ -48,15 +50,18 @@ export default function Songs() {
   return (
     <Layout isNegative>
       <div className="row">
-        <JumboText priText="My Songs" isNegative />
-        <div className="col">
-          <Button />
+        <div className="col col-9">
+          <JumboText priText="My Songs" isNegative />
         </div>
-        <div className="w-100" />
+        <div className="col col-3">
+          <Link className="float-end p-3" to={PUBLIC.TRACK_UPLOAD}>
+            <Button isNegative>Upload</Button>
+          </Link>
+        </div>
       </div>
       <div className="row">
-        <div className="col-6">
-          <h1>Uploaded</h1>
+        <div className="col col-6 ">
+          <div className="fnt-page-title">Uploaded</div>
           {songs &&
             songs.map((song) => (
               <SongCard
@@ -70,8 +75,8 @@ export default function Songs() {
               />
             ))}
         </div>
-        <div className="col-6">
-          <h1>Liked</h1>
+        <div className="col col-6 ">
+          <div className="fnt-page-title">Liked</div>
         </div>
       </div>
     </Layout>
