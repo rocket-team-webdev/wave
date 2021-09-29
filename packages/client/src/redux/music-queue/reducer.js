@@ -1,4 +1,4 @@
-import { SET, ADD, CLEAR } from "./types";
+import { SET, ADD, CLEAR, SET_SHUFFLE, CLEAR_SHUFFLE } from "./types";
 
 import initialState from "./state";
 
@@ -10,6 +10,11 @@ const reducer = (state = initialState, action) => {
       return state.queue.push(action.payload);
     case CLEAR:
       return initialState;
+    case SET_SHUFFLE:
+      return { ...state, isShuffled: true, shuffleOrder: action.payload };
+    case CLEAR_SHUFFLE:
+      return { ...state, isShuffled: false, shuffleOrder: null };
+
     default:
       break;
   }

@@ -17,6 +17,7 @@ import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
   const dispatch = useDispatch();
@@ -88,6 +89,7 @@ function App() {
           </Switch>
         </BrowserRouter>
       )}
+      <MusicPlayer />
 
       <ToastContainer draggable theme="colored" />
     </>
