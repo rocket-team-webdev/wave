@@ -1,120 +1,111 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useMemo, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { toast } from "react-toastify";
+import Input from "../Input";
 import AddIcon from "../SVGicons/AddIcon";
 
 import "./DragAndDrop.scss";
 
-export default function DragAndDrop({ handleDropEvent, children }) {
-  const dropRef = useRef([]);
-  const [draggable, setDraggable] = useState(false);
-  const [dragCounter, setDragCounter] = useState(0);
-
-  const handleDrag = (e) => {
-    console.log("handleDrag");
-
-    e.preventDefault();
-    e.stopPropagation();
+export default function DragAndDrop({ handleChange }) {
+  const baseStyle = {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "20px",
+    paddingBottom: "65px",
+    marginRight: "20px",
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: "#eeeeee",
+    borderStyle: "dashed",
+    backgroundColor: "rgba(250, 250, 250, 0.2)",
+    color: "#bdbdbd",
+    outline: "none",
+    transition: "border .24s ease-in-out",
   };
 
-  const handleDragIn = (e) => {
-    // console.log("handleDragIn");
-    e.preventDefault();
-    e.stopPropagation();
-    // this.dragCounter++;
-    setDragCounter((prevCount) => prevCount + 1);
+  const activeStyle = {
+    borderColor: "#2196f3",
+  };
 
-    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
-      setDraggable(true);
+  const acceptStyle = {
+    borderColor: "#00e676",
+    backgroundColor: "#c6f18850",
+  };
+
+  const rejectStyle = {
+    borderColor: "#ff1744",
+    backgroundColor: "#f1889250",
+  };
+
+  const onDrop = useCallback((acceptedFiles) => {
+    if (acceptedFiles.length) {
+      handleChange(acceptedFiles);
+      return toast("File uploaded!", { type: "success" });
     }
-  };
 
-  const handleDragOut = (e) => {
-    // console.log("handleDragOut");
-
-    e.preventDefault();
-    e.stopPropagation();
-    // this.dragCounter--;
-    setDragCounter((prevCount) => prevCount - 1);
-
-    // if (this.dragCounter === 0) {
-    //   setDraggable(false);
-    // }
-    if (dragCounter === 0) {
-      setDraggable(false);
-    }
-  };
-
-  const handleDrop = (e) => {
-    console.log("handleDrop");
-
-    e.preventDefault();
-    e.stopPropagation();
-    setDraggable(false);
-
-    console.log("e.dataTransfer.files", e.dataTransfer.files);
-
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleDropEvent(e.dataTransfer.files);
-      e.dataTransfer.clearData();
-
-      // this.dragCounter = 0;
-      setDragCounter(0);
-    }
-  };
-
-  useEffect(() => {
-    const div = dropRef.current;
-    div.addEventListener("dragenter", handleDragIn);
-    div.addEventListener("dragleave", handleDragOut);
-    div.addEventListener("dragover", handleDrag);
-    div.addEventListener("drop", handleDrop);
-
-    return () => {
-      div.removeEventListener("dragenter", handleDragIn);
-      div.removeEventListener("dragleave", handleDragOut);
-      div.removeEventListener("dragover", handleDrag);
-      div.removeEventListener("drop", handleDrop);
-    };
+    return toast("File format not supported", { type: "error" });
   }, []);
 
-  let classNames =
-    "drop-container d-flex flex-column align-items-center pt-4 m-auto ";
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({ onDrop, accept: "audio/*", maFiles: 1 });
 
-  if (draggable) classNames += "drag";
-  else classNames += "clr-light-20";
+  const style = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(isDragActive ? activeStyle : {}),
+      ...(isDragAccept ? acceptStyle : {}),
+      ...(isDragReject ? rejectStyle : {}),
+    }),
+    [isDragActive, isDragReject, isDragAccept],
+  );
 
   return (
-    <div className={classNames} ref={dropRef}>
-      <AddIcon color="white" size={150} />
-
-      {/* {draggable && (
-        <div
-          style={{
-            border: "dashed grey 4px",
-            backgroundColor: "rgba(255,255,255,.8)",
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 9999,
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              right: 0,
-              left: 0,
-              textAlign: "center",
-              color: "grey",
-              fontSize: 36,
-            }}
-          >
-            <div>drop here :)</div>
-          </div>
+    <div {...getRootProps({ style })}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <div className="d-flex flex-column align-items-center pt-4 m-auto">
+          <AddIcon color="white" size={150} />
+          <Input
+            classNames="col-12 col-md-6"
+            label=""
+            id="thumbnail"
+            type="file"
+            placeholder="Upload file"
+            isNegative
+            // onChange={trackOnChange}
+            // onBlur={trackOnChange}
+            // value={formik.values.genre}
+            // errorMessage={formik.errors.genre}
+            // hasErrorMessage={formik.touched.genre}
+          />
+          <p className="pt-3 fnt-white">Drop the files here ...</p>
         </div>
-      )} */}
-      {children}
+      ) : (
+        <div className="d-flex flex-column align-items-center pt-4 m-auto">
+          <AddIcon color="white" size={150} />
+          <Input
+            classNames="col-12 col-md-6"
+            label=""
+            id="thumbnail"
+            type="file"
+            placeholder="Upload file"
+            isNegative
+            // onChange={trackOnChange}
+            // onBlur={trackOnChange}
+            // value={formik.values.genre}
+            // errorMessage={formik.errors.genre}
+            // hasErrorMessage={formik.touched.genre}
+          />
+          <p className="pt-3 fnt-white">Or drag and drop files here</p>
+        </div>
+      )}
     </div>
   );
 }

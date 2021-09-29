@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
@@ -11,22 +11,6 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadCover } from "../../../api/example";
 
 export default function Home() {
-  const [filesState, setFilesState] = useState([]);
-
-  const handleDrop = (files) => {
-    Object.values(files).forEach((file) => {
-      setFilesState((prevState) => [...prevState, file.name]);
-    });
-  };
-
-  // const fileOnChange = async (event) => {
-  //   const file = event.target.files[0];
-  //   const fd = new FormData();
-  //   fd.append("file", file);
-  //   await uploadCover(fd);
-  //   console.log("SE SUBIOOO");
-  // };
-
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -39,6 +23,9 @@ export default function Home() {
     validationSchema: uploadSchema,
     onSubmit: async (signInState) => {
       try {
+        if (!signInState.track)
+          return toast("Choose a track!", { type: "error" });
+
         const formData = new FormData();
         formData.append("title", signInState.title);
         formData.append("artist", signInState.artist);
@@ -49,9 +36,9 @@ export default function Home() {
 
         console.log("formData", formData);
         await uploadCover(formData);
-        console.log("SE SUBIOOO");
+        return toast("Track uploaded!", { type: "success" });
       } catch (error) {
-        toast(error.message, { type: "error" });
+        return toast(error.message, { type: "error" });
       }
     },
   });
@@ -60,8 +47,8 @@ export default function Home() {
     formik.setFieldValue("thumbnail", event.target.files[0]);
   };
 
-  const trackOnChange = async (event) => {
-    formik.setFieldValue("track", event.target.files[0]);
+  const trackOnChange = async (files) => {
+    formik.setFieldValue("track", files[0]);
   };
 
   return (
@@ -69,28 +56,7 @@ export default function Home() {
       <div className="row ">
         <div className="col col-12 col-md-6 p-4">
           <p className="fnt-sidebar fnt-light">Upload your song</p>
-
-          <DragAndDrop handleDropEvent={handleDrop}>
-            <Input
-              classNames="col-12 col-md-6"
-              label=""
-              id="thumbnail"
-              type="file"
-              placeholder="Upload file"
-              isNegative
-              onChange={trackOnChange}
-              onBlur={trackOnChange}
-              // value={formik.values.genre}
-              // errorMessage={formik.errors.genre}
-              // hasErrorMessage={formik.touched.genre}
-            />
-
-            <div>
-              {filesState.map((file) => (
-                <div key={file}>{file}</div>
-              ))}
-            </div>
-          </DragAndDrop>
+          <DragAndDrop handleChange={trackOnChange} />
         </div>
 
         <div className="col col-12 col-md-6 mt-10 px-5">
@@ -114,7 +80,7 @@ export default function Home() {
                 label="artist"
                 type="artist"
                 id="artist"
-                classNames="col-6"
+                classNames="col-12 col-md-6"
                 placeholder=""
                 isNegative
                 onChange={formik.handleChange}
@@ -157,8 +123,8 @@ export default function Home() {
                 type="file"
                 placeholder="Upload file"
                 isNegative
-                onChange={thumbnailOnChange}
-                onBlur={thumbnailOnChange}
+                handleChange={thumbnailOnChange}
+                handleBlur={thumbnailOnChange}
                 // value={formik.values.thumbnail}
                 errorMessage={formik.errors.thumbnail}
                 hasErrorMessage={formik.touched.thumbnail}
