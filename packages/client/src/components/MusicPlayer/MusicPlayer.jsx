@@ -109,7 +109,7 @@ export default function MusicPlayer() {
       setPrevButtonDisabled(true);
       setNextButtonDisabled(true);
     }
-  }, []);
+  }, [queueState]);
 
   return (
     <>
@@ -118,7 +118,7 @@ export default function MusicPlayer() {
           <div className="rhap_song-info">
             <div className="rhap_album-thumb">
               <img
-                src="https://loudcave.es/wp-content/uploads/2021/04/cbf7b52dab62a3eb745e6730068abc4a.1000x1000x1.jpg"
+                src={songObject.songImg}
                 alt="album-cover"
                 className="rhap_thumb-album-img"
               />
@@ -146,14 +146,13 @@ export default function MusicPlayer() {
           </div>
           <AudioPlayer
             autoPlay
-            volume={0.5}
+            volume={0.2}
             showSkipControls
             showJumpControls={false}
             src={songObject.url}
             onClickNext={nextSong}
             onClickPrevious={previousSong}
             onEnded={nextSong}
-            // customAdditionalControls={[]}
             ref={audioPlayer}
             layout="horizontal-reverse"
             customIcons={{
