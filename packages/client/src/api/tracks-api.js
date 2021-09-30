@@ -9,6 +9,10 @@ export function makeTrackApi() {
   });
 }
 
+export async function getTrackById(trackId, api = makeTrackApi()) {
+  return api.get(`/${trackId}`);
+}
+
 export async function uploadTrack(file = {}, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { useFormik } from "formik";
 import Input from "../../../components/Input";
 import Layout from "../../../components/Layout";
@@ -7,12 +8,29 @@ import Select from "../../../components/Select";
 import { getGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
 import Button from "../../../components/Button";
+import AddIcon from "../../../components/SVGicons/AddIcon";
+import { PUBLIC } from "../../../constants/routes";
+import { getTrackById } from "../../../api/tracks-api";
 
 function TrackUpdate() {
+  const { trackId } = useRouteMatch(`${PUBLIC.TRACK_UPDATE}/:trackId`).params;
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
 
+  async function loadTrack(id) {
+    try {
+      const { data } = await getTrackById(id);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(trackId);
+
+  const history = useHistory();
+
   useEffect(async () => {
+    loadTrack(trackId);
     const { data } = await getGenres();
     const {
       data: { albums },
@@ -128,7 +146,7 @@ function TrackUpdate() {
                 options={genresState}
               />
               <Select
-                classNames="col-12 col-md-6"
+                classNames="col-11 col-md-5"
                 label="album"
                 id="album"
                 type="select"
@@ -138,23 +156,18 @@ function TrackUpdate() {
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
-                selected={formik.signInState}
                 options={albumsState}
                 // options={["", "Album 1", "Album 2"]}
               />
-              {/* <Input
-                classNames="col-12 col-md-6"
-                label="thumbnail"
-                id="thumbnail"
-                type="file"
-                placeholder="Upload file"
-                isNegative
-                // handleChange={thumbnailOnChange}
-                // handleBlur={thumbnailOnChange}
-                // value={formik.values.thumbnail}
-                errorMessage={formik.errors.thumbnail}
-                hasErrorMessage={formik.touched.thumbnail}
-              /> */}
+
+              <div className="col-1 ms-0 ps-0 pt-6">
+                <Button
+                  isNegative
+                  onClick={() => history.push(PUBLIC.ADD_ALBUM)}
+                >
+                  <AddIcon color="" size={25} />
+                </Button>
+              </div>
             </div>
 
             <div className="d-flex justify-content-end my-5">

@@ -16,6 +16,8 @@ trackRouter.post(
   trackController.uploadTrack,
 );
 
+trackRouter.get("/:id", trackController.getTrack);
+
 module.exports = {
   trackRouter,
 };

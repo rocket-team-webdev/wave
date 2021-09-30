@@ -5,6 +5,22 @@ const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 
+async function getTrack(req, res, next) {
+  try {
+    const { id } = req.params;
+    const track = await db.Track.findById(id);
+
+    res.status(200).send({
+      data: track,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
 async function uploadTrack(req, res, next) {
   try {
     const trackObj = {};
@@ -72,4 +88,5 @@ async function uploadTrack(req, res, next) {
 
 module.exports = {
   uploadTrack,
+  getTrack,
 };

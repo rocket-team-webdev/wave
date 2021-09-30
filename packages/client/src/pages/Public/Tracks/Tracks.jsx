@@ -7,7 +7,7 @@ import { PUBLIC } from "../../../constants/routes";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
-import SongCard from "../../../components/SongCard/SongCard";
+import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 
 // const songs = [
@@ -93,11 +93,11 @@ export default function Songs() {
           <div className="fnt-page-title">Uploaded</div>
           {uploadedSongs &&
             uploadedSongs.map((song, index) => (
-              <SongCard
+              <TrackCard
                 key={song._id}
-                songNumber={index + 1}
-                songName={song.name}
-                songImg={song.album.thumbnail}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
@@ -109,11 +109,11 @@ export default function Songs() {
           <div className="fnt-page-title">Liked</div>
           {likedSongs &&
             likedSongs.map((song, index) => (
-              <SongCard
+              <TrackCard
                 key={song._id}
-                songNumber={index + 1}
-                songName={song.name}
-                songImg={song.album.thumbnail}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
