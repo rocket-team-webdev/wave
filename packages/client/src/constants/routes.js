@@ -12,6 +12,7 @@ export const PUBLIC = {
   USER_ACCOUNT: "/account",
   USERS: "/users",
   TRACK_UPLOAD: "",
+  TRACK_EDIT: "/tracks/update",
 };
 
 // PRIVATE PAGES

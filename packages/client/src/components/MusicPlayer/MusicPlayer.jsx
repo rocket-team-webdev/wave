@@ -136,6 +136,7 @@ export default function MusicPlayer() {
           </div>
           <AudioPlayer
             autoPlay
+            volume={0.5}
             showSkipControls
             showJumpControls={false}
             src={songObject.url}

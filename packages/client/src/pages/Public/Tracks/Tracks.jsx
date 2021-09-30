@@ -104,6 +104,7 @@ export default function Tracks() {
                 genreId={song.genreId}
                 isLiked={song.isLiked}
                 songId={song._id}
+                userId={song.userId}
               />
             ))}
         </div>
@@ -123,6 +124,7 @@ export default function Tracks() {
                 genreId={song.genreId}
                 isLiked={song.isLiked}
                 songId={song._id}
+                userId={song.userId}
               />
             ))}
         </div>

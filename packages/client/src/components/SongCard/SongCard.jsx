@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
-import { setQueue } from "../../redux/music-queue/actions";
+import { addSong, setQueue } from "../../redux/music-queue/actions";
 
 import "./SongCard.scss";
 
@@ -46,9 +46,14 @@ export default function SongCard({
   const handleLike = () => {
     setLiked(!liked);
     try {
+      // eslint-disable-next-line no-debugger
+      debugger;
       likeTrack(songId);
     } catch (error) {
+      // eslint-disable-next-line no-debugger
+      debugger;
       toast(error.message, { type: "error" });
+      toast(error.response.status, { type: "error" });
       setLiked(!liked);
     }
   };
@@ -57,12 +62,12 @@ export default function SongCard({
     dispatch(setQueue(songObject));
   };
 
-  const handleEditSong = () => {
-    console.log("editing =>", songName);
-  };
-
   const handleDeleteSong = () => {
     console.log("Removing =>", songName);
+  };
+
+  const handleAddToQueue = () => {
+    dispatch(addSong(songObject));
   };
 
   const timeIntoString = (seconds) => {
@@ -128,32 +133,38 @@ export default function SongCard({
           >
             <i className="fas fa-ellipsis-h" />
           </button>
-          {isOwned ? (
-            <ul
-              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-              aria-labelledby="contextSongMenu"
+          <ul
+            className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+            aria-labelledby="contextSongMenu"
+          >
+            <button
+              className="dropdown-item fnt-light fnt-song-regular "
+              type="button"
+              onClick={handleAddToQueue}
             >
-              <button
-                className="dropdown-item fnt-light fnt-song-regular "
-                type="button"
-                onClick={handleEditSong}
-              >
-                Edit
-              </button>
-              <hr className="dropdown-wrapper m-0" />
-              <button
-                className="dropdown-item fnt-light fnt-song-regular"
-                type="button"
-                onClick={handleDeleteSong}
-              >
-                Delete
-              </button>
-            </ul>
-          ) : (
-            <ul
-              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-              aria-labelledby="contextSongMenu"
-            >
+              Add to queue
+            </button>
+            <hr className="dropdown-wrapper m-0" />
+            {isOwned ? (
+              <>
+                <Link to={`${PUBLIC.TRACK_EDIT}/${songId}`}>
+                  <p
+                    className="dropdown-item fnt-light fnt-song-regular m-0"
+                    type="button"
+                  >
+                    Edit
+                  </p>
+                </Link>
+                <hr className="dropdown-wrapper m-0" />
+                <button
+                  className="dropdown-item fnt-light fnt-song-regular"
+                  type="button"
+                  onClick={handleDeleteSong}
+                >
+                  Delete
+                </button>
+              </>
+            ) : (
               <Link to={`${PUBLIC.USERS}/${userId}`}>
                 <p
                   className="dropdown-item fnt-light fnt-song-regular m-0"
@@ -162,8 +173,8 @@ export default function SongCard({
                   Go to user
                 </p>
               </Link>
-            </ul>
-          )}
+            )}
+          </ul>
         </div>
       </div>
     </div>
