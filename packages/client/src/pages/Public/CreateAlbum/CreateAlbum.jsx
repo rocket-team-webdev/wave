@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
-import albumSchema from "./album-schema";
+import albumSchema from "./Album-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
