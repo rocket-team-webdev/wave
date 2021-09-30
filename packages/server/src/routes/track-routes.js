@@ -16,6 +16,8 @@ trackRouter.post(
   trackController.uploadTrack,
 );
 
+trackRouter.delete("/:id", authFirebaseMiddleware, trackController.deleteTrack);
+
 module.exports = {
   trackRouter,
 };

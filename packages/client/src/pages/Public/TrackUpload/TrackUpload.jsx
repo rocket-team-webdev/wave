@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import * as id3 from "id3js/lib/id3";
 import { useHistory } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
@@ -93,6 +94,13 @@ export default function TrackUpload() {
 
   const trackOnChange = async (files) => {
     formik.setFieldValue("track", files[0]);
+
+    // read metadata ID3
+    const tags = await id3.fromFile(files[0]);
+    formik.setFieldValue("name", tags.title);
+    formik.setFieldValue("artist", tags.artist);
+    formik.setFieldValue("album", tags.album);
+    formik.setFieldValue("genre", tags.genre);
   };
 
   const handleCreateAlbum = () => {

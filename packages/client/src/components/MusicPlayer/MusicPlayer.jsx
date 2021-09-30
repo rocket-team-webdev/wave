@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
-
+import { toast } from "react-toastify";
 import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
 import {
   MdRepeat,
@@ -16,6 +16,7 @@ import "react-h5-audio-player/lib/styles.css";
 import "./MusicPlayer.scss";
 
 import { clearShuffle, setShuffle } from "../../redux/music-queue/actions";
+import { likeTrack } from "../../api/track-api";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
@@ -88,6 +89,16 @@ export default function MusicPlayer() {
 
   const likeSong = () => {
     setIsLiked(!isLiked);
+    try {
+      likeTrack(songObject.songId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setIsLiked(!isLiked);
+    }
+  };
+
+  const handleError = (error) => {
+    toast(error, { type: "error" });
   };
 
   useEffect(() => {
@@ -101,91 +112,101 @@ export default function MusicPlayer() {
   }, []);
 
   return (
-    <div className="rhap_main-container clr-white">
-      <div className="rhap_song-info">
-        <div className="rhap_album-thumb">
-          <img
-            src="https://loudcave.es/wp-content/uploads/2021/04/cbf7b52dab62a3eb745e6730068abc4a.1000x1000x1.jpg"
-            alt="album-cover"
-            className="rhap_thumb-album-img"
+    <>
+      {queueState.queue.length && (
+        <div className="rhap_main-container clr-white">
+          <div className="rhap_song-info">
+            <div className="rhap_album-thumb">
+              <img
+                src="https://loudcave.es/wp-content/uploads/2021/04/cbf7b52dab62a3eb745e6730068abc4a.1000x1000x1.jpg"
+                alt="album-cover"
+                className="rhap_thumb-album-img"
+              />
+            </div>
+            <button
+              type="button"
+              className="rhap_like-button"
+              onClick={likeSong}
+            >
+              {" "}
+              {isLiked ? (
+                <FaHeart className="rhap_like-icon" />
+              ) : (
+                <FaRegHeart className="rhap_like-icon" />
+              )}
+            </button>
+            <div className="rhap_song-text">
+              <p className="rhap_song-tittle mb-0 fnt-song-bold lh-1 pe-4">
+                {songObject.name}
+              </p>
+              <p className="rhap_song-artist mb-0 fnt-song-light lh-1">
+                {songObject.artist}
+              </p>
+            </div>
+          </div>
+          <AudioPlayer
+            autoPlay
+            volume={0.5}
+            showSkipControls
+            showJumpControls={false}
+            src={songObject.url}
+            onClickNext={nextSong}
+            onClickPrevious={previousSong}
+            onEnded={nextSong}
+            // customAdditionalControls={[]}
+            ref={audioPlayer}
+            layout="horizontal-reverse"
+            customIcons={{
+              play: <FaPlay />,
+              pause: <FaPause />,
+              loop: <IoMdRepeat />,
+              loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
+              previous: (
+                <MdSkipPrevious
+                  className={`${
+                    prevButtonDisabled ? "next-prev-off" : "next-prev-on"
+                  }`}
+                />
+              ),
+              next: (
+                <MdSkipNext
+                  className={`${
+                    nextButtonDisabled ? "next-prev-off" : "next-prev-on"
+                  }`}
+                />
+              ),
+            }}
+            customControlsSection={[
+              <div className="rhap_repeat-controls" key={songObject.duration}>
+                <button
+                  onClick={repeatToggle}
+                  type="button"
+                  className={`${
+                    repeatState === "false" ? "button-off" : "button-on"
+                  } rhap_button-repeat`}
+                >
+                  {repeatState === "song" ? <MdRepeatOne /> : <MdRepeat />}
+                </button>
+              </div>,
+              RHAP_UI.MAIN_CONTROLS,
+              <div className="rhap_shuffle-controls" key={songObject.url}>
+                <button
+                  onClick={shuffleToggle}
+                  type="button"
+                  className={`${
+                    isShuffle ? "button-on" : "button-off"
+                  } rhap_button-shuffle `}
+                >
+                  <ImShuffle />
+                </button>
+              </div>,
+              RHAP_UI.VOLUME_CONTROLS,
+            ]}
+            onPlayError={handleError}
+            onChangeCurrentTimeError={handleError}
           />
         </div>
-        <button type="button" className="rhap_like-button" onClick={likeSong}>
-          {" "}
-          {isLiked ? (
-            <FaHeart className="rhap_like-icon" />
-          ) : (
-            <FaRegHeart className="rhap_like-icon" />
-          )}
-        </button>
-        <div className="rhap_song-text">
-          <p className="rhap_song-tittle mb-0 fnt-song-bold lh-1 pe-4">
-            {songObject.name}
-          </p>
-          <p className="rhap_song-artist mb-0 fnt-song-light lh-1">
-            {songObject.artist}
-          </p>
-        </div>
-      </div>
-      <AudioPlayer
-        showSkipControls
-        showJumpControls={false}
-        src={songObject.url}
-        onClickNext={nextSong}
-        onClickPrevious={previousSong}
-        onEnded={nextSong}
-        // customAdditionalControls={[]}
-        ref={audioPlayer}
-        layout="horizontal-reverse"
-        customIcons={{
-          play: <FaPlay />,
-          pause: <FaPause />,
-          loop: <IoMdRepeat />,
-          loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
-          previous: (
-            <MdSkipPrevious
-              className={`${
-                prevButtonDisabled ? "next-prev-off" : "next-prev-on"
-              }`}
-            />
-          ),
-          next: (
-            <MdSkipNext
-              className={`${
-                nextButtonDisabled ? "next-prev-off" : "next-prev-on"
-              }`}
-            />
-          ),
-        }}
-        customControlsSection={[
-          <div className="rhap_repeat-controls" key={songObject.duration}>
-            <button
-              onClick={repeatToggle}
-              type="button"
-              className={`${
-                repeatState === "false" ? "button-off" : "button-on"
-              } rhap_button-repeat`}
-            >
-              {repeatState === "song" ? <MdRepeatOne /> : <MdRepeat />}
-            </button>
-          </div>,
-          RHAP_UI.MAIN_CONTROLS,
-          <div className="rhap_shuffle-controls" key={songObject.url}>
-            <button
-              onClick={shuffleToggle}
-              type="button"
-              className={`${
-                isShuffle ? "button-on" : "button-off"
-              } rhap_button-shuffle `}
-            >
-              <ImShuffle />
-            </button>
-          </div>,
-          RHAP_UI.VOLUME_CONTROLS,
-        ]}
-        // onPlayError={ TODO pop up saying there was an error}
-        // onChangeCurrentTimeError={TODO pop up saying there was an error}
-      />
-    </div>
+      )}
+    </>
   );
 }

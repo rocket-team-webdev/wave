@@ -5,9 +5,15 @@ import initialState from "./state";
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET:
-      return action.payload;
+      return {
+        ...state,
+        queue: [action.payload],
+      };
     case ADD:
-      return state.queue.push(action.payload);
+      return {
+        ...state,
+        queue: [...state.queue, action.payload],
+      };
     case CLEAR:
       return initialState;
     case SET_SHUFFLE:
