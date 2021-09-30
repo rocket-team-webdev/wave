@@ -101,15 +101,17 @@ async function uploadTrack(req, res, next) {
 async function deleteTrack(req, res, next) {
   console.log("Deleting... ", req.params);
   const { id } = req.params;
-  console.log(id);
   try {
+    const track = await db.Track.findOne({ _id: id });
+    const { url } = track;
+    console.log(url);
+
     // ----
     // Delete from Cloudinary
     // const track = req.files["track"][0];
     //   const cldTrackRes = await cloudinary.uploader.destroy(trackLocation)
     // ----
     // Delete from MongoDB Atlas
-    const track = await db.Track.findOne({ _id: id });
     console.log(track);
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {

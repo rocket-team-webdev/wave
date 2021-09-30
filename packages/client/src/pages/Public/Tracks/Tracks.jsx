@@ -49,7 +49,7 @@ import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 //   },
 // ];
 
-export default function Songs() {
+export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
   const [likedSongs, setLikedSongs] = useState();
 
@@ -95,7 +95,6 @@ export default function Songs() {
             uploadedSongs.map((song, index) => (
               <SongCard
                 key={song._id}
-                songId={song._id}
                 songNumber={index + 1}
                 songName={song.name}
                 songImg={song.album.thumbnail}
@@ -103,6 +102,10 @@ export default function Songs() {
                 albumName={song.album.title}
                 time={song.duration}
                 userId={song.userId}
+                songUrl={song.url}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
+                songId={song._id}
               />
             ))}
         </div>
@@ -112,7 +115,6 @@ export default function Songs() {
             likedSongs.map((song, index) => (
               <SongCard
                 key={song._id}
-                songId={song._id}
                 songNumber={index + 1}
                 songName={song.name}
                 songImg={song.album.thumbnail}
@@ -120,6 +122,10 @@ export default function Songs() {
                 albumName={song.album.title}
                 time={song.duration}
                 userId={song.userId}
+                songUrl={song.url}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
+                songId={song._id}
               />
             ))}
         </div>
