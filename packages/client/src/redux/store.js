@@ -1,5 +1,7 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
+import { PLAYER_QUEUE } from "../constants/local-storage";
+import { loadLocalStorageItems, setLocalStorage } from "../utils/localStorage";
 
 import CombinedReducers from "./reducers";
 
@@ -8,6 +10,13 @@ const devTools =
 const appliedMiddleware = devTools
   ? compose(applyMiddleware(thunk), devTools)
   : compose(applyMiddleware(thunk));
-const store = createStore(CombinedReducers, appliedMiddleware);
+
+const store = createStore(
+  CombinedReducers,
+  loadLocalStorageItems(PLAYER_QUEUE, {}),
+  appliedMiddleware,
+);
+
+store.subscribe(() => setLocalStorage(store.getState(), PLAYER_QUEUE));
 
 export default store;
