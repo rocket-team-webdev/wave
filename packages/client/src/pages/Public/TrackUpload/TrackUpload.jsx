@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
 import uploadSchema from "./track-schema";
@@ -10,55 +11,38 @@ import Select from "../../../components/Select";
 import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
 import { getGenres } from "../../../api/genre-api";
-// import { getUserAlbum } from "../../../api/album-api";
+import { getUserAlbum } from "../../../api/album-api";
 import AddIcon from "../../../components/SVGicons/AddIcon";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function TrackUpload() {
   const [loading, setLoading] = useState(false);
   const [genresState, setGenres] = useState([]);
-  // const [albumsState, setAlbums] = useState([]);
-
-  useEffect(async () => {
-    const { data } = await getGenres();
-    // const {
-    //   data: { albums },
-    // } = await getUserAlbum();
-
-    if (data.genres) {
-      const genresArr = data.genres.map((genre) => genre.name);
-      genresArr.unshift("Select genre");
-      setGenres(genresArr);
-    }
-    // if (albums) {
-    //   const albumsArr = albums.map((album) => album.title);
-    //   albumsArr.unshift("Select album");
-    //   setAlbums(albumsArr);
-    // }
-  }, []);
+  const [albumsState, setAlbums] = useState([]);
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
-      title: "",
+      name: "",
       artist: "",
       album: "",
       genre: "",
-      thumbnail: "",
       track: "",
     },
     validationSchema: uploadSchema,
-    onSubmit: async (signInState) => {
+    onSubmit: async (uploadState) => {
       try {
-        if (!signInState.track)
+        if (!uploadState.track)
           return toast("Choose a track!", { type: "error" });
 
         const formData = new FormData();
-        formData.append("name", signInState.name);
-        formData.append("artist", signInState.artist);
-        formData.append("album", signInState.album);
-        formData.append("genre", signInState.genre);
-        formData.append("track", signInState.track);
+        formData.append("name", uploadState.name);
+        formData.append("artist", uploadState.artist);
+        formData.append("album", uploadState.album);
+        formData.append("genre", uploadState.genre);
+        formData.append("track", uploadState.track);
 
-        console.log("formData", signInState);
+        console.log("formData", uploadState);
         setLoading(true);
         await uploadTrack(formData);
         setLoading(false);
@@ -71,9 +55,23 @@ export default function TrackUpload() {
     },
   });
 
-  // const thumbnailOnChange = async (event) => {
-  //   formik.setFieldValue("thumbnail", event.target.files[0]);
-  // };
+  useEffect(async () => {
+    const { data } = await getGenres();
+    const {
+      data: { albums },
+    } = await getUserAlbum();
+
+    if (data.genres) {
+      const genresArr = data.genres.map((genre) => genre.name);
+      genresArr.unshift("Select genre");
+      setGenres(genresArr);
+    }
+    if (albums) {
+      const albumsArr = albums.map((album) => album.title);
+      albumsArr.unshift("Select album");
+      setAlbums(albumsArr);
+    }
+  }, []);
 
   const trackOnChange = async (files) => {
     formik.setFieldValue("track", files[0]);
@@ -142,12 +140,15 @@ export default function TrackUpload() {
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
-                // options={albumsState}
-                options={["", "Album 1", "Album 2"]}
+                options={albumsState}
+                // options={["", "Album 1", "Album 2"]}
               />
 
               <div className="col-1 ms-0 ps-0 pt-6">
-                <Button isNegative>
+                <Button
+                  isNegative
+                  onClick={() => history.push(PUBLIC.ADD_ALBUM)}
+                >
                   <AddIcon color="" size={25} />
                 </Button>
               </div>
