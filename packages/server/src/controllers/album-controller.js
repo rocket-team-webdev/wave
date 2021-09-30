@@ -26,6 +26,12 @@ async function addAlbum(req, res, next) {
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
 
+    // Checking if title album already exists
+    const isAlbum = await db.Album.findOne({ title: req.body.title });
+    if (isAlbum) {
+      return res.status(409).send({ msg: "Error: Album already exists" });
+    }
+
     // Album cover by default
     albumObj.thumbnail =
       "https://res.cloudinary.com/dz5nspe7f/image/upload/v1632928589/default-preset/default-album_rakgsq.png";

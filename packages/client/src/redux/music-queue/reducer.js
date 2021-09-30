@@ -1,4 +1,4 @@
-import { SET, ADD, CLEAR, SET_SHUFFLE, CLEAR_SHUFFLE } from "./types";
+import { SET, ADD, CLEAR, SET_SHUFFLE, CLEAR_SHUFFLE, SET_ALL } from "./types";
 
 import initialState from "./state";
 
@@ -8,6 +8,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         queue: [action.payload],
+      };
+    case SET_ALL:
+      return {
+        ...state,
+        ...action.payload,
       };
     case ADD:
       return {
