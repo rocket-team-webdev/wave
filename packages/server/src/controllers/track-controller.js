@@ -9,7 +9,9 @@ const { getPublicId } = require("../utils/cloudinaryUtils");
 async function getTrack(req, res, next) {
   try {
     const { id } = req.params;
-    const track = await db.Track.findById(id);
+    const track = await db.Track.findById({ _id: id })
+      .populate("album", "thumbnail title")
+      .populate("genreId", "name");
 
     res.status(200).send({
       data: track,

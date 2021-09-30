@@ -5,12 +5,17 @@ const axios = require("axios").default;
 
 export function makeTrackApi() {
   return axios.create({
-    baseURL: `${API.MAIN}${API.TRACK}`,
+    baseURL: `${API.MAIN}${API.TRACKS}`,
   });
 }
 
 export async function getTrackById(trackId, api = makeTrackApi()) {
-  return api.get(`/${trackId}`);
+  const token = await getCurrentUserToken();
+  return api.get(`/${trackId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export async function uploadTrack(file = {}, api = makeTrackApi()) {
