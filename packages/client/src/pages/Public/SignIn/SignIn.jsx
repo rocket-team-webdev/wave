@@ -57,6 +57,7 @@ export default function SignIn() {
           signInState.password,
         );
         const token = signInResponse.user.multiFactor.user.accessToken;
+        console.log(token);
         await signInUserData(token);
 
         if (!signInResponse.user.multiFactor.user.emailVerified) {
