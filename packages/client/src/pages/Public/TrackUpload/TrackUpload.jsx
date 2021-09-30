@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import * as id3 from "id3js/lib/id3";
 
 import Layout from "../../../components/Layout";
 import uploadSchema from "./track-schema";
@@ -58,7 +59,6 @@ export default function TrackUpload() {
         formData.append("genre", signInState.genre);
         formData.append("track", signInState.track);
 
-        console.log("formData", signInState);
         setLoading(true);
         await uploadTrack(formData);
         setLoading(false);
@@ -71,12 +71,15 @@ export default function TrackUpload() {
     },
   });
 
-  // const thumbnailOnChange = async (event) => {
-  //   formik.setFieldValue("thumbnail", event.target.files[0]);
-  // };
-
   const trackOnChange = async (files) => {
     formik.setFieldValue("track", files[0]);
+
+    // read metadata ID3
+    const tags = await id3.fromFile(files[0]);
+    formik.setFieldValue("name", tags.title);
+    formik.setFieldValue("artist", tags.artist);
+    formik.setFieldValue("album", tags.album);
+    formik.setFieldValue("genre", tags.genre);
   };
 
   return (
@@ -128,7 +131,6 @@ export default function TrackUpload() {
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
-                // options={["", "rock", "jazz"]}
                 options={genresState}
               />
               <Select
