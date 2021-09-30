@@ -14,6 +14,7 @@ export default function SongCard({
   songName,
   artist,
   albumName,
+  albumId,
   time,
   userId,
   playCounter = 0,
@@ -46,14 +47,9 @@ export default function SongCard({
   const handleLike = () => {
     setLiked(!liked);
     try {
-      // eslint-disable-next-line no-debugger
-      debugger;
       likeTrack(songId);
     } catch (error) {
-      // eslint-disable-next-line no-debugger
-      debugger;
       toast(error.message, { type: "error" });
-      toast(error.response.status, { type: "error" });
       setLiked(!liked);
     }
   };
@@ -113,7 +109,7 @@ export default function SongCard({
         </div>
         <Link
           className="m-0 text-start fnt-song-regular px-2 col"
-          to={`${PUBLIC.ALBUMS}/${albumName}`}
+          to={`${PUBLIC.ALBUMS}/${albumId}`}
         >
           {albumName}
         </Link>

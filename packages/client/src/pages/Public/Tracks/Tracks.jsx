@@ -99,6 +99,7 @@ export default function Tracks() {
                 songImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
+                albumId={song.album._id}
                 time={song.duration}
                 songUrl={song.url}
                 genreId={song.genreId}
@@ -119,6 +120,7 @@ export default function Tracks() {
                 songImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
+                albumId={song.album._id}
                 time={song.duration}
                 songUrl={song.url}
                 genreId={song.genreId}
