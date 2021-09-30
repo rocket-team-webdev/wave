@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
 import Layout from "../../../components/Layout";
-import uploadSchema from "./upload-in-schema";
+import uploadSchema from "./Album-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import Select from "../../../components/Select";
@@ -11,6 +11,7 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
 import { getGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
+import AddIcon from "../../../components/SVGicons/AddIcon";
 
 export default function Home() {
   const [genresState, setGenres] = useState([]);
@@ -127,7 +128,7 @@ export default function Home() {
                 options={genresState}
               />
               <Select
-                classNames="col-12 col-md-6"
+                classNames="col-11 col-md-5"
                 label="album"
                 id="album"
                 type="select"
@@ -140,6 +141,12 @@ export default function Home() {
                 options={albumsState}
                 // options={["", "Album 1", "Album 2"]}
               />
+
+              <div className="col-1 ms-0 ps-0 pt-6">
+                <Button isNegative>
+                  <AddIcon color="" size={25} />
+                </Button>
+              </div>
 
               {/* <Input
                 classNames="col-12 col-md-6"
