@@ -145,7 +145,7 @@ export default function TrackUpload() {
                 hasErrorMessage={formik.touched.artist}
               />
               <Select
-                classNames="col-12 col-md-4"
+                classNames="col-12 col-lg-6"
                 label="genre"
                 id="genre"
                 type="select"
@@ -158,29 +158,9 @@ export default function TrackUpload() {
                 options={genresState}
               />
 
-              {/* <Select
-                classNames="col-10 col-md-6"
-                label="album"
-                id="album"
-                type="select"
-                isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.album}
-                errorMessage={formik.errors.album}
-                hasErrorMessage={formik.touched.album}
-                options={albumsState}
-              />
-
-              <div className="col-2 ms-0 ps-0 pt-6">
-                <Button isNegative onClick={handleCreateAlbum}>
-                  <AddIcon color="" size={25} />
-                </Button>
-              </div> */}
-
-              <div className="col-12 col-md-6 d-flex flex-row">
+              <div className="col-12 col-lg-6 d-flex flex-row">
                 <Select
-                  // classNames="col-10 col-md-6"
+                  classNames="me-1 w-100"
                   label="album"
                   id="album"
                   type="select"
