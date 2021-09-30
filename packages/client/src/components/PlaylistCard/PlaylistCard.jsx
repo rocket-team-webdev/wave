@@ -13,7 +13,7 @@ export default function PlaylistCard({
 
   const componentClasses = `${classNames} d-flex flex-column justify-content-between playlist-card fx-rounded p-4`;
   return (
-    <div className="col col-12 col-md-6 pe-3 pb-3">
+    <div className="col col-12 col-md-6">
       <div className={componentClasses}>
         <div className="heart-wrapper d-flex justify-content-end fnt-primary">
           {hasHeart ? (

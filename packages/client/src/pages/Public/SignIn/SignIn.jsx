@@ -19,6 +19,7 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import Checkbox from "../../../components/Checkbox";
+// import Upload from "../../../components/Upload";
 import { isRegistering } from "../../../redux/user/actions";
 
 import { PUBLIC } from "../../../constants/routes";
@@ -56,6 +57,7 @@ export default function SignIn() {
           signInState.password,
         );
         const token = signInResponse.user.multiFactor.user.accessToken;
+        console.log(token);
         await signInUserData(token);
 
         if (!signInResponse.user.multiFactor.user.emailVerified) {
@@ -129,7 +131,7 @@ export default function SignIn() {
               />
               <div className="form-footer-wrapper">
                 <div className="fnt-caption">
-                  Forgot your password? Reset it
+                  Forgot your password? Reset it{" "}
                   <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
                 </div>
                 <div className="fnt-caption mt-4 row">

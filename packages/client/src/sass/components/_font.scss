@@ -36,6 +36,8 @@
 .fnt-input-light,
 .fnt-input-bold,
 .fnt-song-light,
+.fnt-song-regular,
+.fnt-artist,
 .fnt-song-bold,
 .fnt-caption,
 .fnt-smallest {
@@ -75,8 +77,13 @@
 }
 
 .fnt-song-light,
+.fnt-song-regular,
 .fnt-song-bold {
   font-size: 17px;
+}
+
+.fnt-artist {
+  font-size: 15px;
 }
 
 .fnt-caption {
@@ -100,9 +107,12 @@
 .fnt-jumbo,
 .fnt-page-title {
   font-weight: 900;
+  line-height: 1;
 }
 
 .fnt-subtitle-light,
+.fnt-song-regular,
+.fnt-artist,
 .fnt-label-light {
   font-weight: normal;
 }
@@ -114,6 +124,7 @@
 .fnt-subtitle-bold,
 .fnt-label-bold {
   font-weight: 800;
+  line-height: 1;
 }
 
 .fnt-input-light,
@@ -130,5 +141,5 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 150px;
+  // max-width: 150px;
 }
