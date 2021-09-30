@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
 
