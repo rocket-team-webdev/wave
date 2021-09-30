@@ -11,7 +11,6 @@ export function makeTrackApi() {
 
 export async function uploadTrack(file = {}, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
-
   return api.post(``, file, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -22,6 +21,10 @@ export async function uploadTrack(file = {}, api = makeTrackApi()) {
 }
 
 export async function deleteTrack(songId, api = makeTrackApi()) {
-  console.log("Api function to delete --> ", songId);
-  return api.delete(`/${songId}`);
+  const token = await getCurrentUserToken();
+  return api.delete(`/${songId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

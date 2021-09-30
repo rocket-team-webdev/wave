@@ -5,7 +5,7 @@ import "./HomeElement.scss";
 
 export default function HomeElement({
   label,
-  link = "/",
+  to = "/",
   cols = "12",
   children,
 }) {
@@ -22,7 +22,7 @@ export default function HomeElement({
           <p className="fnt-label-bold mb-2 truncate home-element-title">
             {label.toUpperCase()}
           </p>
-          <Link to={link} className="mb-2 fnt-smallest">
+          <Link to={to} className="mb-2 fnt-smallest">
             See all
             <i className="ms-2 fas fa-arrow-circle-right" />
           </Link>

@@ -83,8 +83,8 @@ export default function SongCard({
           </button>
         </div>
         <div className=" px-2 col">
-          <h3 className="m-0 text-start fnt-song-bold">{songName}</h3>
-          <h4 className="m-0  text-start fnt-artist">{artist}</h4>
+          <h3 className="m-0 text-start fnt-song-bold truncate">{songName}</h3>
+          <h4 className="m-0  text-start fnt-artist truncate">{artist}</h4>
         </div>
         <Link
           className="m-0 text-start fnt-song-regular px-2 col"
