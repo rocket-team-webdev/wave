@@ -11,6 +11,9 @@ const {
   PORT,
   ENCRYPTION_SALT_DEVELOPMENT,
   ENCRYPTION_SALT_PRODUCTION,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET,
+  CLOUDINARY_NAME,
 } = process.env;
 
 const CONFIG = {
@@ -24,6 +27,11 @@ const CONFIG = {
     encrypt: {
       salt: ENCRYPTION_SALT_PRODUCTION,
     },
+    cloudinary: {
+      key: CLOUDINARY_API_KEY,
+      secret: CLOUDINARY_API_SECRET,
+      name: CLOUDINARY_NAME,
+    },
   },
   development: {
     app: {
@@ -35,6 +43,11 @@ const CONFIG = {
     encrypt: {
       salt: ENCRYPTION_SALT_DEVELOPMENT,
     },
+    cloudinary: {
+      key: CLOUDINARY_API_KEY,
+      secret: CLOUDINARY_API_SECRET,
+      name: CLOUDINARY_NAME,
+    },
   },
   test: {
     app: {
@@ -42,6 +55,11 @@ const CONFIG = {
     },
     db: {
       url: MONGO_DB_URL_TEST,
+    },
+    cloudinary: {
+      key: CLOUDINARY_API_KEY,
+      secret: CLOUDINARY_API_SECRET,
+      name: CLOUDINARY_NAME,
     },
   },
 };

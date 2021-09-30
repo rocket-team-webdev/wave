@@ -10,45 +10,6 @@ import JumboText from "../../../components/JumboText";
 import SongCard from "../../../components/SongCard/SongCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 
-// const songs = [
-//   {
-//     songNumber: 1,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Glory Box",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 134.582857,
-//   },
-//   {
-//     songNumber: 2,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Song 2",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 140,
-//   },
-//   {
-//     songNumber: 3,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Song 3",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 140,
-//   },
-//   {
-//     songNumber: 4,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Song 4",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 140,
-//   },
-// ];
-
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
   const [likedSongs, setLikedSongs] = useState();

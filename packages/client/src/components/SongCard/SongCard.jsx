@@ -6,6 +6,8 @@ import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
 
+import { deleteTrack } from "../../api/tracks-api";
+
 import "./SongCard.scss";
 
 export default function SongCard({
@@ -58,12 +60,12 @@ export default function SongCard({
     dispatch(setQueue(songObject));
   };
 
-  const handleDeleteSong = () => {
-    console.log("Removing =>", songName);
-  };
-
   const handleAddToQueue = () => {
     dispatch(addSong(songObject));
+  };
+
+  const handleDeleteSong = async () => {
+    await deleteTrack(songId);
   };
 
   const timeIntoString = (seconds) => {

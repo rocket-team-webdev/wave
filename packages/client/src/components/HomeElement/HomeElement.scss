@@ -1,5 +1,9 @@
 @use "../../sass/components/colors" as c;
 
+.home-element-title {
+  max-width: 250px;
+}
+
 .content {
   .playlist-card {
     background: c.$playlistGradient;
@@ -14,19 +18,19 @@
   }
 
   .artist-card {
-    width: 80px;
+    width: 55px;
 
     img {
       border: 2px solid white;
       border-radius: 50%;
       object-fit: cover;
-      width: 80px;
-      height: 80px;
+      width: 55px;
+      height: 55px;
       filter: grayscale(100%);
     }
 
     p {
-      max-width: 80px;
+      max-width: 55px;
     }
 
     &:hover {

@@ -107,6 +107,7 @@
 .fnt-jumbo,
 .fnt-page-title {
   font-weight: 900;
+  line-height: 1;
 }
 
 .fnt-subtitle-light,
@@ -123,6 +124,7 @@
 .fnt-subtitle-bold,
 .fnt-label-bold {
   font-weight: 800;
+  line-height: 1;
 }
 
 .fnt-input-light,
@@ -139,5 +141,5 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 150px;
+  // max-width: 150px;
 }

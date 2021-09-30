@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "./Input.scss";
 
@@ -10,6 +10,7 @@ export default function Input({
   isNegative = false,
   fullWidth = false,
   placeholder = "",
+  inputFileText = "Choose your file",
   handleChange = () => {},
   handleBlur = () => {},
   handleInput = () => {},
@@ -17,6 +18,12 @@ export default function Input({
   hasErrorMessage,
   ...props
 }) {
+  const [fileName, setFileName] = useState(inputFileText);
+  const onHandleChange = (e) => {
+    setFileName(e.target.files[0]?.name || inputFileText);
+    handleChange(e);
+  };
+
   const componentClasses = `${classNames} custom-input d-flex flex-column mb-1`;
 
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
@@ -27,9 +34,9 @@ export default function Input({
   if (type === "file") {
     inputClassNames += "upload-input m-0 ";
     if (!isNegative) {
-      uploadClassNames += "positive-custom-upload-input";
+      uploadClassNames += "positive-custom-upload-input truncate ";
     } else {
-      uploadClassNames += "negative-custom-upload-input";
+      uploadClassNames += "negative-custom-upload-input truncate ";
     }
   }
 
@@ -52,16 +59,14 @@ export default function Input({
           {label}
         </label>
       )}
-      {type === "file" && (
-        <div className={uploadClassNames}>Choose your file</div>
-      )}
+      {type === "file" && <div className={uploadClassNames}>{fileName}</div>}
       <input
         type={type}
         className={inputClassNames}
         id={id}
         name={id}
         placeholder={placeholder}
-        onChange={handleChange}
+        onChange={onHandleChange}
         onBlur={handleBlur}
         onInput={handleInput}
         {...props}

@@ -11,8 +11,10 @@ export const PUBLIC = {
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
   USERS: "/users",
-  TRACK_UPLOAD: "",
   TRACK_EDIT: "/tracks/update",
+  TRACK_UPLOAD: "/tracks/upload",
+  TRACK_UPDATE: "/tracks/update",
+  ADD_ALBUM: "/albums/add",
 };
 
 // PRIVATE PAGES
@@ -28,7 +30,10 @@ export const API = {
   ACCOUNT: "/account",
   REGISTER: "/register",
   AUTHENTICATE: "/authenticate",
+  GENRE: "/genres",
+  ALBUM: "/albums",
   PLAYLISTS: "/playlists",
+  USER: "/user",
   ME: "/me",
   TRACKS: "/tracks",
   LIKED: "/liked",
