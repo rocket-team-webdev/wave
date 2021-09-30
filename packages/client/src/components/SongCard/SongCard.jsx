@@ -38,6 +38,7 @@ export default function SongCard({
     artist: artist,
     album: albumName,
     isLiked: isLiked,
+    songId: songId,
   };
 
   const handleIsOwned = () => {

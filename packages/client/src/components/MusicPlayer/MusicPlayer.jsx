@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
-
+import { toast } from "react-toastify";
 import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
 import {
   MdRepeat,
@@ -16,6 +16,7 @@ import "react-h5-audio-player/lib/styles.css";
 import "./MusicPlayer.scss";
 
 import { clearShuffle, setShuffle } from "../../redux/music-queue/actions";
+import { likeTrack } from "../../api/track-api";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
@@ -30,7 +31,6 @@ export default function MusicPlayer() {
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
-  console.log(queueState);
 
   const nextSong = () => {
     if (queueState.queue.length > listPosition + 1) {
@@ -89,6 +89,16 @@ export default function MusicPlayer() {
 
   const likeSong = () => {
     setIsLiked(!isLiked);
+    try {
+      likeTrack(songObject.songId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setIsLiked(!isLiked);
+    }
+  };
+
+  const handleError = (error) => {
+    toast(error, { type: "error" });
   };
 
   useEffect(() => {
@@ -192,8 +202,8 @@ export default function MusicPlayer() {
               </div>,
               RHAP_UI.VOLUME_CONTROLS,
             ]}
-            // onPlayError={ TODO pop up saying there was an error}
-            // onChangeCurrentTimeError={TODO pop up saying there was an error}
+            onPlayError={handleError}
+            onChangeCurrentTimeError={handleError}
           />
         </div>
       )}
