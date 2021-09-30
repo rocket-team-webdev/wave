@@ -60,12 +60,13 @@ export default function Tracks() {
                 songImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
+                albumId={song.album._id}
                 time={song.duration}
-                userId={song.userId}
                 songUrl={song.url}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
                 songId={song._id}
+                userId={song.userId}
               />
             ))}
         </div>
@@ -80,12 +81,13 @@ export default function Tracks() {
                 songImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
+                albumId={song.album._id}
                 time={song.duration}
-                userId={song.userId}
                 songUrl={song.url}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
                 songId={song._id}
+                userId={song.userId}
               />
             ))}
         </div>

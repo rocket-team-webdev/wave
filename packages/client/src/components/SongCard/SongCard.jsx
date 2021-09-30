@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
-import { setQueue } from "../../redux/music-queue/actions";
+import { addSong, setQueue } from "../../redux/music-queue/actions";
 
 import { deleteTrack } from "../../api/tracks-api";
 
@@ -16,6 +16,7 @@ export default function SongCard({
   songName,
   artist,
   albumName,
+  albumId,
   time,
   userId,
   playCounter = 0,
@@ -37,6 +38,7 @@ export default function SongCard({
     artist: artist,
     album: albumName,
     isLiked: isLiked,
+    songId: songId,
   };
 
   const handleIsOwned = () => {
@@ -59,12 +61,11 @@ export default function SongCard({
     dispatch(setQueue(songObject));
   };
 
-  const handleEditSong = () => {
-    console.log("editing =>", songName);
+  const handleAddToQueue = () => {
+    dispatch(addSong(songObject));
   };
 
   const handleDeleteSong = async () => {
-    console.log("Removing =>", songId);
     await deleteTrack(songId);
   };
 
@@ -106,12 +107,12 @@ export default function SongCard({
           </button>
         </div>
         <div className=" px-2 col">
-          <h3 className="m-0 text-start fnt-song-bold truncate">{songName}</h3>
-          <h4 className="m-0  text-start fnt-artist truncate">{artist}</h4>
+          <h3 className="m-0 text-start fnt-song-bold">{songName}</h3>
+          <h4 className="m-0  text-start fnt-artist">{artist}</h4>
         </div>
         <Link
           className="m-0 text-start fnt-song-regular px-2 col"
-          to={`${PUBLIC.ALBUMS}/${albumName}`}
+          to={`${PUBLIC.ALBUMS}/${albumId}`}
         >
           {albumName}
         </Link>
@@ -131,32 +132,38 @@ export default function SongCard({
           >
             <i className="fas fa-ellipsis-h" />
           </button>
-          {isOwned ? (
-            <ul
-              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-              aria-labelledby="contextSongMenu"
+          <ul
+            className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+            aria-labelledby="contextSongMenu"
+          >
+            <button
+              className="dropdown-item fnt-light fnt-song-regular "
+              type="button"
+              onClick={handleAddToQueue}
             >
-              <button
-                className="dropdown-item fnt-light fnt-song-regular "
-                type="button"
-                onClick={handleEditSong}
-              >
-                Edit
-              </button>
-              <hr className="dropdown-wrapper m-0" />
-              <button
-                className="dropdown-item fnt-light fnt-song-regular"
-                type="button"
-                onClick={handleDeleteSong}
-              >
-                Delete
-              </button>
-            </ul>
-          ) : (
-            <ul
-              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-              aria-labelledby="contextSongMenu"
-            >
+              Add to queue
+            </button>
+            <hr className="dropdown-wrapper m-0" />
+            {isOwned ? (
+              <>
+                <Link to={`${PUBLIC.TRACK_EDIT}/${songId}`}>
+                  <p
+                    className="dropdown-item fnt-light fnt-song-regular m-0"
+                    type="button"
+                  >
+                    Edit
+                  </p>
+                </Link>
+                <hr className="dropdown-wrapper m-0" />
+                <button
+                  className="dropdown-item fnt-light fnt-song-regular"
+                  type="button"
+                  onClick={handleDeleteSong}
+                >
+                  Delete
+                </button>
+              </>
+            ) : (
               <Link to={`${PUBLIC.USERS}/${userId}`}>
                 <p
                   className="dropdown-item fnt-light fnt-song-regular m-0"
@@ -165,8 +172,8 @@ export default function SongCard({
                   Go to user
                 </p>
               </Link>
-            </ul>
-          )}
+            )}
+          </ul>
         </div>
       </div>
     </div>

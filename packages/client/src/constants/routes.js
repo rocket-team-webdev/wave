@@ -10,9 +10,10 @@ export const PUBLIC = {
   SIGN_IN: "/sign-in",
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
+  USERS: "/users",
+  TRACK_EDIT: "/tracks/update",
   TRACK_UPLOAD: "/tracks/upload",
   TRACK_UPDATE: "/tracks/update",
-  USERS: "/users",
   ADD_ALBUM: "/albums/add",
 };
 
