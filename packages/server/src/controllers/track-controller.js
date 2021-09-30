@@ -5,6 +5,8 @@ const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 
+const { getPublicId } = require("../utils/cloudinaryUtils");
+
 async function uploadTrack(req, res, next) {
   try {
     const trackObj = {};
@@ -104,15 +106,15 @@ async function deleteTrack(req, res, next) {
   try {
     const track = await db.Track.findOne({ _id: id });
     const { url } = track;
-    console.log(url);
 
     // ----
     // Delete from Cloudinary
-    // const track = req.files["track"][0];
-    //   const cldTrackRes = await cloudinary.uploader.destroy(trackLocation)
+    const publicId = getPublicId(url);
+    await cloudinary.uploader.destroy(publicId, { resource_type: "video" });
     // ----
     // Delete from MongoDB Atlas
-    console.log(track);
+    await db.Track.findByIdAndRemove(id);
+
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {
     res.status(500).send({ error: error });
