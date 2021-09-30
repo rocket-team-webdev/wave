@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { likeTrack } from "../../api/track-api";
+// import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
 
-import { deleteTrack } from "../../api/tracks-api";
+import { deleteTrack, likeTrack } from "../../api/tracks-api";
 
 import "./SongCard.scss";
 
@@ -49,6 +49,7 @@ export default function SongCard({
 
   const handleLike = () => {
     setLiked(!liked);
+    console.log("Heart icon");
     try {
       likeTrack(songId);
     } catch (error) {

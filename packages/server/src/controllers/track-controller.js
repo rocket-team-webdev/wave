@@ -93,7 +93,38 @@ async function deleteTrack(req, res, next) {
   }
 }
 
+async function likeTrack(req, res, next) {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    // Get track
+    const track = await db.Track.findOne({ _id: id });
+    const trackLikes = track.likedBy;
+
+    // Get user id
+    const { firebaseId } = req.user;
+    const { _id: userId } = await db.User.findOne({ firebaseId });
+
+    // Updating likedBy array
+    if (trackLikes.includes(userId)) {
+      console.log("Proceeding to dislike");
+      trackLikes.remove(userId);
+    } else {
+      console.log("Proceeding to like");
+      trackLikes.push(userId);
+    }
+
+    // console.log("Track likes =>", trackLikes);
+
+    await db.Track.findOneAndUpdate({ _id: id }, { likedBy: trackLikes });
+  } catch (error) {
+    res.status(500).send({ error: error });
+    next(error);
+  }
+}
+
 module.exports = {
   uploadTrack,
   deleteTrack,
+  likeTrack,
 };
