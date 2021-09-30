@@ -1,5 +1,5 @@
-import React /* useState, */ /* useEffect */ from "react";
-// import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -8,17 +8,16 @@ import Button from "../Button";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
-
-// import {
-//   getUserFollowers,
-//   getUserFollowings,
-//   getUserPlaylists,
-//   getFollowingPlaylists,
-//   getPlaylist,
-//   getUserTracks,
-//   getUserLikedTracks,
-//   getTrack
-// } from "../../api/user-api";
+import {
+  getMyFollowers,
+  getMyFollowings,
+  getMyPlaylists,
+  getFollowingPlaylists,
+  // getPlaylist,
+  getMyTracks,
+  getLikedTracks,
+  // getTrack,
+} from "../../api/me-api";
 
 export default function HomeMyWave({
   artistsList = false,
@@ -26,92 +25,93 @@ export default function HomeMyWave({
 }) {
   // const [loadStatus, setLoadStatus] = useState(false);
   // const [userFollowers, setUserFollowers] = useState([]);
-  // const [userFollowings, setUserFollowings] = useState([]);
+  const [userFollowings, setUserFollowings] = useState([]);
   // const [userPlaylists, setUserPlaylists] = useState([]);
   // const [userFollowingPlaylists, setUserFollowingPlaylists] = useState([]);
   // const [userTracks, setUserTracks] = useState([]);
   // const [userLikedTracks, setUserLikedTracks] = useState([]);
 
   // Users
-  // const loadUserFollowers = async () => {
-  //   try {
-  //     const { data } = await getUserFollowers();
-  //     console.log(data);
-  //     // setUserFollowers(???)
-  //   } catch (err) {
-  //     toast(err.message, { type: "error" });
-  //   }
-  // };
+  const loadMyFollowers = async () => {
+    try {
+      const { data } = await getMyFollowers();
+      console.log(data);
+      // setUserFollowers(???)
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
 
-  // const loadUserFollowing = async () => {
-  //   try {
-  //     const { data } = await getUserFollowings();
-  //     console.log(data);
-  //     // setUserFollowings(???)
-  //   } catch (err) {
-  //     toast(err.message, { type: "error" });
-  //   }
-  // };
+  const loadMyFollowing = async () => {
+    try {
+      const { data } = await getMyFollowings();
+      setUserFollowings(data.data);
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
 
-  // // Playlists
-  // const loadUserPlaylists = async () => {
-  //   try {
-  //     const { data } = await getUserPlaylists();
-  //     console.log(data);
-  //     // setUserPlaylists(data.playlists)
-  //   } catch (err) {
-  //     toast(err.message, { type: "error" });
-  //   }
-  // };
+  // Playlists
+  const loadMyPlaylists = async () => {
+    try {
+      const { data } = await getMyPlaylists();
+      console.log(data);
+      // setUserPlaylists(data.playlists);
+    } catch (err) {
+      toast(`Error getting your playlists! Error message: ${err.message}`, {
+        type: "error",
+      });
+    }
+  };
 
-  // const loadUserFollowingPlaylists = async () => {
-  //   try {
-  //     const { data } = await getFollowingPlaylists();
-  //     console.log(data);
-  //     // setUserFollowingPlaylists(???)
-  //   } catch (err) {
-  //     toast(err.message, { type: "error" });
-  //   }
-  // };
+  const loadFollowingPlaylists = async () => {
+    try {
+      const { data } = await getFollowingPlaylists();
+      console.log(data);
+      // setUserFollowingPlaylists(???)
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
 
-  // // Tracks
-  // const loadUserTracks = async () => {
-  //   try {
-  //     const { data } = await getUserTracks();
-  //     console.log(data);
-  //     // setUserTracks(???)
-  //   } catch (err) {
-  //     toast(err.message, { type: "error" });
-  //   }
-  // };
+  // Tracks
+  const loadMyTracks = async () => {
+    try {
+      const { data } = await getMyTracks();
+      console.log(data);
+      // setUserTracks(???)
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
 
-  // const loadUserLikedTracks = async () => {
-  //   try {
-  //     const { data } = await getUserLikedTracks();
-  //     console.log(data);
-  //     // setUserLikedTracks(???)
-  //   } catch (err) {
-  //     toast(err.message, { type: "error" });
-  //   }
-  // };
+  const loadMyLikedTracks = async () => {
+    try {
+      const { data } = await getLikedTracks();
+      console.log(data);
+      // setUserLikedTracks(???)
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
 
-  // // On load
-  // useEffect(() => {
-  //   // Users
-  //   loadUserFollowers();
-  //   loadUserFollowing();
+  // On load
+  useEffect(() => {
+    // Users
+    loadMyFollowers();
+    loadMyFollowing();
 
-  //   // Playlists
-  //   loadUserPlaylists();
-  //   loadUserFollowingPlaylists();
+    // Playlists
+    loadMyPlaylists();
+    loadFollowingPlaylists();
 
-  //   // Tracks
-  //   loadUserTracks();
-  //   loadUserLikedTracks();
-  // }, []);
+    // Tracks
+    loadMyTracks();
+    loadMyLikedTracks();
+  }, []);
 
   const genresList = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
-  const followings = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
+  // const followings = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
   const mySongs = [
     "Channel Suite 1",
     "Dani California",
@@ -130,7 +130,7 @@ export default function HomeMyWave({
       {genresList && (
         <HomeElement
           label="My genres"
-          cols={genresList && followings ? "6" : "12"}
+          cols={genresList && userFollowings.length > 0 ? "6" : "12"}
         >
           {genresList.map((genre) => (
             <div key={genre} className="mb-2 me-2">
@@ -139,13 +139,13 @@ export default function HomeMyWave({
           ))}
         </HomeElement>
       )}
-      {followings && (
+      {userFollowings.length > 0 && (
         <HomeElement
           label="Following users"
-          cols={genresList && followings ? "6" : "12"}
+          cols={genresList && userFollowings.length > 0 ? "6" : "12"}
         >
-          {followings.map((following) => (
-            <UserCard key={following} userName={following} />
+          {userFollowings.map((following) => (
+            <UserCard key={following._id} userName={following.firstName} />
           ))}
         </HomeElement>
       )}

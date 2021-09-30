@@ -30,23 +30,23 @@ export default function Home() {
     "Idles",
   ];
 
-  const playlistsList = [
-    "jazz attitude",
-    "funk the blues",
-    "sunrise folk",
-    "technomasia",
-    "derivation rock",
-  ];
+  // const playlistsList = [
+  //   "jazz attitude",
+  //   "funk the blues",
+  //   "sunrise folk",
+  //   "technomasia",
+  //   "derivation rock",
+  // ];
 
   const formik = useFormik({
     initialValues: {
-      searchbar: "",
+      searchBar: "",
     },
     validationSchema: homeSearchSchema,
     onSubmit: (searchState) => {
       setLoading(true);
       console.log("Submitted search!");
-      console.log(searchState.searchbar);
+      console.log(searchState.searchBar);
       setLoading(false);
     },
   });
@@ -91,10 +91,7 @@ export default function Home() {
           {popularView ? (
             <HomePopular artistsList={artistsList} />
           ) : (
-            <HomeMyWave
-              artistsList={artistsList}
-              playlistsList={playlistsList}
-            />
+            <HomeMyWave artistsList={artistsList} />
           )}
         </div>
       </div>
