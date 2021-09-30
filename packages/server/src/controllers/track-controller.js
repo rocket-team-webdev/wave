@@ -74,7 +74,6 @@ async function uploadTrack(req, res, next) {
 }
 
 async function deleteTrack(req, res, next) {
-  console.log("Deleting... ", req.params);
   const { id } = req.params;
   try {
     const track = await db.Track.findOne({ _id: id });

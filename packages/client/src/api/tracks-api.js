@@ -5,7 +5,7 @@ const axios = require("axios").default;
 
 export function makeTrackApi() {
   return axios.create({
-    baseURL: `${API.MAIN}${API.TRACK}`,
+    baseURL: `${API.MAIN}${API.TRACKS}`,
   });
 }
 
@@ -14,7 +14,6 @@ export async function uploadTrack(file = {}, api = makeTrackApi()) {
   return api.post(``, file, {
     headers: {
       Authorization: `Bearer ${token}`,
-      // "Content-Type": `multipart/form-data; boundary="MyBoundary"`,
       "Content-Type": `multipart/form-data"`,
     },
   });
