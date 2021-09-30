@@ -20,21 +20,6 @@ export default function Home() {
   const userState = useSelector((state) => state.user);
   const userFirstName = userState.firstName;
 
-  const genresList = [
-    "soul",
-    "funk",
-    "jazz",
-    "folk",
-    "indie",
-    "metal",
-    "classical",
-    "country",
-    "electronic",
-    "lounge",
-    "grunge",
-    "other",
-  ];
-
   const artistsList = [
     "Chet Baker",
     "Red Hot Chili Peppers",
@@ -53,14 +38,6 @@ export default function Home() {
     "derivation rock",
   ];
 
-  const handleChangeView = (e) => {
-    if (e.target.id === "myWaveRadio") {
-      setpopularView(false);
-    } else {
-      setpopularView(true);
-    }
-  };
-
   const formik = useFormik({
     initialValues: {
       searchbar: "",
@@ -74,6 +51,15 @@ export default function Home() {
     },
   });
 
+  // Personal/MyWave
+  const handleChangeView = (e) => {
+    if (e.target.id === "myWaveRadio") {
+      setpopularView(false);
+    } else {
+      setpopularView(true);
+    }
+  };
+
   return (
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
@@ -81,7 +67,6 @@ export default function Home() {
           <JumboText secText={userFirstName} cols="12" isNegative />
           <form className="my-5" onSubmit={formik.handleSubmit}>
             <Input
-              // label="email"
               id="searchbar"
               name="searchbar"
               placeholder="Search"
@@ -96,7 +81,7 @@ export default function Home() {
           </form>
           {loading && <h3>Loading...</h3>}
         </div>
-        <div className="col col-12 col-md-5 fx-rounded p-0">
+        <div className="col col-12 col-md-5 fx-rounded container-fluid mx-0">
           {/* Popular/MyWave */}
           <div className="d-flex justify-content-between align-items-center mb-5">
             <p className="fnt-label-bold fnt-light">App view</p>
@@ -104,7 +89,7 @@ export default function Home() {
           </div>
           {/* Switch view */}
           {popularView ? (
-            <HomePopular genresList={genresList} artistsList={artistsList} />
+            <HomePopular artistsList={artistsList} />
           ) : (
             <HomeMyWave
               artistsList={artistsList}

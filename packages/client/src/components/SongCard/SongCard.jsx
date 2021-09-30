@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
+import { setQueue } from "../../redux/music-queue/actions";
+
+import { deleteTrack } from "../../api/tracks-api";
 
 import "./SongCard.scss";
 
@@ -14,10 +19,25 @@ export default function SongCard({
   time,
   userId,
   playCounter = 0,
+  songUrl,
+  genreId,
+  isLiked,
+  songId,
 }) {
-  const [isLiked, setIsLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
   const userState = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const songObject = {
+    name: songName,
+    url: songUrl,
+    duration: time,
+    genreId: genreId,
+    userId: userId,
+    artist: artist,
+    album: albumName,
+    isLiked: isLiked,
+  };
 
   const handleIsOwned = () => {
     if (userId === userState.mongoId) {
@@ -26,19 +46,26 @@ export default function SongCard({
   };
 
   const handleLike = () => {
-    setIsLiked(!isLiked);
+    setLiked(!liked);
+    try {
+      likeTrack(songId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setLiked(!liked);
+    }
   };
 
   const handlePlay = () => {
-    console.log("playing =>", songName);
+    dispatch(setQueue(songObject));
   };
 
   const handleEditSong = () => {
     console.log("editing =>", songName);
   };
 
-  const handleDeleteSong = () => {
-    console.log("Removing =>", songName);
+  const handleDeleteSong = async () => {
+    console.log("Removing =>", songId);
+    await deleteTrack(songId);
   };
 
   const timeIntoString = (seconds) => {
@@ -71,7 +98,7 @@ export default function SongCard({
         </div>
         <div className="d-flex fnt-primary px-2">
           <button className="text-center" type="button" onClick={handleLike}>
-            {isLiked ? (
+            {liked ? (
               <i className="fas fa-heart fnt-secondary" />
             ) : (
               <i className="far fa-heart fnt-secondary" />
@@ -79,8 +106,8 @@ export default function SongCard({
           </button>
         </div>
         <div className=" px-2 col">
-          <h3 className="m-0 text-start fnt-song-bold">{songName}</h3>
-          <h4 className="m-0  text-start fnt-artist">{artist}</h4>
+          <h3 className="m-0 text-start fnt-song-bold truncate">{songName}</h3>
+          <h4 className="m-0  text-start fnt-artist truncate">{artist}</h4>
         </div>
         <Link
           className="m-0 text-start fnt-song-regular px-2 col"

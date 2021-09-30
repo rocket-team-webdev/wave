@@ -5,18 +5,25 @@ const axios = require("axios").default;
 
 export function makeTrackApi() {
   return axios.create({
-    baseURL: `${API.MAIN}${API.TRACK}`,
+    baseURL: `${API.MAIN}${API.TRACKS}`,
   });
 }
 
 export async function uploadTrack(file = {}, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
-
   return api.post(``, file, {
     headers: {
       Authorization: `Bearer ${token}`,
-      // "Content-Type": `multipart/form-data; boundary="MyBoundary"`,
       "Content-Type": `multipart/form-data"`,
+    },
+  });
+}
+
+export async function deleteTrack(songId, api = makeTrackApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(`/${songId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
   });
 }
