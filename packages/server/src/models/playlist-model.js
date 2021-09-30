@@ -22,14 +22,6 @@ const playlistSchema = new Schema(
       type: String,
       trim: true,
     },
-    cover: {
-      type: String,
-      trim: true,
-      validate: {
-        validator: (value) => validator.isURL(value),
-        message: () => `Track cover is not valid`,
-      },
-    },
     thumbnail: {
       type: String,
       trim: true,
@@ -41,10 +33,6 @@ const playlistSchema = new Schema(
     publicAccessible: {
       type: Boolean,
       default: false,
-    },
-    rating: {
-      type: Number,
-      default: 0.0,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
