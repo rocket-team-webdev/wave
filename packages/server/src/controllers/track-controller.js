@@ -79,7 +79,6 @@ async function deleteTrack(req, res, next) {
   try {
     const track = await db.Track.findOne({ _id: id });
     const { url } = track;
-
     // ----
     // Delete from Cloudinary
     const publicId = getPublicId(url);
