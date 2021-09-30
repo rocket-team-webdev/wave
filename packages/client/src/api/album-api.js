@@ -22,19 +22,7 @@ export async function addAlbum(file = {}, api = makeAlbumApi()) {
   return api.post(``, file, {
     headers: {
       Authorization: `Bearer ${token}`,
-      // "Content-Type": `multipart/form-data; boundary="MyBoundary"`,
       "Content-Type": `multipart/form-data"`,
     },
   });
-  // return api.post(
-  //   ``,
-  //   {
-  //     title: albumData.firstName,
-  //     year: albumData.year,
-  //     thumbnail: albumData.thumbnail,
-  //   },
-  //   {
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   },
-  // );
 }

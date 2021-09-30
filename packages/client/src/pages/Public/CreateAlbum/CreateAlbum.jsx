@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
-import albumSchema from "./Album-schema";
+import albumSchema from "./album-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
@@ -12,23 +12,7 @@ import { addAlbum } from "../../../api/album-api";
 
 import { PUBLIC } from "../../../constants/routes";
 
-// import { uploadTrack } from "../../../api/tracks-api";
-// import { getUserAlbum } from "../../../api/album-api";
-
 export default function CreateAlbum() {
-  // const [albumsState, setAlbums] = useState([]);
-
-  // useEffect(async () => {
-  //   const {
-  //     data: { albums },
-  //   } = await getUserAlbum();
-
-  //   if (albums) {
-  //     const albumsArr = albums.map((album) => album.title);
-  //     albumsArr.unshift("Select album");
-  //     setAlbums(albumsArr);
-  //   }
-  // }, []);
   const history = useHistory();
 
   const formik = useFormik({
@@ -40,26 +24,19 @@ export default function CreateAlbum() {
     validationSchema: albumSchema,
     onSubmit: async (albumState) => {
       try {
-        // if (!albumState.track)
-        //   return toast("Choose a track!", { type: "error" });
-
         const formData = new FormData();
         formData.append("title", albumState.title);
         formData.append("year", albumState.year);
         formData.append("thumbnail", albumState.thumbnail);
-        console.log("formData", formData);
         await addAlbum(formData);
         history.push(PUBLIC.TRACK_UPLOAD);
         return toast("Album created!", { type: "success" });
       } catch (error) {
-        return toast(error.message, { type: "error" });
+        // console.log(error.response);
+        return toast(error.response.data.msg, { type: "error" });
       }
     },
   });
-
-  // const thumbnailOnChange = async (event) => {
-  //   formik.setFieldValue("thumbnail", event.target.files[0]);
-  // };
 
   const thumbnailOnChange = async (files) => {
     formik.setFieldValue("thumbnail", files[0]);
