@@ -15,12 +15,19 @@ export async function getTrackById(trackId, api = makeTrackApi()) {
 
 export async function uploadTrack(file = {}, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
-
   return api.post(``, file, {
     headers: {
       Authorization: `Bearer ${token}`,
-      // "Content-Type": `multipart/form-data; boundary="MyBoundary"`,
       "Content-Type": `multipart/form-data"`,
+    },
+  });
+}
+
+export async function deleteTrack(songId, api = makeTrackApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(`/${songId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
   });
 }

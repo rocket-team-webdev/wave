@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { likeTrack } from "../../api/track-api";
 import { PUBLIC } from "../../constants/routes";
+import { addSong, setQueue } from "../../redux/music-queue/actions";
+
+import { deleteTrack } from "../../api/tracks-api";
 
 import "./TrackCard.scss";
 
@@ -11,13 +16,30 @@ export default function TrackCard({
   trackName,
   artist,
   albumName,
+  albumId,
   time,
   userId,
   playCounter = 0,
+  trackUrl,
+  genreId,
+  isLiked,
+  trackId,
 }) {
-  const [isLiked, setIsLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
   const userState = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const trackObject = {
+    name: trackName,
+    url: trackUrl,
+    duration: time,
+    genreId: genreId,
+    userId: userId,
+    artist: artist,
+    album: albumName,
+    isLiked: isLiked,
+    trackId: trackId,
+  };
 
   const handleIsOwned = () => {
     if (userId === userState.mongoId) {
@@ -26,19 +48,25 @@ export default function TrackCard({
   };
 
   const handleLike = () => {
-    setIsLiked(!isLiked);
+    setLiked(!liked);
+    try {
+      likeTrack(trackId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setLiked(!liked);
+    }
   };
 
   const handlePlay = () => {
-    console.log("playing =>", trackName);
+    dispatch(setQueue(trackObject));
   };
 
-  const handleEditSong = () => {
-    console.log("editing =>", trackName);
+  const handleAddToQueue = () => {
+    dispatch(addSong(trackObject));
   };
 
-  const handleDeleteSong = () => {
-    console.log("Removing =>", trackName);
+  const handleDeleteSong = async () => {
+    await deleteTrack(trackId);
   };
 
   const timeIntoString = (seconds) => {
@@ -71,7 +99,7 @@ export default function TrackCard({
         </div>
         <div className="d-flex fnt-primary px-2">
           <button className="text-center" type="button" onClick={handleLike}>
-            {isLiked ? (
+            {liked ? (
               <i className="fas fa-heart fnt-secondary" />
             ) : (
               <i className="far fa-heart fnt-secondary" />
@@ -84,7 +112,7 @@ export default function TrackCard({
         </div>
         <Link
           className="m-0 text-start fnt-song-regular px-2 col"
-          to={`${PUBLIC.ALBUMS}/${albumName}`}
+          to={`${PUBLIC.ALBUMS}/${albumId}`}
         >
           {albumName}
         </Link>
@@ -104,32 +132,38 @@ export default function TrackCard({
           >
             <i className="fas fa-ellipsis-h" />
           </button>
-          {isOwned ? (
-            <ul
-              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-              aria-labelledby="contextSongMenu"
+          <ul
+            className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+            aria-labelledby="contextSongMenu"
+          >
+            <button
+              className="dropdown-item fnt-light fnt-song-regular "
+              type="button"
+              onClick={handleAddToQueue}
             >
-              <button
-                className="dropdown-item fnt-light fnt-song-regular "
-                type="button"
-                onClick={handleEditSong}
-              >
-                Edit
-              </button>
-              <hr className="dropdown-wrapper m-0" />
-              <button
-                className="dropdown-item fnt-light fnt-song-regular"
-                type="button"
-                onClick={handleDeleteSong}
-              >
-                Delete
-              </button>
-            </ul>
-          ) : (
-            <ul
-              className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-              aria-labelledby="contextSongMenu"
-            >
+              Add to queue
+            </button>
+            <hr className="dropdown-wrapper m-0" />
+            {isOwned ? (
+              <>
+                <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                  <p
+                    className="dropdown-item fnt-light fnt-song-regular m-0"
+                    type="button"
+                  >
+                    Edit
+                  </p>
+                </Link>
+                <hr className="dropdown-wrapper m-0" />
+                <button
+                  className="dropdown-item fnt-light fnt-song-regular"
+                  type="button"
+                  onClick={handleDeleteSong}
+                >
+                  Delete
+                </button>
+              </>
+            ) : (
               <Link to={`${PUBLIC.USERS}/${userId}`}>
                 <p
                   className="dropdown-item fnt-light fnt-song-regular m-0"
@@ -138,8 +172,8 @@ export default function TrackCard({
                   Go to user
                 </p>
               </Link>
-            </ul>
-          )}
+            )}
+          </ul>
         </div>
       </div>
     </div>

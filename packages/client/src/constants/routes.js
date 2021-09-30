@@ -10,9 +10,10 @@ export const PUBLIC = {
   SIGN_IN: "/sign-in",
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
-  TRACK_UPDATE: "/tracks/update",
-  TRACK_UPLOAD: "/tracks/upload",
   USERS: "/users",
+  TRACK_EDIT: "/tracks/update",
+  TRACK_UPLOAD: "/tracks/upload",
+  TRACK_UPDATE: "/tracks/update",
   ADD_ALBUM: "/albums/add",
 };
 
@@ -29,7 +30,6 @@ export const API = {
   ACCOUNT: "/account",
   REGISTER: "/register",
   AUTHENTICATE: "/authenticate",
-  TRACK: "/tracks",
   GENRE: "/genres",
   ALBUM: "/albums",
   PLAYLISTS: "/playlists",

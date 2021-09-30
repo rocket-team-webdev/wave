@@ -1,6 +1,8 @@
 import React /* useState, */ /* useEffect */ from "react";
 // import { toast } from "react-toastify";
 
+import { PUBLIC } from "../../constants/routes";
+
 import HomeElement from "../HomeElement";
 import Button from "../Button";
 import UserCard from "../UserCard";
@@ -181,7 +183,7 @@ export default function HomeMyWave({
         </HomeElement>
       )}
       {mySongs && (
-        <HomeElement label="My songs">
+        <HomeElement label="My songs" to={PUBLIC.MY_SONGS}>
           {mySongs.map((song, i) => (
             <>
               {/* TODO Track component here */}
@@ -192,7 +194,7 @@ export default function HomeMyWave({
         </HomeElement>
       )}
       {likedSongs && (
-        <HomeElement label="Liked songs">
+        <HomeElement label="Liked songs" to={PUBLIC.MY_SONGS}>
           {likedSongs.map((song, i) => (
             <>
               {/* TODO Track component here */}

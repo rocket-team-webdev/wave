@@ -10,46 +10,7 @@ import JumboText from "../../../components/JumboText";
 import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 
-// const songs = [
-//   {
-//     songNumber: 1,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Glory Box",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 134.582857,
-//   },
-//   {
-//     songNumber: 2,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Song 2",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 140,
-//   },
-//   {
-//     songNumber: 3,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Song 3",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 140,
-//   },
-//   {
-//     songNumber: 4,
-//     songImg:
-//       "https://images-na.ssl-images-amazon.com/images/I/713j89t%2BDkL._SL1400_.jpg",
-//     songName: "Song 4",
-//     artist: "Portishead",
-//     albumName: "Dummy",
-//     time: 140,
-//   },
-// ];
-
-export default function Songs() {
+export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
   const [likedSongs, setLikedSongs] = useState();
 
@@ -100,7 +61,12 @@ export default function Songs() {
                 trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
+                albumId={song.album._id}
                 time={song.duration}
+                trackUrl={song.url}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
+                trackId={song._id}
                 userId={song.userId}
               />
             ))}
@@ -116,7 +82,12 @@ export default function Songs() {
                 trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
+                albumId={song.album._id}
                 time={song.duration}
+                trackUrl={song.url}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
+                trackId={song._id}
                 userId={song.userId}
               />
             ))}
