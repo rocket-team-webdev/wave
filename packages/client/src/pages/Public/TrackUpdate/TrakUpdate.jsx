@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
-
-import Layout from "../../../components/Layout";
-import uploadSchema from "./upload-in-schema";
-import Button from "../../../components/Button";
 import Input from "../../../components/Input";
+import Layout from "../../../components/Layout";
+import trackUpdateSchema from "./track-update-schema";
 import Select from "../../../components/Select";
-import DragAndDrop from "../../../components/DragAndDrop";
-import { uploadTrack } from "../../../api/tracks-api";
 import { getGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
+import Button from "../../../components/Button";
 
-export default function Home() {
+function TrackUpdate() {
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
 
@@ -36,53 +32,58 @@ export default function Home() {
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      artist: "",
-      album: "",
-      genre: "",
-      thumbnail: "",
-      track: "",
+      title: "Song title", // title from the track request
+      artist: "Artist", // artist from the track request
+      album: "", // album from the  track request
+      genre: "", // genre from the  track request
+      thumbnail: "", // genre from the album request
     },
-    validationSchema: uploadSchema,
+    validationSchema: trackUpdateSchema,
     onSubmit: async (signInState) => {
-      try {
-        if (!signInState.track)
-          return toast("Choose a track!", { type: "error" });
+      console.log(signInState);
+      // try {
+      //   if (!signInState.track)
+      //     return toast("Choose a track!", { type: "error" });
 
-        const formData = new FormData();
-        formData.append("title", signInState.title);
-        formData.append("artist", signInState.artist);
-        formData.append("album", signInState.album);
-        formData.append("genre", signInState.genre);
-        // formData.append("thumbnail", signInState.thumbnail);
-        formData.append("track", signInState.track);
+      //   const formData = new FormData();
+      //   formData.append("title", signInState.title);
+      //   formData.append("artist", signInState.artist);
+      //   formData.append("album", signInState.album);
+      //   formData.append("genre", signInState.genre);
+      //   // formData.append("thumbnail", signInState.thumbnail);
+      //   formData.append("track", signInState.track);
 
-        console.log("formData", formData);
-        await uploadTrack(formData);
-        return toast("Track uploaded!", { type: "success" });
-      } catch (error) {
-        return toast(error.message, { type: "error" });
-      }
+      //   console.log("formData", formData);
+      //   await uploadTrack(formData);
+      //   return toast("Track uploaded!", { type: "success" });
+      // } catch (error) {
+      //   return toast(error.message, { type: "error" });
+      // }
     },
   });
 
-  // const thumbnailOnChange = async (event) => {
-  //   formik.setFieldValue("thumbnail", event.target.files[0]);
-  // };
-
-  const trackOnChange = async (files) => {
-    formik.setFieldValue("track", files[0]);
-  };
-
   return (
     <Layout isNegative>
-      <div className="row ">
-        <div className="col col-12 col-md-6 p-4">
-          <p className="fnt-sidebar fnt-light">Upload your song</p>
-          <DragAndDrop handleChange={trackOnChange} />
+      <div className="row mb-5">
+        <div className="col col-12">
+          <p className="fnt-sidebar fnt-light">Update the song</p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col col-12 col-md-6 p-4 border ">
+          {/* <img src="fasdf" alt="fasdf" className="clr-light" /> */}
+          <div
+            className="clr-light"
+            style={{
+              width: "100%",
+              height: "100%",
+              maxWidth: "100%",
+              maxHeight: "100%",
+            }}
+          />
         </div>
 
-        <div className="col col-12 col-md-6 mt-10 px-5">
+        <div className="col col-12 col-md-6 px-4 border">
           <form onSubmit={formik.handleSubmit}>
             <h1 className="fnt-subtitle-bold mb-4">Song details</h1>
             <div className="row">
@@ -91,7 +92,7 @@ export default function Home() {
                 type="title"
                 id="title"
                 classNames="col-12"
-                placeholder="example: "
+                placeholder={formik.signInState}
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -104,7 +105,7 @@ export default function Home() {
                 type="artist"
                 id="artist"
                 classNames="col-12"
-                placeholder=""
+                placeholder={formik.signInState}
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -123,7 +124,7 @@ export default function Home() {
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
-                // options={["", "rock", "jazz"]}
+                selected={formik.signInState}
                 options={genresState}
               />
               <Select
@@ -137,10 +138,10 @@ export default function Home() {
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
+                selected={formik.signInState}
                 options={albumsState}
                 // options={["", "Album 1", "Album 2"]}
               />
-
               {/* <Input
                 classNames="col-12 col-md-6"
                 label="thumbnail"
@@ -158,7 +159,7 @@ export default function Home() {
 
             <div className="d-flex justify-content-end my-5">
               <Button isNegative submitButton>
-                Upload
+                Update
               </Button>
             </div>
           </form>
@@ -167,3 +168,5 @@ export default function Home() {
     </Layout>
   );
 }
+
+export default TrackUpdate;

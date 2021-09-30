@@ -9,9 +9,6 @@ async function uploadTrack(req, res, next) {
   try {
     const trackObj = {};
     const track = req.files["track"][0];
-    let thumbnail = req.files["thumbnail"];
-
-    if (thumbnail) thumbnail = thumbnail[0];
 
     if (track.mimetype === "audio/mpeg") {
       const trackLocation = path.join(
@@ -32,37 +29,6 @@ async function uploadTrack(req, res, next) {
         resource_type: "video",
       });
 
-      // if there is a thumbnail
-      if (thumbnail) {
-        const thumbnailLocation = path.join(
-          __dirname,
-          "../../",
-          "uploads",
-          thumbnail.originalname,
-        );
-
-        // upload file
-        await writeFileAsync(
-          thumbnailLocation,
-          Buffer.from(new Uint8Array(thumbnail.buffer)),
-        );
-
-        // upload to cloudinary
-        const cldThumbnailRes = await cloudinary.uploader.upload(
-          thumbnailLocation,
-          {
-            upload_preset: "covers-preset",
-            resource_type: "image",
-          },
-        );
-        trackObj.thumbnail = cldThumbnailRes.secure_url;
-
-        // delete uploaded file
-        fs.unlink(thumbnailLocation, (err) => {
-          if (err) throw err;
-        });
-      }
-
       // delete uploaded file
       fs.unlink(trackLocation, (err) => {
         if (err) throw err;
@@ -76,14 +42,21 @@ async function uploadTrack(req, res, next) {
         title: req.body.album,
       });
 
-      trackObj.name = req.body.title;
+      trackObj.name = req.body.name;
+      trackObj.artist = req.body.artist;
       trackObj.url = cldTrackRes.secure_url;
       trackObj.duration = cldTrackRes.duration;
       trackObj.userId = userId;
-      if (album) trackObj.albums = [album._id];
+      if (album) trackObj.album = album._id;
       if (genre) trackObj.genreId = genre._id;
 
+      console.log("trackObj", trackObj);
+
       await db.Track.create(trackObj);
+      await db.Album.updateOne(
+        { _id: album._id },
+        { $inc: { totalTracks: 1 } },
+      );
 
       return res.status(200).send({ message: "cloudinary track uploaded" });
     }

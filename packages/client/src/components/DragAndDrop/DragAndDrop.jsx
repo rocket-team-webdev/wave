@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import Input from "../Input";
@@ -6,7 +6,9 @@ import AddIcon from "../SVGicons/AddIcon";
 
 import "./DragAndDrop.scss";
 
-export default function DragAndDrop({ handleChange }) {
+export default function DragAndDrop({ handleChange, acceptFiles = "audio/*" }) {
+  const [files, setFiles] = useState("Drop the files here ...");
+
   const baseStyle = {
     flex: 1,
     display: "flex",
@@ -42,6 +44,7 @@ export default function DragAndDrop({ handleChange }) {
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length) {
       handleChange(acceptedFiles);
+      setFiles(acceptedFiles[0].name);
       return toast("File uploaded!", { type: "success" });
     }
 
@@ -54,7 +57,7 @@ export default function DragAndDrop({ handleChange }) {
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ onDrop, accept: "audio/*", maFiles: 1 });
+  } = useDropzone({ onDrop, accept: acceptFiles, maFiles: 1 });
 
   const style = useMemo(
     () => ({
@@ -79,13 +82,8 @@ export default function DragAndDrop({ handleChange }) {
             type="file"
             placeholder="Upload file"
             isNegative
-            // onChange={trackOnChange}
-            // onBlur={trackOnChange}
-            // value={formik.values.genre}
-            // errorMessage={formik.errors.genre}
-            // hasErrorMessage={formik.touched.genre}
           />
-          <p className="pt-3 fnt-white">Drop the files here ...</p>
+          <p className="pt-3 fnt-white">{files}</p>
         </div>
       ) : (
         <div className="d-flex flex-column align-items-center pt-4 m-auto">
@@ -97,13 +95,8 @@ export default function DragAndDrop({ handleChange }) {
             type="file"
             placeholder="Upload file"
             isNegative
-            // onChange={trackOnChange}
-            // onBlur={trackOnChange}
-            // value={formik.values.genre}
-            // errorMessage={formik.errors.genre}
-            // hasErrorMessage={formik.touched.genre}
           />
-          <p className="pt-3 fnt-white">Or drag and drop files here</p>
+          <p className="pt-3 fnt-white">{files}</p>
         </div>
       )}
     </div>
