@@ -108,7 +108,8 @@ async function likeTrack(req, res, next) {
     // Updating likedBy array
     if (trackLikes.includes(userId)) {
       console.log("Proceeding to dislike");
-      trackLikes.remove(userId);
+      const userIndex = trackLikes.indexOf(userId);
+      trackLikes.splice(userIndex, 1);
     } else {
       console.log("Proceeding to like");
       trackLikes.push(userId);
