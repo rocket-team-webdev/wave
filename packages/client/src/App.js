@@ -20,6 +20,7 @@ import ResetPassword from "./pages/Public/ResetPassword";
 import Upload from "./pages/Public/Upload";
 import Tracks from "./pages/Public/Tracks";
 import MusicPlayer from "./components/MusicPlayer";
+import UpdateSong from "./pages/Public/UpdateSong";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,6 +88,9 @@ function App() {
             </OnlyPublicRoute>
             <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
               <Upload />
+            </PrivateRoute>
+            <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
+              <UpdateSong />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.MY_SONGS}>
               <Tracks />

@@ -11,6 +11,7 @@ export const PUBLIC = {
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
   TRACK_UPLOAD: "/track/upload",
+  TRACK_UPDATE: "/track/update",
   USERS: "/users",
 };
 
