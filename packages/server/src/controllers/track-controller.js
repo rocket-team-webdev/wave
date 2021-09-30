@@ -114,8 +114,6 @@ async function likeTrack(req, res, next) {
       trackLikes.push(userId);
     }
 
-    // console.log("Track likes =>", trackLikes);
-
     await db.Track.findOneAndUpdate({ _id: id }, { likedBy: trackLikes });
   } catch (error) {
     res.status(500).send({ error: error });
