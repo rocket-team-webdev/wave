@@ -12,7 +12,6 @@ import { getAllPlaylists } from "../../api/playlists-api";
 export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
   const [popularGenres, setPopularGenres] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [popularplaylists, setPopularPlaylists] = useState([]);
 
   // Popular genres
@@ -30,6 +29,7 @@ export default function HomePopular({ artistsList = [] }) {
     try {
       setLoadStatus(true);
       const { data } = await getAllPlaylists();
+      console.log("Playlist => ", data.playlists);
       setPopularPlaylists(data.playlists);
       setLoadStatus(false);
     } catch (err) {
@@ -57,9 +57,9 @@ export default function HomePopular({ artistsList = [] }) {
         <HomeElement label="Popular artists">
           {artistsList.map((artistName) => (
             <ArtistCard
-              // classNames=""
               key={artistName}
               artistName={artistName}
+              // classNames=""
             />
           ))}
         </HomeElement>
@@ -70,9 +70,10 @@ export default function HomePopular({ artistsList = [] }) {
             {popularplaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
-                // classNames=""
+                playListId={playlist._id}
                 playlistName={playlist.name}
-                hasHeart
+                userId={playlist.userId}
+                // classNames=""
               />
             ))}
           </HomeElement>

@@ -147,8 +147,10 @@ export default function HomeMyWave({ artistsList = false }) {
           {userPlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist._id}
-              // classNames=""
+              playListId={playlist._id}
               playlistName={playlist.name}
+              userId={playlist.userId}
+              // classNames=""
             />
           ))}
         </HomeElement>
@@ -158,8 +160,10 @@ export default function HomeMyWave({ artistsList = false }) {
           {myFollowingPlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist._id}
-              // classNames=""
+              playListId={playlist._id}
               playlistName={playlist.name}
+              userId={playlist.userId}
+              // classNames=""
             />
           ))}
         </HomeElement>
