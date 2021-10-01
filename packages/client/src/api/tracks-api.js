@@ -49,3 +49,14 @@ export async function deleteTrack(songId, api = makeTrackApi()) {
     },
   });
 }
+
+export async function likeTrack(songId, api = makeTrackApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    `/${songId}/like`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+}

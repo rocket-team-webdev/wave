@@ -42,6 +42,7 @@ function TrackUpdate() {
         genre: track.genre,
       };
       await updateTrackById(data);
+      history.push(PUBLIC.MY_SONGS);
     },
   });
 

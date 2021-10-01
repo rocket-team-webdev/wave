@@ -23,10 +23,35 @@ export default function Tracks() {
     }
   };
 
+  // console.log("Se ha hecho like", uploadedSongs);
+
   const fetchLikedSongs = async () => {
     try {
       const { data } = await getLikedTracks();
       setLikedSongs(data.data);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
+
+  const handleAddLikedColumn = (song, liked) => {
+    try {
+      if (liked) {
+        const updatedUploadedSongs = uploadedSongs.map((bySong) => {
+          if (bySong._id === song._id) return { ...bySong, isLiked: liked };
+          return bySong;
+        });
+        setLikedSongs((prevSongs) => [...prevSongs, song]);
+        setUploadedSongs(updatedUploadedSongs);
+      } else {
+        const updatedLikedSongs = likedSongs.filter((v) => v._id !== song._id);
+        const updatedUploadedSongs = uploadedSongs.map((bySong) => {
+          if (bySong._id === song._id) return { ...bySong, isLiked: liked };
+          return bySong;
+        });
+        setLikedSongs(updatedLikedSongs);
+        setUploadedSongs(updatedUploadedSongs);
+      }
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -61,13 +86,14 @@ export default function Tracks() {
                 trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
-                albumId={song.album._id}
                 time={song.duration}
                 trackUrl={song.url}
+                albumId={song.album._id}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
                 trackId={song._id}
                 userId={song.userId}
+                updateLikedView={handleAddLikedColumn}
               />
             ))}
         </div>
@@ -82,13 +108,14 @@ export default function Tracks() {
                 trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
-                albumId={song.album._id}
                 time={song.duration}
                 trackUrl={song.url}
+                albumId={song.album._id}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
                 trackId={song._id}
                 userId={song.userId}
+                updateLikedView={handleAddLikedColumn}
               />
             ))}
         </div>

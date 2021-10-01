@@ -20,6 +20,8 @@ trackRouter.get("/:id", authFirebaseMiddleware, trackController.getTrack);
 trackRouter.put("/", authFirebaseMiddleware, trackController.updateTrack);
 trackRouter.delete("/:id", authFirebaseMiddleware, trackController.deleteTrack);
 
+trackRouter.put("/:id/like", authFirebaseMiddleware, trackController.likeTrack);
+
 module.exports = {
   trackRouter,
 };

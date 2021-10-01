@@ -97,10 +97,10 @@ export default function TrackUpload() {
 
     // read metadata ID3
     const tags = await id3.fromFile(files[0]);
-    formik.setFieldValue("name", tags.title);
-    formik.setFieldValue("artist", tags.artist);
-    formik.setFieldValue("album", tags.album);
-    formik.setFieldValue("genre", tags.genre);
+    formik.setFieldValue("name", tags?.title);
+    formik.setFieldValue("artist", tags?.artist);
+    formik.setFieldValue("album", tags?.album);
+    formik.setFieldValue("genre", tags?.genre);
   };
 
   const handleCreateAlbum = () => {

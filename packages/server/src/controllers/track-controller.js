@@ -141,9 +141,39 @@ async function deleteTrack(req, res, next) {
   }
 }
 
+async function likeTrack(req, res, next) {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    // Get track
+    const track = await db.Track.findOne({ _id: id });
+    const trackLikes = track.likedBy;
+
+    // Get user id
+    const { firebaseId } = req.user;
+    const { _id: userId } = await db.User.findOne({ firebaseId });
+
+    // Updating likedBy array
+    if (trackLikes.includes(userId)) {
+      const userIndex = trackLikes.indexOf(userId);
+      trackLikes.splice(userIndex, 1);
+    } else {
+      trackLikes.push(userId);
+    }
+
+    await db.Track.findOneAndUpdate({ _id: id }, { likedBy: trackLikes });
+
+    return res.status(200).send({ message: "Successfully liked" });
+  } catch (error) {
+    res.status(500).send({ error: error });
+    next(error);
+  }
+}
+
 module.exports = {
   uploadTrack,
   deleteTrack,
   getTrack,
   updateTrack,
+  likeTrack,
 };
