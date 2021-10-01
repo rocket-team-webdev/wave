@@ -38,7 +38,7 @@ export default function MusicPlayer() {
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
 
-  const nextSong = () => {
+  const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
       setListPosition(listPosition + 1);
     } else if (repeatState === "queue") setListPosition(0);
@@ -48,7 +48,7 @@ export default function MusicPlayer() {
     else setNextButtonDisabled(false);
     if (listPosition <= 1) setPrevButtonDisabled(false);
   };
-  const previousSong = () => {
+  const previousTrack = () => {
     if (listPosition > 0) {
       setListPosition(listPosition - 1);
       setNextButtonDisabled(false);
@@ -79,7 +79,7 @@ export default function MusicPlayer() {
   };
 
   const repeatToggle = () => {
-    const toggleStates = ["false", "song", "queue"];
+    const toggleStates = ["false", "track", "queue"];
     const statePosition = toggleStates.findIndex(
       (element) => element === repeatState,
     );
@@ -101,9 +101,9 @@ export default function MusicPlayer() {
       // updateLikedView(
       //   {
       //     ...trackObject,
-      //     album: { title: albumName, thumbnail: songImg },
+      //     album: { title: albumName, thumbnail: trackImg },
       //     isLiked: userLike,
-      //     _id: songId,
+      //     _id: trackId,
       //   },
       //   userLike,
       // );
@@ -139,7 +139,7 @@ export default function MusicPlayer() {
     <>
       {queueState.queue.length > 0 && (
         <div className="rhap_main-container clr-white">
-          <div className="rhap_song-info">
+          <div className="rhap_track-info">
             <div className="rhap_album-thumb">
               <Link to={`${PUBLIC.ALBUMS}/${trackObject.albumId}`}>
                 <img
@@ -160,11 +160,11 @@ export default function MusicPlayer() {
                 <FaRegHeart className="rhap_like-icon" />
               )}
             </button>
-            <div className="rhap_song-text">
-              <p className="rhap_song-tittle mb-0 fnt-song-bold lh-1 pe-4">
+            <div className="rhap_track-text">
+              <p className="rhap_track-tittle mb-0 fnt-song-bold lh-1 pe-4">
                 {trackObject.name}
               </p>
-              <p className="rhap_song-artist mb-0 fnt-song-light lh-1">
+              <p className="rhap_track-artist mb-0 fnt-song-light lh-1">
                 {trackObject.artist}
               </p>
             </div>
@@ -172,7 +172,7 @@ export default function MusicPlayer() {
               <button
                 className="m-0 text-end"
                 type="button"
-                id="contextSongMenu"
+                id="contextTrackMenu"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
@@ -180,7 +180,7 @@ export default function MusicPlayer() {
               </button>
               <ul
                 className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-                aria-labelledby="contextSongMenu"
+                aria-labelledby="contextTrackMenu"
               >
                 <>
                   <Link to={`${PUBLIC.TRACK_EDIT}`}>
@@ -209,9 +209,9 @@ export default function MusicPlayer() {
             showSkipControls
             showJumpControls={false}
             src={trackObject.url}
-            onClickNext={nextSong}
-            onClickPrevious={previousSong}
-            onEnded={nextSong}
+            onClickNext={nextTrack}
+            onClickPrevious={previousTrack}
+            onEnded={nextTrack}
             ref={audioPlayer}
             layout="horizontal-reverse"
             customIcons={{
@@ -243,7 +243,7 @@ export default function MusicPlayer() {
                     repeatState === "false" ? "button-off" : "button-on"
                   } rhap_button-repeat`}
                 >
-                  {repeatState === "song" ? <MdRepeatOne /> : <MdRepeat />}
+                  {repeatState === "track" ? <MdRepeatOne /> : <MdRepeat />}
                 </button>
               </div>,
               RHAP_UI.MAIN_CONTROLS,
