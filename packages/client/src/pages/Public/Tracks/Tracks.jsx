@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { PUBLIC } from "../../../constants/routes";
-
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
-import SongCard from "../../../components/SongCard/SongCard";
+import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
@@ -22,8 +22,6 @@ export default function Tracks() {
       toast(error.message, { type: "error" });
     }
   };
-
-  // console.log("Se ha hecho like", uploadedSongs);
 
   const fetchLikedSongs = async () => {
     try {
@@ -57,6 +55,41 @@ export default function Tracks() {
     }
   };
 
+  const handleDeletedView = (trackId) => {
+    console.log("trackId", trackId);
+    const updatedLikedSongs = likedSongs.filter((v) => v._id !== trackId);
+    const updatedUploadedSongs = uploadedSongs.filter((v) => v._id !== trackId);
+    setLikedSongs(updatedLikedSongs);
+    setUploadedSongs(updatedUploadedSongs);
+  };
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  const onDragEndUploaded = (res) => {
+    const { destination, source } = res;
+
+    if (!destination) return;
+
+    const items = reorder(uploadedSongs, source.index, destination.index);
+    setUploadedSongs(items);
+  };
+
+  const onDragEndLiked = (res) => {
+    const { destination, source } = res;
+
+    if (!destination) return;
+
+    const items = reorder(likedSongs, source.index, destination.index);
+    setLikedSongs(items);
+  };
+
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
@@ -75,23 +108,97 @@ export default function Tracks() {
         </div>
       </div>
       <div className="row">
-        <div className="col col-6 ">
+        <DragDropContext onDragEnd={onDragEndUploaded}>
+          <Droppable droppableId="Uploaded">
+            {(provided) => (
+              <div
+                className="col col-6 "
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <div className="fnt-page-title">Uploaded</div>
+                {uploadedSongs &&
+                  uploadedSongs.map((song, index) => (
+                    <TrackCard
+                      key={song._id}
+                      trackNumber={index + 1}
+                      trackName={song.name}
+                      trackImg={song.album.thumbnail}
+                      artist={song.artist}
+                      albumName={song.album.title}
+                      time={song.duration}
+                      trackUrl={song.url}
+                      albumId={song.album._id}
+                      genreId={song.genreId}
+                      isLiked={song.isLiked}
+                      trackId={song._id}
+                      userId={song.userId}
+                      index={index}
+                      draggable
+                      updateLikedView={handleAddLikedColumn}
+                      updateDeletedView={handleDeletedView}
+                    />
+                  ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        <DragDropContext onDragEnd={onDragEndLiked}>
+          <Droppable droppableId="liked">
+            {(provided) => (
+              <div
+                className="col col-6 "
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <div className="fnt-page-title">Liked</div>
+                {likedSongs &&
+                  likedSongs.map((song, index) => (
+                    <TrackCard
+                      key={song._id}
+                      trackNumber={index + 1}
+                      trackName={song.name}
+                      trackImg={song.album.thumbnail}
+                      artist={song.artist}
+                      albumName={song.album.title}
+                      time={song.duration}
+                      trackUrl={song.url}
+                      albumId={song.album._id}
+                      genreId={song.genreId}
+                      isLiked={song.isLiked}
+                      trackId={song._id}
+                      userId={song.userId}
+                      index={index}
+                      draggable
+                      updateLikedView={handleAddLikedColumn}
+                      updateDeletedView={handleDeletedView}
+                    />
+                  ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        {/* <div className="col col-6 ">
           <div className="fnt-page-title">Uploaded</div>
           {uploadedSongs &&
             uploadedSongs.map((song, index) => (
-              <SongCard
+              <TrackCard
                 key={song._id}
-                songNumber={index + 1}
-                songName={song.name}
-                songImg={song.album.thumbnail}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
+                trackUrl={song.url}
                 albumId={song.album._id}
-                songUrl={song.url}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
-                songId={song._id}
+                trackId={song._id}
                 userId={song.userId}
                 updateLikedView={handleAddLikedColumn}
               />
@@ -101,24 +208,24 @@ export default function Tracks() {
           <div className="fnt-page-title">Liked</div>
           {likedSongs &&
             likedSongs.map((song, index) => (
-              <SongCard
+              <TrackCard
                 key={song._id}
-                songNumber={index + 1}
-                songName={song.name}
-                songImg={song.album.thumbnail}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
+                trackUrl={song.url}
                 albumId={song.album._id}
-                songUrl={song.url}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
-                songId={song._id}
+                trackId={song._id}
                 userId={song.userId}
                 updateLikedView={handleAddLikedColumn}
               />
             ))}
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
