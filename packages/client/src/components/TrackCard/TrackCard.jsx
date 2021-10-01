@@ -7,38 +7,38 @@ import { addSong, setQueue } from "../../redux/music-queue/actions";
 
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 
-import "./SongCard.scss";
+import "./TrackCard.scss";
 
-export default function SongCard({
-  songNumber,
-  songImg,
-  songName,
+export default function TrackCard({
+  trackNumber,
+  trackImg,
+  trackName,
   artist,
   albumName,
   albumId,
   time,
   userId,
   playCounter = 0,
-  songUrl,
+  trackUrl,
   genreId,
   isLiked,
-  songId,
+  trackId,
   updateLikedView = () => {},
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const songObject = {
-    name: songName,
-    url: songUrl,
+  const trackObject = {
+    name: trackName,
+    url: trackUrl,
     duration: time,
     genreId: genreId,
     userId: userId,
     artist: artist,
     album: albumName,
     isLiked: isLiked,
-    songId: songId,
+    trackId: trackId,
   };
 
   const handleIsOwned = () => {
@@ -52,13 +52,13 @@ export default function SongCard({
     setLiked(userLike);
 
     try {
-      await likeTrack(songId);
+      await likeTrack(trackId);
       updateLikedView(
         {
-          ...songObject,
-          album: { title: albumName, thumbnail: songImg },
+          ...trackObject,
+          album: { title: albumName, thumbnail: trackImg },
           isLiked: userLike,
-          _id: songId,
+          _id: trackId,
         },
         userLike,
       );
@@ -69,15 +69,15 @@ export default function SongCard({
   };
 
   const handlePlay = () => {
-    dispatch(setQueue(songObject));
+    dispatch(setQueue(trackObject));
   };
 
   const handleAddToQueue = () => {
-    dispatch(addSong(songObject));
+    dispatch(addSong(trackObject));
   };
 
   const handleDeleteSong = async () => {
-    await deleteTrack(songId);
+    await deleteTrack(trackId);
   };
 
   const timeIntoString = (seconds) => {
@@ -107,9 +107,9 @@ export default function SongCard({
   return (
     <div className="row card-hover fx-rounded" onDoubleClick={handlePlay}>
       <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-        <h3 className="m-0 px-2 fnt-song-bold text-start">{songNumber}</h3>
+        <h3 className="m-0 px-2 fnt-song-bold text-start">{trackNumber}</h3>
         <div className="play-hover" onClick={handlePlay} aria-hidden="true">
-          <img className="fx-rounded mx-2" src={songImg} alt={songName} />
+          <img className="fx-rounded mx-2" src={trackImg} alt={trackName} />
           <i className="fas fa-play fnt-white" />
         </div>
         <div className="d-flex fnt-primary px-2">
@@ -122,7 +122,7 @@ export default function SongCard({
           </button>
         </div>
         <div className=" px-2 col">
-          <h3 className="m-0 text-start fnt-song-bold">{songName}</h3>
+          <h3 className="m-0 text-start fnt-song-bold">{trackName}</h3>
           <h4 className="m-0  text-start fnt-artist">{artist}</h4>
         </div>
         <Link
@@ -161,7 +161,7 @@ export default function SongCard({
             <hr className="dropdown-wrapper m-0" />
             {isOwned ? (
               <>
-                <Link to={`${PUBLIC.TRACK_EDIT}/${songId}`}>
+                <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
                   <p
                     className="dropdown-item fnt-light fnt-song-regular m-0"
                     type="button"

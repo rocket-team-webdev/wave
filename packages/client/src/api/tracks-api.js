@@ -9,6 +9,28 @@ export function makeTrackApi() {
   });
 }
 
+export async function getTrackById(trackId, api = makeTrackApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`/${trackId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function updateTrackById(data, api = makeTrackApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    ``,
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
+
 export async function uploadTrack(file = {}, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
   return api.post(``, file, {
