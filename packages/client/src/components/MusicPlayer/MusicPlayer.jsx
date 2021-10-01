@@ -29,7 +29,7 @@ export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
   const [listPosition, setListPosition] = useState(0);
-  const songObject = queueState.isShuffled
+  const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
   const [isShuffle, setIsShuffle] = useState(false);
@@ -97,10 +97,10 @@ export default function MusicPlayer() {
     if (isShuffle) dispatch(like(queueState.shuffleOrder[listPosition]));
     else dispatch(like(listPosition));
     try {
-      await likeTrack(songObject.songId);
+      await likeTrack(trackObject.trackId);
       // updateLikedView(
       //   {
-      //     ...songObject,
+      //     ...trackObject,
       //     album: { title: albumName, thumbnail: songImg },
       //     isLiked: userLike,
       //     _id: songId,
@@ -141,9 +141,9 @@ export default function MusicPlayer() {
         <div className="rhap_main-container clr-white">
           <div className="rhap_song-info">
             <div className="rhap_album-thumb">
-              <Link to={`${PUBLIC.ALBUMS}/${songObject.albumId}`}>
+              <Link to={`${PUBLIC.ALBUMS}/${trackObject.albumId}`}>
                 <img
-                  src={songObject.songImg}
+                  src={trackObject.trackImg}
                   alt="album-cover"
                   className="rhap_thumb-album-img"
                 />
@@ -154,7 +154,7 @@ export default function MusicPlayer() {
               className="rhap_like-button"
               onClick={handleLike}
             >
-              {songObject.isLiked ? (
+              {trackObject.isLiked ? (
                 <FaHeart className="rhap_like-icon" />
               ) : (
                 <FaRegHeart className="rhap_like-icon" />
@@ -162,10 +162,10 @@ export default function MusicPlayer() {
             </button>
             <div className="rhap_song-text">
               <p className="rhap_song-tittle mb-0 fnt-song-bold lh-1 pe-4">
-                {songObject.name}
+                {trackObject.name}
               </p>
               <p className="rhap_song-artist mb-0 fnt-song-light lh-1">
-                {songObject.artist}
+                {trackObject.artist}
               </p>
             </div>
             <div className="dropdown">
@@ -208,7 +208,7 @@ export default function MusicPlayer() {
             volume={0}
             showSkipControls
             showJumpControls={false}
-            src={songObject.url}
+            src={trackObject.url}
             onClickNext={nextSong}
             onClickPrevious={previousSong}
             onEnded={nextSong}
@@ -235,7 +235,7 @@ export default function MusicPlayer() {
               ),
             }}
             customControlsSection={[
-              <div className="rhap_repeat-controls" key={songObject.duration}>
+              <div className="rhap_repeat-controls" key={trackObject.duration}>
                 <button
                   onClick={repeatToggle}
                   type="button"
@@ -247,7 +247,7 @@ export default function MusicPlayer() {
                 </button>
               </div>,
               RHAP_UI.MAIN_CONTROLS,
-              <div className="rhap_shuffle-controls" key={songObject.url}>
+              <div className="rhap_shuffle-controls" key={trackObject.url}>
                 <button
                   onClick={shuffleToggle}
                   type="button"
