@@ -7,6 +7,18 @@ const {
 
 const meRouter = Router();
 
+meRouter.get("/followers", authFirebaseMiddleware, meController.getMyFollowers);
+meRouter.get(
+  "/following",
+  authFirebaseMiddleware,
+  meController.getMyFollowings,
+);
+meRouter.get("/playlists", authFirebaseMiddleware, meController.getMyPlaylists);
+meRouter.get(
+  "/playlists/following",
+  authFirebaseMiddleware,
+  meController.getMyFollowingPlaylists,
+);
 meRouter.get("/tracks", authFirebaseMiddleware, meController.getMyTracks);
 meRouter.get(
   "/tracks/liked",
