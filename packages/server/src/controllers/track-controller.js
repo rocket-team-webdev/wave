@@ -156,6 +156,13 @@ async function deleteTrack(req, res, next) {
     // ----
     // Delete from MongoDB Atlas
     await db.Track.findByIdAndRemove(id);
+    const album = await db.Album.findOne({ _id: track.album });
+
+    if (album.totalTracks > 0)
+      await db.Album.updateOne(
+        { _id: album._id },
+        { $inc: { totalTracks: -1 } },
+      );
 
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {
