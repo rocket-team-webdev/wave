@@ -100,24 +100,6 @@ export default function HomePopular({ artistsList = [] }) {
       )}
       {popularTracks.length > 0 && (
         <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
-          {/* {popularTracks.map((track, i) => (
-            <TrackCard
-              key={track._id}
-              trackNumber={i + 1}
-              trackImg={track.album.thumbnail}
-              trackName={track.name}
-              artist={track.artist}
-              albumName={track.album.title}
-              albumId={track.album._id}
-              time={track.duration}
-              userId={track.userId}
-              // playcounter
-              trackUrl={track.url}
-              genreId={track.genreId}
-              isLiked={track.isLiked}
-              trackId={track._id}
-            />
-          ))} */}
           <DragDropContext onDragEnd={() => {}}>
             <Droppable droppableId="popularTracks">
               {(provided) => (
