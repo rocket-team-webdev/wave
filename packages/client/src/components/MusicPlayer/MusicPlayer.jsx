@@ -29,7 +29,7 @@ export default function MusicPlayer() {
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
   const [isShuffle, setIsShuffle] = useState(false);
-  const [isLiked, setIsLiked] = useState(true);
+  const [liked, setLiked] = useState(songObject.isLiked);
   const [repeatState, setRepeatState] = useState("false");
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
@@ -90,13 +90,24 @@ export default function MusicPlayer() {
     );
   };
 
-  const likeSong = () => {
-    setIsLiked(!isLiked);
+  const handleLike = async () => {
+    const userLike = !liked;
+    setLiked(userLike);
+
     try {
-      likeTrack(songObject.songId);
+      await likeTrack(songObject.songId);
+      // updateLikedView(
+      //   {
+      //     ...songObject,
+      //     album: { title: albumName, thumbnail: songImg },
+      //     isLiked: userLike,
+      //     _id: songId,
+      //   },
+      //   userLike,
+      // );
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLiked(!isLiked);
+      setLiked(!liked);
     }
   };
 
@@ -131,10 +142,9 @@ export default function MusicPlayer() {
             <button
               type="button"
               className="rhap_like-button"
-              onClick={likeSong}
+              onClick={handleLike}
             >
-              {" "}
-              {isLiked ? (
+              {liked ? (
                 <FaHeart className="rhap_like-icon" />
               ) : (
                 <FaRegHeart className="rhap_like-icon" />
@@ -204,7 +214,13 @@ export default function MusicPlayer() {
                   <ImShuffle />
                 </button>
               </div>,
-              RHAP_UI.VOLUME_CONTROLS,
+              // RHAP_UI.VOLUME_CONTROLS,
+            ]}
+            customProgressBarSection={[
+              RHAP_UI.CURRENT_TIME,
+              RHAP_UI.PROGRESS_BAR,
+              RHAP_UI.DURATION,
+              RHAP_UI.VOLUME,
             ]}
             onPlayError={handleError}
             onChangeCurrentTimeError={handleError}

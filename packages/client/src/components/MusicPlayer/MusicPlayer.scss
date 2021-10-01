@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.1rem;
   // overflow-x: hidden;
 }
 .rhap_container {
@@ -64,6 +65,10 @@
 }
 .rhap_progress-filled {
   background-color: c.$secondaryColor;
+}
+
+.rhap_volume-container {
+  margin-left: 25px;
 }
 
 // New customize shuffle and buttons
@@ -128,9 +133,7 @@
   justify-content: space-between;
   padding-left: 3rem;
   padding-right: 1.5rem;
-  // min-width: 30%;
-  // max-width: 35%;
-  width: 35%;
+  width: 45%;
 }
 .rhap_thumb-album-img {
   height: 35px;
@@ -195,5 +198,8 @@
   }
   .rhap_repeat-controls {
     justify-content: start;
+  }
+  .rhap_volume-container {
+    display: none;
   }
 }
