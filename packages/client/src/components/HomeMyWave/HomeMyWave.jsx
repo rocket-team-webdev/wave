@@ -8,7 +8,7 @@ import Button from "../Button";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
-// import SongCard from "../SongCard";
+import TrackCard from "../TrackCard";
 import {
   // getMyFollowers,
   getMyFollowings,
@@ -26,6 +26,7 @@ export default function HomeMyWave({ artistsList = false }) {
   const [myFollowings, setMyFollowings] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [myFollowingPlaylists, setMyFollowingPlaylists] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [myTracks, setMyTracks] = useState([]);
   const [userLikedTracks, setUserLikedTracks] = useState([]);
 
@@ -165,23 +166,45 @@ export default function HomeMyWave({ artistsList = false }) {
       )}
       {myTracks.length > 0 && (
         <HomeElement label="My songs" to={PUBLIC.MY_SONGS}>
-          {myTracks.map((song, i) => (
-            <>
-              {/* TODO Track component here */}
-              <p key={song}>{`${i + 1} | Song name `}</p>
-              <br />
-            </>
+          {myTracks.map((track, i) => (
+            <TrackCard
+              key={track._id}
+              trackNumber={i + 1}
+              trackImg={track.album.thumbnail}
+              trackName={track.name}
+              artist={track.artist}
+              albumName={track.album.title}
+              albumId={track.album._id}
+              time={track.duration}
+              userId={track.userId}
+              // playcounter
+              trackUrl={track.url}
+              genreId={track.genreId}
+              isLiked={track.isLiked}
+              trackId={track._id}
+            />
           ))}
         </HomeElement>
       )}
       {userLikedTracks.length > 0 && (
         <HomeElement label="Liked songs" to={PUBLIC.MY_SONGS}>
           {userLikedTracks.map((track, i) => (
-            <>
-              {/* TODO Track component here */}
-              <p key={track._id}>{`${i + 1} | Song name `}</p>
-              <br />
-            </>
+            <TrackCard
+              key={track._id}
+              trackNumber={i + 1}
+              trackImg={track.album.thumbnail}
+              trackName={track.name}
+              artist={track.artist}
+              albumName={track.album.title}
+              albumId={track.album._id}
+              time={track.duration}
+              userId={track.userId}
+              // playcounter
+              trackUrl={track.url}
+              genreId={track.genreId}
+              isLiked={track.isLiked}
+              trackId={track._id}
+            />
           ))}
         </HomeElement>
       )}

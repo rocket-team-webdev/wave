@@ -148,20 +148,15 @@ async function getMyTracks(req, res, next) {
         duration: 1,
         url: 1,
       },
-    )
-      .skip(parseInt(page) * parseInt(limit))
-      .limit(parseInt(limit));
-
-    // TODO need to populate album?
-    // .populate({
-    //   path: "album",
-    //   options: {
-    //     select: "title thumbnail",
-    //     limit: parseInt(limit),
-    //     // sort: { created: -1},
-    //     skip: parseInt(page) * parseInt(limit),
-    //   },
-    // });
+    ).populate({
+      path: "album",
+      options: {
+        select: "title thumbnail",
+        limit: parseInt(limit),
+        // sort: { created: -1},
+        skip: parseInt(page) * parseInt(limit),
+      },
+    });
 
     res.status(200).send({
       data: tracks,
@@ -196,20 +191,15 @@ async function getMyLikedTracks(req, res, next) {
         duration: 1,
         url: 1,
       },
-    )
-      .skip(parseInt(page) * parseInt(limit))
-      .limit(parseInt(limit));
-
-    // TODO need to populate album?
-    // .populate({
-    //   path: "album",
-    //   options: {
-    //     select: "title thumbnail",
-    //     limit: parseInt(limit),
-    //     // sort: { created: -1},
-    //     skip: parseInt(page) * parseInt(limit),
-    //   },
-    // });
+    ).populate({
+      path: "album",
+      options: {
+        select: "title thumbnail",
+        limit: parseInt(limit),
+        // sort: { created: -1},
+        skip: parseInt(page) * parseInt(limit),
+      },
+    });
 
     res.status(200).send({
       data: tracks,

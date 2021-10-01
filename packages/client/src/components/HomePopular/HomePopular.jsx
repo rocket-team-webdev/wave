@@ -11,14 +11,15 @@ import { getAllPlaylists } from "../../api/playlists-api";
 
 export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
-  const [genresList, setGenresList] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
+  const [popularGenres, setPopularGenres] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [popularplaylists, setPopularPlaylists] = useState([]);
 
   // Popular genres
   const loadGenres = async () => {
     try {
       const { data } = await getGenres();
-      setGenresList(data.genres);
+      setPopularGenres(data.genres);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
@@ -29,7 +30,8 @@ export default function HomePopular({ artistsList = [] }) {
     try {
       setLoadStatus(true);
       const { data } = await getAllPlaylists();
-      await setPlaylists(data.playlists);
+      console.log("Playlists => ", data);
+      // setPopularPlaylists(data.playlists);
       setLoadStatus(false);
     } catch (err) {
       toast(err.message, { type: "error" });
@@ -43,16 +45,16 @@ export default function HomePopular({ artistsList = [] }) {
 
   return (
     <div className="row gx-4 gy-5">
-      {genresList && (
+      {popularGenres.length > 0 && (
         <HomeElement label="Genres">
-          {genresList.map((genre) => (
+          {popularGenres.map((genre) => (
             <div key={genre.name} className="mb-2 me-2">
               <Button isSmall>{genre.name.toUpperCase()}</Button>
             </div>
           ))}
         </HomeElement>
       )}
-      {artistsList && (
+      {artistsList.length > 0 && (
         <HomeElement label="Popular artists">
           {artistsList.map((artistName) => (
             <ArtistCard
@@ -64,9 +66,9 @@ export default function HomePopular({ artistsList = [] }) {
         </HomeElement>
       )}
       {!loadStatus ? (
-        playlists && (
+        popularplaylists.length > 0 && (
           <HomeElement label="Popular playlists">
-            {playlists.map((playlist) => (
+            {popularplaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
                 // classNames=""
