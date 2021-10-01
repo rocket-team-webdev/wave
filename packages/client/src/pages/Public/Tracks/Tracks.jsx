@@ -23,6 +23,8 @@ export default function Tracks() {
     }
   };
 
+  // console.log("Se ha hecho like", uploadedSongs);
+
   const fetchLikedSongs = async () => {
     try {
       const { data } = await getLikedTracks();
@@ -32,10 +34,34 @@ export default function Tracks() {
     }
   };
 
+  const handleAddLikedColumn = (song, liked) => {
+    try {
+      if (liked) {
+        const updatedUploadedSongs = uploadedSongs.map((bySong) => {
+          if (bySong._id === song._id) return { ...bySong, isLiked: liked };
+          return bySong;
+        });
+        setLikedSongs((prevSongs) => [...prevSongs, song]);
+        setUploadedSongs(updatedUploadedSongs);
+      } else {
+        const updatedLikedSongs = likedSongs.filter((v) => v._id !== song._id);
+        const updatedUploadedSongs = uploadedSongs.map((bySong) => {
+          if (bySong._id === song._id) return { ...bySong, isLiked: liked };
+          return bySong;
+        });
+        setLikedSongs(updatedLikedSongs);
+        setUploadedSongs(updatedUploadedSongs);
+      }
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
+
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
   }, []);
+
   return (
     <Layout isNegative>
       <div className="row mb-5">
@@ -67,6 +93,7 @@ export default function Tracks() {
                 isLiked={song.isLiked}
                 songId={song._id}
                 userId={song.userId}
+                updateLikedView={handleAddLikedColumn}
               />
             ))}
         </div>
@@ -88,6 +115,7 @@ export default function Tracks() {
                 isLiked={song.isLiked}
                 songId={song._id}
                 userId={song.userId}
+                updateLikedView={handleAddLikedColumn}
               />
             ))}
         </div>
