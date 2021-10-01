@@ -1,36 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 import HomeElement from "../HomeElement";
 import Button from "../Button";
-import PlaylistCard from "../PlaylistCard";
 import ArtistCard from "../ArtistCard";
+import PlaylistCard from "../PlaylistCard";
+import TrackCard from "../TrackCard";
 
-import { getGenres } from "../../api/genre-api";
+import { PUBLIC } from "../../constants/routes";
+
+import { getAllGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
+import { getAllTracks } from "../../api/tracks-api";
 
 export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
-  const [genresList, setGenresList] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
+  const [popularGenres, setPopularGenres] = useState([]);
+  const [popularPlaylists, setPopularPlaylists] = useState([]);
+  const [popularTracks, setPopularTracks] = useState([]);
 
-  // Popular genres
+  // Genres
   const loadGenres = async () => {
     try {
-      const { data } = await getGenres();
-      setGenresList(data.genres);
+      const { data } = await getAllGenres();
+      setPopularGenres(data.genres);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
   };
 
-  // Popular playlists
+  // Playlists
   const loadPlaylists = async () => {
     try {
       setLoadStatus(true);
       const { data } = await getAllPlaylists();
-      await setPlaylists(data.playlists);
+      setPopularPlaylists(data.playlists);
       setLoadStatus(false);
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
+
+  // Tracks
+  const loadTracks = async () => {
+    try {
+      const { data } = await getAllTracks();
+      setPopularTracks(data.tracks);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
@@ -39,45 +56,86 @@ export default function HomePopular({ artistsList = [] }) {
   useEffect(() => {
     loadGenres();
     loadPlaylists();
+    loadTracks();
   }, []);
 
   return (
     <div className="row gx-4 gy-5">
-      {genresList && (
+      {popularGenres.length > 0 && (
         <HomeElement label="Genres">
-          {genresList.map((genre) => (
+          {popularGenres.map((genre) => (
             <div key={genre.name} className="mb-2 me-2">
               <Button isSmall>{genre.name.toUpperCase()}</Button>
             </div>
           ))}
         </HomeElement>
       )}
-      {artistsList && (
-        <HomeElement label="Popular artists">
+      {artistsList.length > 0 && (
+        <HomeElement label="Artists">
           {artistsList.map((artistName) => (
             <ArtistCard
-              // classNames=""
               key={artistName}
               artistName={artistName}
+              // classNames=""
             />
           ))}
         </HomeElement>
       )}
       {!loadStatus ? (
-        playlists && (
-          <HomeElement label="Popular playlists">
-            {playlists.map((playlist) => (
+        popularPlaylists.length > 0 && (
+          <HomeElement label="Playlists">
+            {popularPlaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
-                // classNames=""
+                playListId={playlist._id}
                 playlistName={playlist.name}
-                hasHeart
+                userId={playlist.userId}
+                // classNames=""
               />
             ))}
           </HomeElement>
         )
       ) : (
         <HomeElement label="Playlists">Loading...</HomeElement>
+      )}
+      {popularTracks.length > 0 && (
+        <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
+          <DragDropContext onDragEnd={() => {}}>
+            <Droppable droppableId="popularTracks">
+              {(provided) => (
+                <div
+                  className="col col-12 "
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {popularTracks &&
+                    popularTracks.map((song, index) => (
+                      <TrackCard
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        draggable={false}
+                        // updateLikedView={handleAddLikedColumn}
+                        // updateDeletedView={handleDeletedView}
+                      />
+                    ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </HomeElement>
       )}
     </div>
   );

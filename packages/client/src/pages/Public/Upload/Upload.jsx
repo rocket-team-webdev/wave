@@ -1,34 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import * as id3 from "id3js/lib/id3";
-import { useHistory } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
-import uploadSchema from "./track-schema";
+import uploadSchema from "./upload-in-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import Select from "../../../components/Select";
 import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
-import { getAllGenres } from "../../../api/genre-api";
+import { getGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
-import AddIcon from "../../../components/SVGicons/AddIcon";
-import { PUBLIC } from "../../../constants/routes";
-import { TRACK_UPLOAD_INFO } from "../../../constants/local-storage";
-import {
-  loadLocalStorageItems,
-  setLocalStorage,
-} from "../../../utils/localStorage";
 
-export default function TrackUpload() {
-  const [loading, setLoading] = useState(false);
+export default function Home() {
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
-  const history = useHistory();
 
   useEffect(async () => {
-    const { data } = await getAllGenres();
+    const { data } = await getGenres();
     const {
       data: { albums },
     } = await getUserAlbum();
@@ -45,73 +34,44 @@ export default function TrackUpload() {
     }
   }, []);
 
-  const lsInitialValue = loadLocalStorageItems(TRACK_UPLOAD_INFO, {});
-
   const formik = useFormik({
     initialValues: {
-      name: lsInitialValue.name || "",
-      artist: lsInitialValue.artist || "",
+      title: "",
+      artist: "",
       album: "",
-      genre: lsInitialValue.genre || "",
-      track: lsInitialValue.track || "",
+      genre: "",
+      thumbnail: "",
+      track: "",
     },
     validationSchema: uploadSchema,
-    onSubmit: async (uploadState) => {
+    onSubmit: async (signInState) => {
       try {
-        if (!uploadState.track)
+        if (!signInState.track)
           return toast("Choose a track!", { type: "error" });
 
         const formData = new FormData();
-        formData.append("name", uploadState.name);
-        formData.append("artist", uploadState.artist);
-        formData.append("album", uploadState.album);
-        formData.append("genre", uploadState.genre);
-        formData.append("track", uploadState.track);
+        formData.append("title", signInState.title);
+        formData.append("artist", signInState.artist);
+        formData.append("album", signInState.album);
+        formData.append("genre", signInState.genre);
+        // formData.append("thumbnail", signInState.thumbnail);
+        formData.append("track", signInState.track);
 
-        setLoading(true);
+        console.log("formData", formData);
         await uploadTrack(formData);
-        setLoading(false);
-
-        // reset form values
-        setLocalStorage({}, TRACK_UPLOAD_INFO);
-        formik.setValues(
-          {
-            name: "",
-            artist: "",
-            genre: "",
-            track: "",
-          },
-          false,
-        );
-
         return toast("Track uploaded!", { type: "success" });
       } catch (error) {
-        setLoading(false);
         return toast(error.message, { type: "error" });
       }
     },
   });
 
+  // const thumbnailOnChange = async (event) => {
+  //   formik.setFieldValue("thumbnail", event.target.files[0]);
+  // };
+
   const trackOnChange = async (files) => {
     formik.setFieldValue("track", files[0]);
-
-    // read metadata ID3
-    const tags = await id3.fromFile(files[0]);
-    formik.setFieldValue("name", tags?.title);
-    formik.setFieldValue("artist", tags?.artist);
-    formik.setFieldValue("album", tags?.album);
-    formik.setFieldValue("genre", tags?.genre);
-  };
-
-  const handleCreateAlbum = () => {
-    const formValues = {
-      name: formik.values.name,
-      artist: formik.values.artist,
-      genre: formik.values.genre,
-      track: formik.values.track,
-    };
-    setLocalStorage(formValues, TRACK_UPLOAD_INFO);
-    history.push(PUBLIC.ADD_ALBUM);
   };
 
   return (
@@ -127,17 +87,17 @@ export default function TrackUpload() {
             <h1 className="fnt-subtitle-bold mb-4">Song details</h1>
             <div className="row">
               <Input
-                label="name"
-                type="name"
-                id="name"
+                label="title"
+                type="title"
+                id="title"
                 classNames="col-12"
                 placeholder="example: "
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.name}
-                errorMessage={formik.errors.name}
-                hasErrorMessage={formik.touched.name}
+                value={formik.values.title}
+                errorMessage={formik.errors.title}
+                hasErrorMessage={formik.touched.title}
               />
               <Input
                 label="artist"
@@ -153,7 +113,7 @@ export default function TrackUpload() {
                 hasErrorMessage={formik.touched.artist}
               />
               <Select
-                classNames="col-12 col-lg-6"
+                classNames="col-12 col-md-6"
                 label="genre"
                 id="genre"
                 type="select"
@@ -163,30 +123,37 @@ export default function TrackUpload() {
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
+                // options={["", "rock", "jazz"]}
                 options={genresState}
               />
+              <Select
+                classNames="col-12 col-md-6"
+                label="album"
+                id="album"
+                type="select"
+                isNegative
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.album}
+                errorMessage={formik.errors.album}
+                hasErrorMessage={formik.touched.album}
+                options={albumsState}
+                // options={["", "Album 1", "Album 2"]}
+              />
 
-              <div className="col-12 col-lg-6 d-flex flex-row">
-                <Select
-                  classNames="me-1 w-100"
-                  label="album"
-                  id="album"
-                  type="select"
-                  isNegative
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.album}
-                  errorMessage={formik.errors.album}
-                  hasErrorMessage={formik.touched.album}
-                  options={albumsState}
-                />
-
-                <div className="ms-0 ps-0 pt-6">
-                  <Button isNegative onClick={handleCreateAlbum}>
-                    <AddIcon color="" size={25} />
-                  </Button>
-                </div>
-              </div>
+              {/* <Input
+                classNames="col-12 col-md-6"
+                label="thumbnail"
+                id="thumbnail"
+                type="file"
+                placeholder="Upload file"
+                isNegative
+                // handleChange={thumbnailOnChange}
+                // handleBlur={thumbnailOnChange}
+                // value={formik.values.thumbnail}
+                errorMessage={formik.errors.thumbnail}
+                hasErrorMessage={formik.touched.thumbnail}
+              /> */}
             </div>
 
             <div className="d-flex justify-content-end my-5">
@@ -194,8 +161,6 @@ export default function TrackUpload() {
                 Upload
               </Button>
             </div>
-
-            {loading && <h3>Loading...</h3>}
           </form>
         </div>
       </div>

@@ -38,4 +38,6 @@ export const API = {
   ME: "/me",
   TRACKS: "/tracks",
   LIKED: "/liked",
+  FOLLOWERS: "/followers",
+  FOLLOWING: "/following",
 };

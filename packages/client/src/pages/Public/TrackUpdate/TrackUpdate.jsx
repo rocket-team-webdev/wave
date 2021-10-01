@@ -10,7 +10,7 @@ import Button from "../../../components/Button";
 import AddIcon from "../../../components/SVGicons/AddIcon";
 
 import trackUpdateSchema from "./track-update-schema";
-import { getGenres } from "../../../api/genre-api";
+import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
 import { PUBLIC } from "../../../constants/routes";
 import { getTrackById, updateTrackById } from "../../../api/tracks-api";
@@ -65,7 +65,7 @@ function TrackUpdate() {
   async function fetchGenres() {
     setIsLoading(true);
     try {
-      const { data } = await getGenres();
+      const { data } = await getAllGenres();
       const genresArr = data.genres.map((genre) => genre.name);
       genresArr.unshift("Select genre");
       setGenres(genresArr);

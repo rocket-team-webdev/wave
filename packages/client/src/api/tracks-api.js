@@ -9,6 +9,15 @@ export function makeTrackApi() {
   });
 }
 
+export async function getAllTracks(page = 0, limit = 5, api = makeTrackApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`?page=${page}&limit=${limit}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export async function getTrackById(trackId, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
   return api.get(`/${trackId}`, {

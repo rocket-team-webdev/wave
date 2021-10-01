@@ -6,6 +6,29 @@ const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 const { getPublicId } = require("../utils/cloudinaryUtils");
 
+async function getTracks(req, res, next) {
+  try {
+    const { page = 0, limit = 5 } = req.query;
+    const foundTracks = await db.Track.find({})
+      .populate({
+        path: "album",
+        options: {
+          select: "title thumbnail",
+          // sort: { created: -1},
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).send({ tracks: foundTracks });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
 async function getTrack(req, res, next) {
   try {
     const { id } = req.params;
@@ -178,6 +201,7 @@ async function likeTrack(req, res, next) {
 }
 
 module.exports = {
+  getTracks,
   uploadTrack,
   deleteTrack,
   getTrack,

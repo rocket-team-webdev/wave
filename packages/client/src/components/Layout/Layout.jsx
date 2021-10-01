@@ -11,7 +11,7 @@ function Layout({ children, isNegative = false }) {
       <Header />
       <main
         className={
-          isNegative ? "clr-primary flex-grow-1 p-5" : " flex-grow-1 p-5"
+          isNegative ? "clr-primary flex-grow-1 px-5 pt-5" : " flex-grow-1 p-5"
         }
       >
         {children}
