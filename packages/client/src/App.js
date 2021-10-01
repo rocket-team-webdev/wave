@@ -106,7 +106,6 @@ function App() {
           <MusicPlayer />
         </BrowserRouter>
       )}
-
       <ToastContainer draggable theme="colored" />
     </>
   );

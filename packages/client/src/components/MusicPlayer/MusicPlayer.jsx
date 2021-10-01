@@ -18,7 +18,11 @@ import { PUBLIC } from "../../constants/routes";
 import "react-h5-audio-player/lib/styles.css";
 import "./MusicPlayer.scss";
 
-import { clearShuffle, setShuffle } from "../../redux/music-queue/actions";
+import {
+  clearShuffle,
+  setShuffle,
+  like,
+} from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 
 export default function MusicPlayer() {
@@ -29,7 +33,6 @@ export default function MusicPlayer() {
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
   const [isShuffle, setIsShuffle] = useState(false);
-  const [liked, setLiked] = useState(songObject.isLiked);
   const [repeatState, setRepeatState] = useState("false");
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
@@ -91,9 +94,8 @@ export default function MusicPlayer() {
   };
 
   const handleLike = async () => {
-    const userLike = !liked;
-    setLiked(userLike);
-
+    if (isShuffle) dispatch(like(queueState.shuffleOrder[listPosition]));
+    else dispatch(like(listPosition));
     try {
       await likeTrack(songObject.songId);
       // updateLikedView(
@@ -106,8 +108,8 @@ export default function MusicPlayer() {
       //   userLike,
       // );
     } catch (error) {
+      dispatch(like(listPosition));
       toast(error.message, { type: "error" });
-      setLiked(!liked);
     }
   };
 
@@ -117,8 +119,16 @@ export default function MusicPlayer() {
 
   useEffect(() => {
     if (queueState.queue.length > 1) {
-      setPrevButtonDisabled(true);
-      setNextButtonDisabled(false);
+      if (listPosition === 0) {
+        setPrevButtonDisabled(true);
+        setNextButtonDisabled(false);
+      } else if (listPosition === queueState.queue.length - 1) {
+        setPrevButtonDisabled(false);
+        setNextButtonDisabled(true);
+      } else {
+        setPrevButtonDisabled(false);
+        setNextButtonDisabled(false);
+      }
     } else {
       setPrevButtonDisabled(true);
       setNextButtonDisabled(true);
@@ -144,7 +154,7 @@ export default function MusicPlayer() {
               className="rhap_like-button"
               onClick={handleLike}
             >
-              {liked ? (
+              {songObject.isLiked ? (
                 <FaHeart className="rhap_like-icon" />
               ) : (
                 <FaRegHeart className="rhap_like-icon" />
@@ -195,7 +205,7 @@ export default function MusicPlayer() {
           </div>
           <AudioPlayer
             autoPlay
-            volume={0.2}
+            volume={0}
             showSkipControls
             showJumpControls={false}
             src={songObject.url}
@@ -248,7 +258,6 @@ export default function MusicPlayer() {
                   <ImShuffle />
                 </button>
               </div>,
-              // RHAP_UI.VOLUME_CONTROLS,
             ]}
             customProgressBarSection={[
               RHAP_UI.CURRENT_TIME,

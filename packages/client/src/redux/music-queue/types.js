@@ -4,3 +4,4 @@ export const ADD = "ADD";
 export const CLEAR = "CLEAR";
 export const SET_SHUFFLE = "SET_SHUFFLE";
 export const CLEAR_SHUFFLE = "CLEAR_SHUFFLE";
+export const LIKE = "LIKE";
