@@ -105,7 +105,10 @@ export default function TrackCard({
   }, []);
 
   return (
-    <div className="row card-hover fx-rounded" onDoubleClick={handlePlay}>
+    <div
+      className="row m-0 col col-12 card-hover fx-rounded"
+      onDoubleClick={handlePlay}
+    >
       <div className="col col-12 d-flex justify-content-between align-items-center py-2">
         <h3 className="m-0 px-2 fnt-song-bold text-start">{trackNumber}</h3>
         <div className="play-hover" onClick={handlePlay} aria-hidden="true">

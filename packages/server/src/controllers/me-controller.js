@@ -33,15 +33,16 @@ async function getMyFollowings(req, res, next) {
       {
         following: 1,
       },
-    ).populate({
-      path: "following",
-      options: {
-        select: "firstName",
-        limit: parseInt(limit),
-        // sort: { created: -1},
-        skip: parseInt(page) * parseInt(limit),
-      },
-    });
+    )
+      .populate({
+        path: "following",
+        options: {
+          select: "firstName",
+          // sort: { created: -1},
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     const followingUsersArray = followingUsers[0].following;
 
@@ -130,7 +131,7 @@ async function getMyTracks(req, res, next) {
   try {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-    const { page = 0, limit = 4 } = req.query;
+    const { page = 0, limit = 5 } = req.query;
 
     const tracks = await db.Track.find(
       { userId },
@@ -148,15 +149,16 @@ async function getMyTracks(req, res, next) {
         duration: 1,
         url: 1,
       },
-    ).populate({
-      path: "album",
-      options: {
-        select: "title thumbnail",
-        limit: parseInt(limit),
-        // sort: { created: -1},
-        skip: parseInt(page) * parseInt(limit),
-      },
-    });
+    )
+      .populate({
+        path: "album",
+        options: {
+          select: "title thumbnail",
+          // sort: { created: -1},
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     res.status(200).send({
       data: tracks,
@@ -191,15 +193,16 @@ async function getMyLikedTracks(req, res, next) {
         duration: 1,
         url: 1,
       },
-    ).populate({
-      path: "album",
-      options: {
-        select: "title thumbnail",
-        limit: parseInt(limit),
-        // sort: { created: -1},
-        skip: parseInt(page) * parseInt(limit),
-      },
-    });
+    )
+      .populate({
+        path: "album",
+        options: {
+          select: "title thumbnail",
+          // sort: { created: -1},
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     res.status(200).send({
       data: tracks,

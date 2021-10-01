@@ -11,7 +11,7 @@ export default function HomeElement({
 }) {
   let contentClasses = "content d-flex flex-wrap";
   // Apply gutters to playlists/albums cards
-  if (label.includes("playlists") || label.includes("albums")) {
+  if (label.includes("laylists") || label.includes("lbums")) {
     contentClasses += " row g-3";
   }
 

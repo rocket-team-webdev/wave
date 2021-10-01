@@ -169,7 +169,7 @@ export default function HomeMyWave({ artistsList = false }) {
         </HomeElement>
       )}
       {myTracks.length > 0 && (
-        <HomeElement label="My songs" to={PUBLIC.MY_SONGS}>
+        <HomeElement label="My tracks" to={PUBLIC.MY_SONGS}>
           {myTracks.map((track, i) => (
             <TrackCard
               key={track._id}

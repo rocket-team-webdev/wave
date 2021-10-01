@@ -3,35 +3,49 @@ import { toast } from "react-toastify";
 
 import HomeElement from "../HomeElement";
 import Button from "../Button";
-import PlaylistCard from "../PlaylistCard";
 import ArtistCard from "../ArtistCard";
+import PlaylistCard from "../PlaylistCard";
+import TrackCard from "../TrackCard";
 
-import { getGenres } from "../../api/genre-api";
+import { PUBLIC } from "../../constants/routes";
+
+import { getAllGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
+import { getAllTracks } from "../../api/tracks-api";
 
 export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
   const [popularGenres, setPopularGenres] = useState([]);
-  const [popularplaylists, setPopularPlaylists] = useState([]);
+  const [popularPlaylists, setPopularPlaylists] = useState([]);
+  const [popularTracks, setPopularTracks] = useState([]);
 
-  // Popular genres
+  // Genres
   const loadGenres = async () => {
     try {
-      const { data } = await getGenres();
+      const { data } = await getAllGenres();
       setPopularGenres(data.genres);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
   };
 
-  // Popular playlists
+  // Playlists
   const loadPlaylists = async () => {
     try {
       setLoadStatus(true);
       const { data } = await getAllPlaylists();
-      console.log("Playlist => ", data.playlists);
       setPopularPlaylists(data.playlists);
       setLoadStatus(false);
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
+
+  // Tracks
+  const loadTracks = async () => {
+    try {
+      const { data } = await getAllTracks();
+      setPopularTracks(data.tracks);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
@@ -40,6 +54,7 @@ export default function HomePopular({ artistsList = [] }) {
   useEffect(() => {
     loadGenres();
     loadPlaylists();
+    loadTracks();
   }, []);
 
   return (
@@ -54,7 +69,7 @@ export default function HomePopular({ artistsList = [] }) {
         </HomeElement>
       )}
       {artistsList.length > 0 && (
-        <HomeElement label="Popular artists">
+        <HomeElement label="Artists">
           {artistsList.map((artistName) => (
             <ArtistCard
               key={artistName}
@@ -65,9 +80,9 @@ export default function HomePopular({ artistsList = [] }) {
         </HomeElement>
       )}
       {!loadStatus ? (
-        popularplaylists.length > 0 && (
-          <HomeElement label="Popular playlists">
-            {popularplaylists.map((playlist) => (
+        popularPlaylists.length > 0 && (
+          <HomeElement label="Playlists">
+            {popularPlaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
                 playListId={playlist._id}
@@ -80,6 +95,28 @@ export default function HomePopular({ artistsList = [] }) {
         )
       ) : (
         <HomeElement label="Playlists">Loading...</HomeElement>
+      )}
+      {popularTracks.length > 0 && (
+        <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
+          {popularTracks.map((track, i) => (
+            <TrackCard
+              key={track._id}
+              trackNumber={i + 1}
+              trackImg={track.album.thumbnail}
+              trackName={track.name}
+              artist={track.artist}
+              albumName={track.album.title}
+              albumId={track.album._id}
+              time={track.duration}
+              userId={track.userId}
+              // playcounter
+              trackUrl={track.url}
+              genreId={track.genreId}
+              isLiked={track.isLiked}
+              trackId={track._id}
+            />
+          ))}
+        </HomeElement>
       )}
     </div>
   );

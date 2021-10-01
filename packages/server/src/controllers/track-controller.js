@@ -8,8 +8,15 @@ const { getPublicId } = require("../utils/cloudinaryUtils");
 
 async function getTracks(req, res, next) {
   try {
-    const { page = 0, limit = 4 } = req.query;
+    const { page = 0, limit = 5 } = req.query;
     const foundTracks = await db.Track.find({})
+      .populate({
+        path: "album",
+        options: {
+          select: "title thumbnail",
+          // sort: { created: -1},
+        },
+      })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 

@@ -7,11 +7,10 @@ export default function PlaylistCard({
   userId,
   classNames,
 }) {
-  const userState = useSelector((state) => state.user);
-
-  console.log("User mongo ID => ", userState.mongoId);
   const [isLiked, setIsLiked] = useState(false);
   const [isOwned, setIsOwned] = useState(false);
+
+  const userState = useSelector((state) => state.user);
 
   const handleIsOwned = () => {
     if (userId === userState.mongoId) {

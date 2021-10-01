@@ -71,7 +71,7 @@ export default function Home() {
           </form>
           {loading && <h3>Loading...</h3>}
         </div>
-        <div className="col col-12 col-md-5 fx-rounded container-fluid mx-0">
+        <div className="col col-12 col-md-5 container-fluid mx-0">
           {/* Popular/MyWave */}
           <div className="d-flex justify-content-between align-items-center mb-5">
             <p className="fnt-label-bold fnt-light">App view</p>
