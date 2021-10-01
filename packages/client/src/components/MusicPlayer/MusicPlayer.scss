@@ -17,7 +17,7 @@
 }
 
 .rhap_controls-section {
-  margin-right: 32px !important;
+  // margin-right: 32px !important;
 }
 
 .rhap_main-controls-button,
@@ -132,8 +132,8 @@
   align-items: center;
   justify-content: space-between;
   padding-left: 3rem;
-  padding-right: 1.5rem;
-  width: 45%;
+  // padding-right: 1.5rem;
+  width: 50%;
 }
 .rhap_thumb-album-img {
   height: 35px;
@@ -161,10 +161,11 @@
     display: block;
   }
   .rhap_song-info {
-    justify-content: center;
+    justify-content: space-around;
     // padding: 0rem 3rem;
     // padding-left: 0px;
     // padding-right: 0px;
+    padding-left: 0px;
     margin-top: 12px;
     width: 100%;
   }

@@ -158,6 +158,40 @@ export default function MusicPlayer() {
                 {songObject.artist}
               </p>
             </div>
+            <div className="dropdown">
+              <button
+                className="m-0 text-end"
+                type="button"
+                id="contextSongMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i className="fas fa-ellipsis-h" />
+              </button>
+              <ul
+                className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+                aria-labelledby="contextSongMenu"
+              >
+                <>
+                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                    <p
+                      className="dropdown-item fnt-light fnt-song-regular m-0"
+                      type="button"
+                    >
+                      Queue/Playlist
+                    </p>
+                  </Link>
+                  <hr className="dropdown-wrapper m-0" />
+                  <button
+                    className="dropdown-item fnt-light fnt-song-regular"
+                    type="button"
+                    onClick={() => {}}
+                  >
+                    Cast to device
+                  </button>
+                </>
+              </ul>
+            </div>
           </div>
           <AudioPlayer
             autoPlay

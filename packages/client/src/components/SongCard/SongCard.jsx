@@ -41,6 +41,7 @@ export default function SongCard({
     songId: songId,
     songImg: songImg,
     albumId: albumId,
+    isOwned: isOwned,
   };
 
   const handleIsOwned = () => {
