@@ -26,7 +26,6 @@ export default function Tracks() {
   const fetchLikedSongs = async () => {
     try {
       const { data } = await getLikedTracks();
-      console.log("data----", data);
       setLikedSongs(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -56,18 +55,37 @@ export default function Tracks() {
     }
   };
 
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  const onDragEndUploaded = (res) => {
+    const { destination, source } = res;
+
+    if (!destination) return;
+
+    const items = reorder(uploadedSongs, source.index, destination.index);
+    setUploadedSongs(items);
+  };
+
+  const onDragEndLiked = (res) => {
+    const { destination, source } = res;
+
+    if (!destination) return;
+
+    const items = reorder(likedSongs, source.index, destination.index);
+    setLikedSongs(items);
+  };
+
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
   }, []);
-
-  const onDragEndUploaded = () => {
-    console.log("onDragEnd upload");
-  };
-
-  const onDragEndLiked = () => {
-    console.log("onDragEnd like");
-  };
 
   return (
     <Layout isNegative>
@@ -87,7 +105,6 @@ export default function Tracks() {
             {(provided) => (
               <div
                 className="col col-6 "
-                // innerRef={provided.innerRef}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -109,6 +126,7 @@ export default function Tracks() {
                       songId={song._id}
                       userId={song.userId}
                       index={index}
+                      draggable
                       updateLikedView={handleAddLikedColumn}
                     />
                   ))}
@@ -118,35 +136,11 @@ export default function Tracks() {
           </Droppable>
         </DragDropContext>
 
-        {/* <div className="col col-6 ">
-          <div className="fnt-page-title">Liked</div>
-          {likedSongs &&
-            likedSongs.map((song, index) => (
-              <SongCard
-                key={song._id}
-                songNumber={index + 1}
-                songName={song.name}
-                songImg={song.album.thumbnail}
-                artist={song.artist}
-                albumName={song.album.title}
-                time={song.duration}
-                albumId={song.album._id}
-                songUrl={song.url}
-                genreId={song.genreId}
-                isLiked={song.isLiked}
-                songId={song._id}
-                userId={song.userId}
-                updateLikedView={handleAddLikedColumn}
-              />
-            ))}
-        </div> */}
-
         <DragDropContext onDragEnd={onDragEndLiked}>
           <Droppable droppableId="liked">
             {(provided) => (
               <div
                 className="col col-6 "
-                // innerRef={provided.innerRef}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -168,6 +162,7 @@ export default function Tracks() {
                       songId={song._id}
                       userId={song.userId}
                       index={index}
+                      draggable
                       updateLikedView={handleAddLikedColumn}
                     />
                   ))}

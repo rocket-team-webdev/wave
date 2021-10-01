@@ -24,6 +24,7 @@ export default function SongCard({
   isLiked,
   songId,
   index,
+  draggable = true,
   updateLikedView = () => {},
 }) {
   const [liked, setLiked] = useState(isLiked);
@@ -97,6 +98,15 @@ export default function SongCard({
     return result;
   };
 
+  const getItemStyle = (isDragging, draggableStyle) => ({
+    background: isDragging && "rgba(250, 250, 250, 0.2)",
+    backdropFilter: isDragging && "blur(10px)",
+    boxShadow: isDragging && "0 .5rem 1rem rgba(0,0,0,.15)",
+
+    // styles needed to apply on draggables
+    ...draggableStyle,
+  });
+
   useEffect(() => {
     setLiked(isLiked);
   }, [isLiked]);
@@ -106,15 +116,18 @@ export default function SongCard({
   }, []);
 
   return (
-    <Draggable draggableId={songId} index={index}>
-      {(provided) => (
+    <Draggable draggableId={songId} index={index} isDragDisabled={!draggable}>
+      {(provided, snapshot) => (
         <div
-          className="row card-hover fx-rounded"
+          className="row card-hover fx-rounded clr-primary"
           onDoubleClick={handlePlay}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          // innerRef={provided.innerRef}
           ref={provided.innerRef}
+          style={getItemStyle(
+            snapshot.isDragging,
+            provided.draggableProps.style,
+          )}
         >
           <div className="col col-12 d-flex justify-content-between align-items-center py-2">
             <h3 className="m-0 px-2 fnt-song-bold text-start">{songNumber}</h3>
