@@ -55,6 +55,14 @@ export default function Tracks() {
     }
   };
 
+  const handleDeletedView = (trackId) => {
+    console.log("trackId", trackId);
+    const updatedLikedSongs = likedSongs.filter((v) => v._id !== trackId);
+    const updatedUploadedSongs = uploadedSongs.filter((v) => v._id !== trackId);
+    setLikedSongs(updatedLikedSongs);
+    setUploadedSongs(updatedUploadedSongs);
+  };
+
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -128,6 +136,7 @@ export default function Tracks() {
                       index={index}
                       draggable
                       updateLikedView={handleAddLikedColumn}
+                      updateDeletedView={handleDeletedView}
                     />
                   ))}
                 {provided.placeholder}
@@ -164,6 +173,7 @@ export default function Tracks() {
                       index={index}
                       draggable
                       updateLikedView={handleAddLikedColumn}
+                      updateDeletedView={handleDeletedView}
                     />
                   ))}
                 {provided.placeholder}

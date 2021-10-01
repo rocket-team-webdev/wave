@@ -26,6 +26,7 @@ export default function TrackCard({
   draggable = true,
   trackId,
   updateLikedView = () => {},
+  updateDeletedView = () => {},
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
@@ -80,6 +81,7 @@ export default function TrackCard({
 
   const handleDeleteSong = async () => {
     await deleteTrack(trackId);
+    updateDeletedView(trackId);
   };
 
   const timeIntoString = (seconds) => {
