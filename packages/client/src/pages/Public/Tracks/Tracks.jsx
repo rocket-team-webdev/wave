@@ -7,7 +7,7 @@ import { PUBLIC } from "../../../constants/routes";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
-import SongCard from "../../../components/SongCard/SongCard";
+import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 
 export default function Tracks() {
@@ -79,19 +79,19 @@ export default function Tracks() {
           <div className="fnt-page-title">Uploaded</div>
           {uploadedSongs &&
             uploadedSongs.map((song, index) => (
-              <SongCard
+              <TrackCard
                 key={song._id}
-                songNumber={index + 1}
-                songName={song.name}
-                songImg={song.album.thumbnail}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
+                trackUrl={song.url}
                 albumId={song.album._id}
-                songUrl={song.url}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
-                songId={song._id}
+                trackId={song._id}
                 userId={song.userId}
                 updateLikedView={handleAddLikedColumn}
               />
@@ -101,19 +101,19 @@ export default function Tracks() {
           <div className="fnt-page-title">Liked</div>
           {likedSongs &&
             likedSongs.map((song, index) => (
-              <SongCard
+              <TrackCard
                 key={song._id}
-                songNumber={index + 1}
-                songName={song.name}
-                songImg={song.album.thumbnail}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
                 artist={song.artist}
                 albumName={song.album.title}
                 time={song.duration}
+                trackUrl={song.url}
                 albumId={song.album._id}
-                songUrl={song.url}
                 genreId={song.genreId}
                 isLiked={song.isLiked}
-                songId={song._id}
+                trackId={song._id}
                 userId={song.userId}
                 updateLikedView={handleAddLikedColumn}
               />
