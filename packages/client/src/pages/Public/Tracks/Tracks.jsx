@@ -99,7 +99,7 @@ export default function Tracks() {
     <Layout isNegative>
       <div className="row mb-5">
         <div className="col col-9">
-          <JumboText priText="My Songs" isNegative />
+          <JumboText priText="My Songs" cols="12" isNegative />
         </div>
         <div className="col col-3">
           <Link className="float-end p-3" to={PUBLIC.TRACK_UPLOAD}>
