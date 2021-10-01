@@ -13,7 +13,7 @@ import trackUpdateSchema from "./track-update-schema";
 import { getGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
 import { PUBLIC } from "../../../constants/routes";
-import { getTrackById } from "../../../api/tracks-api";
+import { getTrackById, updateTrackById } from "../../../api/tracks-api";
 import BigThumbnail from "../../../components/BigThumbnail/BigThumbnail";
 
 function TrackUpdate() {
@@ -33,9 +33,14 @@ function TrackUpdate() {
       genre: "",
     },
     validationSchema: trackUpdateSchema,
-    onSubmit: async (signInState) => {
-      // TODO Update the track info
-      console.log(signInState);
+    onSubmit: async (track) => {
+      const data = {
+        title: track.title,
+        artist: track.artist,
+        album: track.album,
+        genre: track.genre,
+      };
+      await updateTrackById(trackId, data);
     },
   });
 

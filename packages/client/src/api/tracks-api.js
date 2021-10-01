@@ -18,6 +18,19 @@ export async function getTrackById(trackId, api = makeTrackApi()) {
   });
 }
 
+export async function updateTrackById(trackId, data, api = makeTrackApi()) {
+  const token = await getCurrentUserToken();
+  return api.post(
+    `/${trackId}`,
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
+
 export async function uploadTrack(file = {}, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
   return api.post(``, file, {

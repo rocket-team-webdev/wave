@@ -24,6 +24,37 @@ async function getTrack(req, res, next) {
   }
 }
 
+async function updateTrack(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { title, artist, genre, album } = req.body;
+    const foundGenre = await db.Genre.find({ name: `${genre}` });
+    const foundAlbum = await db.Album.find({ title: `${album}` });
+    const updatedTrack = await db.Track.findByIdAndUpdate(
+      { _id: id },
+      {
+        name: title,
+        artist: artist,
+        genreId: foundGenre[0]._id,
+        album: foundAlbum[0]._id,
+      },
+      {
+        new: true,
+      },
+    );
+    res.status(200).send({
+      id: id,
+      data: updatedTrack,
+      message: "Success",
+    });
+  } catch (error) {
+    res.status(404).send({
+      error: error.message,
+    });
+    next(error);
+  }
+}
+
 async function uploadTrack(req, res, next) {
   try {
     const trackObj = {};
@@ -114,4 +145,5 @@ module.exports = {
   uploadTrack,
   deleteTrack,
   getTrack,
+  updateTrack,
 };
