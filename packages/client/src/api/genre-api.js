@@ -9,7 +9,7 @@ export function makeGenreApi() {
   });
 }
 
-export async function getGenres(page = 0, limit = 10, api = makeGenreApi()) {
+export async function getAllGenres(page = 0, limit = 10, api = makeGenreApi()) {
   const token = await getCurrentUserToken();
   return api.get(`?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
