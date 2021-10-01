@@ -1,7 +1,12 @@
-import { SET, ADD, CLEAR, SET_SHUFFLE, CLEAR_SHUFFLE } from "./types";
+import { SET, ADD, CLEAR, SET_SHUFFLE, CLEAR_SHUFFLE, SET_ALL } from "./types";
 
 export const setQueue = (value) => ({
   type: SET,
+  payload: value,
+});
+
+export const setQueueAll = (value) => ({
+  type: SET_ALL,
   payload: value,
 });
 

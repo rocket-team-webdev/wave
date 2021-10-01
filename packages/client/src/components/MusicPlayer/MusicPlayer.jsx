@@ -19,7 +19,7 @@ import "react-h5-audio-player/lib/styles.css";
 import "./MusicPlayer.scss";
 
 import { clearShuffle, setShuffle } from "../../redux/music-queue/actions";
-import { likeTrack } from "../../api/track-api";
+import { likeTrack } from "../../api/tracks-api";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
