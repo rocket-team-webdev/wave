@@ -41,6 +41,7 @@ export default function SongCard({
     isLiked: isLiked,
     songId: songId,
     songImg: songImg,
+    albumId: albumId,
   };
 
   const handleIsOwned = () => {

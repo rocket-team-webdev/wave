@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 import { toast } from "react-toastify";
 import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
 import {
@@ -11,6 +13,7 @@ import {
 } from "react-icons/md";
 import { IoMdRepeat } from "react-icons/io";
 import { ImShuffle } from "react-icons/im";
+import { PUBLIC } from "../../constants/routes";
 
 import "react-h5-audio-player/lib/styles.css";
 import "./MusicPlayer.scss";
@@ -117,11 +120,13 @@ export default function MusicPlayer() {
         <div className="rhap_main-container clr-white">
           <div className="rhap_song-info">
             <div className="rhap_album-thumb">
-              <img
-                src={songObject.songImg}
-                alt="album-cover"
-                className="rhap_thumb-album-img"
-              />
+              <Link to={`${PUBLIC.ALBUMS}/${songObject.albumId}`}>
+                <img
+                  src={songObject.songImg}
+                  alt="album-cover"
+                  className="rhap_thumb-album-img"
+                />
+              </Link>
             </div>
             <button
               type="button"

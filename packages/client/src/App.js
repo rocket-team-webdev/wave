@@ -103,9 +103,9 @@ function App() {
               <Home />
             </PrivateRoute>
           </Switch>
+          <MusicPlayer />
         </BrowserRouter>
       )}
-      <MusicPlayer />
 
       <ToastContainer draggable theme="colored" />
     </>
