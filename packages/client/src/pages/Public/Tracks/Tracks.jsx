@@ -6,7 +6,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
-import SongCard from "../../../components/SongCard/SongCard";
+import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
 
@@ -111,19 +111,19 @@ export default function Tracks() {
                 <div className="fnt-page-title">Uploaded</div>
                 {uploadedSongs &&
                   uploadedSongs.map((song, index) => (
-                    <SongCard
+                    <TrackCard
                       key={song._id}
-                      songNumber={index + 1}
-                      songName={song.name}
-                      songImg={song.album.thumbnail}
+                      trackNumber={index + 1}
+                      trackName={song.name}
+                      trackImg={song.album.thumbnail}
                       artist={song.artist}
                       albumName={song.album.title}
                       time={song.duration}
+                      trackUrl={song.url}
                       albumId={song.album._id}
-                      songUrl={song.url}
                       genreId={song.genreId}
                       isLiked={song.isLiked}
-                      songId={song._id}
+                      trackId={song._id}
                       userId={song.userId}
                       index={index}
                       draggable
@@ -147,19 +147,19 @@ export default function Tracks() {
                 <div className="fnt-page-title">Liked</div>
                 {likedSongs &&
                   likedSongs.map((song, index) => (
-                    <SongCard
+                    <TrackCard
                       key={song._id}
-                      songNumber={index + 1}
-                      songName={song.name}
-                      songImg={song.album.thumbnail}
+                      trackNumber={index + 1}
+                      trackName={song.name}
+                      trackImg={song.album.thumbnail}
                       artist={song.artist}
                       albumName={song.album.title}
                       time={song.duration}
+                      trackUrl={song.url}
                       albumId={song.album._id}
-                      songUrl={song.url}
                       genreId={song.genreId}
                       isLiked={song.isLiked}
-                      songId={song._id}
+                      trackId={song._id}
                       userId={song.userId}
                       index={index}
                       draggable
@@ -171,6 +171,51 @@ export default function Tracks() {
             )}
           </Droppable>
         </DragDropContext>
+
+        {/* <div className="col col-6 ">
+          <div className="fnt-page-title">Uploaded</div>
+          {uploadedSongs &&
+            uploadedSongs.map((song, index) => (
+              <TrackCard
+                key={song._id}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
+                artist={song.artist}
+                albumName={song.album.title}
+                time={song.duration}
+                trackUrl={song.url}
+                albumId={song.album._id}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
+                trackId={song._id}
+                userId={song.userId}
+                updateLikedView={handleAddLikedColumn}
+              />
+            ))}
+        </div>
+        <div className="col col-6 ">
+          <div className="fnt-page-title">Liked</div>
+          {likedSongs &&
+            likedSongs.map((song, index) => (
+              <TrackCard
+                key={song._id}
+                trackNumber={index + 1}
+                trackName={song.name}
+                trackImg={song.album.thumbnail}
+                artist={song.artist}
+                albumName={song.album.title}
+                time={song.duration}
+                trackUrl={song.url}
+                albumId={song.album._id}
+                genreId={song.genreId}
+                isLiked={song.isLiked}
+                trackId={song._id}
+                userId={song.userId}
+                updateLikedView={handleAddLikedColumn}
+              />
+            ))}
+        </div> */}
       </div>
     </Layout>
   );

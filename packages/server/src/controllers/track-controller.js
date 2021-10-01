@@ -4,8 +4,56 @@ const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
-
 const { getPublicId } = require("../utils/cloudinaryUtils");
+
+async function getTrack(req, res, next) {
+  try {
+    const { id } = req.params;
+    const track = await db.Track.findById({ _id: id })
+      .populate("album", "thumbnail title")
+      .populate("genreId", "name");
+
+    res.status(200).send({
+      data: track,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
+async function updateTrack(req, res, next) {
+  try {
+    // const { id } = req.params;
+    const { id, title, artist, genre, album } = req.body;
+    const foundGenre = await db.Genre.find({ name: `${genre}` });
+    const foundAlbum = await db.Album.find({ title: `${album}` });
+    const updatedTrack = await db.Track.findByIdAndUpdate(
+      { _id: id },
+      {
+        name: title,
+        artist: artist,
+        genreId: foundGenre[0]._id,
+        album: foundAlbum[0]._id,
+      },
+      {
+        new: true,
+      },
+    );
+    res.status(200).send({
+      id: id,
+      data: updatedTrack,
+      message: "Success",
+    });
+  } catch (error) {
+    res.status(404).send({
+      error: error.message,
+    });
+    next(error);
+  }
+}
 
 async function uploadTrack(req, res, next) {
   try {
@@ -125,5 +173,7 @@ async function likeTrack(req, res, next) {
 module.exports = {
   uploadTrack,
   deleteTrack,
+  getTrack,
+  updateTrack,
   likeTrack,
 };
