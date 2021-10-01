@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
 import { PUBLIC } from "../../constants/routes";
-import { likeTrack } from "../../api/track-api";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
 
-import { deleteTrack } from "../../api/tracks-api";
+import { deleteTrack, likeTrack } from "../../api/tracks-api";
 
 import "./SongCard.scss";
 
@@ -25,6 +23,7 @@ export default function SongCard({
   genreId,
   isLiked,
   songId,
+  updateLikedView = () => {},
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
@@ -48,10 +47,21 @@ export default function SongCard({
     }
   };
 
-  const handleLike = () => {
-    setLiked(!liked);
+  const handleLike = async () => {
+    const userLike = !liked;
+    setLiked(userLike);
+
     try {
-      likeTrack(songId);
+      await likeTrack(songId);
+      updateLikedView(
+        {
+          ...songObject,
+          album: { title: albumName, thumbnail: songImg },
+          isLiked: userLike,
+          _id: songId,
+        },
+        userLike,
+      );
     } catch (error) {
       toast(error.message, { type: "error" });
       setLiked(!liked);
@@ -85,6 +95,10 @@ export default function SongCard({
       .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
     return result;
   };
+
+  useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
 
   useEffect(() => {
     handleIsOwned();
