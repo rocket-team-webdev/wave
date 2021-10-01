@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { PUBLIC } from "../../constants/routes";
+import { Draggable } from "react-beautiful-dnd";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
-
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
+import { PUBLIC } from "../../constants/routes";
 
 import "./SongCard.scss";
 
@@ -23,6 +23,7 @@ export default function SongCard({
   genreId,
   isLiked,
   songId,
+  index,
   updateLikedView = () => {},
 }) {
   const [liked, setLiked] = useState(isLiked);
@@ -105,92 +106,107 @@ export default function SongCard({
   }, []);
 
   return (
-    <div className="row card-hover fx-rounded" onDoubleClick={handlePlay}>
-      <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-        <h3 className="m-0 px-2 fnt-song-bold text-start">{songNumber}</h3>
-        <div className="play-hover" onClick={handlePlay} aria-hidden="true">
-          <img className="fx-rounded mx-2" src={songImg} alt={songName} />
-          <i className="fas fa-play fnt-white" />
-        </div>
-        <div className="d-flex fnt-primary px-2">
-          <button className="text-center" type="button" onClick={handleLike}>
-            {liked ? (
-              <i className="fas fa-heart fnt-secondary" />
-            ) : (
-              <i className="far fa-heart fnt-secondary" />
-            )}
-          </button>
-        </div>
-        <div className=" px-2 col">
-          <h3 className="m-0 text-start fnt-song-bold">{songName}</h3>
-          <h4 className="m-0  text-start fnt-artist">{artist}</h4>
-        </div>
-        <Link
-          className="m-0 text-start fnt-song-regular px-2 col"
-          to={`${PUBLIC.ALBUMS}/${albumId}`}
+    <Draggable draggableId={songId} index={index}>
+      {(provided) => (
+        <div
+          className="row card-hover fx-rounded"
+          onDoubleClick={handlePlay}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          // innerRef={provided.innerRef}
+          ref={provided.innerRef}
         >
-          {albumName}
-        </Link>
-        <h4 className="m-0 text-start fnt-song-regular px-2 col">
-          {formatPlayCounter(playCounter)}
-        </h4>
-        <h4 className="m-0 text-start fnt-song-regular px-2 col">
-          {timeIntoString(time)}
-        </h4>
-        <div className="dropdown">
-          <button
-            className="m-0 text-end"
-            type="button"
-            id="contextSongMenu"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i className="fas fa-ellipsis-h" />
-          </button>
-          <ul
-            className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-            aria-labelledby="contextSongMenu"
-          >
-            <button
-              className="dropdown-item fnt-light fnt-song-regular "
-              type="button"
-              onClick={handleAddToQueue}
+          <div className="col col-12 d-flex justify-content-between align-items-center py-2">
+            <h3 className="m-0 px-2 fnt-song-bold text-start">{songNumber}</h3>
+            <div className="play-hover" onClick={handlePlay} aria-hidden="true">
+              <img className="fx-rounded mx-2" src={songImg} alt={songName} />
+              <i className="fas fa-play fnt-white" />
+            </div>
+            <div className="d-flex fnt-primary px-2">
+              <button
+                className="text-center"
+                type="button"
+                onClick={handleLike}
+              >
+                {liked ? (
+                  <i className="fas fa-heart fnt-secondary" />
+                ) : (
+                  <i className="far fa-heart fnt-secondary" />
+                )}
+              </button>
+            </div>
+            <div className=" px-2 col">
+              <h3 className="m-0 text-start fnt-song-bold">{songName}</h3>
+              <h4 className="m-0  text-start fnt-artist">{artist}</h4>
+            </div>
+            <Link
+              className="m-0 text-start fnt-song-regular px-2 col"
+              to={`${PUBLIC.ALBUMS}/${albumId}`}
             >
-              Add to queue
-            </button>
-            <hr className="dropdown-wrapper m-0" />
-            {isOwned ? (
-              <>
-                <Link to={`${PUBLIC.TRACK_EDIT}/${songId}`}>
-                  <p
-                    className="dropdown-item fnt-light fnt-song-regular m-0"
-                    type="button"
-                  >
-                    Edit
-                  </p>
-                </Link>
-                <hr className="dropdown-wrapper m-0" />
+              {albumName}
+            </Link>
+            <h4 className="m-0 text-start fnt-song-regular px-2 col">
+              {formatPlayCounter(playCounter)}
+            </h4>
+            <h4 className="m-0 text-start fnt-song-regular px-2 col">
+              {timeIntoString(time)}
+            </h4>
+            <div className="dropdown">
+              <button
+                className="m-0 text-end"
+                type="button"
+                id="contextSongMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i className="fas fa-ellipsis-h" />
+              </button>
+              <ul
+                className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+                aria-labelledby="contextSongMenu"
+              >
                 <button
-                  className="dropdown-item fnt-light fnt-song-regular"
+                  className="dropdown-item fnt-light fnt-song-regular "
                   type="button"
-                  onClick={handleDeleteSong}
+                  onClick={handleAddToQueue}
                 >
-                  Delete
+                  Add to queue
                 </button>
-              </>
-            ) : (
-              <Link to={`${PUBLIC.USERS}/${userId}`}>
-                <p
-                  className="dropdown-item fnt-light fnt-song-regular m-0"
-                  type="button"
-                >
-                  Go to user
-                </p>
-              </Link>
-            )}
-          </ul>
+                <hr className="dropdown-wrapper m-0" />
+                {isOwned ? (
+                  <>
+                    <Link to={`${PUBLIC.TRACK_EDIT}/${songId}`}>
+                      <p
+                        className="dropdown-item fnt-light fnt-song-regular m-0"
+                        type="button"
+                      >
+                        Edit
+                      </p>
+                    </Link>
+                    <hr className="dropdown-wrapper m-0" />
+                    <button
+                      className="dropdown-item fnt-light fnt-song-regular"
+                      type="button"
+                      onClick={handleDeleteSong}
+                    >
+                      Delete
+                    </button>
+                  </>
+                ) : (
+                  <Link to={`${PUBLIC.USERS}/${userId}`}>
+                    <p
+                      className="dropdown-item fnt-light fnt-song-regular m-0"
+                      type="button"
+                    >
+                      Go to user
+                    </p>
+                  </Link>
+                )}
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </Draggable>
   );
 }
