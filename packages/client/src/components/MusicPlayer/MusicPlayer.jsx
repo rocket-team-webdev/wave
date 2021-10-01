@@ -29,7 +29,7 @@ export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
   const [listPosition, setListPosition] = useState(0);
-  const songObject = queueState.isShuffled
+  const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
   const [isShuffle, setIsShuffle] = useState(false);
@@ -38,7 +38,7 @@ export default function MusicPlayer() {
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
 
-  const nextSong = () => {
+  const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
       setListPosition(listPosition + 1);
     } else if (repeatState === "queue") setListPosition(0);
@@ -48,7 +48,7 @@ export default function MusicPlayer() {
     else setNextButtonDisabled(false);
     if (listPosition <= 1) setPrevButtonDisabled(false);
   };
-  const previousSong = () => {
+  const previousTrack = () => {
     if (listPosition > 0) {
       setListPosition(listPosition - 1);
       setNextButtonDisabled(false);
@@ -79,7 +79,7 @@ export default function MusicPlayer() {
   };
 
   const repeatToggle = () => {
-    const toggleStates = ["false", "song", "queue"];
+    const toggleStates = ["false", "track", "queue"];
     const statePosition = toggleStates.findIndex(
       (element) => element === repeatState,
     );
@@ -97,13 +97,13 @@ export default function MusicPlayer() {
     if (isShuffle) dispatch(like(queueState.shuffleOrder[listPosition]));
     else dispatch(like(listPosition));
     try {
-      await likeTrack(songObject.songId);
+      await likeTrack(trackObject.trackId);
       // updateLikedView(
       //   {
-      //     ...songObject,
-      //     album: { title: albumName, thumbnail: songImg },
+      //     ...trackObject,
+      //     album: { title: albumName, thumbnail: trackImg },
       //     isLiked: userLike,
-      //     _id: songId,
+      //     _id: trackId,
       //   },
       //   userLike,
       // );
@@ -139,11 +139,11 @@ export default function MusicPlayer() {
     <>
       {queueState.queue.length > 0 && (
         <div className="rhap_main-container clr-white">
-          <div className="rhap_song-info">
+          <div className="rhap_track-info">
             <div className="rhap_album-thumb">
-              <Link to={`${PUBLIC.ALBUMS}/${songObject.albumId}`}>
+              <Link to={`${PUBLIC.ALBUMS}/${trackObject.albumId}`}>
                 <img
-                  src={songObject.songImg}
+                  src={trackObject.trackImg}
                   alt="album-cover"
                   className="rhap_thumb-album-img"
                 />
@@ -154,25 +154,25 @@ export default function MusicPlayer() {
               className="rhap_like-button"
               onClick={handleLike}
             >
-              {songObject.isLiked ? (
+              {trackObject.isLiked ? (
                 <FaHeart className="rhap_like-icon" />
               ) : (
                 <FaRegHeart className="rhap_like-icon" />
               )}
             </button>
-            <div className="rhap_song-text">
-              <p className="rhap_song-tittle mb-0 fnt-song-bold lh-1 pe-4">
-                {songObject.name}
+            <div className="rhap_track-text">
+              <p className="rhap_track-tittle mb-0 fnt-song-bold lh-1 pe-4">
+                {trackObject.name}
               </p>
-              <p className="rhap_song-artist mb-0 fnt-song-light lh-1">
-                {songObject.artist}
+              <p className="rhap_track-artist mb-0 fnt-song-light lh-1">
+                {trackObject.artist}
               </p>
             </div>
             <div className="dropdown">
               <button
                 className="m-0 text-end"
                 type="button"
-                id="contextSongMenu"
+                id="contextTrackMenu"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
@@ -180,7 +180,7 @@ export default function MusicPlayer() {
               </button>
               <ul
                 className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-                aria-labelledby="contextSongMenu"
+                aria-labelledby="contextTrackMenu"
               >
                 <>
                   <Link to={`${PUBLIC.TRACK_EDIT}`}>
@@ -208,10 +208,10 @@ export default function MusicPlayer() {
             volume={0}
             showSkipControls
             showJumpControls={false}
-            src={songObject.url}
-            onClickNext={nextSong}
-            onClickPrevious={previousSong}
-            onEnded={nextSong}
+            src={trackObject.url}
+            onClickNext={nextTrack}
+            onClickPrevious={previousTrack}
+            onEnded={nextTrack}
             ref={audioPlayer}
             layout="horizontal-reverse"
             customIcons={{
@@ -235,7 +235,7 @@ export default function MusicPlayer() {
               ),
             }}
             customControlsSection={[
-              <div className="rhap_repeat-controls" key={songObject.duration}>
+              <div className="rhap_repeat-controls" key={trackObject.duration}>
                 <button
                   onClick={repeatToggle}
                   type="button"
@@ -243,11 +243,11 @@ export default function MusicPlayer() {
                     repeatState === "false" ? "button-off" : "button-on"
                   } rhap_button-repeat`}
                 >
-                  {repeatState === "song" ? <MdRepeatOne /> : <MdRepeat />}
+                  {repeatState === "track" ? <MdRepeatOne /> : <MdRepeat />}
                 </button>
               </div>,
               RHAP_UI.MAIN_CONTROLS,
-              <div className="rhap_shuffle-controls" key={songObject.url}>
+              <div className="rhap_shuffle-controls" key={trackObject.url}>
                 <button
                   onClick={shuffleToggle}
                   type="button"
