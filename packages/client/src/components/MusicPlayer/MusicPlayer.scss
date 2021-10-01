@@ -130,7 +130,7 @@
 .rhap_song-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding-left: 3rem;
   // padding-right: 1.5rem;
   width: 50%;
@@ -161,11 +161,8 @@
     display: block;
   }
   .rhap_song-info {
-    justify-content: space-around;
-    // padding: 0rem 3rem;
-    // padding-left: 0px;
-    // padding-right: 0px;
-    padding-left: 0px;
+    justify-content: space-between;
+    padding: 0px 20px;
     margin-top: 12px;
     width: 100%;
   }
