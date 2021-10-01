@@ -28,14 +28,6 @@ export default function Home() {
     "Last Shadow Puppets",
   ];
 
-  // const playlistsList = [
-  //   "jazz attitude",
-  //   "funk the blues",
-  //   "sunrise folk",
-  //   "technomasia",
-  //   "derivation rock",
-  // ];
-
   const formik = useFormik({
     initialValues: {
       searchBar: "",

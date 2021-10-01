@@ -30,8 +30,7 @@ export default function HomePopular({ artistsList = [] }) {
     try {
       setLoadStatus(true);
       const { data } = await getAllPlaylists();
-      console.log("Playlists => ", data);
-      // setPopularPlaylists(data.playlists);
+      setPopularPlaylists(data.playlists);
       setLoadStatus(false);
     } catch (err) {
       toast(err.message, { type: "error" });
