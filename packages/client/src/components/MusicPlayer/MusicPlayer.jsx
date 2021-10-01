@@ -137,7 +137,7 @@ export default function MusicPlayer() {
 
   return (
     <>
-      {queueState.queue.length && (
+      {queueState.queue.length > 0 && (
         <div className="rhap_main-container clr-white">
           <div className="rhap_song-info">
             <div className="rhap_album-thumb">

@@ -48,7 +48,6 @@
 // Sizes & styles
 .fnt-jumbo {
   font-size: 205px;
-  line-height: 170px;
   text-transform: uppercase;
 }
 
@@ -107,7 +106,7 @@
 .fnt-jumbo,
 .fnt-page-title {
   font-weight: 900;
-  line-height: 1;
+  line-height: 0.85;
 }
 
 .fnt-subtitle-light,

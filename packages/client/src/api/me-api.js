@@ -9,16 +9,81 @@ export function makeMeApi() {
   });
 }
 
-export async function getMyTracks(api = makeMeApi()) {
+// -----
+// Users
+// -----
+
+export async function getMyFollowers(api = makeMeApi()) {
   const token = await getCurrentUserToken();
-  return api.get(API.TRACKS, {
+  return api.get(`${API.FOLLOWERS}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
 
-export async function getLikedTracks(api = makeMeApi()) {
+export async function getMyFollowings(page = 0, limit = 4, api = makeMeApi()) {
   const token = await getCurrentUserToken();
-  return api.get(`${API.TRACKS}${API.LIKED}`, {
+
+  return api.get(`${API.FOLLOWING}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ---------
+// Playlists
+// ---------
+
+export async function getMyPlaylists(page = 0, limit = 4, api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.PLAYLISTS}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function getFollowingPlaylists(
+  page = 0,
+  limit = 4,
+  api = makeMeApi(),
+) {
+  const token = await getCurrentUserToken();
+
+  return api.get(
+    `${API.PLAYLISTS}${API.FOLLOWING}?page=${page}&limit=${limit}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+}
+
+export async function getPlaylist(id, api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.get(`${API.PLAYLISTS}/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ------
+// Tracks
+// ------
+
+export async function getMyTracks(page = 0, limit = 5, api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.TRACKS}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function getLikedTracks(page = 0, limit = 5, api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.TRACKS}${API.LIKED}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function getTrack(id, api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.get(`${API.TRACKS}/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }

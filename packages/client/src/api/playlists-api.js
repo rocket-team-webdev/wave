@@ -1,4 +1,5 @@
 import { API } from "../constants/routes";
+import { getCurrentUserToken } from "../services/auth";
 
 const axios = require("axios").default;
 
@@ -8,6 +9,14 @@ export function makePlaylistApi() {
   });
 }
 
-export async function getAllPlaylists(api = makePlaylistApi()) {
-  return api.get("");
+export async function getAllPlaylists(
+  page = 0,
+  limit = 4,
+  api = makePlaylistApi(),
+) {
+  const token = await getCurrentUserToken();
+
+  return api.get(`?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }

@@ -11,7 +11,7 @@ import Input from "../../../components/Input";
 import Select from "../../../components/Select";
 import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
-import { getGenres } from "../../../api/genre-api";
+import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
 import AddIcon from "../../../components/SVGicons/AddIcon";
 import { PUBLIC } from "../../../constants/routes";
@@ -28,7 +28,7 @@ export default function TrackUpload() {
   const history = useHistory();
 
   useEffect(async () => {
-    const { data } = await getGenres();
+    const { data } = await getAllGenres();
     const {
       data: { albums },
     } = await getUserAlbum();

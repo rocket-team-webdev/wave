@@ -4,8 +4,79 @@ const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
-
 const { getPublicId } = require("../utils/cloudinaryUtils");
+
+async function getTracks(req, res, next) {
+  try {
+    const { page = 0, limit = 5 } = req.query;
+    const foundTracks = await db.Track.find({})
+      .populate({
+        path: "album",
+        options: {
+          select: "title thumbnail",
+          // sort: { created: -1},
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).send({ tracks: foundTracks });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
+async function getTrack(req, res, next) {
+  try {
+    const { id } = req.params;
+    const track = await db.Track.findById({ _id: id })
+      .populate("album", "thumbnail title")
+      .populate("genreId", "name");
+
+    res.status(200).send({
+      data: track,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
+async function updateTrack(req, res, next) {
+  try {
+    // const { id } = req.params;
+    const { id, title, artist, genre, album } = req.body;
+    const foundGenre = await db.Genre.find({ name: `${genre}` });
+    const foundAlbum = await db.Album.find({ title: `${album}` });
+    const updatedTrack = await db.Track.findByIdAndUpdate(
+      { _id: id },
+      {
+        name: title,
+        artist: artist,
+        genreId: foundGenre[0]._id,
+        album: foundAlbum[0]._id,
+      },
+      {
+        new: true,
+      },
+    );
+    res.status(200).send({
+      id: id,
+      data: updatedTrack,
+      message: "Success",
+    });
+  } catch (error) {
+    res.status(404).send({
+      error: error.message,
+    });
+    next(error);
+  }
+}
 
 async function uploadTrack(req, res, next) {
   try {
@@ -85,6 +156,13 @@ async function deleteTrack(req, res, next) {
     // ----
     // Delete from MongoDB Atlas
     await db.Track.findByIdAndRemove(id);
+    const album = await db.Album.findOne({ _id: track.album });
+
+    if (album.totalTracks > 0)
+      await db.Album.updateOne(
+        { _id: album._id },
+        { $inc: { totalTracks: -1 } },
+      );
 
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {
@@ -123,7 +201,10 @@ async function likeTrack(req, res, next) {
 }
 
 module.exports = {
+  getTracks,
   uploadTrack,
   deleteTrack,
+  getTrack,
+  updateTrack,
   likeTrack,
 };

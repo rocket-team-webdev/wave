@@ -26,27 +26,17 @@ export default function Home() {
     "Fatboy Slim",
     "Arctic Monkeys",
     "Last Shadow Puppets",
-    "The Who",
-    "Idles",
-  ];
-
-  const playlistsList = [
-    "jazz attitude",
-    "funk the blues",
-    "sunrise folk",
-    "technomasia",
-    "derivation rock",
   ];
 
   const formik = useFormik({
     initialValues: {
-      searchbar: "",
+      searchBar: "",
     },
     validationSchema: homeSearchSchema,
     onSubmit: (searchState) => {
       setLoading(true);
       console.log("Submitted search!");
-      console.log(searchState.searchbar);
+      console.log(searchState.searchBar);
       setLoading(false);
     },
   });
@@ -81,7 +71,7 @@ export default function Home() {
           </form>
           {loading && <h3>Loading...</h3>}
         </div>
-        <div className="col col-12 col-md-5 fx-rounded container-fluid mx-0">
+        <div className="col col-12 col-md-5 container-fluid mx-0">
           {/* Popular/MyWave */}
           <div className="d-flex justify-content-between align-items-center mb-5">
             <p className="fnt-label-bold fnt-light">App view</p>
@@ -91,10 +81,7 @@ export default function Home() {
           {popularView ? (
             <HomePopular artistsList={artistsList} />
           ) : (
-            <HomeMyWave
-              artistsList={artistsList}
-              playlistsList={playlistsList}
-            />
+            <HomeMyWave artistsList={artistsList} />
           )}
         </div>
       </div>

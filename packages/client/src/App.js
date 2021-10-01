@@ -17,10 +17,11 @@ import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
+
+import TrackUpdate from "./pages/Public/TrackUpdate";
 import TrackUpload from "./pages/Public/TrackUpload";
 import Tracks from "./pages/Public/Tracks";
 import MusicPlayer from "./components/MusicPlayer";
-import UpdateSong from "./pages/Public/UpdateSong";
 import CreateAlbum from "./pages/Public/CreateAlbum";
 
 function App() {
@@ -69,15 +70,21 @@ function App() {
       {!loading && (
         <BrowserRouter>
           <Switch>
-            <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
-              <Account />
-            </PrivateRoute>
             <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>
               <UpdatePassword />
             </PrivateRoute>
             <OnlyPublicRoute path={PUBLIC.RESET_PASSWORD}>
               <ResetPassword />
             </OnlyPublicRoute>
+            <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
+              <TrackUpload />
+            </PrivateRoute>
+            <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
+              <TrackUpdate />
+            </PrivateRoute>
+            <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
+              <Account />
+            </PrivateRoute>
             <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
               <Reauthenticate />
             </PrivateRoute>
@@ -87,14 +94,8 @@ function App() {
             <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
               <SignIn />
             </OnlyPublicRoute>
-            <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
-              <UpdateSong />
-            </PrivateRoute>
             <PrivateRoute path={PUBLIC.ADD_ALBUM}>
               <CreateAlbum />
-            </PrivateRoute>
-            <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
-              <TrackUpload />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.MY_SONGS}>
               <Tracks />
