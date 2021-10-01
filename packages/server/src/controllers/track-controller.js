@@ -26,8 +26,8 @@ async function getTrack(req, res, next) {
 
 async function updateTrack(req, res, next) {
   try {
-    const { id } = req.params;
-    const { title, artist, genre, album } = req.body;
+    // const { id } = req.params;
+    const { id, title, artist, genre, album } = req.body;
     const foundGenre = await db.Genre.find({ name: `${genre}` });
     const foundAlbum = await db.Album.find({ title: `${album}` });
     const updatedTrack = await db.Track.findByIdAndUpdate(

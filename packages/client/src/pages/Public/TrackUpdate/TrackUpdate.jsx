@@ -35,12 +35,13 @@ function TrackUpdate() {
     validationSchema: trackUpdateSchema,
     onSubmit: async (track) => {
       const data = {
+        id: trackId,
         title: track.title,
         artist: track.artist,
         album: track.album,
         genre: track.genre,
       };
-      await updateTrackById(trackId, data);
+      await updateTrackById(data);
     },
   });
 

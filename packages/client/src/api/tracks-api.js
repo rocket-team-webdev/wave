@@ -18,10 +18,10 @@ export async function getTrackById(trackId, api = makeTrackApi()) {
   });
 }
 
-export async function updateTrackById(trackId, data, api = makeTrackApi()) {
+export async function updateTrackById(data, api = makeTrackApi()) {
   const token = await getCurrentUserToken();
-  return api.post(
-    `/${trackId}`,
+  return api.put(
+    ``,
     { ...data },
     {
       headers: {
