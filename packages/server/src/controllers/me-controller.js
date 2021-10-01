@@ -130,6 +130,7 @@ async function getMyTracks(req, res, next) {
   try {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { page = 0, limit = 4 } = req.query;
 
     const tracks = await db.Track.find(
       { userId },
@@ -140,14 +141,27 @@ async function getMyTracks(req, res, next) {
         isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         popularity: 1,
         color: 1,
-        released: 1,
+        // released: 1,
         genreId: 1,
         userId: 1,
         album: 1,
         duration: 1,
         url: 1,
       },
-    ).populate("album", "title  thumbnail");
+    )
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    // TODO need to populate album?
+    // .populate({
+    //   path: "album",
+    //   options: {
+    //     select: "title thumbnail",
+    //     limit: parseInt(limit),
+    //     // sort: { created: -1},
+    //     skip: parseInt(page) * parseInt(limit),
+    //   },
+    // });
 
     res.status(200).send({
       data: tracks,
@@ -164,6 +178,7 @@ async function getMyLikedTracks(req, res, next) {
   try {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { page = 0, limit = 4 } = req.query;
 
     const tracks = await db.Track.find(
       { likedBy: userId },
@@ -181,7 +196,20 @@ async function getMyLikedTracks(req, res, next) {
         duration: 1,
         url: 1,
       },
-    ).populate("album", "title  thumbnail");
+    )
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    // TODO need to populate album?
+    // .populate({
+    //   path: "album",
+    //   options: {
+    //     select: "title thumbnail",
+    //     limit: parseInt(limit),
+    //     // sort: { created: -1},
+    //     skip: parseInt(page) * parseInt(limit),
+    //   },
+    // });
 
     res.status(200).send({
       data: tracks,

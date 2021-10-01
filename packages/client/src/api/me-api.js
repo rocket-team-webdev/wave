@@ -66,16 +66,16 @@ export async function getPlaylist(id, api = makeMeApi()) {
 // Tracks
 // ------
 
-export async function getMyTracks(api = makeMeApi()) {
+export async function getMyTracks(page = 0, limit = 5, api = makeMeApi()) {
   const token = await getCurrentUserToken();
-  return api.get(API.TRACKS, {
+  return api.get(`${API.TRACKS}?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
 
-export async function getLikedTracks(api = makeMeApi()) {
+export async function getLikedTracks(page = 0, limit = 5, api = makeMeApi()) {
   const token = await getCurrentUserToken();
-  return api.get(`${API.TRACKS}${API.LIKED}`, {
+  return api.get(`${API.TRACKS}${API.LIKED}?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
