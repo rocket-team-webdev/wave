@@ -2,7 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
+import { useCast } from "react-castjs";
+import {
+  FaPlay,
+  FaPause,
+  FaRegHeart,
+  FaHeart,
+  FaChromecast,
+} from "react-icons/fa";
 import {
   MdRepeat,
   MdRepeatOne,
@@ -31,6 +38,10 @@ export default function MusicPlayer() {
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
+  const { chromecast } = useCast();
+  console.log(chromecast);
+  const [castAvailable, setCastAvailable] = useState(chromecast.available);
+  const [castConnected, setCastConnected] = useState(chromecast.connected);
 
   const nextSong = () => {
     if (queueState.queue.length > listPosition + 1) {
@@ -110,6 +121,36 @@ export default function MusicPlayer() {
       setNextButtonDisabled(true);
     }
   }, []);
+
+  useEffect(() => {
+    chromecast.on("available", () => {
+      console.log("change", chromecast.available);
+      setCastAvailable(chromecast.available);
+    });
+
+    chromecast.on("connect", () => {
+      setCastConnected(chromecast.connected);
+    });
+
+    // remove event-listeners when component is unmounted
+    return function cleanup() {
+      chromecast.off();
+    };
+  }, []);
+
+  const handleCast = async () => {
+    console.log("cast");
+    if (chromecast.available) {
+      try {
+        await chromecast.cast(
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+          {},
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -199,6 +240,20 @@ export default function MusicPlayer() {
                 >
                   <ImShuffle />
                 </button>
+              </div>,
+              <div className="rhap_shuffle-controls" key="chromeCast">
+                {castAvailable && (
+                  <button
+                    onClick={handleCast}
+                    type="button"
+                    // className={`${
+                    //   isShuffle ? "button-on" : "button-off"
+                    // } rhap_button-shuffle `}
+                  >
+                    <FaChromecast />
+                    {castConnected && "🆗"}
+                  </button>
+                )}
               </div>,
               RHAP_UI.VOLUME_CONTROLS,
             ]}

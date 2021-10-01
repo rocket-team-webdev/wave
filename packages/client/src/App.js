@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { CastProvider } from "react-castjs";
+
 import { PUBLIC } from "./constants/routes";
 import { onAuthStateChanged, getCurrentUser } from "./services/auth";
 import { logIn } from "./redux/user/actions";
@@ -67,45 +69,47 @@ function App() {
   return (
     <>
       {!loading && (
-        <BrowserRouter>
-          <Switch>
-            <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
-              <Account />
-            </PrivateRoute>
-            <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>
-              <UpdatePassword />
-            </PrivateRoute>
-            <OnlyPublicRoute path={PUBLIC.RESET_PASSWORD}>
-              <ResetPassword />
-            </OnlyPublicRoute>
-            <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
-              <Reauthenticate />
-            </PrivateRoute>
-            <OnlyPublicRoute path={PUBLIC.SIGN_UP}>
-              <SignUp />
-            </OnlyPublicRoute>
-            <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
-              <SignIn />
-            </OnlyPublicRoute>
-            <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
-              <UpdateSong />
-            </PrivateRoute>
-            <PrivateRoute path={PUBLIC.ADD_ALBUM}>
-              <CreateAlbum />
-            </PrivateRoute>
-            <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
-              <TrackUpload />
-            </PrivateRoute>
-            <PrivateRoute path={PUBLIC.MY_SONGS}>
-              <Tracks />
-            </PrivateRoute>
-            <PrivateRoute path={PUBLIC.HOME}>
-              <Home />
-            </PrivateRoute>
-          </Switch>
-        </BrowserRouter>
+        <CastProvider>
+          <BrowserRouter>
+            <Switch>
+              <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
+                <Account />
+              </PrivateRoute>
+              <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>
+                <UpdatePassword />
+              </PrivateRoute>
+              <OnlyPublicRoute path={PUBLIC.RESET_PASSWORD}>
+                <ResetPassword />
+              </OnlyPublicRoute>
+              <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
+                <Reauthenticate />
+              </PrivateRoute>
+              <OnlyPublicRoute path={PUBLIC.SIGN_UP}>
+                <SignUp />
+              </OnlyPublicRoute>
+              <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
+                <SignIn />
+              </OnlyPublicRoute>
+              <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
+                <UpdateSong />
+              </PrivateRoute>
+              <PrivateRoute path={PUBLIC.ADD_ALBUM}>
+                <CreateAlbum />
+              </PrivateRoute>
+              <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
+                <TrackUpload />
+              </PrivateRoute>
+              <PrivateRoute path={PUBLIC.MY_SONGS}>
+                <Tracks />
+              </PrivateRoute>
+              <PrivateRoute path={PUBLIC.HOME}>
+                <Home />
+              </PrivateRoute>
+            </Switch>
+          </BrowserRouter>
+          <MusicPlayer />
+        </CastProvider>
       )}
-      <MusicPlayer />
 
       <ToastContainer draggable theme="colored" />
     </>
