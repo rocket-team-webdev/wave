@@ -20,7 +20,7 @@ export async function getMyFollowers(api = makeMeApi()) {
   });
 }
 
-export async function getMyFollowings(page = 0, limit = 10, api = makeMeApi()) {
+export async function getMyFollowings(page = 0, limit = 4, api = makeMeApi()) {
   const token = await getCurrentUserToken();
 
   return api.get(`${API.FOLLOWING}?page=${page}&limit=${limit}`, {
@@ -32,19 +32,26 @@ export async function getMyFollowings(page = 0, limit = 10, api = makeMeApi()) {
 // Playlists
 // ---------
 
-export async function getMyPlaylists(api = makeMeApi()) {
+export async function getMyPlaylists(page = 0, limit = 4, api = makeMeApi()) {
   const token = await getCurrentUserToken();
-  return api.get(`${API.PLAYLISTS}`, {
+  return api.get(`${API.PLAYLISTS}?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
 
-export async function getFollowingPlaylists(api = makeMeApi()) {
+export async function getFollowingPlaylists(
+  page = 0,
+  limit = 4,
+  api = makeMeApi(),
+) {
   const token = await getCurrentUserToken();
 
-  return api.get(`${API.PLAYLISTS}${API.FOLLOWING}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return api.get(
+    `${API.PLAYLISTS}${API.FOLLOWING}?page=${page}&limit=${limit}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 }
 
 export async function getPlaylist(id, api = makeMeApi()) {

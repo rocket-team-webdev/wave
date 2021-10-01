@@ -9,43 +9,40 @@ import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
 import {
-  getMyFollowers,
+  // getMyFollowers,
   getMyFollowings,
   getMyPlaylists,
   getFollowingPlaylists,
   // getPlaylist,
-  getMyTracks,
-  getLikedTracks,
+  // getMyTracks,
+  // getLikedTracks,
   // getTrack,
 } from "../../api/me-api";
 
-export default function HomeMyWave({
-  artistsList = false,
-  playlistsList = false,
-}) {
+export default function HomeMyWave({ artistsList = false }) {
   // const [loadStatus, setLoadStatus] = useState(false);
   // const [userFollowers, setUserFollowers] = useState([]);
-  const [userFollowings, setUserFollowings] = useState([]);
-  // const [userPlaylists, setUserPlaylists] = useState([]);
-  // const [userFollowingPlaylists, setUserFollowingPlaylists] = useState([]);
+  const [myFollowings, setMyFollowings] = useState([]);
+  const [userPlaylists, setUserPlaylists] = useState([]);
+  const [myFollowingPlaylists, setMyFollowingPlaylists] = useState([]);
   // const [userTracks, setUserTracks] = useState([]);
   // const [userLikedTracks, setUserLikedTracks] = useState([]);
 
   // Users
-  const loadMyFollowers = async () => {
-    try {
-      const { data } = await getMyFollowers();
-      console.log(data);
-      // setUserFollowers(???)
-    } catch (err) {
-      toast(err.message, { type: "error" });
-    }
-  };
+  // const loadMyFollowers = async () => {
+  //   try {
+  //     const { data } = await getMyFollowers();
+  //     console.log(data);
+  //     // setUserFollowers(???)
+  //   } catch (err) {
+  //     toast(err.message, { type: "error" });
+  //   }
+  // };
 
   const loadMyFollowing = async () => {
     try {
       const { data } = await getMyFollowings();
-      setUserFollowings(data.data);
+      setMyFollowings(data.data);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
@@ -55,8 +52,7 @@ export default function HomeMyWave({
   const loadMyPlaylists = async () => {
     try {
       const { data } = await getMyPlaylists();
-      console.log(data);
-      // setUserPlaylists(data.playlists);
+      setUserPlaylists(data.data);
     } catch (err) {
       toast(`Error getting your playlists! Error message: ${err.message}`, {
         type: "error",
@@ -67,8 +63,7 @@ export default function HomeMyWave({
   const loadFollowingPlaylists = async () => {
     try {
       const { data } = await getFollowingPlaylists();
-      console.log(data);
-      // setUserFollowingPlaylists(???)
+      setMyFollowingPlaylists(data.data);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
@@ -77,8 +72,8 @@ export default function HomeMyWave({
   // Tracks
   const loadMyTracks = async () => {
     try {
-      const { data } = await getMyTracks();
-      console.log(data);
+      // const { data } = await getMyTracks();
+      // console.log(data);
       // setUserTracks(???)
     } catch (err) {
       toast(err.message, { type: "error" });
@@ -87,8 +82,8 @@ export default function HomeMyWave({
 
   const loadMyLikedTracks = async () => {
     try {
-      const { data } = await getLikedTracks();
-      console.log(data);
+      // const { data } = await getLikedTracks();
+      // console.log(data);
       // setUserLikedTracks(???)
     } catch (err) {
       toast(err.message, { type: "error" });
@@ -98,7 +93,7 @@ export default function HomeMyWave({
   // On load
   useEffect(() => {
     // Users
-    loadMyFollowers();
+    // loadMyFollowers();
     loadMyFollowing();
 
     // Playlists
@@ -130,7 +125,7 @@ export default function HomeMyWave({
       {genresList && (
         <HomeElement
           label="My genres"
-          cols={genresList && userFollowings.length > 0 ? "6" : "12"}
+          cols={genresList && myFollowings.length > 0 ? "6" : "12"}
         >
           {genresList.map((genre) => (
             <div key={genre} className="mb-2 me-2">
@@ -139,12 +134,12 @@ export default function HomeMyWave({
           ))}
         </HomeElement>
       )}
-      {userFollowings.length > 0 && (
+      {myFollowings.length > 0 && (
         <HomeElement
           label="Following users"
-          cols={genresList && userFollowings.length > 0 ? "6" : "12"}
+          cols={genresList && myFollowings.length > 0 ? "6" : "12"}
         >
-          {userFollowings.map((following) => (
+          {myFollowings.map((following) => (
             <UserCard key={following._id} userName={following.firstName} />
           ))}
         </HomeElement>
@@ -160,24 +155,24 @@ export default function HomeMyWave({
           ))}
         </HomeElement>
       )}
-      {playlistsList && (
+      {userPlaylists && (
         <HomeElement label="My playlists">
-          {playlistsList.map((playlist) => (
+          {userPlaylists.map((playlist) => (
             <PlaylistCard
-              key={playlist}
+              key={playlist._id}
               // classNames=""
-              playlistName={playlist}
+              playlistName={playlist.name}
             />
           ))}
         </HomeElement>
       )}
-      {playlistsList && (
+      {myFollowingPlaylists && (
         <HomeElement label="Following playlists">
-          {playlistsList.map((playlist) => (
+          {myFollowingPlaylists.map((playlist) => (
             <PlaylistCard
-              key={playlist}
+              key={playlist._id}
               // classNames=""
-              playlistName={playlist}
+              playlistName={playlist.name}
             />
           ))}
         </HomeElement>

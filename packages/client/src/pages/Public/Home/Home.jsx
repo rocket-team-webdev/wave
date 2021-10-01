@@ -26,8 +26,6 @@ export default function Home() {
     "Fatboy Slim",
     "Arctic Monkeys",
     "Last Shadow Puppets",
-    "The Who",
-    "Idles",
   ];
 
   // const playlistsList = [
