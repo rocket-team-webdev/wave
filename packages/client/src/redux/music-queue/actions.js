@@ -1,4 +1,12 @@
-import { SET, ADD, CLEAR, SET_SHUFFLE, CLEAR_SHUFFLE, SET_ALL } from "./types";
+import {
+  SET,
+  ADD,
+  CLEAR,
+  SET_SHUFFLE,
+  CLEAR_SHUFFLE,
+  SET_ALL,
+  LIKE,
+} from "./types";
 
 export const setQueue = (value) => ({
   type: SET,
@@ -26,4 +34,9 @@ export const setShuffle = (value) => ({
 
 export const clearShuffle = () => ({
   type: CLEAR_SHUFFLE,
+});
+
+export const like = (value) => ({
+  type: LIKE,
+  payload: value,
 });

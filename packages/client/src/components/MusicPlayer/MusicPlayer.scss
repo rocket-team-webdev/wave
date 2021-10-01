@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.2rem;
   // overflow-x: hidden;
 }
 .rhap_container {
@@ -16,7 +17,7 @@
 }
 
 .rhap_controls-section {
-  margin-right: 32px !important;
+  // margin-right: 32px !important;
 }
 
 .rhap_main-controls-button,
@@ -64,6 +65,10 @@
 }
 .rhap_progress-filled {
   background-color: c.$secondaryColor;
+}
+
+.rhap_volume-container {
+  margin-left: 25px;
 }
 
 // New customize shuffle and buttons
@@ -125,12 +130,10 @@
 .rhap_song-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding-left: 3rem;
-  padding-right: 1.5rem;
-  // min-width: 30%;
-  // max-width: 35%;
-  width: 35%;
+  // padding-right: 1.5rem;
+  width: 50%;
 }
 .rhap_thumb-album-img {
   height: 35px;
@@ -158,10 +161,8 @@
     display: block;
   }
   .rhap_song-info {
-    justify-content: center;
-    // padding: 0rem 3rem;
-    // padding-left: 0px;
-    // padding-right: 0px;
+    justify-content: space-between;
+    padding: 0px 20px;
     margin-top: 12px;
     width: 100%;
   }
@@ -195,5 +196,8 @@
   }
   .rhap_repeat-controls {
     justify-content: start;
+  }
+  .rhap_volume-container {
+    display: none;
   }
 }

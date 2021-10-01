@@ -32,7 +32,6 @@ export default function CreateAlbum() {
         history.push(PUBLIC.TRACK_UPLOAD);
         return toast("Album created!", { type: "success" });
       } catch (error) {
-        // console.log(error.response);
         return toast(error.response.data.msg, { type: "error" });
       }
     },

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 import { toast } from "react-toastify";
 import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
 import {
@@ -11,11 +13,16 @@ import {
 } from "react-icons/md";
 import { IoMdRepeat } from "react-icons/io";
 import { ImShuffle } from "react-icons/im";
+import { PUBLIC } from "../../constants/routes";
 
 import "react-h5-audio-player/lib/styles.css";
 import "./MusicPlayer.scss";
 
-import { clearShuffle, setShuffle } from "../../redux/music-queue/actions";
+import {
+  clearShuffle,
+  setShuffle,
+  like,
+} from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 
 export default function MusicPlayer() {
@@ -26,7 +33,6 @@ export default function MusicPlayer() {
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
   const [isShuffle, setIsShuffle] = useState(false);
-  const [isLiked, setIsLiked] = useState(true);
   const [repeatState, setRepeatState] = useState("false");
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
@@ -87,13 +93,23 @@ export default function MusicPlayer() {
     );
   };
 
-  const likeSong = () => {
-    setIsLiked(!isLiked);
+  const handleLike = async () => {
+    if (isShuffle) dispatch(like(queueState.shuffleOrder[listPosition]));
+    else dispatch(like(listPosition));
     try {
-      likeTrack(songObject.songId);
+      await likeTrack(songObject.songId);
+      // updateLikedView(
+      //   {
+      //     ...songObject,
+      //     album: { title: albumName, thumbnail: songImg },
+      //     isLiked: userLike,
+      //     _id: songId,
+      //   },
+      //   userLike,
+      // );
     } catch (error) {
+      dispatch(like(listPosition));
       toast(error.message, { type: "error" });
-      setIsLiked(!isLiked);
     }
   };
 
@@ -103,13 +119,21 @@ export default function MusicPlayer() {
 
   useEffect(() => {
     if (queueState.queue.length > 1) {
-      setPrevButtonDisabled(true);
-      setNextButtonDisabled(false);
+      if (listPosition === 0) {
+        setPrevButtonDisabled(true);
+        setNextButtonDisabled(false);
+      } else if (listPosition === queueState.queue.length - 1) {
+        setPrevButtonDisabled(false);
+        setNextButtonDisabled(true);
+      } else {
+        setPrevButtonDisabled(false);
+        setNextButtonDisabled(false);
+      }
     } else {
       setPrevButtonDisabled(true);
       setNextButtonDisabled(true);
     }
-  }, []);
+  }, [queueState]);
 
   return (
     <>
@@ -117,19 +141,20 @@ export default function MusicPlayer() {
         <div className="rhap_main-container clr-white">
           <div className="rhap_song-info">
             <div className="rhap_album-thumb">
-              <img
-                src="https://loudcave.es/wp-content/uploads/2021/04/cbf7b52dab62a3eb745e6730068abc4a.1000x1000x1.jpg"
-                alt="album-cover"
-                className="rhap_thumb-album-img"
-              />
+              <Link to={`${PUBLIC.ALBUMS}/${songObject.albumId}`}>
+                <img
+                  src={songObject.songImg}
+                  alt="album-cover"
+                  className="rhap_thumb-album-img"
+                />
+              </Link>
             </div>
             <button
               type="button"
               className="rhap_like-button"
-              onClick={likeSong}
+              onClick={handleLike}
             >
-              {" "}
-              {isLiked ? (
+              {songObject.isLiked ? (
                 <FaHeart className="rhap_like-icon" />
               ) : (
                 <FaRegHeart className="rhap_like-icon" />
@@ -143,17 +168,50 @@ export default function MusicPlayer() {
                 {songObject.artist}
               </p>
             </div>
+            <div className="dropdown">
+              <button
+                className="m-0 text-end"
+                type="button"
+                id="contextSongMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i className="fas fa-ellipsis-h" />
+              </button>
+              <ul
+                className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+                aria-labelledby="contextSongMenu"
+              >
+                <>
+                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                    <p
+                      className="dropdown-item fnt-light fnt-song-regular m-0"
+                      type="button"
+                    >
+                      Queue/Playlist
+                    </p>
+                  </Link>
+                  <hr className="dropdown-wrapper m-0" />
+                  <button
+                    className="dropdown-item fnt-light fnt-song-regular"
+                    type="button"
+                    onClick={() => {}}
+                  >
+                    Cast to device
+                  </button>
+                </>
+              </ul>
+            </div>
           </div>
           <AudioPlayer
             autoPlay
-            volume={0.5}
+            volume={0}
             showSkipControls
             showJumpControls={false}
             src={songObject.url}
             onClickNext={nextSong}
             onClickPrevious={previousSong}
             onEnded={nextSong}
-            // customAdditionalControls={[]}
             ref={audioPlayer}
             layout="horizontal-reverse"
             customIcons={{
@@ -200,7 +258,12 @@ export default function MusicPlayer() {
                   <ImShuffle />
                 </button>
               </div>,
-              RHAP_UI.VOLUME_CONTROLS,
+            ]}
+            customProgressBarSection={[
+              RHAP_UI.CURRENT_TIME,
+              RHAP_UI.PROGRESS_BAR,
+              RHAP_UI.DURATION,
+              RHAP_UI.VOLUME,
             ]}
             onPlayError={handleError}
             onChangeCurrentTimeError={handleError}
