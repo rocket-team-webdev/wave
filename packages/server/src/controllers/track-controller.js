@@ -107,15 +107,15 @@ async function likeTrack(req, res, next) {
 
     // Updating likedBy array
     if (trackLikes.includes(userId)) {
-      console.log("Proceeding to dislike");
       const userIndex = trackLikes.indexOf(userId);
       trackLikes.splice(userIndex, 1);
     } else {
-      console.log("Proceeding to like");
       trackLikes.push(userId);
     }
 
     await db.Track.findOneAndUpdate({ _id: id }, { likedBy: trackLikes });
+
+    return res.status(200).send({ message: "Successfully liked" });
   } catch (error) {
     res.status(500).send({ error: error });
     next(error);
