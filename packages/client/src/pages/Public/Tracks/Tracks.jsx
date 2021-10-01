@@ -181,51 +181,6 @@ export default function Tracks() {
             )}
           </Droppable>
         </DragDropContext>
-
-        {/* <div className="col col-6 ">
-          <div className="fnt-page-title">Uploaded</div>
-          {uploadedSongs &&
-            uploadedSongs.map((song, index) => (
-              <TrackCard
-                key={song._id}
-                trackNumber={index + 1}
-                trackName={song.name}
-                trackImg={song.album.thumbnail}
-                artist={song.artist}
-                albumName={song.album.title}
-                time={song.duration}
-                trackUrl={song.url}
-                albumId={song.album._id}
-                genreId={song.genreId}
-                isLiked={song.isLiked}
-                trackId={song._id}
-                userId={song.userId}
-                updateLikedView={handleAddLikedColumn}
-              />
-            ))}
-        </div>
-        <div className="col col-6 ">
-          <div className="fnt-page-title">Liked</div>
-          {likedSongs &&
-            likedSongs.map((song, index) => (
-              <TrackCard
-                key={song._id}
-                trackNumber={index + 1}
-                trackName={song.name}
-                trackImg={song.album.thumbnail}
-                artist={song.artist}
-                albumName={song.album.title}
-                time={song.duration}
-                trackUrl={song.url}
-                albumId={song.album._id}
-                genreId={song.genreId}
-                isLiked={song.isLiked}
-                trackId={song._id}
-                userId={song.userId}
-                updateLikedView={handleAddLikedColumn}
-              />
-            ))}
-        </div> */}
       </div>
     </Layout>
   );

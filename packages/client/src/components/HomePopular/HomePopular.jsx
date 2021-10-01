@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 import HomeElement from "../HomeElement";
 import Button from "../Button";
 import ArtistCard from "../ArtistCard";
@@ -98,7 +100,7 @@ export default function HomePopular({ artistsList = [] }) {
       )}
       {popularTracks.length > 0 && (
         <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
-          {popularTracks.map((track, i) => (
+          {/* {popularTracks.map((track, i) => (
             <TrackCard
               key={track._id}
               trackNumber={i + 1}
@@ -115,7 +117,42 @@ export default function HomePopular({ artistsList = [] }) {
               isLiked={track.isLiked}
               trackId={track._id}
             />
-          ))}
+          ))} */}
+          <DragDropContext onDragEnd={() => {}}>
+            <Droppable droppableId="popularTracks">
+              {(provided) => (
+                <div
+                  className="col col-12 "
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {popularTracks &&
+                    popularTracks.map((song, index) => (
+                      <TrackCard
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        draggable={false}
+                        // updateLikedView={handleAddLikedColumn}
+                        // updateDeletedView={handleDeletedView}
+                      />
+                    ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </HomeElement>
       )}
     </div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 import { PUBLIC } from "../../constants/routes";
 
 import HomeElement from "../HomeElement";
@@ -26,7 +28,6 @@ export default function HomeMyWave({ artistsList = false }) {
   const [myFollowings, setMyFollowings] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [myFollowingPlaylists, setMyFollowingPlaylists] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [myTracks, setMyTracks] = useState([]);
   const [userLikedTracks, setUserLikedTracks] = useState([]);
 
@@ -170,46 +171,80 @@ export default function HomeMyWave({ artistsList = false }) {
       )}
       {myTracks.length > 0 && (
         <HomeElement label="My tracks" to={PUBLIC.MY_SONGS}>
-          {myTracks.map((track, i) => (
-            <TrackCard
-              key={track._id}
-              trackNumber={i + 1}
-              trackImg={track.album.thumbnail}
-              trackName={track.name}
-              artist={track.artist}
-              albumName={track.album.title}
-              albumId={track.album._id}
-              time={track.duration}
-              userId={track.userId}
-              // playcounter
-              trackUrl={track.url}
-              genreId={track.genreId}
-              isLiked={track.isLiked}
-              trackId={track._id}
-            />
-          ))}
+          <DragDropContext onDragEnd={() => {}}>
+            <Droppable droppableId="myTracks">
+              {(provided) => (
+                <div
+                  className="col col-12 "
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {myTracks &&
+                    myTracks.map((song, index) => (
+                      <TrackCard
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        draggable={false}
+                        // updateLikedView={handleAddLikedColumn}
+                        // updateDeletedView={handleDeletedView}
+                      />
+                    ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </HomeElement>
       )}
       {userLikedTracks.length > 0 && (
         <HomeElement label="Liked songs" to={PUBLIC.MY_SONGS}>
-          {userLikedTracks.map((track, i) => (
-            <TrackCard
-              key={track._id}
-              trackNumber={i + 1}
-              trackImg={track.album.thumbnail}
-              trackName={track.name}
-              artist={track.artist}
-              albumName={track.album.title}
-              albumId={track.album._id}
-              time={track.duration}
-              userId={track.userId}
-              // playcounter
-              trackUrl={track.url}
-              genreId={track.genreId}
-              isLiked={track.isLiked}
-              trackId={track._id}
-            />
-          ))}
+          <DragDropContext onDragEnd={() => {}}>
+            <Droppable droppableId="userLikedTracks">
+              {(provided) => (
+                <div
+                  className="col col-12 "
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {userLikedTracks &&
+                    userLikedTracks.map((song, index) => (
+                      <TrackCard
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        draggable={false}
+                        // updateLikedView={handleAddLikedColumn}
+                        // updateDeletedView={handleDeletedView}
+                      />
+                    ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </HomeElement>
       )}
     </div>
