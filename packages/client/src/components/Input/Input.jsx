@@ -19,6 +19,7 @@ export default function Input({
   handleInput = () => {},
   errorMessage,
   hasErrorMessage,
+  hasForgotPassword,
   ...props
 }) {
   const [fileName, setFileName] = useState(inputFileText);
@@ -27,7 +28,7 @@ export default function Input({
     handleChange(e);
   };
 
-  const componentClasses = `${classNames} custom-input d-flex flex-column mb-4`;
+  const componentClasses = `${classNames} custom-input d-flex flex-column mb-3`;
   const errorClassNames = "col col-12 error-msg fnt-smallest mt-2 mb-0 ps-3 ";
 
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
@@ -79,7 +80,7 @@ export default function Input({
         {hasErrorMessage && errorMessage ? (
           <p
             className={
-              type === "password"
+              hasForgotPassword
                 ? `${errorClassNames} col-md-6`
                 : errorClassNames
             }
@@ -89,7 +90,7 @@ export default function Input({
         ) : (
           <p
             className={
-              type === "password"
+              hasForgotPassword
                 ? `${errorClassNames} col-md-6`
                 : errorClassNames
             }
@@ -97,7 +98,7 @@ export default function Input({
             &nbsp;
           </p>
         )}
-        {type === "password" && (
+        {hasForgotPassword && (
           <p className="col col-12 col-md-6 mt-2 mb-0 fnt-smallest text-end">
             Forgot your password? Reset it{" "}
             <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
