@@ -6,17 +6,21 @@ import AddIcon from "../SVGicons/AddIcon";
 
 import "./DragAndDrop.scss";
 
-export default function DragAndDrop({ handleChange, acceptFiles = "audio/*" }) {
-  const [files, setFiles] = useState("Drop the files here ...");
+export default function DragAndDrop({
+  handleChange,
+  dropText,
+  acceptFiles = "audio/*",
+}) {
+  const [files, setFiles] = useState(dropText);
 
   const baseStyle = {
     flex: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "20px",
-    paddingBottom: "65px",
-    marginRight: "20px",
+    padding: "30px",
+    paddingBottom: "40px",
+    // marginRight: "20px",
     borderWidth: 2,
     borderRadius: 2,
     borderColor: "#eeeeee",
