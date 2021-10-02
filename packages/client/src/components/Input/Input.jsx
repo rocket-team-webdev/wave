@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+import { PUBLIC } from "../../constants/routes";
 
 import "./Input.scss";
 
@@ -24,7 +27,7 @@ export default function Input({
     handleChange(e);
   };
 
-  const componentClasses = `${classNames} custom-input d-flex flex-column mb-1`;
+  const componentClasses = `${classNames} custom-input d-flex flex-column mb-4`;
 
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
   let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
@@ -71,11 +74,23 @@ export default function Input({
         onInput={handleInput}
         {...props}
       />
-      {hasErrorMessage && errorMessage ? (
-        <p className="error-msg mt-1 mb-0">{errorMessage}</p>
-      ) : (
-        <p className="error-msg mt-1 mb-0">&nbsp;</p>
-      )}
+      <div className="row ">
+        {hasErrorMessage && errorMessage ? (
+          <p className="col col-12 col-md-6 error-msg fnt-smallest mt-2 mb-0">
+            {errorMessage}
+          </p>
+        ) : (
+          <p className="col col-12 col-md-6 error-msg fnt-smallest mt-2 mb-0">
+            &nbsp;
+          </p>
+        )}
+        {type === "password" && (
+          <p className="col col-12 col-md-6 mt-2 mb-0 fnt-smallest text-end">
+            Forgot your password? Reset it{" "}
+            <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
+          </p>
+        )}
+      </div>
     </div>
   );
 }
