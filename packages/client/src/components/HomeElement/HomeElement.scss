@@ -1,7 +1,10 @@
 @use "../../sass/components/colors" as c;
 
-.home-element-title {
-  max-width: 250px;
+.home-element-header {
+  border-top: 1px solid c.$secondaryColor;
+  .home-element-title {
+    max-width: 250px;
+  }
 }
 
 .content {
