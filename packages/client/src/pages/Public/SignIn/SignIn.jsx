@@ -132,6 +132,7 @@ export default function SignIn() {
                 id="password"
                 name="password"
                 placeholder="Password"
+                hasForgotPassword
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
@@ -152,7 +153,6 @@ export default function SignIn() {
                     <div className="d-inline-flex p-2 pe-2">
                       <Button handleClick={handleGoogleSignIn}>
                         <FaGoogle />
-                        {/* <i className="fab fa-google" /> */}
                       </Button>
                     </div>
                     <div className="p-2">

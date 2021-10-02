@@ -14,8 +14,7 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
 import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
-import AddIcon from "../../../components/SVGicons/AddIcon";
-import { PUBLIC } from "../../../constants/routes";
+// import { PUBLIC } from "../../../constants/routes";
 import { TRACK_UPLOAD_INFO } from "../../../constants/local-storage";
 import {
   loadLocalStorageItems,
@@ -104,16 +103,16 @@ export default function TrackUpload() {
     formik.setFieldValue("genre", tags?.genre);
   };
 
-  const handleCreateAlbum = () => {
-    const formValues = {
-      name: formik.values.name,
-      artist: formik.values.artist,
-      genre: formik.values.genre,
-      track: formik.values.track,
-    };
-    setLocalStorage(formValues, TRACK_UPLOAD_INFO);
-    history.push(PUBLIC.ADD_ALBUM);
-  };
+  // const handleCreateAlbum = () => {
+  //   const formValues = {
+  //     name: formik.values.name,
+  //     artist: formik.values.artist,
+  //     genre: formik.values.genre,
+  //     track: formik.values.track,
+  //   };
+  //   setLocalStorage(formValues, TRACK_UPLOAD_INFO);
+  //   history.push(PUBLIC.ADD_ALBUM);
+  // };
 
   return (
     <Layout isNegative>
@@ -178,6 +177,7 @@ export default function TrackUpload() {
                   label="album"
                   id="album"
                   type="select"
+                  hasAddIcon
                   isNegative
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -187,15 +187,15 @@ export default function TrackUpload() {
                   options={albumsState}
                 />
 
-                <div className="ms-0 ps-0 pt-6">
+                {/* <div className="ms-0 ps-0 pt-6">
                   <Button isNegative onClick={handleCreateAlbum}>
                     <AddIcon size={25} />
                   </Button>
-                </div>
+                </div> */}
               </div>
             </div>
 
-            <div className="d-flex justify-content-end row m-0">
+            <div className="d-flex justify-content-end row m-0 mt-3">
               <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
                 <Button
                   isNegative

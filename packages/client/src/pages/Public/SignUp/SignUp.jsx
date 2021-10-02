@@ -204,18 +204,20 @@ export default function SignUp() {
                 errorMessage={formik.errors.confirmPassword}
                 hasErrorMessage={formik.touched.confirmPassword}
               />
-              <div className="fnt-caption">
-                Already have an account?{" "}
-                <Link to={PUBLIC.SIGN_IN}>Sign in.</Link>
-              </div>
-              <div className="d-flex justify-content-end col-12 text-end mt-4 p-0">
-                <div className="d-inline-flex p-2 pe-2">
-                  <Button handleClick={handleGoogleSignIn}>
-                    <i className="fab fa-google" />
-                  </Button>
+              <div className="form-footer-wrapper d-flex row mt-3">
+                <div className="fnt-caption col col-6">
+                  Already have an account? <br /> Please,{" "}
+                  <Link to={PUBLIC.SIGN_IN}>sign in.</Link>
                 </div>
-                <div className="p-2">
-                  <Button type="submit">Sign Up</Button>
+                <div className="d-flex justify-content-end col col-6 text-end p-0">
+                  <div className="d-inline-flex p-2 pe-2">
+                    <Button handleClick={handleGoogleSignIn}>
+                      <i className="fab fa-google" />
+                    </Button>
+                  </div>
+                  <div className="p-2">
+                    <Button type="submit">Sign Up</Button>
+                  </div>
                 </div>
               </div>
             </form>
