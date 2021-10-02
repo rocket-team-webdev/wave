@@ -19,7 +19,7 @@ export default function DragAndDrop({
     flexDirection: "column",
     alignItems: "center",
     padding: "30px",
-    paddingBottom: "40px",
+    paddingBottom: "50px",
     // marginRight: "20px",
     borderWidth: 2,
     borderRadius: 2,
@@ -77,7 +77,7 @@ export default function DragAndDrop({
     <div {...getRootProps({ style })}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <div className="d-flex flex-column align-items-center pt-4 m-auto">
+        <div className="d-flex flex-column align-items-center pt-2 m-auto fx-rounded">
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"
@@ -90,7 +90,7 @@ export default function DragAndDrop({
           <p className="pt-3 fnt-white">{files}</p>
         </div>
       ) : (
-        <div className="d-flex flex-column align-items-center pt-4 m-auto">
+        <div className="d-flex flex-column align-items-center pt-2 m-auto fx-rounded">
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"

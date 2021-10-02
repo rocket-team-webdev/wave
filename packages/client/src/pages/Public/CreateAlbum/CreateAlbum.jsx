@@ -59,7 +59,7 @@ export default function CreateAlbum() {
 
         <div className="row col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
-            <h1 className="fnt-subtitle-bold mb-4">Album details</h1>
+            <h1 className="fnt-form-title mb-5">Album details</h1>
             <div className="row">
               <Input
                 label="title"

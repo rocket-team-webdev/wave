@@ -26,7 +26,8 @@
 .fnt-sidebar,
 .fnt-page-title,
 .fnt-subtitle-light,
-.fnt-subtitle-bold {
+.fnt-subtitle-bold,
+.fnt-form-title {
   font-family: "Pramukh";
   transition: all 0.2s;
 }
@@ -68,6 +69,11 @@
 .fnt-label-light,
 .fnt-label-bold {
   font-size: 19px;
+}
+
+.fnt-form-title {
+  font-size: 93px;
+  line-height: 0.7;
 }
 
 .fnt-input-light,
@@ -116,7 +122,8 @@
 .fnt-smallest {
   font-weight: normal;
 }
-.fnt-subtitle-light:hover {
+.fnt-subtitle-light:hover,
+.fnt-form-title {
   font-weight: 800;
 }
 

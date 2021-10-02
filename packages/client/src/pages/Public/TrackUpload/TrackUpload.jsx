@@ -130,7 +130,7 @@ export default function TrackUpload() {
         </div>
         <div className="col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
-            <h1 className="fnt-subtitle-bold mb-4">Song details</h1>
+            <h1 className="mb-5 fnt-form-title">Song details</h1>
             <div className="row">
               <Input
                 label="name"
