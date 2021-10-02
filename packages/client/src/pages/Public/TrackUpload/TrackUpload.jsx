@@ -9,6 +9,7 @@ import uploadSchema from "./track-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import Select from "../../../components/Select";
+import JumboText from "../../../components/JumboText";
 import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
 import { getAllGenres } from "../../../api/genre-api";
@@ -116,13 +117,18 @@ export default function TrackUpload() {
 
   return (
     <Layout isNegative>
-      <div className="row ">
-        <div className="col col-12 col-md-6 p-4">
-          <p className="fnt-sidebar fnt-light">Upload your song</p>
-          <DragAndDrop handleChange={trackOnChange} />
+      <div className="row">
+        <div className="mb-5">
+          <JumboText priText="Song upload" cols="12" isNegative />
         </div>
 
-        <div className="col col-12 col-md-6 mt-10 px-5">
+        <div className="col col-12 col-md-6">
+          <DragAndDrop
+            handleChange={trackOnChange}
+            dropText="Drop the song here..."
+          />
+        </div>
+        <div className="col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
             <h1 className="fnt-subtitle-bold mb-4">Song details</h1>
             <div className="row">
@@ -130,8 +136,8 @@ export default function TrackUpload() {
                 label="name"
                 type="name"
                 id="name"
-                classNames="col-12"
-                placeholder="example: "
+                classNames="col col-12 col-md-7"
+                placeholder="Song name"
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -143,8 +149,8 @@ export default function TrackUpload() {
                 label="artist"
                 type="artist"
                 id="artist"
-                classNames="col-12"
-                placeholder=""
+                classNames="col col-12 col-md-5"
+                placeholder="Song artist"
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -183,16 +189,25 @@ export default function TrackUpload() {
 
                 <div className="ms-0 ps-0 pt-6">
                   <Button isNegative onClick={handleCreateAlbum}>
-                    <AddIcon color="" size={25} />
+                    <AddIcon size={25} />
                   </Button>
                 </div>
               </div>
             </div>
 
-            <div className="d-flex justify-content-end my-5">
-              <Button isNegative submitButton>
-                Upload
-              </Button>
+            <div className="d-flex justify-content-end row m-0">
+              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
+                <Button
+                  isNegative
+                  secondaryBtn
+                  handleClick={() => history.goBack()}
+                >
+                  Back
+                </Button>
+                <Button isNegative submitButton>
+                  Upload
+                </Button>
+              </div>
             </div>
 
             {loading && <h3>Loading...</h3>}

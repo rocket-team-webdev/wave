@@ -8,6 +8,7 @@ import albumSchema from "./album-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
+import JumboText from "../../../components/JumboText";
 import { addAlbum } from "../../../api/album-api";
 
 import { PUBLIC } from "../../../constants/routes";
@@ -43,13 +44,20 @@ export default function CreateAlbum() {
 
   return (
     <Layout isNegative>
-      <div className="row ">
-        <div className="col col-12 col-md-6 p-4">
-          <p className="fnt-sidebar fnt-light lh-1">New album</p>
-          <DragAndDrop acceptFiles="image/*" handleChange={thumbnailOnChange} />
+      <div className="row">
+        <div className="mb-5">
+          <JumboText priText="New album" cols="12" isNegative />
         </div>
 
-        <div className="col col-12 col-md-6 mt-10 px-5">
+        <div className="col col-12 col-md-6">
+          <DragAndDrop
+            acceptFiles="image/*"
+            handleChange={thumbnailOnChange}
+            dropText="Drop the cover here..."
+          />
+        </div>
+
+        <div className="row col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
             <h1 className="fnt-subtitle-bold mb-4">Album details</h1>
             <div className="row">
@@ -57,7 +65,8 @@ export default function CreateAlbum() {
                 label="title"
                 type="text"
                 id="title"
-                classNames="col-12"
+                classNames="col col-12 col-md-7"
+                placeholder="Album title"
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -66,11 +75,11 @@ export default function CreateAlbum() {
                 hasErrorMessage={formik.touched.title}
               />
               <Input
-                label="release year"
+                label="Release year"
                 type="number"
                 id="year"
-                classNames="col-12 col-md-6"
-                placeholder=""
+                classNames="col col-12 col-md-5"
+                placeholder="Album year"
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -78,16 +87,29 @@ export default function CreateAlbum() {
                 errorMessage={formik.errors.year}
                 hasErrorMessage={formik.touched.year}
               />
-              <div className="col-12 col-md-6 d-flex align-items-center text-center">
+              {/* <div className="col-12 col-md-6 d-flex align-items-center text-center">
                 <p className="negative-input p-3">
                   IF YOU WISH, DON&apos;T FORGET TO UPLOAD YOUR COVER
                 </p>
-              </div>
+              </div> */}
             </div>
-            <div className="d-flex justify-content-end my-4">
-              <Button isNegative submitButton>
-                Add Album
-              </Button>
+            <div className="d-flex justify-content-between col col-12 row m-0">
+              <p className="fnt-smallest col col-12 col-md-8 p-0">
+                <strong>Note:</strong> Don&apos;t forget to oupload the cover
+                file.
+              </p>
+              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
+                <Button
+                  isNegative
+                  secondaryBtn
+                  handleClick={() => history.goBack()}
+                >
+                  Back
+                </Button>
+                <Button isNegative submitButton>
+                  Add
+                </Button>
+              </div>
             </div>
           </form>
         </div>

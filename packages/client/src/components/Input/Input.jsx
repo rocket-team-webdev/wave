@@ -28,6 +28,7 @@ export default function Input({
   };
 
   const componentClasses = `${classNames} custom-input d-flex flex-column mb-4`;
+  const errorClassNames = "col col-12 error-msg fnt-smallest mt-2 mb-0 ps-3 ";
 
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
   let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
@@ -76,11 +77,23 @@ export default function Input({
       />
       <div className="row ">
         {hasErrorMessage && errorMessage ? (
-          <p className="col col-12 col-md-6 error-msg fnt-smallest mt-2 mb-0">
+          <p
+            className={
+              type === "password"
+                ? `${errorClassNames} col-md-6`
+                : errorClassNames
+            }
+          >
             {errorMessage}
           </p>
         ) : (
-          <p className="col col-12 col-md-6 error-msg fnt-smallest mt-2 mb-0">
+          <p
+            className={
+              type === "password"
+                ? `${errorClassNames} col-md-6`
+                : errorClassNames
+            }
+          >
             &nbsp;
           </p>
         )}
