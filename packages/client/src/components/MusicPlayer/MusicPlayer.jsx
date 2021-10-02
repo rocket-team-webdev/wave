@@ -39,9 +39,9 @@ export default function MusicPlayer() {
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
   const { chromecast } = useCast();
-  console.log(chromecast);
   const [castAvailable, setCastAvailable] = useState(chromecast.available);
   const [castConnected, setCastConnected] = useState(chromecast.connected);
+  const [isCasting, setIsCasting] = useState(false);
 
   const nextSong = () => {
     if (queueState.queue.length > listPosition + 1) {
@@ -53,6 +53,7 @@ export default function MusicPlayer() {
     else setNextButtonDisabled(false);
     if (listPosition <= 1) setPrevButtonDisabled(false);
   };
+
   const previousSong = () => {
     if (listPosition > 0) {
       setListPosition(listPosition - 1);
@@ -124,7 +125,7 @@ export default function MusicPlayer() {
 
   useEffect(() => {
     chromecast.on("available", () => {
-      console.log("change", chromecast.available);
+      console.log("is chromecast available", chromecast.available);
       setCastAvailable(chromecast.available);
     });
 
@@ -138,16 +139,66 @@ export default function MusicPlayer() {
     };
   }, []);
 
-  const handleCast = async () => {
-    console.log("cast");
-    if (chromecast.available) {
+  useEffect(async () => {
+    if (isCasting) {
       try {
-        await chromecast.cast(
-          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-          {},
-        );
+        await chromecast.cast(songObject.url, {});
       } catch (error) {
         console.log(error);
+        setIsCasting(false);
+      }
+    }
+  }, [listPosition]);
+
+  const handleCast = async () => {
+    console.log("chromecast", chromecast);
+    if (chromecast.available) {
+      if (!chromecast.connected) {
+        try {
+          // eslint-disable-next-line no-debugger
+          debugger;
+          await chromecast.cast(songObject.url, {});
+          await chromecast.pause();
+
+          setIsCasting(true);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          await chromecast.disconnect();
+          setIsCasting(false);
+
+          // eslint-disable-next-line no-debugger
+          debugger;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    console.log("chromecast", chromecast);
+  };
+
+  const handlePlay = async () => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    if (isCasting) {
+      try {
+        await chromecast.play();
+      } catch (error) {
+        toast(error.message, { type: "error" });
+      }
+    }
+  };
+
+  const handlePause = async () => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    if (isCasting) {
+      try {
+        await chromecast.pause();
+      } catch (error) {
+        toast(error.message, { type: "error" });
       }
     }
   };
@@ -186,11 +237,13 @@ export default function MusicPlayer() {
             </div>
           </div>
           <AudioPlayer
-            autoPlay
+            // autoPlay
             volume={0.5}
             showSkipControls
             showJumpControls={false}
             src={songObject.url}
+            onPlay={handlePlay}
+            onPause={handlePause}
             onClickNext={nextSong}
             onClickPrevious={previousSong}
             onEnded={nextSong}
