@@ -69,7 +69,11 @@ export default function Home() {
               isNegative
             />
           </form>
-          {loading && <h3>Loading...</h3>}
+          {loading && (
+            <div className="spinner-grow text-light " role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          )}
         </div>
         <div className="col col-12 col-md-5 container-fluid mx-0">
           {/* Popular/MyWave */}

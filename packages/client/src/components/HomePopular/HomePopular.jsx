@@ -96,7 +96,11 @@ export default function HomePopular({ artistsList = [] }) {
           </HomeElement>
         )
       ) : (
-        <HomeElement label="Playlists">Loading...</HomeElement>
+        <HomeElement label="Playlists">
+          <div className="spinner-grow text-light " role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </HomeElement>
       )}
       {popularTracks.length > 0 && (
         <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
