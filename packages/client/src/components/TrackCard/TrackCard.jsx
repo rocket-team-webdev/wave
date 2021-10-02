@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
@@ -152,11 +153,7 @@ export default function TrackCard({
                 type="button"
                 onClick={handleLike}
               >
-                {liked ? (
-                  <i className="fas fa-heart fnt-secondary" />
-                ) : (
-                  <i className="far fa-heart fnt-secondary" />
-                )}
+                {liked ? <FaHeart /> : <FaRegHeart />}
               </button>
             </div>
             {/* Title/Artist */}
