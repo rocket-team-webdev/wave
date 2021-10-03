@@ -87,11 +87,6 @@ export default function CreateAlbum() {
                 errorMessage={formik.errors.year}
                 hasErrorMessage={formik.touched.year}
               />
-              {/* <div className="col-12 col-md-6 d-flex align-items-center text-center">
-                <p className="negative-input p-3">
-                  IF YOU WISH, DON&apos;T FORGET TO UPLOAD YOUR COVER
-                </p>
-              </div> */}
             </div>
             <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
               <p className="fnt-smallest col col-12 col-md-8 p-0">
