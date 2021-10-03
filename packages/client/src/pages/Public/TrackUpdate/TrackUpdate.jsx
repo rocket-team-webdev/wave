@@ -7,6 +7,8 @@ import Input from "../../../components/Input";
 import Layout from "../../../components/Layout";
 import Select from "../../../components/Select";
 import Button from "../../../components/Button";
+import JumboText from "../../../components/JumboText";
+import Spinner from "../../../components/Spinner";
 
 import trackUpdateSchema from "./track-update-schema";
 import { getAllGenres } from "../../../api/genre-api";
@@ -96,14 +98,19 @@ function TrackUpdate() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-12">
-          <p className="fnt-sidebar fnt-light">Update the song</p>
+      <div className="row">
+        <div className="mb-5">
+          <JumboText priText="Edit song" cols="11" isNegative />
+          {isLoading && (
+            <div className="col d-flex justify-content-end">
+              <Spinner isNegative />
+            </div>
+          )}
         </div>
       </div>
       <div className="row">
         {isLoading ? (
-          <div className="col col-12 col-md-6 p-4 ">Loading...</div>
+          <Spinner isNegative />
         ) : (
           <BigThumbnail
             image={trackState.album?.thumbnail}
