@@ -16,6 +16,7 @@ import Layout from "../../../components/Layout";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
+import Spinner from "../../../components/Spinner";
 
 import { emailVerification } from "../../../services/auth/auth";
 import { PUBLIC } from "../../../constants/routes";
@@ -95,7 +96,13 @@ export default function SignUp() {
   return (
     <Layout>
       <div className="row">
-        <JumboText secText="Sign up." />
+        {loading ? (
+          <div className="col col-12 col-md-6">
+            <Spinner />
+          </div>
+        ) : (
+          <JumboText secText="Sign up." />
+        )}
         <div className="col-6">
           <FormWrapper formTitle="Create New Account">
             <form onSubmit={formik.handleSubmit} className="row">
@@ -221,7 +228,6 @@ export default function SignUp() {
                 </div>
               </div>
             </form>
-            {loading && <h3>Loading...</h3>}
           </FormWrapper>
         </div>
       </div>

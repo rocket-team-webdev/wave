@@ -11,6 +11,8 @@ import Input from "../../../components/Input";
 import Select from "../../../components/Select";
 import JumboText from "../../../components/JumboText";
 import DragAndDrop from "../../../components/DragAndDrop";
+import Spinner from "../../../components/Spinner";
+
 import { uploadTrack } from "../../../api/tracks-api";
 import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
@@ -118,7 +120,12 @@ export default function TrackUpload() {
     <Layout isNegative>
       <div className="row">
         <div className="mb-5">
-          <JumboText priText="Song upload" cols="12" isNegative />
+          <JumboText priText="Song upload" cols="11" isNegative />
+          {loading && (
+            <div className="col d-flex justify-content-end">
+              <Spinner isNegative />
+            </div>
+          )}
         </div>
 
         <div className="col col-12 col-md-6">
@@ -210,8 +217,6 @@ export default function TrackUpload() {
                 </Button>
               </div>
             </div>
-
-            {loading && <h3>Loading...</h3>}
           </form>
         </div>
       </div>

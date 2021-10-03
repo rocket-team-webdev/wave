@@ -21,6 +21,8 @@ import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import Checkbox from "../../../components/Checkbox";
 // import Upload from "../../../components/Upload";
+import Spinner from "../../../components/Spinner";
+
 import { isRegistering } from "../../../redux/user/actions";
 
 import { PUBLIC } from "../../../constants/routes";
@@ -102,12 +104,10 @@ export default function SignIn() {
       <div className="row">
         {loading ? (
           <div className="col col-12 col-md-6">
-            <div className="spinner-grow text-dark " role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+            <Spinner />
           </div>
         ) : (
-          <JumboText secText="Sign In." />
+          <JumboText secText="Sign in." />
         )}
 
         <div className="col-6">

@@ -8,6 +8,7 @@ import Button from "../Button";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
 import TrackCard from "../TrackCard";
+import Spinner from "../Spinner";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -97,9 +98,7 @@ export default function HomePopular({ artistsList = [] }) {
         )
       ) : (
         <HomeElement label="Playlists">
-          <div className="spinner-grow text-light " role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <Spinner isNegative />
         </HomeElement>
       )}
       {popularTracks.length > 0 && (

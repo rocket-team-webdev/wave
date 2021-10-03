@@ -7,7 +7,6 @@ import Input from "../../../components/Input";
 import Layout from "../../../components/Layout";
 import Select from "../../../components/Select";
 import Button from "../../../components/Button";
-import AddIcon from "../../../components/SVGicons/AddIcon";
 
 import trackUpdateSchema from "./track-update-schema";
 import { getAllGenres } from "../../../api/genre-api";
@@ -155,27 +154,20 @@ function TrackUpdate() {
                 options={genresState}
               />
               <Select
-                classNames="col-11 col-md-5"
+                classNames="col-12 col-lg-6"
                 label="album"
                 id="album"
                 type="select"
+                hasAddIcon
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                handleAddIcon={() => history.push(PUBLIC.ADD_ALBUM)}
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
                 options={albumsState}
               />
-
-              <div className="col-1 ms-0 ps-0 pt-6">
-                <Button
-                  isNegative
-                  onClick={() => history.push(PUBLIC.ADD_ALBUM)}
-                >
-                  <AddIcon color="" size={25} />
-                </Button>
-              </div>
             </div>
 
             <div className="d-flex justify-content-end my-5">

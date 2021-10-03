@@ -10,6 +10,7 @@ import HomeMyWave from "../../../components/HomeMyWave";
 import JumboText from "../../../components/JumboText";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
+import Spinner from "../../../components/Spinner";
 
 // import MusicPlayer from "../../../components/MusicPlayer";
 
@@ -69,11 +70,7 @@ export default function Home() {
               isNegative
             />
           </form>
-          {loading && (
-            <div className="spinner-grow text-light " role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          )}
+          {loading && <Spinner isNegative />}
         </div>
         <div className="col col-12 col-md-5 container-fluid mx-0">
           {/* Popular/MyWave */}
