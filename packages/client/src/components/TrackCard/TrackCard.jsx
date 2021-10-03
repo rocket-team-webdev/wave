@@ -43,6 +43,8 @@ export default function TrackCard({
     album: albumName,
     isLiked: isLiked,
     trackId: trackId,
+    albumId: albumId,
+    trackImg: trackImg,
   };
 
   const handleIsOwned = () => {

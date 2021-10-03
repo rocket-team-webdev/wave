@@ -127,7 +127,7 @@
   opacity: 0.9;
   transition-duration: 0.2s;
 }
-.rhap_song-info {
+.rhap_track-info {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -147,7 +147,7 @@
   cursor: pointer;
   font-size: 15px;
 }
-.rhap_song-text {
+.rhap_track-text {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -160,7 +160,7 @@
   .rhap_main-container {
     display: block;
   }
-  .rhap_song-info {
+  .rhap_track-info {
     justify-content: space-between;
     padding: 0px 20px;
     margin-top: 12px;
@@ -170,7 +170,7 @@
     display: none;
   }
 
-  .rhap_song-text {
+  .rhap_track-text {
     display: block;
     margin-left: 24px;
   }
