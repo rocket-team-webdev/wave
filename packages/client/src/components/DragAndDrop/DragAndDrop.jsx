@@ -87,7 +87,7 @@ export default function DragAndDrop({
             placeholder="Upload file"
             isNegative
           />
-          <p className="pt-3 fnt-white">{files}</p>
+          <p className="fnt-white">{files}</p>
         </div>
       ) : (
         <div className="d-flex flex-column align-items-center pt-2 m-auto fx-rounded">
@@ -100,7 +100,7 @@ export default function DragAndDrop({
             placeholder="Upload file"
             isNegative
           />
-          <p className="pt-3 fnt-white">{files}</p>
+          <p className="fnt-white">{files}</p>
         </div>
       )}
     </div>

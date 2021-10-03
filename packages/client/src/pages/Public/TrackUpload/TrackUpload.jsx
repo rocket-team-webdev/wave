@@ -14,7 +14,7 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import { uploadTrack } from "../../../api/tracks-api";
 import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
-// import { PUBLIC } from "../../../constants/routes";
+import { PUBLIC } from "../../../constants/routes";
 import { TRACK_UPLOAD_INFO } from "../../../constants/local-storage";
 import {
   loadLocalStorageItems,
@@ -103,16 +103,16 @@ export default function TrackUpload() {
     formik.setFieldValue("genre", tags?.genre);
   };
 
-  // const handleCreateAlbum = () => {
-  //   const formValues = {
-  //     name: formik.values.name,
-  //     artist: formik.values.artist,
-  //     genre: formik.values.genre,
-  //     track: formik.values.track,
-  //   };
-  //   setLocalStorage(formValues, TRACK_UPLOAD_INFO);
-  //   history.push(PUBLIC.ADD_ALBUM);
-  // };
+  const handleCreateAlbum = () => {
+    const formValues = {
+      name: formik.values.name,
+      artist: formik.values.artist,
+      genre: formik.values.genre,
+      track: formik.values.track,
+    };
+    setLocalStorage(formValues, TRACK_UPLOAD_INFO);
+    history.push(PUBLIC.ADD_ALBUM);
+  };
 
   return (
     <Layout isNegative>
@@ -181,6 +181,7 @@ export default function TrackUpload() {
                   isNegative
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  handleAddIcon={handleCreateAlbum}
                   value={formik.values.album}
                   errorMessage={formik.errors.album}
                   hasErrorMessage={formik.touched.album}

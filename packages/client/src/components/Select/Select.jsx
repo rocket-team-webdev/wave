@@ -15,6 +15,7 @@ export default function Select({
   fullWidth = false,
   handleChange = () => {},
   handleBlur = () => {},
+  handleAddIcon = () => {},
   hasAddIcon,
   errorMessage,
   hasErrorMessage,
@@ -66,7 +67,7 @@ export default function Select({
         </select>
         {hasAddIcon && (
           <div className="ps-2 h-100 col col-12 col-md-2">
-            <Button isNegative /* onClick={handleCreateAlbum} */>
+            <Button isNegative onClick={handleAddIcon}>
               <AddIcon size={25} />
             </Button>
           </div>
