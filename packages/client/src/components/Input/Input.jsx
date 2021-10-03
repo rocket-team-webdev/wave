@@ -34,7 +34,7 @@ export default function Input({
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
   let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
   let uploadClassNames =
-    "custom-upload-input fx-rounded fnt-input-light d-flex align-items-center px-3 ";
+    "form-input positive-custom-upload-input fx-rounded file-input-wrapper ps-0";
 
   if (type === "file") {
     inputClassNames += "upload-input m-0 ";
@@ -59,23 +59,46 @@ export default function Input({
 
   return (
     <div className={componentClasses}>
-      {label && (
+      {label ? (
         <label className={labelClassNames} htmlFor={id}>
           {label}
         </label>
+      ) : (
+        <label className={labelClassNames} htmlFor={id}>
+          &nbsp;
+        </label>
       )}
-      {type === "file" && <div className={uploadClassNames}>{fileName}</div>}
-      <input
-        type={type}
-        className={inputClassNames}
-        id={id}
-        name={id}
-        placeholder={placeholder}
-        onChange={onHandleChange}
-        onBlur={handleBlur}
-        onInput={handleInput}
-        {...props}
-      />
+      {type === "file" ? (
+        <div className={uploadClassNames}>
+          <div className="custom-upload-input fnt-input-light d-flex align-items-center px-3 truncate">
+            {fileName}
+          </div>
+          <input
+            type={type}
+            className="upload-input"
+            id={id}
+            name={id}
+            placeholder={placeholder}
+            onChange={onHandleChange}
+            onBlur={handleBlur}
+            onInput={handleInput}
+            {...props}
+          />
+        </div>
+      ) : (
+        <input
+          type={type}
+          className={inputClassNames}
+          id={id}
+          name={id}
+          placeholder={placeholder}
+          onChange={onHandleChange}
+          onBlur={handleBlur}
+          onInput={handleInput}
+          {...props}
+        />
+      )}
+
       <div className="row ">
         {hasErrorMessage && errorMessage ? (
           <p

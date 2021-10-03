@@ -81,7 +81,7 @@ export default function DragAndDrop({
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"
-            label=""
+            // label=""
             id="thumbnail"
             type="file"
             placeholder="Upload file"
@@ -94,7 +94,7 @@ export default function DragAndDrop({
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"
-            label=""
+            // label=""
             id="thumbnail"
             type="file"
             placeholder="Upload file"
