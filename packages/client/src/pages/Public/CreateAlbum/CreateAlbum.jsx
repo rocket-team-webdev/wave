@@ -95,7 +95,7 @@ export default function CreateAlbum() {
             </div>
             <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
               <p className="fnt-smallest col col-12 col-md-8 p-0">
-                <strong>Note:</strong> Don&apos;t forget to oupload the cover
+                <strong>Note:</strong> Don&apos;t forget to upload the cover
                 file.
               </p>
               <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
