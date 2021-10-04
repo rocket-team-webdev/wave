@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-import { PUBLIC } from "../../constants/routes";
-
 import HomeElement from "../HomeElement";
-import Button from "../Button";
+import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
 import TrackCard from "../TrackCard";
+
+import { PUBLIC } from "../../constants/routes";
+
 import {
   // getMyFollowers,
   getMyFollowings,
@@ -21,6 +23,8 @@ import {
   getLikedTracks,
   // getTrack,
 } from "../../api/me-api";
+
+import { containerAnimation } from "../../utils/motionSettings";
 
 export default function HomeMyWave({ artistsList = false }) {
   // const [loadStatus, setLoadStatus] = useState(false);
@@ -110,7 +114,7 @@ export default function HomeMyWave({ artistsList = false }) {
 
   return (
     <div className="row gx-4 gy-5">
-      {myGenresList && (
+      {myGenresList.length > 0 && (
         <HomeElement
           label="My genres"
           cols={myGenresList && myFollowings.length > 0 ? "6" : "12"}
@@ -118,7 +122,7 @@ export default function HomeMyWave({ artistsList = false }) {
         >
           {myGenresList.map((genre) => (
             <div key={genre} className="mb-2 me-2">
-              <Button isSmall>{genre.toUpperCase()}</Button>
+              <GenreCard>{genre.toUpperCase()}</GenreCard>
             </div>
           ))}
         </HomeElement>
@@ -176,10 +180,14 @@ export default function HomeMyWave({ artistsList = false }) {
           <DragDropContext onDragEnd={() => {}}>
             <Droppable droppableId="myTracks">
               {(provided) => (
-                <div
+                <motion.div
                   className="col col-12 "
                   {...provided.droppableProps}
                   ref={provided.innerRef}
+                  // Animation settings
+                  variants={containerAnimation}
+                  initial="hidden"
+                  animate="visible"
                 >
                   {myTracks &&
                     myTracks.map((song, index) => (
@@ -204,7 +212,7 @@ export default function HomeMyWave({ artistsList = false }) {
                       />
                     ))}
                   {provided.placeholder}
-                </div>
+                </motion.div>
               )}
             </Droppable>
           </DragDropContext>
@@ -215,10 +223,14 @@ export default function HomeMyWave({ artistsList = false }) {
           <DragDropContext onDragEnd={() => {}}>
             <Droppable droppableId="userLikedTracks">
               {(provided) => (
-                <div
+                <motion.div
                   className="col col-12 "
                   {...provided.droppableProps}
                   ref={provided.innerRef}
+                  // Animation settings
+                  variants={containerAnimation}
+                  initial="hidden"
+                  animate="visible"
                 >
                   {userLikedTracks &&
                     userLikedTracks.map((song, index) => (
@@ -243,7 +255,7 @@ export default function HomeMyWave({ artistsList = false }) {
                       />
                     ))}
                   {provided.placeholder}
-                </div>
+                </motion.div>
               )}
             </Droppable>
           </DragDropContext>

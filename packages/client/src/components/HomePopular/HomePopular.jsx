@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import HomeElement from "../HomeElement";
-// import Button from "../Button";
 import GenreCard from "../GenreCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
@@ -69,7 +68,6 @@ export default function HomePopular({ artistsList = [] }) {
         <HomeElement label="Genres" isAnimationContainer>
           {popularGenres.map((genre) => (
             <div key={genre.name} className="mb-2 me-2">
-              {/* <Button isSmall>{genre.name.toUpperCase()}</Button> */}
               <GenreCard>{genre.name.toUpperCase()}</GenreCard>
             </div>
           ))}
