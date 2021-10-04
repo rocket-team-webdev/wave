@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../../components/Layout";
@@ -9,6 +10,7 @@ import JumboText from "../../../components/JumboText";
 import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
+import { containerAnimation } from "../../../utils/motionSettings";
 
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
@@ -117,28 +119,36 @@ export default function Tracks() {
                 ref={provided.innerRef}
               >
                 <div className="fnt-page-title mb-4">Uploaded</div>
-                {uploadedSongs &&
-                  uploadedSongs.map((song, index) => (
-                    <TrackCard
-                      key={song._id}
-                      trackNumber={index + 1}
-                      trackName={song.name}
-                      trackImg={song.album.thumbnail}
-                      artist={song.artist}
-                      albumName={song.album.title}
-                      time={song.duration}
-                      trackUrl={song.url}
-                      albumId={song.album._id}
-                      genreId={song.genreId}
-                      isLiked={song.isLiked}
-                      trackId={song._id}
-                      userId={song.userId}
-                      index={index}
-                      draggable
-                      updateLikedView={handleAddLikedColumn}
-                      updateDeletedView={handleDeletedView}
-                    />
-                  ))}
+                {uploadedSongs && (
+                  <motion.div
+                    // Animation settings
+                    variants={containerAnimation}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    {uploadedSongs.map((song, index) => (
+                      <TrackCard
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        draggable
+                        updateLikedView={handleAddLikedColumn}
+                        updateDeletedView={handleDeletedView}
+                      />
+                    ))}
+                  </motion.div>
+                )}
                 {provided.placeholder}
               </div>
             )}
@@ -154,28 +164,36 @@ export default function Tracks() {
                 ref={provided.innerRef}
               >
                 <div className="fnt-page-title mb-4">Liked</div>
-                {likedSongs &&
-                  likedSongs.map((song, index) => (
-                    <TrackCard
-                      key={song._id}
-                      trackNumber={index + 1}
-                      trackName={song.name}
-                      trackImg={song.album.thumbnail}
-                      artist={song.artist}
-                      albumName={song.album.title}
-                      time={song.duration}
-                      trackUrl={song.url}
-                      albumId={song.album._id}
-                      genreId={song.genreId}
-                      isLiked={song.isLiked}
-                      trackId={song._id}
-                      userId={song.userId}
-                      index={index}
-                      draggable
-                      updateLikedView={handleAddLikedColumn}
-                      updateDeletedView={handleDeletedView}
-                    />
-                  ))}
+                {likedSongs && (
+                  <motion.div
+                    // Animation settings
+                    variants={containerAnimation}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    {likedSongs.map((song, index) => (
+                      <TrackCard
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        draggable
+                        updateLikedView={handleAddLikedColumn}
+                        updateDeletedView={handleDeletedView}
+                      />
+                    ))}
+                  </motion.div>
+                )}
                 {provided.placeholder}
               </div>
             )}
