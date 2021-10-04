@@ -5,9 +5,9 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackCard from "../../../components/TrackCard";
-import Button from "../../../components/Button";
+import GenreCard from "../../../components/GenreCard";
 
-export default function PlaylistSongs() {
+export default function PlaylistTracks() {
   const playlistTitle = "Test asdfasdfasdf";
   const playlistGenres = ["Genre1", "Genre2", "Genre3"];
   const playlistTracks = [
@@ -37,7 +37,7 @@ export default function PlaylistSongs() {
             {playlistGenres &&
               playlistGenres.map((genre) => (
                 <div key={genre} className="mb-2 me-2">
-                  <Button isSmall>{genre.toUpperCase()}</Button>
+                  <GenreCard>{genre.toUpperCase()}</GenreCard>
                 </div>
               ))}
           </div>
