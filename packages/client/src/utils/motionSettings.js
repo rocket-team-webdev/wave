@@ -35,6 +35,10 @@ export const fromRight = {
   },
 };
 
+export const pressedElement = {
+  scale: 0.85,
+};
+
 // ----------
 // Jumbo text
 // ----------

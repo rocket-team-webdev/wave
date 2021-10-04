@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
-import { fromBottom } from "../../utils/motionSettings";
+import { fromBottom /* pressedElement */ } from "../../utils/motionSettings";
 
 import HeartIcon from "../SVGicons/HeartIcon";
 
@@ -127,6 +127,7 @@ export default function TrackCard({
     <motion.div
       // Animation settings
       variants={fromBottom}
+      // whileTap={pressedElement}
     >
       <Draggable
         draggableId={trackId}
