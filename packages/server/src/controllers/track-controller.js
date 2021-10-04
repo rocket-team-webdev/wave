@@ -164,6 +164,11 @@ async function deleteTrack(req, res, next) {
         { $inc: { totalTracks: -1 } },
       );
 
+    // Delete song from playlists
+    await db.Playlist.updateMany({ trackId: id }, { $pull: { trackId: id } });
+    // Delete song from playback
+    await db.Playback.deleteOne({ trackId: id });
+
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {
     res.status(500).send({ error: error });
