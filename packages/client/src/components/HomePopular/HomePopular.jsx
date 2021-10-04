@@ -74,7 +74,7 @@ export default function HomePopular({ artistsList = [] }) {
         </HomeElement>
       )}
       {artistsList.length > 0 && (
-        <HomeElement label="Artists">
+        <HomeElement label="Artists" isAnimationContainer>
           {artistsList.map((artistName) => (
             <ArtistCard
               key={artistName}

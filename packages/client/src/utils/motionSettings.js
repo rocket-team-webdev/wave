@@ -1,3 +1,5 @@
+const transitionTime = 0.1;
+
 // -------
 // Wrapper
 // -------
@@ -8,7 +10,7 @@ export const containerAnimation = {
     // scale: 1,
     transition: {
       delayChildren: 0.3,
-      staggerChildren: 0.2,
+      staggerChildren: transitionTime,
     },
   },
 };

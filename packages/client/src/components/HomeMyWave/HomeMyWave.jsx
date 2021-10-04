@@ -114,6 +114,7 @@ export default function HomeMyWave({ artistsList = false }) {
         <HomeElement
           label="My genres"
           cols={myGenresList && myFollowings.length > 0 ? "6" : "12"}
+          isAnimationContainer
         >
           {myGenresList.map((genre) => (
             <div key={genre} className="mb-2 me-2">
@@ -126,6 +127,7 @@ export default function HomeMyWave({ artistsList = false }) {
         <HomeElement
           label="Following users"
           cols={myGenresList && myFollowings.length > 0 ? "6" : "12"}
+          isAnimationContainer
         >
           {myFollowings.map((following) => (
             <UserCard key={following._id} userName={following.firstName} />
@@ -133,7 +135,7 @@ export default function HomeMyWave({ artistsList = false }) {
         </HomeElement>
       )}
       {artistsList.length > 0 && (
-        <HomeElement label="Artists">
+        <HomeElement label="Artists" isAnimationContainer>
           {artistsList.map((artist) => (
             <ArtistCard
               // classNames=""
@@ -144,7 +146,7 @@ export default function HomeMyWave({ artistsList = false }) {
         </HomeElement>
       )}
       {userPlaylists.length > 0 && (
-        <HomeElement label="My playlists">
+        <HomeElement label="My playlists" isAnimationContainer>
           {userPlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist._id}
@@ -157,7 +159,7 @@ export default function HomeMyWave({ artistsList = false }) {
         </HomeElement>
       )}
       {myFollowingPlaylists.length > 0 && (
-        <HomeElement label="Following playlists">
+        <HomeElement label="Following playlists" isAnimationContainer>
           {myFollowingPlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist._id}
