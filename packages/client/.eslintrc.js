@@ -66,5 +66,7 @@ module.exports = {
     "react/prop-types": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/label-has-for": "off",
+    "import/no-unresolved": 0, // Turn off "Unable to resolve path to module ..." error
+    "import/extensions": 0, // Turn off "Missing file extension for ..." error
   },
 };
