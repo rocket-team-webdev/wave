@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import HomeElement from "../HomeElement";
-import Button from "../Button";
+import GenreCard from "../GenreCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
 import TrackCard from "../TrackCard";
@@ -15,6 +16,7 @@ import { PUBLIC } from "../../constants/routes";
 import { getAllGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
 import { getAllTracks } from "../../api/tracks-api";
+import { containerAnimation } from "../../utils/motionSettings";
 
 export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
@@ -63,16 +65,16 @@ export default function HomePopular({ artistsList = [] }) {
   return (
     <div className="row gx-4 gy-5">
       {popularGenres.length > 0 && (
-        <HomeElement label="Genres">
+        <HomeElement label="Genres" isAnimationContainer>
           {popularGenres.map((genre) => (
             <div key={genre.name} className="mb-2 me-2">
-              <Button isSmall>{genre.name.toUpperCase()}</Button>
+              <GenreCard>{genre.name.toUpperCase()}</GenreCard>
             </div>
           ))}
         </HomeElement>
       )}
       {artistsList.length > 0 && (
-        <HomeElement label="Artists">
+        <HomeElement label="Artists" isAnimationContainer>
           {artistsList.map((artistName) => (
             <ArtistCard
               key={artistName}
@@ -84,7 +86,7 @@ export default function HomePopular({ artistsList = [] }) {
       )}
       {!loadStatus ? (
         popularPlaylists.length > 0 && (
-          <HomeElement label="Playlists">
+          <HomeElement label="Playlists" isAnimationContainer>
             {popularPlaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
@@ -106,10 +108,14 @@ export default function HomePopular({ artistsList = [] }) {
           <DragDropContext onDragEnd={() => {}}>
             <Droppable droppableId="popularTracks">
               {(provided) => (
-                <div
+                <motion.div
                   className="col col-12 "
                   {...provided.droppableProps}
                   ref={provided.innerRef}
+                  // Animation settings
+                  variants={containerAnimation}
+                  initial="hidden"
+                  animate="visible"
                 >
                   {popularTracks &&
                     popularTracks.map((song, index) => (
@@ -134,7 +140,7 @@ export default function HomePopular({ artistsList = [] }) {
                       />
                     ))}
                   {provided.placeholder}
-                </div>
+                </motion.div>
               )}
             </Droppable>
           </DragDropContext>

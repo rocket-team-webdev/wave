@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { toast } from "react-toastify";
-import { FaPlay, FaPause, FaRegHeart, FaHeart } from "react-icons/fa";
+import { FaPlay, FaPause } from "react-icons/fa";
 import {
   MdRepeat,
   MdRepeatOne,
@@ -28,6 +28,8 @@ import {
   setPlayState,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
+
+import HeartIcon from "../SVGicons/HeartIcon";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
@@ -175,9 +177,9 @@ export default function MusicPlayer() {
               onClick={handleLike}
             >
               {trackObject.isLiked ? (
-                <FaHeart className="rhap_like-icon" />
+                <HeartIcon classNames="rhap_like-icon" isFull />
               ) : (
-                <FaRegHeart className="rhap_like-icon" />
+                <HeartIcon classNames="rhap_like-icon" />
               )}
             </button>
             <div className="rhap_track-text">

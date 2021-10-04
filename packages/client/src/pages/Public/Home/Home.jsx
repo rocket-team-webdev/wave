@@ -55,7 +55,7 @@ export default function Home() {
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         <div className="col col-12 col-md-6 p-0 left-side">
-          <JumboText secText={userFirstName} cols="12" isNegative />
+          <JumboText secText={userFirstName} cols="12" isNegative isAnimated />
           <form className="my-5" onSubmit={formik.handleSubmit}>
             <Input
               id="searchbar"

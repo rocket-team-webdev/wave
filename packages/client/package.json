@@ -10,6 +10,7 @@
     "bootstrap": "^5.1.1",
     "firebase": "^9.0.1",
     "formik": "^2.2.9",
+    "framer-motion": "^4.1.17",
     "id3js": "^2.1.1",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
