@@ -73,6 +73,14 @@ select.custom-negative-select:focus {
 }
 
 // ------
+// Custom Option element
+// ------
+
+option.custom-option {
+  background-color: c.$primaryColor;
+}
+
+// ------
 // Default styling
 // ------
 select {
