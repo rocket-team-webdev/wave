@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { fromBottom } from "../../utils/motionSettings";
+
+import HeartIcon from "../SVGicons/HeartIcon";
 
 export default function PlaylistCard({
   // playlistId,
@@ -41,7 +42,7 @@ export default function PlaylistCard({
           {!isOwned ? (
             <button className="heart-button" type="button" onClick={handleLike}>
               {/* TODO add like dislike playlist */}
-              {isLiked ? <FaHeart /> : <FaRegHeart />}
+              {isLiked ? <HeartIcon isFull /> : <HeartIcon />}
             </button>
           ) : (
             <p>&nbsp;</p>

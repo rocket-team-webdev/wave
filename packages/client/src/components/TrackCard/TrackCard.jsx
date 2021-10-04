@@ -170,7 +170,6 @@ export default function TrackCard({
                   type="button"
                   onClick={handleLike}
                 >
-                  {/* {liked ? <FaHeart /> : <FaRegHeart />} */}
                   {liked ? <HeartIcon isFull /> : <HeartIcon />}
                 </button>
               </div>
