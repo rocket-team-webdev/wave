@@ -25,6 +25,7 @@ async function addAlbum(req, res, next) {
   try {
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
+    console.log("What it comes from request", thumbnail);
 
     // Checking if title album already exists
     const isAlbum = await db.Album.findOne({ title: req.body.title });
@@ -38,6 +39,7 @@ async function addAlbum(req, res, next) {
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];
+      console.log("What we take for upload",thumbnail);
       const thumbnailLocation = path.join(
         __dirname,
         "../../",

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
-import albumSchema from "./Album-schema";
+import albumSchema from "./album-schema";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
@@ -39,6 +39,7 @@ export default function CreateAlbum() {
   });
 
   const thumbnailOnChange = async (files) => {
+    console.log("Create Album", files[0]);
     formik.setFieldValue("thumbnail", files[0]);
   };
 

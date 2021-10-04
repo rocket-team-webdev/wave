@@ -47,6 +47,7 @@ export default function DragAndDrop({
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length) {
+      console.log("Drag and drop", acceptedFiles);
       handleChange(acceptedFiles);
       setFiles(acceptedFiles[0].name);
       return toast("File uploaded!", { type: "success" });
