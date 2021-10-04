@@ -64,6 +64,45 @@ export default function HomePopular({ artistsList = [] }) {
 
   return (
     <div className="row gx-4 gy-5">
+      {popularGenres.length > 0 && (
+        <HomeElement label="Genres">
+          {popularGenres.map((genre) => (
+            <div key={genre.name} className="mb-2 me-2">
+              <Button isSmall>{genre.name.toUpperCase()}</Button>
+            </div>
+          ))}
+        </HomeElement>
+      )}
+      {artistsList.length > 0 && (
+        <HomeElement label="Artists">
+          {artistsList.map((artistName) => (
+            <ArtistCard
+              key={artistName}
+              artistName={artistName}
+              // classNames=""
+            />
+          ))}
+        </HomeElement>
+      )}
+      {!loadStatus ? (
+        popularPlaylists.length > 0 && (
+          <HomeElement label="Playlists" isAnimationContainer>
+            {popularPlaylists.map((playlist) => (
+              <PlaylistCard
+                key={playlist._id}
+                playListId={playlist._id}
+                playlistName={playlist.name}
+                userId={playlist.userId}
+                // classNames=""
+              />
+            ))}
+          </HomeElement>
+        )
+      ) : (
+        <HomeElement label="Playlists">
+          <Spinner isNegative />
+        </HomeElement>
+      )}
       {popularTracks.length > 0 && (
         <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
           <DragDropContext onDragEnd={() => {}}>
@@ -105,45 +144,6 @@ export default function HomePopular({ artistsList = [] }) {
               )}
             </Droppable>
           </DragDropContext>
-        </HomeElement>
-      )}
-      {popularGenres.length > 0 && (
-        <HomeElement label="Genres">
-          {popularGenres.map((genre) => (
-            <div key={genre.name} className="mb-2 me-2">
-              <Button isSmall>{genre.name.toUpperCase()}</Button>
-            </div>
-          ))}
-        </HomeElement>
-      )}
-      {artistsList.length > 0 && (
-        <HomeElement label="Artists">
-          {artistsList.map((artistName) => (
-            <ArtistCard
-              key={artistName}
-              artistName={artistName}
-              // classNames=""
-            />
-          ))}
-        </HomeElement>
-      )}
-      {!loadStatus ? (
-        popularPlaylists.length > 0 && (
-          <HomeElement label="Playlists">
-            {popularPlaylists.map((playlist) => (
-              <PlaylistCard
-                key={playlist._id}
-                playListId={playlist._id}
-                playlistName={playlist.name}
-                userId={playlist.userId}
-                // classNames=""
-              />
-            ))}
-          </HomeElement>
-        )
-      ) : (
-        <HomeElement label="Playlists">
-          <Spinner isNegative />
         </HomeElement>
       )}
     </div>

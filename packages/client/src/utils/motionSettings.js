@@ -1,3 +1,6 @@
+// -------
+// Wrapper
+// -------
 export const containerAnimation = {
   hidden: { opacity: 1, scale: 1 },
   visible: {
@@ -10,7 +13,10 @@ export const containerAnimation = {
   },
 };
 
-export const trackAnimation = {
+// ---------------
+// Main animations
+// ---------------
+export const fromBottom = {
   hidden: { y: 100, opacity: 0 },
   visible: {
     y: 0,
@@ -18,9 +24,19 @@ export const trackAnimation = {
   },
 };
 
+export const fromRight = {
+  hidden: { x: 60, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+  },
+};
+
+// -----
+// Heart
+// -----
 export const heartAnimationHover = {
   scale: 1.6,
-  //   color: "white",
 };
 
 export const heartAnimationTap = { scale: 0.8, rotate: 360 };
