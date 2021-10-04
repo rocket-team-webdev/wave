@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
@@ -15,6 +16,7 @@ import { PUBLIC } from "../../constants/routes";
 import { getAllGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
 import { getAllTracks } from "../../api/tracks-api";
+import { containerAnimation } from "../../utils/motionSettings";
 
 export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
@@ -62,6 +64,49 @@ export default function HomePopular({ artistsList = [] }) {
 
   return (
     <div className="row gx-4 gy-5">
+      {popularTracks.length > 0 && (
+        <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
+          <DragDropContext onDragEnd={() => {}}>
+            <Droppable droppableId="popularTracks">
+              {(provided) => (
+                <motion.div
+                  className="col col-12 "
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  // Animation settings
+                  variants={containerAnimation}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {popularTracks &&
+                    popularTracks.map((song, index) => (
+                      <TrackCard
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        draggable={false}
+                        // updateLikedView={handleAddLikedColumn}
+                        // updateDeletedView={handleDeletedView}
+                      />
+                    ))}
+                  {provided.placeholder}
+                </motion.div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </HomeElement>
+      )}
       {popularGenres.length > 0 && (
         <HomeElement label="Genres">
           {popularGenres.map((genre) => (
@@ -99,45 +144,6 @@ export default function HomePopular({ artistsList = [] }) {
       ) : (
         <HomeElement label="Playlists">
           <Spinner isNegative />
-        </HomeElement>
-      )}
-      {popularTracks.length > 0 && (
-        <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>
-          <DragDropContext onDragEnd={() => {}}>
-            <Droppable droppableId="popularTracks">
-              {(provided) => (
-                <div
-                  className="col col-12 "
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {popularTracks &&
-                    popularTracks.map((song, index) => (
-                      <TrackCard
-                        key={song._id}
-                        trackNumber={index + 1}
-                        trackName={song.name}
-                        trackImg={song.album.thumbnail}
-                        artist={song.artist}
-                        albumName={song.album.title}
-                        time={song.duration}
-                        trackUrl={song.url}
-                        albumId={song.album._id}
-                        genreId={song.genreId}
-                        isLiked={song.isLiked}
-                        trackId={song._id}
-                        userId={song.userId}
-                        index={index}
-                        draggable={false}
-                        // updateLikedView={handleAddLikedColumn}
-                        // updateDeletedView={handleDeletedView}
-                      />
-                    ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
         </HomeElement>
       )}
     </div>
