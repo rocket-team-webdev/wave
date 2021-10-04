@@ -24,6 +24,7 @@ export const fromBottom = {
     y: 0,
     opacity: 1,
   },
+  transition: 2,
 };
 
 export const fromRight = {
@@ -33,6 +34,11 @@ export const fromRight = {
     opacity: 1,
   },
 };
+
+// ----------
+// Jumbo text
+// ----------
+// export const jumboAnimation =
 
 // -----
 // Heart
