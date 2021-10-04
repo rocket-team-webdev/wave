@@ -99,10 +99,11 @@ export default function TrackUpload() {
 
     // read metadata ID3
     const tags = await id3.fromFile(files[0]);
-    formik.setFieldValue("name", tags?.title);
-    formik.setFieldValue("artist", tags?.artist);
-    formik.setFieldValue("album", tags?.album);
-    formik.setFieldValue("genre", tags?.genre);
+    if (tags?.title) formik.setFieldValue("name", tags?.title || "", false);
+    if (tags?.artist) formik.setFieldValue("artist", tags?.artist || "", false);
+    if (tags?.album) formik.setFieldValue("album", tags?.album || "", false);
+    if (tags?.genre) formik.setFieldValue("genre", tags?.genre || "", false);
+    console.log("tags", tags);
   };
 
   const handleCreateAlbum = () => {
