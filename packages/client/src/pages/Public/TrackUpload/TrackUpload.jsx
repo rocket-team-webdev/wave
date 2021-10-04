@@ -63,6 +63,8 @@ export default function TrackUpload() {
         if (!uploadState.track)
           return toast("Choose a track!", { type: "error" });
 
+        console.log("uploadState", uploadState);
+
         const formData = new FormData();
         formData.append("name", uploadState.name);
         formData.append("artist", uploadState.artist);
@@ -103,7 +105,6 @@ export default function TrackUpload() {
     if (tags?.artist) formik.setFieldValue("artist", tags?.artist || "", false);
     if (tags?.album) formik.setFieldValue("album", tags?.album || "", false);
     if (tags?.genre) formik.setFieldValue("genre", tags?.genre || "", false);
-    console.log("tags", tags);
   };
 
   const handleCreateAlbum = () => {
@@ -171,8 +172,8 @@ export default function TrackUpload() {
                 id="genre"
                 type="select"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
@@ -187,8 +188,8 @@ export default function TrackUpload() {
                   type="select"
                   hasAddIcon
                   isNegative
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  handleChange={formik.handleChange}
+                  handleBlur={formik.handleBlur}
                   handleAddIcon={handleCreateAlbum}
                   value={formik.values.album}
                   errorMessage={formik.errors.album}

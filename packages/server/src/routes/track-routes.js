@@ -17,6 +17,7 @@ trackRouter.post(
 );
 
 trackRouter.get("/", authFirebaseMiddleware, trackController.getTracks);
+trackRouter.get("/search", authFirebaseMiddleware, trackController.searchTrack);
 trackRouter.get("/:id", authFirebaseMiddleware, trackController.getTrack);
 trackRouter.put("/", authFirebaseMiddleware, trackController.updateTrack);
 trackRouter.delete("/:id", authFirebaseMiddleware, trackController.deleteTrack);
