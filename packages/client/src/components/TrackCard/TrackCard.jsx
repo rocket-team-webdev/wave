@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { motion } from "framer-motion";
-import { addSong, setQueue } from "../../redux/music-queue/actions";
+import {
+  addSong,
+  setPlayState,
+  setSong,
+} from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
 import { fromBottom /* pressedElement */ } from "../../utils/motionSettings";
@@ -78,7 +82,8 @@ export default function TrackCard({
   };
 
   const handlePlay = () => {
-    dispatch(setQueue(trackObject));
+    dispatch(setSong(trackObject));
+    dispatch(setPlayState(true));
   };
 
   const handleAddToQueue = () => {
