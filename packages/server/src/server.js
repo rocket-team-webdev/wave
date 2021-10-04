@@ -9,6 +9,7 @@ const {
   trackRouter,
   genreRouter,
   albumRouter,
+  searchRouter,
   meRouter,
   playlistsRouter,
 } = require("./routes");
@@ -27,6 +28,7 @@ app.use("/api/account", accountRouter);
 app.use("/api/tracks", trackRouter);
 app.use("/api/genres", genreRouter);
 app.use("/api/albums", albumRouter);
+app.use("/api/search", searchRouter);
 app.use("/api/me", meRouter);
 app.use("/api/playlists", playlistsRouter);
 
