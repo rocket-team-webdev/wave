@@ -30,7 +30,6 @@ export const API = {
   ACCOUNT: "/account",
   REGISTER: "/register",
   AUTHENTICATE: "/authenticate",
-  TRACK: "/tracks",
   GENRE: "/genres",
   ALBUM: "/albums",
   PLAYLISTS: "/playlists",
@@ -40,4 +39,5 @@ export const API = {
   LIKED: "/liked",
   FOLLOWERS: "/followers",
   FOLLOWING: "/following",
+  SEARCH: "/search",
 };

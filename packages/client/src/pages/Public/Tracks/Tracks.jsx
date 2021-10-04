@@ -9,10 +9,13 @@ import JumboText from "../../../components/JumboText";
 import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
+import Input from "../../../components/Input";
+import { searchTrack } from "../../../api/search-api";
 
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
   const [likedSongs, setLikedSongs] = useState();
+  const [searchBar, setSearchBar] = useState("");
 
   const fetchUploadedSongs = async () => {
     try {
@@ -56,7 +59,6 @@ export default function Tracks() {
   };
 
   const handleDeletedView = (trackId) => {
-    console.log("trackId", trackId);
     const updatedLikedSongs = likedSongs.filter((v) => v._id !== trackId);
     const updatedUploadedSongs = uploadedSongs.filter((v) => v._id !== trackId);
     setLikedSongs(updatedLikedSongs);
@@ -90,6 +92,18 @@ export default function Tracks() {
     setLikedSongs(items);
   };
 
+  const handleSearchChange = async (e) => {
+    try {
+      setSearchBar(e.target.value);
+      const { data } = await searchTrack(e.target.value);
+      setUploadedSongs(data.tracks);
+
+      console.log("data", data);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
+
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
@@ -107,7 +121,23 @@ export default function Tracks() {
           </Link>
         </div>
       </div>
+
       <div className="row">
+        <div className="col-12">
+          <form className="my-5">
+            <Input
+              id="searchBar"
+              name="searchBar"
+              type="text"
+              placeholder="Search"
+              handleChange={handleSearchChange}
+              // handleBlur={handleSearchChange}
+              value={searchBar}
+              classNames="col col-6 col-md-6"
+              isNegative
+            />
+          </form>
+        </div>
         <DragDropContext onDragEnd={onDragEndUploaded}>
           <Droppable droppableId="Uploaded">
             {(provided) => (
