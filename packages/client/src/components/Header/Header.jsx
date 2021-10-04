@@ -10,6 +10,7 @@ import waveappLogo from "../../assets/images/waveapp-logotype.svg";
 import Button from "../Button";
 
 import "./Header.scss";
+import { clearQueue } from "../../redux/music-queue/actions";
 
 function Header({ props }) {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function Header({ props }) {
   const handleSignOut = async () => {
     await signOut();
     dispatch(logOut());
+    dispatch(clearQueue());
   };
   return (
     <header
