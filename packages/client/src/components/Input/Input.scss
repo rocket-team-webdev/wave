@@ -40,11 +40,16 @@ label {
   border: 2px solid c.$lightColor;
 }
 
+.file-input-wrapper {
+  background: c.$grayColor;
+}
+
 .custom-upload-input {
   position: absolute;
-  width: 95%;
-  top: 36px;
+  top: 27px;
+  max-width: 100%;
   height: 45px;
+  // height: 100%;
 }
 
 .positive-custom-upload-input {
@@ -70,6 +75,5 @@ label {
 }
 
 .error-msg {
-  font-size: 16px;
   color: #ab1515;
 }

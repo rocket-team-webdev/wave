@@ -1,9 +1,27 @@
+.card-hover {
+  .song-index {
+    min-width: 35px;
+  }
+
+  .title-and-artist,
+  .track-album {
+    width: 25%;
+  }
+
+  .track-playcounter,
+  .track-time {
+    width: 75px;
+  }
+}
+
 .play-hover {
   position: relative;
   display: inline-block;
   overflow: hidden;
   img {
     width: 50px;
+    height: 50px;
+    object-fit: content;
   }
 }
 

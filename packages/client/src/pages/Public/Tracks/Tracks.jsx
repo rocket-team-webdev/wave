@@ -99,7 +99,7 @@ export default function Tracks() {
     <Layout isNegative>
       <div className="row mb-5">
         <div className="col col-9">
-          <JumboText priText="My Songs" isNegative />
+          <JumboText priText="My Songs" cols="12" isNegative />
         </div>
         <div className="col col-3">
           <Link className="float-end p-3" to={PUBLIC.TRACK_UPLOAD}>
@@ -112,11 +112,11 @@ export default function Tracks() {
           <Droppable droppableId="Uploaded">
             {(provided) => (
               <div
-                className="col col-6 "
+                className="col col-12 col-md-6 pb-5 pb-md-0"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                <div className="fnt-page-title">Uploaded</div>
+                <div className="fnt-page-title mb-4">Uploaded</div>
                 {uploadedSongs &&
                   uploadedSongs.map((song, index) => (
                     <TrackCard
@@ -149,11 +149,11 @@ export default function Tracks() {
           <Droppable droppableId="liked">
             {(provided) => (
               <div
-                className="col col-6 "
+                className="col col-12 col-md-6"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                <div className="fnt-page-title">Liked</div>
+                <div className="fnt-page-title mb-4">Liked</div>
                 {likedSongs &&
                   likedSongs.map((song, index) => (
                     <TrackCard

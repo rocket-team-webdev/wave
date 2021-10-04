@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { addSong, setQueue } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
@@ -123,7 +124,7 @@ export default function TrackCard({
     <Draggable draggableId={trackId} index={index} isDragDisabled={!draggable}>
       {(provided, snapshot) => (
         <div
-          className="row card-hover fx-rounded clr-primary"
+          className="row m-0 col col-12 card-hover fx-rounded clr-primary"
           onDoubleClick={handlePlay}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -134,40 +135,52 @@ export default function TrackCard({
           )}
         >
           <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-            <h3 className="m-0 px-2 fnt-song-bold text-start">{trackNumber}</h3>
-            <div className="play-hover" onClick={handlePlay} aria-hidden="true">
+            {/* Number */}
+            <h3 className="m-0 px-2 fnt-song-bold text-start song-index">
+              {trackNumber}
+            </h3>
+            {/* Thumbnail */}
+            <div
+              className="d-none d-lg-inline play-hover"
+              onClick={handlePlay}
+              aria-hidden="true"
+            >
               <img className="fx-rounded mx-2" src={trackImg} alt={trackName} />
               <i className="fas fa-play fnt-white" />
             </div>
+            {/* Like */}
             <div className="d-flex fnt-primary px-2">
               <button
                 className="text-center"
                 type="button"
                 onClick={handleLike}
               >
-                {liked ? (
-                  <i className="fas fa-heart fnt-secondary" />
-                ) : (
-                  <i className="far fa-heart fnt-secondary" />
-                )}
+                {liked ? <FaHeart /> : <FaRegHeart />}
               </button>
             </div>
-            <div className=" px-2 col">
-              <h3 className="m-0 text-start fnt-song-bold">{trackName}</h3>
-              <h4 className="m-0 text-start fnt-artist">{artist}</h4>
+            {/* Title/Artist */}
+            <div className=" px-2 col title-and-artist">
+              <h3 className="m-0 text-start fnt-song-bold truncate">
+                {trackName}
+              </h3>
+              <h4 className="m-0 text-start fnt-artist truncate">{artist}</h4>
             </div>
+            {/* Album */}
             <Link
-              className="m-0 text-start fnt-song-regular px-2 col"
+              className="m-0 text-start fnt-song-regular px-2 col truncate track-album"
               to={`${PUBLIC.ALBUMS}/${albumId}`}
             >
               {albumName}
             </Link>
-            <h4 className="m-0 text-start fnt-song-regular px-2 col">
+            {/* Playcounter */}
+            <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
               {formatPlayCounter(playCounter)}
             </h4>
-            <h4 className="m-0 text-start fnt-song-regular px-2 col">
+            {/* Time */}
+            <h4 className="m-0 text-start fnt-song-regular px-2 track-time">
               {timeIntoString(time)}
             </h4>
+            {/* Contextual menu */}
             <div className="dropdown">
               <button
                 className="m-0 text-end"

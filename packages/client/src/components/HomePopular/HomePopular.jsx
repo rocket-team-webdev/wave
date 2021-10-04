@@ -8,6 +8,7 @@ import Button from "../Button";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
 import TrackCard from "../TrackCard";
+import Spinner from "../Spinner";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -96,7 +97,9 @@ export default function HomePopular({ artistsList = [] }) {
           </HomeElement>
         )
       ) : (
-        <HomeElement label="Playlists">Loading...</HomeElement>
+        <HomeElement label="Playlists">
+          <Spinner isNegative />
+        </HomeElement>
       )}
       {popularTracks.length > 0 && (
         <HomeElement label="Tracks" to={PUBLIC.MY_SONGS}>

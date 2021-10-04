@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { FaGoogle } from "react-icons/fa";
 import { trigger } from "../../../utils/customEvents";
 
 import signInSchema from "./sign-in-schema";
@@ -20,6 +21,8 @@ import Button from "../../../components/Button";
 import Layout from "../../../components/Layout";
 import Checkbox from "../../../components/Checkbox";
 // import Upload from "../../../components/Upload";
+import Spinner from "../../../components/Spinner";
+
 import { isRegistering } from "../../../redux/user/actions";
 
 import { PUBLIC } from "../../../constants/routes";
@@ -99,7 +102,14 @@ export default function SignIn() {
   return (
     <Layout>
       <div className="row">
-        <JumboText secText="Sign In." />
+        {loading ? (
+          <div className="col col-12 col-md-6">
+            <Spinner />
+          </div>
+        ) : (
+          <JumboText secText="Sign in." />
+        )}
+
         <div className="col-6">
           <FormWrapper formTitle="Log in">
             <form onSubmit={formik.handleSubmit} className="row">
@@ -122,6 +132,7 @@ export default function SignIn() {
                 id="password"
                 name="password"
                 placeholder="Password"
+                hasForgotPassword
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
@@ -130,10 +141,6 @@ export default function SignIn() {
                 classNames="mb-4"
               />
               <div className="form-footer-wrapper">
-                <div className="fnt-caption">
-                  Forgot your password? Reset it{" "}
-                  <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
-                </div>
                 <div className="fnt-caption mt-4 row">
                   <Checkbox
                     label="Remember account"
@@ -145,7 +152,7 @@ export default function SignIn() {
                   <div className="d-flex justify-content-end col col-12 col-md-7 p-0">
                     <div className="d-inline-flex p-2 pe-2">
                       <Button handleClick={handleGoogleSignIn}>
-                        <i className="fab fa-google" />
+                        <FaGoogle />
                       </Button>
                     </div>
                     <div className="p-2">
@@ -153,15 +160,14 @@ export default function SignIn() {
                     </div>
                   </div>
                 </div>
-                <div className="fnt-caption">
-                  First time in WaveApp?
-                  <br />
-                  Please, <Link to={PUBLIC.SIGN_UP}>sign up.</Link>
-                </div>
               </div>
             </form>
-            {loading && <h3>Loading...</h3>}
           </FormWrapper>
+          <div className="fnt-caption mt-4 pe-4 text-end">
+            First time in WaveApp?
+            <br />
+            Please, <Link to={PUBLIC.SIGN_UP}>sign up.</Link>
+          </div>
         </div>
       </div>
     </Layout>

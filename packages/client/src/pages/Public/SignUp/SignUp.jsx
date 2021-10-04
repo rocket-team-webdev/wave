@@ -16,6 +16,7 @@ import Layout from "../../../components/Layout";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import Select from "../../../components/Select";
+import Spinner from "../../../components/Spinner";
 
 import { emailVerification } from "../../../services/auth/auth";
 import { PUBLIC } from "../../../constants/routes";
@@ -95,7 +96,13 @@ export default function SignUp() {
   return (
     <Layout>
       <div className="row">
-        <JumboText secText="Sign up." />
+        {loading ? (
+          <div className="col col-12 col-md-6">
+            <Spinner />
+          </div>
+        ) : (
+          <JumboText secText="Sign up." />
+        )}
         <div className="col-6">
           <FormWrapper formTitle="Create New Account">
             <form onSubmit={formik.handleSubmit} className="row">
@@ -204,22 +211,23 @@ export default function SignUp() {
                 errorMessage={formik.errors.confirmPassword}
                 hasErrorMessage={formik.touched.confirmPassword}
               />
-              <div className="fnt-caption">
-                Already have an account?{" "}
-                <Link to={PUBLIC.SIGN_IN}>Sign in.</Link>
-              </div>
-              <div className="d-flex justify-content-end col-12 text-end mt-4 p-0">
-                <div className="d-inline-flex p-2 pe-2">
-                  <Button handleClick={handleGoogleSignIn}>
-                    <i className="fab fa-google" />
-                  </Button>
+              <div className="form-footer-wrapper d-flex row mt-3">
+                <div className="fnt-caption col col-6">
+                  Already have an account? <br /> Please,{" "}
+                  <Link to={PUBLIC.SIGN_IN}>sign in.</Link>
                 </div>
-                <div className="p-2">
-                  <Button type="submit">Sign Up</Button>
+                <div className="d-flex justify-content-end col col-6 text-end p-0">
+                  <div className="d-inline-flex p-2 pe-2">
+                    <Button handleClick={handleGoogleSignIn}>
+                      <i className="fab fa-google" />
+                    </Button>
+                  </div>
+                  <div className="p-2">
+                    <Button type="submit">Sign Up</Button>
+                  </div>
                 </div>
               </div>
             </form>
-            {loading && <h3>Loading...</h3>}
           </FormWrapper>
         </div>
       </div>

@@ -7,7 +7,8 @@ import Input from "../../../components/Input";
 import Layout from "../../../components/Layout";
 import Select from "../../../components/Select";
 import Button from "../../../components/Button";
-import AddIcon from "../../../components/SVGicons/AddIcon";
+import JumboText from "../../../components/JumboText";
+import Spinner from "../../../components/Spinner";
 
 import trackUpdateSchema from "./track-update-schema";
 import { getAllGenres } from "../../../api/genre-api";
@@ -97,14 +98,19 @@ function TrackUpdate() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-12">
-          <p className="fnt-sidebar fnt-light">Update the song</p>
+      <div className="row">
+        <div className="mb-5">
+          <JumboText priText="Edit song" cols="11" isNegative />
+          {isLoading && (
+            <div className="col d-flex justify-content-end">
+              <Spinner isNegative />
+            </div>
+          )}
         </div>
       </div>
       <div className="row">
         {isLoading ? (
-          <div className="col col-12 col-md-6 p-4 ">Loading...</div>
+          <Spinner isNegative />
         ) : (
           <BigThumbnail
             image={trackState.album?.thumbnail}
@@ -155,27 +161,20 @@ function TrackUpdate() {
                 options={genresState}
               />
               <Select
-                classNames="col-11 col-md-5"
+                classNames="col-12 col-lg-6"
                 label="album"
                 id="album"
                 type="select"
+                hasAddIcon
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                handleAddIcon={() => history.push(PUBLIC.ADD_ALBUM)}
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
                 hasErrorMessage={formik.touched.album}
                 options={albumsState}
               />
-
-              <div className="col-1 ms-0 ps-0 pt-6">
-                <Button
-                  isNegative
-                  onClick={() => history.push(PUBLIC.ADD_ALBUM)}
-                >
-                  <AddIcon color="" size={25} />
-                </Button>
-              </div>
             </div>
 
             <div className="d-flex justify-content-end my-5">

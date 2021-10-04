@@ -6,17 +6,21 @@ import AddIcon from "../SVGicons/AddIcon";
 
 import "./DragAndDrop.scss";
 
-export default function DragAndDrop({ handleChange, acceptFiles = "audio/*" }) {
-  const [files, setFiles] = useState("Drop the files here ...");
+export default function DragAndDrop({
+  handleChange,
+  dropText,
+  acceptFiles = "audio/*",
+}) {
+  const [files, setFiles] = useState(dropText);
 
   const baseStyle = {
     flex: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "20px",
-    paddingBottom: "65px",
-    marginRight: "20px",
+    padding: "30px",
+    paddingBottom: "50px",
+    // marginRight: "20px",
     borderWidth: 2,
     borderRadius: 2,
     borderColor: "#eeeeee",
@@ -73,30 +77,30 @@ export default function DragAndDrop({ handleChange, acceptFiles = "audio/*" }) {
     <div {...getRootProps({ style })}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <div className="d-flex flex-column align-items-center pt-4 m-auto">
+        <div className="d-flex flex-column align-items-center pt-2 m-auto fx-rounded">
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"
-            label=""
+            // label=""
             id="thumbnail"
             type="file"
             placeholder="Upload file"
             isNegative
           />
-          <p className="pt-3 fnt-white">{files}</p>
+          <p className="fnt-white">{files}</p>
         </div>
       ) : (
-        <div className="d-flex flex-column align-items-center pt-4 m-auto">
+        <div className="d-flex flex-column align-items-center pt-2 m-auto fx-rounded">
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"
-            label=""
+            // label=""
             id="thumbnail"
             type="file"
             placeholder="Upload file"
             isNegative
           />
-          <p className="pt-3 fnt-white">{files}</p>
+          <p className="fnt-white">{files}</p>
         </div>
       )}
     </div>
