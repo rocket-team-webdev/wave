@@ -22,13 +22,16 @@ import {
   clearShuffle,
   setShuffle,
   like,
+  nextSong,
+  prevSong,
+  setListPosition,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
-  const [listPosition, setListPosition] = useState(0);
+  const listPosition = queueState.listPosition;
   const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
@@ -40,8 +43,8 @@ export default function MusicPlayer() {
 
   const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
-      setListPosition(listPosition + 1);
-    } else if (repeatState === "queue") setListPosition(0);
+      dispatch(nextSong());
+    } else if (repeatState === "queue") dispatch(setListPosition(0));
 
     if (listPosition >= queueState.queue.length - 2 && repeatState !== "queue")
       setNextButtonDisabled(true);
@@ -50,7 +53,7 @@ export default function MusicPlayer() {
   };
   const previousTrack = () => {
     if (listPosition > 0) {
-      setListPosition(listPosition - 1);
+      dispatch(prevSong());
       setNextButtonDisabled(false);
     }
     if (listPosition <= 1) setPrevButtonDisabled(true);

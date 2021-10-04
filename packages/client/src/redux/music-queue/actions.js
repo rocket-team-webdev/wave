@@ -1,15 +1,24 @@
 import {
-  SET,
+  SET_SONG,
+  SET_QUEUE,
   ADD,
   CLEAR,
   SET_SHUFFLE,
   CLEAR_SHUFFLE,
   SET_ALL,
   LIKE,
+  NEXT_SONG,
+  PREV_SONG,
+  SET_LIST_POSITION,
 } from "./types";
 
+export const setSong = (value) => ({
+  type: SET_SONG,
+  payload: value,
+});
+
 export const setQueue = (value) => ({
-  type: SET,
+  type: SET_QUEUE,
   payload: value,
 });
 
@@ -38,5 +47,18 @@ export const clearShuffle = () => ({
 
 export const like = (value) => ({
   type: LIKE,
+  payload: value,
+});
+
+export const nextSong = () => ({
+  type: NEXT_SONG,
+});
+
+export const prevSong = () => ({
+  type: PREV_SONG,
+});
+
+export const setListPosition = (value) => ({
+  type: SET_LIST_POSITION,
   payload: value,
 });
