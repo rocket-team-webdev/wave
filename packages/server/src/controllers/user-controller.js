@@ -9,10 +9,6 @@ const writeFileAsync = promisify(fs.writeFile);
 async function signUp(req, res, next) {
   const { firebaseId } = req.user;
 
-  console.log("req", req);
-  console.log("req.body", req.body);
-  console.log("req.files", req.files);
-
   try {
     const data = await db.User.findOne({ firebaseId });
 

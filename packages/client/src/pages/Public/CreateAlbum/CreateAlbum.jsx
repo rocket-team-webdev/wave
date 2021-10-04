@@ -39,7 +39,6 @@ export default function CreateAlbum() {
   });
 
   const thumbnailOnChange = async (files) => {
-    console.log("Create Album", files[0]);
     formik.setFieldValue("thumbnail", files[0]);
   };
 

@@ -53,8 +53,6 @@ export default function SignUp() {
         formData.append("country", signUpState.country);
         formData.append("email", signUpState.email);
         formData.append("password", signUpState.password);
-        console.log(formData);
-        console.log(signUpState);
         await signUpWithEmailAndPassword(
           signUpState.email,
           signUpState.password,
@@ -79,8 +77,6 @@ export default function SignUp() {
   });
 
   const profilePictureOnChange = async (event) => {
-    console.log(event.target.files[0]);
-    // console.log(files[0]);
     formik.setFieldValue("profilePicture", event.target.files[0]);
   };
 

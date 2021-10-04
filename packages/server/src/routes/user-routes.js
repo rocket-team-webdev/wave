@@ -11,7 +11,6 @@ const {
 const userRouter = Router();
 const mdlUpload = upload.fields([{ name: "profilePicture" }]);
 
-// userRouter.post("/register", authRegisterMiddleware, userController.signUp);
 userRouter.post(
   "/register",
   [authRegisterMiddleware, mdlUpload],

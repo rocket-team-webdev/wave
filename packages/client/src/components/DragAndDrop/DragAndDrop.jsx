@@ -20,7 +20,6 @@ export default function DragAndDrop({
     alignItems: "center",
     padding: "30px",
     paddingBottom: "50px",
-    // marginRight: "20px",
     borderWidth: 2,
     borderRadius: 2,
     borderColor: "#eeeeee",
@@ -47,7 +46,6 @@ export default function DragAndDrop({
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length) {
-      console.log("Drag and drop", acceptedFiles);
       handleChange(acceptedFiles);
       setFiles(acceptedFiles[0].name);
       return toast("File uploaded!", { type: "success" });
