@@ -6,10 +6,11 @@ import {
   heartAnimationHover,
 } from "../../../utils/motionSettings";
 
-export default function HeartIcon({ isFull }) {
+export default function HeartIcon({ classNames, isFull }) {
+  const iconClassNames = `${classNames} heart-icon`;
   return (
     <motion.div
-      className="heart-icon"
+      className={iconClassNames}
       whileHover={heartAnimationHover}
       whileTap={heartAnimationTap}
     >
