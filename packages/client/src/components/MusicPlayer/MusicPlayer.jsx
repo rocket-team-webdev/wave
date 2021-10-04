@@ -25,6 +25,7 @@ import {
   nextSong,
   prevSong,
   setListPosition,
+  setPlayState,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 
@@ -35,11 +36,15 @@ export default function MusicPlayer() {
   const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
-  const [isShuffle, setIsShuffle] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(queueState.isShuffled);
   const [repeatState, setRepeatState] = useState("false");
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
+
+  const handlePlay = () => {
+    dispatch(setPlayState(false));
+  };
 
   const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
@@ -138,6 +143,18 @@ export default function MusicPlayer() {
     }
   }, [queueState]);
 
+  useEffect(() => {
+    if (queueState.willPlay) {
+      audioPlayer.current.audio.current.play();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (queueState.willPlay) {
+      audioPlayer.current.audio.current.play();
+    }
+  }, [queueState.willPlay]);
+
   return (
     <>
       {queueState.queue.length > 0 && (
@@ -207,11 +224,12 @@ export default function MusicPlayer() {
             </div>
           </div>
           <AudioPlayer
-            autoPlay
-            volume={0}
+            autoPlayAfterSrcChange={false}
+            volume={0.1}
             showSkipControls
             showJumpControls={false}
             src={trackObject.url}
+            onPlay={handlePlay}
             onClickNext={nextTrack}
             onClickPrevious={previousTrack}
             onEnded={nextTrack}

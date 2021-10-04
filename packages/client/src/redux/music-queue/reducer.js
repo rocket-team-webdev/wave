@@ -10,6 +10,7 @@ import {
   NEXT_SONG,
   PREV_SONG,
   SET_LIST_POSITION,
+  SET_PLAY_STATE,
 } from "./types";
 
 import initialState from "./state";
@@ -19,6 +20,7 @@ const reducer = (state = initialState, action) => {
     case SET_SONG:
       return {
         ...state,
+        willPlay: false,
         queue: [
           ...state.queue.slice(0, state.listPosition),
           action.payload,
@@ -64,6 +66,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, listPosition: state.listPosition - 1 };
     case SET_LIST_POSITION:
       return { ...state, listPosition: action.payload };
+    case SET_PLAY_STATE:
+      return { ...state, willPlay: action.payload };
     default:
       break;
   }

@@ -10,6 +10,7 @@ import {
   NEXT_SONG,
   PREV_SONG,
   SET_LIST_POSITION,
+  SET_PLAY_STATE,
 } from "./types";
 
 export const setSong = (value) => ({
@@ -60,5 +61,10 @@ export const prevSong = () => ({
 
 export const setListPosition = (value) => ({
   type: SET_LIST_POSITION,
+  payload: value,
+});
+
+export const setPlayState = (value) => ({
+  type: SET_PLAY_STATE,
   payload: value,
 });
