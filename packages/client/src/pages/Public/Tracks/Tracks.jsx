@@ -11,11 +11,13 @@ import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
 import Input from "../../../components/Input";
 import { searchTrack } from "../../../api/search-api";
+import useDebounce from "../../../hooks/useDebounce";
 
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
   const [likedSongs, setLikedSongs] = useState();
   const [searchBar, setSearchBar] = useState("");
+  const debouncedSearch = useDebounce(searchBar, 500);
 
   const fetchUploadedSongs = async () => {
     try {
@@ -93,16 +95,21 @@ export default function Tracks() {
   };
 
   const handleSearchChange = async (e) => {
-    try {
-      setSearchBar(e.target.value);
-      const { data } = await searchTrack(e.target.value);
-      setUploadedSongs(data.tracks);
+    setSearchBar(e.target.value);
+  };
 
-      console.log("data", data);
+  useEffect(async () => {
+    try {
+      const { data } = await searchTrack(debouncedSearch);
+      const liked = data.tracks.filter((track) => track.isLiked);
+      const uploaded = data.tracks.filter((track) => track.isOwner);
+
+      setUploadedSongs(uploaded);
+      setLikedSongs(liked);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
-  };
+  }, [debouncedSearch]);
 
   useEffect(() => {
     fetchUploadedSongs();
@@ -124,7 +131,7 @@ export default function Tracks() {
 
       <div className="row">
         <div className="col-12">
-          <form className="my-5">
+          <form className="">
             <Input
               id="searchBar"
               name="searchBar"
@@ -133,7 +140,7 @@ export default function Tracks() {
               handleChange={handleSearchChange}
               // handleBlur={handleSearchChange}
               value={searchBar}
-              classNames="col col-6 col-md-6"
+              classNames="ms-auto col-12 col-md-6 col-lg-4"
               isNegative
             />
           </form>
