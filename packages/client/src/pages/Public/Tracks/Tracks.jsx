@@ -10,11 +10,16 @@ import JumboText from "../../../components/JumboText";
 import TrackCard from "../../../components/TrackCard";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
+import Input from "../../../components/Input";
+import { searchTrack } from "../../../api/search-api";
+import useDebounce from "../../../hooks/useDebounce";
 import { containerAnimation } from "../../../utils/motionSettings";
 
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState();
   const [likedSongs, setLikedSongs] = useState();
+  const [searchBar, setSearchBar] = useState("");
+  const debouncedSearch = useDebounce(searchBar, 500);
 
   const fetchUploadedSongs = async () => {
     try {
@@ -58,7 +63,6 @@ export default function Tracks() {
   };
 
   const handleDeletedView = (trackId) => {
-    console.log("trackId", trackId);
     const updatedLikedSongs = likedSongs.filter((v) => v._id !== trackId);
     const updatedUploadedSongs = uploadedSongs.filter((v) => v._id !== trackId);
     setLikedSongs(updatedLikedSongs);
@@ -92,6 +96,23 @@ export default function Tracks() {
     setLikedSongs(items);
   };
 
+  const handleSearchChange = async (e) => {
+    setSearchBar(e.target.value);
+  };
+
+  useEffect(async () => {
+    try {
+      const { data } = await searchTrack(debouncedSearch);
+      const liked = data.tracks.filter((track) => track.isLiked);
+      const uploaded = data.tracks.filter((track) => track.isOwner);
+
+      setUploadedSongs(uploaded);
+      setLikedSongs(liked);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  }, [debouncedSearch]);
+
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
@@ -109,7 +130,23 @@ export default function Tracks() {
           </Link>
         </div>
       </div>
+
       <div className="row">
+        <div className="col-12">
+          <form className="">
+            <Input
+              id="searchBar"
+              name="searchBar"
+              type="text"
+              placeholder="Search"
+              handleChange={handleSearchChange}
+              // handleBlur={handleSearchChange}
+              value={searchBar}
+              classNames="col-12 col-md-6 col-lg-4"
+              isNegative
+            />
+          </form>
+        </div>
         <DragDropContext onDragEnd={onDragEndUploaded}>
           <Droppable droppableId="Uploaded">
             {(provided) => (

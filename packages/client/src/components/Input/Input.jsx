@@ -92,7 +92,7 @@ export default function Input({
           id={id}
           name={id}
           placeholder={placeholder}
-          onChange={onHandleChange}
+          onChange={handleChange}
           onBlur={handleBlur}
           onInput={handleInput}
           {...props}
