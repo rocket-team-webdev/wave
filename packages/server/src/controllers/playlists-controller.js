@@ -1,4 +1,9 @@
 const db = require("../models");
+const { cloudinary } = require("../services/cloudinary");
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require("util");
+const writeFileAsync = promisify(fs.writeFile);
 
 async function getPlaylists(req, res, next) {
   try {
@@ -21,6 +26,75 @@ async function getPlaylists(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ playlists: foundPlaylists });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
+async function addPlaylist(req, res, next) {
+  try {
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const playlistObj = {};
+    let thumbnail = req.files["thumbnail"];
+
+    // Checking if playlist name already exists
+    const playlistExists = await db.Album.findOne(
+      {
+        title: req.body.title,
+        userId: userId,
+      },
+      { _id: 1 },
+    );
+    if (playlistExists) {
+      return res.status(409).send({ msg: "Error: Playlist already exists" });
+    }
+
+    // Album cover by default
+    playlistObj.thumbnail =
+      "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633430445/default-preset/default-playlist-img_wuyzoh.png";
+    // if there is a thumbnail
+    if (thumbnail) {
+      thumbnail = thumbnail[0];
+      const thumbnailLocation = path.join(
+        __dirname,
+        "../../",
+        "uploads",
+        thumbnail.originalname,
+      );
+
+      // upload file
+      await writeFileAsync(
+        thumbnailLocation,
+        Buffer.from(new Uint8Array(thumbnail.buffer)),
+      );
+
+      // upload to cloudinary
+      const cldThumbnailRes = await cloudinary.uploader.upload(
+        thumbnailLocation,
+        {
+          upload_preset: "covers-preset",
+          resource_type: "image",
+        },
+      );
+      playlistObj.thumbnail = cldThumbnailRes.secure_url;
+
+      // delete uploaded file
+      fs.unlink(thumbnailLocation, (err) => {
+        if (err) throw err;
+      });
+    }
+
+    // Mongodb store data
+    playlistObj.name = req.body.name;
+    playlistObj.description = req.body.description;
+    playlistObj.primaryColor = req.body.primaryColor;
+    playlistObj.userId = userId;
+
+    await db.Playlist.create(playlistObj);
+
+    return res.status(200).send({ message: "Playlist created successfully" });
   } catch (err) {
     res.status(500).send({ error: err.message });
     next(err);
@@ -95,5 +169,6 @@ async function getPlaylistById(req, res, next) {
 
 module.exports = {
   getPlaylists,
+  addPlaylist,
   getPlaylistById,
 };

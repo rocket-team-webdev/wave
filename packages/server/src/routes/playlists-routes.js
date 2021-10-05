@@ -13,10 +13,34 @@ playlistsRouter.get(
   playlistsController.getPlaylists,
 );
 
+playlistsRouter.post(
+  "/",
+  authFirebaseMiddleware,
+  playlistsController.addPlaylist,
+);
+
+playlistsRouter.put(
+  "/",
+  authFirebaseMiddleware,
+  playlistsController.updatePlaylist,
+);
+
 playlistsRouter.get(
   "/:id",
   authFirebaseMiddleware,
   playlistsController.getPlaylistById,
+);
+
+playlistsRouter.delete(
+  "/:id",
+  authFirebaseMiddleware,
+  playlistsController.deletePlaylist,
+);
+
+playlistsRouter.put(
+  "/:id/follow",
+  authFirebaseMiddleware,
+  playlistsController.followPlaylist,
 );
 
 module.exports = {
