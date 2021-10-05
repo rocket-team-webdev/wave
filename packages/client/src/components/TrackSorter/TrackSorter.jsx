@@ -9,85 +9,209 @@ function TrackSorter({
 }) {
   const [title, setTitle] = useState("Title");
   const [icon, setIcon] = useState("");
-  const [flag, setFlag] = useState(1);
+  const [flag, setFlag] = useState({
+    flagTitle: 1,
+    flagAlbum: 1,
+    flagPopularity: 1,
+    flagDuration: 1,
+  });
 
-  const changeTitleColumn = (pos) => {
-    switch (pos) {
+  const handleSortByTitleAndArtist = () => {
+    switch (flag.flagTitle) {
       case 0:
         setTitle("Title");
         setIcon("");
-        setFlag(1);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
         break;
       case 1:
         setTitle("Title");
         setIcon(<i className="fas fa-caret-down fnt-light" />);
-        setFlag(2);
+        setFlag({
+          flagTitle: 2,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
         break;
       case 2:
         setTitle("Title");
         setIcon(<i className="fas fa-caret-up fnt-light" />);
-        setFlag(3);
+        setFlag({
+          flagTitle: 3,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
         break;
       case 3:
         setTitle("Artist");
         setIcon(<i className="fas fa-caret-down fnt-light" />);
-        setFlag(4);
+        setFlag({
+          flagTitle: 4,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
         break;
       case 4:
         setTitle("Artist");
         setIcon(<i className="fas fa-caret-up fnt-light" />);
-        setFlag(0);
+        setFlag({
+          flagTitle: 0,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
         break;
       default:
         break;
     }
-    return title;
-  };
-
-  const handleSortByTitleAndArtist = () => {
-    changeTitleColumn(flag);
     sortByTitleAndArtist();
   };
 
   const handleSortByAlbum = () => {
+    switch (flag.flagAlbum) {
+      case 0:
+        setIcon("");
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 1:
+        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 2,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 2:
+        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 0,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      default:
+        break;
+    }
     sortByAlbum();
   };
 
   const handleSortByPopularity = () => {
+    switch (flag.flagPopularity) {
+      case 0:
+        setIcon("");
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 1:
+        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 2,
+          flagDuration: 1,
+        });
+        break;
+      case 2:
+        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 0,
+          flagDuration: 1,
+        });
+        break;
+      default:
+        break;
+    }
     sortByPopularity();
   };
 
   const handleSortByDuration = () => {
+    switch (flag.flagDuration) {
+      case 0:
+        setIcon("");
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 1:
+        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 2,
+        });
+        break;
+      case 2:
+        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 0,
+        });
+        break;
+      default:
+        break;
+    }
     sortByDuration();
   };
 
   return (
     <div className="row m-0 col col-12">
       <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-        <div
-          type="button"
-          className="col col-3 m-0 px-2 fnt-song-bold d-flex align-items-center"
-        >
+        <div className="col col-3 m-0 px-2 fnt-song-bold d-flex align-items-center">
           <h3 className="text-start fnt-sorter fnt-light me-1 m-0">#</h3>
         </div>
         <div className="col col-3">
           <SorterElement
             title={title}
             handleClick={handleSortByTitleAndArtist}
-            orderIcon={icon}
+            orderIcon={flag.flagTitle === 1 ? "" : icon}
           />
         </div>
         <div className="col col-3">
-          <SorterElement title="Album" handleClick={handleSortByAlbum} />
+          <SorterElement
+            title="Album"
+            handleClick={handleSortByAlbum}
+            orderIcon={flag.flagAlbum === 1 ? "" : icon}
+          />
         </div>
         <div className="col col-1">
           <SorterElement
             title="Popularity"
             handleClick={handleSortByPopularity}
+            orderIcon={flag.flagPopularity === 1 ? "" : icon}
           />
         </div>
         <div className="col col-2">
-          <SorterElement title="Duration" handleClick={handleSortByDuration} />
+          <SorterElement
+            title="Duration"
+            handleClick={handleSortByDuration}
+            orderIcon={flag.flagDuration === 1 ? "" : icon}
+          />
         </div>
       </div>
       <hr className="fnt-light" />

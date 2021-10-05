@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { motion } from "framer-motion";
-import { sortArrayDescendent } from "../../helpers/helpers";
+import { sortArrayAscendent, sortArrayDescendent } from "../../utils/sorters";
 import { containerAnimation } from "../../utils/motionSettings";
 import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
 
 function TrackList({ tracks, onAddLikedColumn }) {
   const [listOfTracks, setListOfTracks] = useState(tracks);
+  const [flag, setFlag] = useState({
+    flagTitle: 1,
+    flagAlbum: 1,
+    flagPopularity: 1,
+    flagDuration: 1,
+  });
 
   const handleAddLikedColumn = (song, isLiked) => {
     onAddLikedColumn(song, isLiked);
@@ -18,24 +24,172 @@ function TrackList({ tracks, onAddLikedColumn }) {
     setListOfTracks(updatedListOfTracks);
   };
 
-  const handleSortByTitleAndArtist = () => {
-    const sortedTracks = sortArrayDescendent(listOfTracks, "name");
-    setListOfTracks(sortedTracks);
+  const sortByTitleAndArtist = () => {
+    let sortedTracks = [];
+    switch (flag.flagTitle) {
+      case 0:
+        setListOfTracks(listOfTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 1:
+        sortedTracks = sortArrayDescendent(listOfTracks, "name");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 2,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 2:
+        sortedTracks = sortArrayAscendent(listOfTracks, "name");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 3,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 3:
+        sortedTracks = sortArrayDescendent(listOfTracks, "artist");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 4,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 4:
+        sortedTracks = sortArrayAscendent(listOfTracks, "artist");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 0,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      default:
+        setListOfTracks(listOfTracks);
+    }
   };
 
-  const handleSortByAlbum = () => {
-    const sortedTracks = sortArrayDescendent(listOfTracks, "album", "title");
-    setListOfTracks(sortedTracks);
+  const sortByAlbum = () => {
+    let sortedTracks = [];
+    switch (flag.flagAlbum) {
+      case 0:
+        setListOfTracks(listOfTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 1:
+        sortedTracks = sortArrayAscendent(listOfTracks, "album", "title");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 2,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 2:
+        sortedTracks = sortArrayDescendent(listOfTracks, "album", "title");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 0,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      default:
+        setListOfTracks(listOfTracks);
+    }
   };
 
-  const handleSortByPopularity = () => {
-    const sortedTracks = sortArrayDescendent(listOfTracks, "popularity");
-    setListOfTracks(sortedTracks);
+  const sortByPopularity = () => {
+    let sortedTracks = [];
+    switch (flag.flagPopularity) {
+      case 0:
+        setListOfTracks(listOfTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 1:
+        sortedTracks = sortArrayDescendent(listOfTracks, "popularity");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 2,
+          flagDuration: 1,
+        });
+        break;
+      case 2:
+        sortedTracks = sortArrayAscendent(listOfTracks, "popularity");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 0,
+          flagDuration: 1,
+        });
+        break;
+      default:
+        setListOfTracks(listOfTracks);
+    }
   };
 
-  const handleSortByDuration = () => {
-    const sortedTracks = sortArrayDescendent(listOfTracks, "duration");
-    setListOfTracks(sortedTracks);
+  const sortByDuration = () => {
+    let sortedTracks = [];
+    switch (flag.flagDuration) {
+      case 0:
+        setListOfTracks(listOfTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 1,
+        });
+        break;
+      case 1:
+        sortedTracks = sortArrayDescendent(listOfTracks, "duration");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 2,
+        });
+        break;
+      case 2:
+        sortedTracks = sortArrayAscendent(listOfTracks, "duration");
+        setListOfTracks(sortedTracks);
+        setFlag({
+          flagTitle: 1,
+          flagAlbum: 1,
+          flagPopularity: 1,
+          flagDuration: 0,
+        });
+        break;
+      default:
+        setListOfTracks(listOfTracks);
+    }
   };
 
   const reorder = (list, startIndex, endIndex) => {
@@ -63,10 +217,10 @@ function TrackList({ tracks, onAddLikedColumn }) {
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               <TrackSorter
-                sortByTitleAndArtist={handleSortByTitleAndArtist}
-                sortByAlbum={handleSortByAlbum}
-                sortByPopularity={handleSortByPopularity}
-                sortByDuration={handleSortByDuration}
+                sortByTitleAndArtist={sortByTitleAndArtist}
+                sortByAlbum={sortByAlbum}
+                sortByPopularity={sortByPopularity}
+                sortByDuration={sortByDuration}
               />
               {listOfTracks && (
                 <motion.div
