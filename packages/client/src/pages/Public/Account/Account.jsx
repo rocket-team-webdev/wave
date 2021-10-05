@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -18,6 +19,7 @@ import FormWrapper from "../../../components/FormWrapper";
 export default function Account() {
   const history = useHistory();
   const [loadStatus, setLoadStatus] = useState(false);
+  const userState = useSelector((state) => state.user);
 
   const handleDeleteAccount = async () => {
     history.push(PUBLIC.REAUTHENTICATE);
@@ -43,7 +45,7 @@ export default function Account() {
         formData.append("email", updateState.email);
         formData.append("country", updateState.country);
         await updateAccount(formData);
-        // history.go(0);
+        history.go(0);
         toast("Account updated successfully!", { type: "success" });
       } catch (error) {
         toast(error.message, { type: "error" });
@@ -76,7 +78,6 @@ export default function Account() {
   }, []);
 
   const profilePictureOnChange = async (event) => {
-    console.log(event.target.files[0]);
     formik.setFieldValue("profilePicture", event.target.files[0]);
   };
 
@@ -88,7 +89,10 @@ export default function Account() {
         </div>
 
         <div className="col-6">
-          <FormWrapper formTitle="Account details">
+          <FormWrapper
+            formTitle="Account details"
+            img={userState.profilePicture}
+          >
             <form onSubmit={formik.handleSubmit} className="row">
               <Input
                 classNames="col-12 col-md-6"

@@ -34,8 +34,20 @@ function Header({ props }) {
         </div>
         <div className="col-3 d-flex justify-content-end align-items-center p-0">
           <div className="me-4">
-            <Link to={PUBLIC.USER_ACCOUNT} className="fnt-caption fnt-white">
-              {userState.firstName}
+            <Link
+              to={PUBLIC.USER_ACCOUNT}
+              className="fnt-caption d-flex align-items-center fnt-white"
+            >
+              {userState.isLogged && (
+                <div>
+                  <img
+                    className="profile-picture fx-rounded me-3"
+                    src={userState.profilePicture}
+                    alt="profilePicture"
+                  />
+                </div>
+              )}
+              <div>{userState.firstName}</div>
             </Link>
           </div>
           {userState.isLogged && (

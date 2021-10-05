@@ -5,6 +5,8 @@ const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 
+const { DEFAULT_ALBUM_THUMBNAIL } = require("../utils/default-presets");
+
 async function getAlbums(req, res, next) {
   try {
     const { email } = req.user;
@@ -25,7 +27,6 @@ async function addAlbum(req, res, next) {
   try {
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
-    console.log("What it comes from request", thumbnail);
 
     // Checking if title album already exists
     const isAlbum = await db.Album.findOne({ title: req.body.title });
@@ -34,12 +35,11 @@ async function addAlbum(req, res, next) {
     }
 
     // Album cover by default
-    albumObj.thumbnail =
-      "https://res.cloudinary.com/dz5nspe7f/image/upload/v1632928589/default-preset/default-album_rakgsq.png";
+    albumObj.thumbnail = DEFAULT_ALBUM_THUMBNAIL;
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];
-      console.log("What we take for upload",thumbnail);
+      console.log("What we take for upload", thumbnail);
       const thumbnailLocation = path.join(
         __dirname,
         "../../",

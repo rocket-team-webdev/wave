@@ -106,7 +106,6 @@ async function deleteAccount(req, res, next) {
 
     // checking if old profile picture is the default one
     if (profilePicture !== DEFAULT_PROFILE_PICTURE) {
-      console.log("No es default profile picture");
       const publicId = getPublicId(profilePicture);
       await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
     }
