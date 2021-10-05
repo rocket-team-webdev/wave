@@ -10,11 +10,6 @@ function TrackSorter({
   const [title, setTitle] = useState("Title");
   const [icon, setIcon] = useState("");
   const [flag, setFlag] = useState(1);
-  // const [sorter, setSorter] = useState({
-  //   name: "",
-  //   icon: "",
-  //   flag: 1
-  // })
 
   const changeTitleColumn = (pos) => {
     switch (pos) {
@@ -71,42 +66,29 @@ function TrackSorter({
       <div className="col col-12 d-flex justify-content-between align-items-center py-2">
         <div
           type="button"
-          className="m-0 px-2 fnt-song-bold d-flex align-items-center"
+          className="col col-3 m-0 px-2 fnt-song-bold d-flex align-items-center"
         >
           <h3 className="text-start fnt-sorter fnt-light me-1 m-0">#</h3>
         </div>
-        <SorterElement
-          title={title}
-          handleClick={handleSortByTitleAndArtist}
-          orderIcon={icon}
-        />
-        <SorterElement title="Album" handleClick={handleSortByAlbum} />
-        <SorterElement
-          title="Popularity"
-          handleClick={handleSortByPopularity}
-        />
-        <SorterElement title="Duration" handleClick={handleSortByDuration} />
-        {/* <button
-          type="button"
-          className="m-0 px-2 fnt-song-bold d-flex align-items-center"
-        >
-          <h3 className="text-start fnt-sorter fnt-light me-1 m-0">Album</h3>
-          <i className="fas fa-caret-down fnt-light" />
-        </button> */}
-        {/* <button
-          type="button"
-          className="m-0 px-2 fnt-song-bold d-flex align-items-center"
-        >
-          <h3 className="text-start fnt-sorter fnt-light me-1 m-0">Plays</h3>
-          <i className="fas fa-caret-down fnt-light" />
-        </button> */}
-        {/* <button
-          type="button"
-          className="m-0 px-2 fnt-song-bold d-flex align-items-center"
-        >
-          <h3 className="text-start fnt-sorter fnt-light me-1 m-0">Duration</h3>
-          <i className="fas fa-caret-down fnt-light" />
-        </button> */}
+        <div className="col col-3">
+          <SorterElement
+            title={title}
+            handleClick={handleSortByTitleAndArtist}
+            orderIcon={icon}
+          />
+        </div>
+        <div className="col col-3">
+          <SorterElement title="Album" handleClick={handleSortByAlbum} />
+        </div>
+        <div className="col col-1">
+          <SorterElement
+            title="Popularity"
+            handleClick={handleSortByPopularity}
+          />
+        </div>
+        <div className="col col-2">
+          <SorterElement title="Duration" handleClick={handleSortByDuration} />
+        </div>
       </div>
       <hr className="fnt-light" />
     </div>

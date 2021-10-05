@@ -8,7 +8,9 @@ function SorterElement({ title, orderIcon, handleClick }) {
       aria-hidden="true"
       onClick={handleClick}
     >
-      <h3 className="text-start fnt-sorter fnt-light me-1 m-0">{title}</h3>
+      <h3 className="text-start fnt-sorter fnt-light me-1 m-0 truncate">
+        {title}
+      </h3>
       {orderIcon}
     </div>
   );
