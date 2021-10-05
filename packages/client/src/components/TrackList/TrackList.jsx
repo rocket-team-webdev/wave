@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { motion } from "framer-motion";
 import { sortArrayAscendent, sortArrayDescendent } from "../../utils/sorters";
@@ -191,6 +191,10 @@ function TrackList({ tracks, onAddLikedColumn }) {
         setListOfTracks(listOfTracks);
     }
   };
+
+  useEffect(() => {
+    setListOfTracks(tracks);
+  }, [tracks]);
 
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
