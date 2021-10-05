@@ -9,6 +9,7 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
+import Textarea from "../../../components/Textarea";
 import { addAlbum } from "../../../api/album-api";
 
 export default function CreatePlaylist() {
@@ -16,9 +17,12 @@ export default function CreatePlaylist() {
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      year: "",
+      name: "",
+      description: "",
       thumbnail: "",
+      primaryColor: "",
+      publicAccessible: "",
+      tracks: "",
     },
     validationSchema: playlistSchema,
     onSubmit: async (albumState) => {
@@ -60,30 +64,43 @@ export default function CreatePlaylist() {
             <h1 className="fnt-form-title mb-5">Album details</h1>
             <div className="row">
               <Input
-                label="title"
+                label="name"
                 type="text"
-                id="title"
+                id="name"
                 classNames="col col-12 col-md-7"
-                placeholder="Album title"
+                placeholder="Playlist name"
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.title}
-                errorMessage={formik.errors.title}
-                hasErrorMessage={formik.touched.title}
+                value={formik.values.name}
+                errorMessage={formik.errors.name}
+                hasErrorMessage={formik.touched.name}
               />
               <Input
-                label="Release year"
-                type="number"
-                id="year"
-                classNames="col col-12 col-md-5"
-                placeholder="Album year"
+                label="color"
+                type="color"
+                id="primaryColor"
+                classNames="col col-12 col-md-7"
+                placeholder="Playlist name"
                 isNegative
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.year}
-                errorMessage={formik.errors.year}
-                hasErrorMessage={formik.touched.year}
+                value={formik.values.primaryColor}
+                errorMessage={formik.errors.primaryColor}
+                hasErrorMessage={formik.touched.primaryColor}
+              />
+              <Textarea
+                label="description"
+                id="description"
+                classNames="col-12"
+                rows={4}
+                placeholder="Playlist description"
+                isNegative
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.description}
+                errorMessage={formik.errors.description}
+                hasErrorMessage={formik.touched.description}
               />
             </div>
             <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
