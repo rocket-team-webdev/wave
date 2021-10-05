@@ -197,10 +197,27 @@ async function deletePlaylist(req, res, next) {
 
 async function followPlaylist(req, res, next) {
   try {
+    const { id } = req.params;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    res.status(200).send({ message: "Playlist deleted successfully" });
+    await db.Playlist.findOneAndUpdate({ _id: id, isDeleted: false }, [
+      {
+        $set: {
+          followedBy: {
+            $cond: {
+              if: { $in: [userId, "$followedBy"] },
+              then: { $setDifference: ["$followedBy", [userId]] },
+              else: { $concatArrays: ["$followedBy", [userId]] },
+            },
+          },
+        },
+      },
+    ]);
+
+    res.status(200).send({
+      message: "Playlist updated successfully",
+    });
   } catch (err) {
     res.status(500).send({ error: err.message });
     next(err);
