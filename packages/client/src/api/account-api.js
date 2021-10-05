@@ -9,12 +9,6 @@ export function makeAccountApi() {
   });
 }
 
-// export function makeAccountApi() {
-//   return axios.create({
-//     baseURL: `${API.MAIN}${API.ACCOUNT}`,
-//   });
-// }
-
 export function makeRegisterApi() {
   return axios.create({
     baseURL: `${API.MAIN}${API.REGISTER}`,
@@ -26,10 +20,6 @@ export function signInUserData(token) {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
-
-// export function getAllProducts(api = makeAccountApi()) {
-//   return api.get(``);
-// }
 
 export async function getAccount(api = makeAccountApi()) {
   const token = await getCurrentUserToken();
@@ -55,24 +45,6 @@ export async function deleteAccount(api = makeAccountApi()) {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
-
-// export async function createClient(clientData, api = makeRegisterApi()) {
-//   const token = await getCurrentUserToken();
-//   return api.post(
-//     ``,
-//     {
-//       firstName: clientData.firstName,
-//       lastName: clientData.lastName,
-//       username: clientData.username,
-//       country: clientData.country,
-//       birthDate: clientData.birthDate,
-//       profilePicture: clientData.profilePicture,
-//     },
-//     {
-//       headers: { Authorization: `Bearer ${token}` },
-//     },
-//   );
-// }
 
 export async function createClient(file = {}, api = makeRegisterApi()) {
   const token = await getCurrentUserToken();
