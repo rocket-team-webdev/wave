@@ -19,13 +19,13 @@ export default function UserView() {
 
   const userPlaylists = ["userPlaylist1", "userPlaylist1"];
   const userAlbums = ["userAlbum1", "userAlbum1"];
-  const userUploadedTrack = [
-    "uploadedTrack",
-    "uploadedTrack",
-    "uploadedTrack",
-    "uploadedTrack",
-    "uploadedTrack",
-  ];
+  //   const userUploadedTrack = [
+  //     "uploadedTrack",
+  //     "uploadedTrack",
+  //     "uploadedTrack",
+  //     "uploadedTrack",
+  //     "uploadedTrack",
+  //   ];
 
   useEffect(() => {
     console.log("useEffect executed");
@@ -60,20 +60,6 @@ export default function UserView() {
                     key={album}
                     //   playListId={playlist._id}
                     playlistName={album}
-                    //   userId={playlist.userId}
-                    // classNames=""
-                  />
-                ))}
-              </HomeElement>
-            )}
-            {/* Uploaded tracks */}
-            {userUploadedTrack.length > 0 && (
-              <HomeElement label="Albums" cols="6" isAnimationContainer>
-                {userUploadedTrack.map((track) => (
-                  <PlaylistCard
-                    key={track}
-                    //   playListId={playlist._id}
-                    playlistName={track}
                     //   userId={playlist.userId}
                     // classNames=""
                   />

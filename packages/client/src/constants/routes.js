@@ -35,6 +35,7 @@ export const API = {
   ALBUM: "/albums",
   PLAYLISTS: "/playlists",
   USER: "/user",
+  USERS: "/users",
   ME: "/me",
   TRACKS: "/tracks",
   LIKED: "/liked",
