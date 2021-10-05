@@ -23,6 +23,7 @@ import TrackUpload from "./pages/Public/TrackUpload";
 import Tracks from "./pages/Public/Tracks";
 import MusicPlayer from "./components/MusicPlayer";
 import CreateAlbum from "./pages/Public/CreateAlbum";
+import MyPlaylists from "./pages/Public/MyPlaylists/MyPlaylists";
 
 function App() {
   const dispatch = useDispatch();
@@ -96,6 +97,9 @@ function App() {
             </OnlyPublicRoute>
             <PrivateRoute path={PUBLIC.ADD_ALBUM}>
               <CreateAlbum />
+            </PrivateRoute>
+            <PrivateRoute path={PUBLIC.MY_PLAYLISTS}>
+              <MyPlaylists />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.MY_SONGS}>
               <Tracks />

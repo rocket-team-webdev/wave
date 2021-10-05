@@ -86,7 +86,11 @@ export default function HomePopular({ artistsList = [] }) {
       )}
       {!loadStatus ? (
         popularPlaylists.length > 0 && (
-          <HomeElement label="Playlists" isAnimationContainer>
+          <HomeElement
+            label="Playlists"
+            to={PUBLIC.MY_PLAYLISTS}
+            isAnimationContainer
+          >
             {popularPlaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
