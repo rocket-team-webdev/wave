@@ -141,6 +141,7 @@ export default function Tracks() {
             <TrackList
               tracks={uploadedSongs}
               onAddLikedColumn={handleAddLikedColumn}
+              hasSorter
             />
           )}
         </div>
