@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 
 const updateSchema = Yup.object().shape({
-  profilePicture: Yup.string().url("This is not a valid URL"), // TODO: change from URL to upload picture
   firstName: Yup.string()
     .min(2, "The first name is too short!")
     .max(50, "The first name is too long!")
