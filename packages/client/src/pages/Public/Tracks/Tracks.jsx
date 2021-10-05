@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../../components/Layout";
@@ -16,10 +17,11 @@ import useDebounce from "../../../hooks/useDebounce";
 import { containerAnimation } from "../../../utils/motionSettings";
 
 export default function Tracks() {
-  const [uploadedSongs, setUploadedSongs] = useState();
-  const [likedSongs, setLikedSongs] = useState();
+  const [uploadedSongs, setUploadedSongs] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
+  const queueState = useSelector((state) => state.queue);
 
   const fetchUploadedSongs = async () => {
     try {
@@ -46,7 +48,11 @@ export default function Tracks() {
           if (bySong._id === song._id) return { ...bySong, isLiked: liked };
           return bySong;
         });
-        setLikedSongs((prevSongs) => [...prevSongs, song]);
+        const updatedLikedSongs = likedSongs.filter((v) => v._id === song._id);
+
+        if (!updatedLikedSongs.length)
+          setLikedSongs((prevSongs) => [...prevSongs, song]);
+
         setUploadedSongs(updatedUploadedSongs);
       } else {
         const updatedLikedSongs = likedSongs.filter((v) => v._id !== song._id);
@@ -112,6 +118,19 @@ export default function Tracks() {
       toast(error.message, { type: "error" });
     }
   }, [debouncedSearch]);
+
+  useEffect(() => {
+    const newSong = {
+      ...queueState.queue[0],
+      _id: queueState.queue[0].trackId,
+      album: {
+        title: queueState.queue[0].album,
+        thumbnail: queueState.queue[0].trackImg,
+      },
+    };
+
+    handleAddLikedColumn(newSong, newSong.isLiked);
+  }, [queueState.queue]);
 
   useEffect(() => {
     fetchUploadedSongs();

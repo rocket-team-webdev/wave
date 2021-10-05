@@ -8,6 +8,7 @@ import {
   addSong,
   setPlayState,
   setSong,
+  like,
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
@@ -39,6 +40,7 @@ export default function TrackCard({
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
   const userState = useSelector((state) => state.user);
+  const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
   const trackObject = {
     name: trackName,
@@ -75,6 +77,11 @@ export default function TrackCard({
         },
         userLike,
       );
+
+      queueState.queue.map((song, i) => {
+        if (song.trackId === trackId) dispatch(like(i));
+        return song;
+      });
     } catch (error) {
       toast(error.message, { type: "error" });
       setLiked(!liked);
