@@ -182,7 +182,7 @@ function TrackSorter({
   return (
     <div className="row m-0 col col-12">
       <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-        <div className="col col-3 m-0 px-2 fnt-song-bold d-flex align-items-center">
+        <div className="col col-2 m-0 px-2 fnt-song-bold d-flex align-items-center">
           <h3 className="text-start fnt-sorter fnt-light me-1 m-0">#</h3>
         </div>
         <div className="col col-3">
@@ -199,7 +199,7 @@ function TrackSorter({
             orderIcon={flag.flagAlbum === 1 ? "" : icon}
           />
         </div>
-        <div className="col col-1">
+        <div className="col col-2">
           <SorterElement
             title="Popularity"
             handleClick={handleSortByPopularity}

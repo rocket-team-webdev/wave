@@ -153,7 +153,7 @@ export default function TrackCard({
           >
             <div className="col col-12 d-flex justify-content-between align-items-center py-2">
               {/* Number */}
-              <div className="col col-3 d-flex justify-content-between align-items-center">
+              <div className="col col-2 d-flex justify-content-between align-items-center">
                 <h3 className="m-0 px-2 fnt-song-bold text-start song-index">
                   {trackNumber}
                 </h3>
@@ -198,7 +198,7 @@ export default function TrackCard({
                 </Link>
               </div>
               {/* Playcounter */}
-              <div className="col col-1 d-flex justify-content-between align-items-center">
+              <div className="col col-2 d-flex justify-content-between align-items-center">
                 <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
                   {formatPlayCounter(playCounter)}
                 </h4>

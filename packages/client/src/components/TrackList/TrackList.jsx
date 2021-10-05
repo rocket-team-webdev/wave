@@ -246,7 +246,6 @@ function TrackList({ tracks, onAddLikedColumn }) {
                       userId={song.userId}
                       index={index}
                       playCounter={song.popularity}
-                      // draggable
                       updateLikedView={handleAddLikedColumn}
                       updateDeletedView={handleDeletedView}
                     />

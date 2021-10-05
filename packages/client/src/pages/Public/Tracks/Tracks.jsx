@@ -84,7 +84,6 @@ export default function Tracks() {
             <TrackList
               tracks={uploadedSongs}
               onAddLikedColumn={handleAddLikedColumn}
-              draggable
             />
           )}
         </div>
@@ -94,7 +93,6 @@ export default function Tracks() {
             <TrackList
               tracks={likedSongs}
               onAddLikedColumn={handleAddLikedColumn}
-              draggable
             />
           )}
         </div>
