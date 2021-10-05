@@ -12,7 +12,10 @@ async function getPlaylists(req, res, next) {
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const foundPlaylists = await db.Playlist.find(
-      { $or: [{ publicAccessible: true }, { userId: userId }] },
+      {
+        $or: [{ publicAccessible: true }, { userId: userId }],
+        isDeleted: false,
+      },
       {
         name: 1,
         follows: { $size: "$followedBy" },
@@ -44,6 +47,7 @@ async function addPlaylist(req, res, next) {
       {
         title: req.body.title,
         userId: userId,
+        isDeleted: false,
       },
       { _id: 1 },
     );
@@ -101,6 +105,12 @@ async function addPlaylist(req, res, next) {
   }
 }
 
+async function updatePlaylist(req, res, next) {
+  // TODO: waiting for updateAlbum to be created
+  res.status(400).send({ req: req, error: "this endpoint wasn't written yet" });
+  next();
+}
+
 async function getPlaylistById(req, res, next) {
   try {
     const { id } = req.params;
@@ -109,7 +119,7 @@ async function getPlaylistById(req, res, next) {
     const { page = 0, limit = 5 } = req.query;
 
     const playlist = await db.Playlist.findOne(
-      { _id: id },
+      { _id: id, isDeleted: false },
       {
         name: 1,
         collaborative: 1,
@@ -167,8 +177,41 @@ async function getPlaylistById(req, res, next) {
   }
 }
 
+async function deletePlaylist(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    db.Playlist.findOneAndUpdate(
+      { _id: id, userId: userId },
+      { isDeleted: true },
+    );
+
+    res.status(200).send({ message: "Playlist deleted successfully" });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
+async function followPlaylist(req, res, next) {
+  try {
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    res.status(200).send({ message: "Playlist deleted successfully" });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
 module.exports = {
   getPlaylists,
   addPlaylist,
+  updatePlaylist,
   getPlaylistById,
+  deletePlaylist,
+  followPlaylist,
 };
