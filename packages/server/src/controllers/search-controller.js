@@ -2,8 +2,6 @@ const db = require("../models");
 
 async function searchTrack(req, res, next) {
   try {
-    console.log("req.query", req.query);
-
     const searchText = req.query?.q;
 
     const { email } = req.user;
