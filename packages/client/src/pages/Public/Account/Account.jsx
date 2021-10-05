@@ -42,11 +42,9 @@ export default function Account() {
         formData.append("birthDate", updateState.birthDate);
         formData.append("email", updateState.email);
         formData.append("country", updateState.country);
-
-        console.log(updateState);
-        console.log(formData);
-
         await updateAccount(formData);
+        // history.go(0);
+        toast("Account updated successfully!", { type: "success" });
       } catch (error) {
         toast(error.message, { type: "error" });
       }

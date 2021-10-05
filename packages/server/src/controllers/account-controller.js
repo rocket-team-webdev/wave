@@ -29,19 +29,15 @@ async function updateAccount(req, res) {
   try {
     const { email } = req.user;
 
-    const user = await db.User.findOne({ email: email });
-    const { profilePicture } = user;
-    console.log("Old url of user", profilePicture);
+    const { profilePicture } = await db.User.findOne({ email: email });
     let isProfilePictureDefault = false;
 
     // checking if old profile picture is the default one
     if (profilePicture === DEFAULT_PROFILE_PICTURE) {
       isProfilePictureDefault = true;
-      console.log("Is the img default");
     }
 
     let profilePictureFile = req.files["profilePicture"];
-    console.log(profilePictureFile);
 
     let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
 
@@ -69,12 +65,10 @@ async function updateAccount(req, res) {
         },
       );
       profilePictureUrl = cldProfilePictureRes.secure_url;
-      console.log("New cloudinary img url", profilePictureUrl);
 
       // delete old picture on cloudinary
       if (!isProfilePictureDefault) {
         const publicId = getPublicId(profilePicture);
-        console.log("public Id de archivo a eliminar", publicId);
         await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
       }
 
@@ -107,6 +101,16 @@ async function updateAccount(req, res) {
 async function deleteAccount(req, res, next) {
   try {
     const { email } = req.user;
+
+    const { profilePicture } = await db.User.findOne({ email: email });
+
+    // checking if old profile picture is the default one
+    if (profilePicture !== DEFAULT_PROFILE_PICTURE) {
+      console.log("No es default profile picture");
+      const publicId = getPublicId(profilePicture);
+      await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+    }
+
     const deletedAccount = await db.User.findOneAndDelete({ email });
 
     if (!deletedAccount) res.status(404).send({ message: "User not found!" });
