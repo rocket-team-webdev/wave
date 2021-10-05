@@ -33,16 +33,23 @@ export default function Account() {
       country: "",
     },
     validationSchema: updateSchema,
-    onSubmit: async (values) => {
-      const data = {
-        profilePicture: values.profilePicture,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        birthDate: values.birthDate,
-        email: values.email,
-        country: values.country,
-      };
-      await updateAccount(data);
+    onSubmit: async (updateState) => {
+      try {
+        const formData = new FormData();
+        formData.append("profilePicture", updateState.profilePicture);
+        formData.append("firstName", updateState.firstName);
+        formData.append("lastName", updateState.lastName);
+        formData.append("birthDate", updateState.birthDate);
+        formData.append("email", updateState.email);
+        formData.append("country", updateState.country);
+
+        console.log(updateState);
+        console.log(formData);
+
+        await updateAccount(formData);
+      } catch (error) {
+        toast(error.message, { type: "error" });
+      }
     },
   });
 
@@ -55,7 +62,7 @@ export default function Account() {
         profilePicture: data.data.profilePicture || "",
         firstName: data.data.firstName || "",
         lastName: data.data.lastName || "",
-        birthDate: data.data.birthDate || "",
+        birthDate: data.data.birthDate.substr(0, 10) || "",
         email: data.data.email || "",
         country: data.data.country || "",
       });
@@ -69,6 +76,11 @@ export default function Account() {
   useEffect(() => {
     loadAccount();
   }, []);
+
+  const profilePictureOnChange = async (event) => {
+    console.log(event.target.files[0]);
+    formik.setFieldValue("profilePicture", event.target.files[0]);
+  };
 
   return (
     <Layout>
@@ -121,15 +133,15 @@ export default function Account() {
               />
               <Input
                 classNames="col-12 col-md-6"
+                label="Profile Picture"
+                id="profilePicture"
                 type="file"
-                label="Profile Image"
-                id="profileImage"
-                value={formik.values.profileImage}
-                errorMessage={formik.errors.profileImage}
-                hasErrorMessage={formik.touched.profileImage}
-                placeholder={formik.values.profileImage}
-                onChange={formik.profileImage}
-                onBlur={formik.profileImage}
+                placeholder="Choose your file"
+                onChange={profilePictureOnChange}
+                onBlur={formik.handleBlur}
+                // value={formik.values.profilePicture}
+                errorMessage={formik.errors.profilePicture}
+                hasErrorMessage={formik.touched.profilePicture}
                 disabled={loadStatus.isLoading || loadStatus.isError}
               />
               <Input

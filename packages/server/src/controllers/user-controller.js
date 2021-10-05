@@ -6,6 +6,8 @@ const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 
+const { DEFAULT_PROFILE_PICTURE } = require("../utils/default-presets");
+
 async function signUp(req, res, next) {
   const { firebaseId } = req.user;
 
@@ -20,8 +22,7 @@ async function signUp(req, res, next) {
       /********************************** */
       let profilePicture = req.files["profilePicture"];
 
-      let profilePictureUrl =
-        "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633334998/default-preset/default-profile-picture_vbob5l.png";
+      let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
 
       if (profilePicture) {
         profilePicture = profilePicture[0];

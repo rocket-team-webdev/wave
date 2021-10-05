@@ -28,15 +28,26 @@ export async function getAccount(api = makeAccountApi()) {
   });
 }
 
-export async function updateAccount(data, api = makeAccountApi()) {
+// export async function updateAccount(data, api = makeAccountApi()) {
+//   const token = await getCurrentUserToken();
+//   return api.post(
+//     ``,
+//     { ...data },
+//     {
+//       headers: { Authorization: `Bearer ${token}` },
+//     },
+//   );
+// }
+
+export async function updateAccount(file = {}, api = makeAccountApi()) {
   const token = await getCurrentUserToken();
-  return api.post(
-    ``,
-    { ...data },
-    {
-      headers: { Authorization: `Bearer ${token}` },
+
+  return api.post(``, file, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": `multipart/form-data"`,
     },
-  );
+  });
 }
 
 export async function deleteAccount(api = makeAccountApi()) {

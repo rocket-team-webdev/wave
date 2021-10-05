@@ -1,5 +1,14 @@
 const db = require("../models");
 
+const { cloudinary } = require("../services/cloudinary");
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require("util");
+const writeFileAsync = promisify(fs.writeFile);
+const { getPublicId } = require("../utils/cloudinaryUtils");
+
+const { DEFAULT_PROFILE_PICTURE } = require("../utils/default-presets");
+
 async function getAccount(req, res, next) {
   try {
     const { email } = req.user;
@@ -19,9 +28,71 @@ async function getAccount(req, res, next) {
 async function updateAccount(req, res) {
   try {
     const { email } = req.user;
-    const updatedAccount = await db.User.findOneAndUpdate({ email }, req.body, {
-      new: true,
-    });
+
+    const user = await db.User.findOne({ email: email });
+    const { profilePicture } = user;
+    console.log("Old url of user", profilePicture);
+    let isProfilePictureDefault = false;
+
+    // checking if old profile picture is the default one
+    if (profilePicture === DEFAULT_PROFILE_PICTURE) {
+      isProfilePictureDefault = true;
+      console.log("Is the img default");
+    }
+
+    /********************************** */
+    let profilePictureFile = req.files["profilePicture"];
+    console.log(profilePictureFile);
+
+    let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
+
+    if (profilePictureFile) {
+      profilePictureFile = profilePictureFile[0];
+      const profilePictureLocation = path.join(
+        __dirname,
+        "../../",
+        "uploads",
+        profilePictureFile.originalname,
+      );
+
+      // upload file
+      await writeFileAsync(
+        profilePictureLocation,
+        Buffer.from(new Uint8Array(profilePictureFile.buffer)),
+      );
+
+      // upload to cloudinary
+      const cldProfilePictureRes = await cloudinary.uploader.upload(
+        profilePictureLocation,
+        {
+          upload_preset: "covers-preset",
+          resource_type: "image",
+        },
+      );
+      profilePictureUrl = cldProfilePictureRes.secure_url;
+      console.log("New cloudinary img url", profilePictureUrl);
+
+      // delete old picture on cloudinary
+      if (!isProfilePictureDefault) {
+        const publicId = getPublicId(profilePicture);
+        console.log("public Id de archivo a eliminar", publicId);
+        await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+      }
+
+      // delete uploaded file
+      fs.unlink(profilePictureLocation, (err) => {
+        if (err) throw err;
+      });
+    }
+    /*********************************** */
+
+    const updatedAccount = await db.User.findOneAndUpdate(
+      { email },
+      { ...req.body, profilePicture: profilePictureUrl },
+      {
+        new: true,
+      },
+    );
 
     res.status(200).send({
       id: updatedAccount._id,
