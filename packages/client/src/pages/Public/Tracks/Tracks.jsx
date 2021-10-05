@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
@@ -60,33 +59,6 @@ export default function Tracks() {
     }
   };
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-
-    result.splice(endIndex, 0, removed);
-
-    return result;
-  };
-
-  const onDragEndUploaded = (res) => {
-    const { destination, source } = res;
-
-    if (!destination) return;
-
-    const items = reorder(uploadedSongs, source.index, destination.index);
-    setUploadedSongs(items);
-  };
-
-  const onDragEndLiked = (res) => {
-    const { destination, source } = res;
-
-    if (!destination) return;
-
-    const items = reorder(likedSongs, source.index, destination.index);
-    setLikedSongs(items);
-  };
-
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
@@ -106,49 +78,26 @@ export default function Tracks() {
         </div>
       </div>
       <div className="row">
-        <DragDropContext onDragEnd={onDragEndUploaded}>
-          <Droppable droppableId="Uploaded">
-            {(provided) => (
-              <div
-                className="col col-12 col-md-6 pb-5 pb-md-0"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <div className="fnt-page-title mb-4">Uploaded</div>
-                {loaded && uploadedSongs && (
-                  <TrackList
-                    tracks={uploadedSongs}
-                    onAddLikedColumn={handleAddLikedColumn}
-                    draggable
-                  />
-                )}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-
-        <DragDropContext onDragEnd={onDragEndLiked}>
-          <Droppable droppableId="liked">
-            {(provided) => (
-              <div
-                className="col col-12 col-md-6"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <div className="fnt-page-title mb-4">Liked</div>
-                {loaded && likedSongs && (
-                  <TrackList
-                    tracks={likedSongs}
-                    onAddLikedColumn={handleAddLikedColumn}
-                    draggable
-                  />
-                )}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <div className="col col-12 col-md-6 pb-5 pb-md-0">
+          <div className="fnt-page-title mb-4">Uploaded</div>
+          {loaded && uploadedSongs && (
+            <TrackList
+              tracks={uploadedSongs}
+              onAddLikedColumn={handleAddLikedColumn}
+              draggable
+            />
+          )}
+        </div>
+        <div className="col col-12 col-md-6 pb-5 pb-md-0">
+          <div className="fnt-page-title mb-4">Liked</div>
+          {loaded && likedSongs && (
+            <TrackList
+              tracks={likedSongs}
+              onAddLikedColumn={handleAddLikedColumn}
+              draggable
+            />
+          )}
+        </div>
       </div>
     </Layout>
   );
