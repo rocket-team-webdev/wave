@@ -65,7 +65,7 @@ async function updateAccount(req, res) {
       const cldProfilePictureRes = await cloudinary.uploader.upload(
         profilePictureLocation,
         {
-          upload_preset: "covers-preset",
+          upload_preset: "profile-pictures-preset",
           resource_type: "image",
         },
       );
