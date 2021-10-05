@@ -140,7 +140,7 @@ export default function Tracks() {
               handleChange={handleSearchChange}
               // handleBlur={handleSearchChange}
               value={searchBar}
-              classNames="ms-auto col-12 col-md-6 col-lg-4"
+              classNames="col-12 col-md-6 col-lg-4"
               isNegative
             />
           </form>
