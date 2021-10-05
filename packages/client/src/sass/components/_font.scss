@@ -41,6 +41,7 @@
 .fnt-artist,
 .fnt-song-bold,
 .fnt-caption,
+.fnt-sorter,
 .fnt-smallest {
   font-family: "Switzer";
   transition: all 0.2s;
@@ -96,6 +97,11 @@
   line-height: 1.2;
 }
 
+.fnt-sorter {
+  font-size: 15px;
+  line-height: 1;
+}
+
 .fnt-smallest {
   font-size: 12px;
   line-height: 1.2;
@@ -119,6 +125,7 @@
 .fnt-song-regular,
 .fnt-artist,
 .fnt-label-light,
+.fnt-sorter,
 .fnt-smallest {
   font-weight: normal;
 }
