@@ -3,8 +3,20 @@ const db = require("../models");
 async function getPlaylists(req, res, next) {
   try {
     const { page = 0, limit = 4 } = req.query;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const foundPlaylists = await db.Playlist.find({})
+    const foundPlaylists = await db.Playlist.find(
+      { $or: [{ publicAccessible: true }, { userId: userId }] },
+      {
+        name: 1,
+        follows: { $size: "$followedBy" },
+        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+        primaryColor: 1,
+        thumbnail: 1,
+        userId: 1,
+      },
+    )
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
@@ -34,9 +46,7 @@ async function getPlaylistById(req, res, next) {
         thumbnail: 1,
         publicAccessible: 1,
         userId: 1,
-        album: 1,
         tracks: 1,
-        url: 1,
       },
     )
       .populate({
