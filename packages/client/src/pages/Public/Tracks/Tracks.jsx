@@ -130,7 +130,6 @@ export default function Tracks() {
     };
 
     handleAddLikedColumn(newSong, newSong.isLiked);
-    // dispatch(like(0));
   }, [queueState.queue]);
 
   useEffect(() => {
