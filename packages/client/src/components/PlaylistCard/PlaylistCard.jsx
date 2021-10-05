@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { fromBottom } from "../../utils/motionSettings";
+
+import HeartIcon from "../SVGicons/HeartIcon";
 
 export default function PlaylistCard({
   // playlistId,
@@ -29,13 +32,17 @@ export default function PlaylistCard({
 
   const componentClasses = `${classNames} d-flex flex-column justify-content-between playlist-card fx-rounded p-4`;
   return (
-    <div className="col col-12 col-md-6">
+    <motion.div
+      className="col col-12 col-md-6"
+      // Animation settings
+      variants={fromBottom}
+    >
       <div className={componentClasses}>
         <div className="heart-wrapper d-flex justify-content-end fnt-primary">
           {!isOwned ? (
             <button className="heart-button" type="button" onClick={handleLike}>
               {/* TODO add like dislike playlist */}
-              {isLiked ? <FaHeart /> : <FaRegHeart />}
+              {isLiked ? <HeartIcon isFull /> : <HeartIcon />}
             </button>
           ) : (
             <p>&nbsp;</p>
@@ -46,6 +53,6 @@ export default function PlaylistCard({
           {playlistName.toUpperCase()}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }
