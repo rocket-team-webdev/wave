@@ -19,7 +19,6 @@ async function signUp(req, res, next) {
         (k) => req.body[k] == "" && delete req.body[k],
       );
 
-      /********************************** */
       let profilePicture = req.files["profilePicture"];
 
       let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
@@ -54,7 +53,6 @@ async function signUp(req, res, next) {
           if (err) throw err;
         });
       }
-      /*********************************** */
 
       const newUser = await db.User.create({
         ...req.user,

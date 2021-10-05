@@ -40,7 +40,6 @@ async function updateAccount(req, res) {
       console.log("Is the img default");
     }
 
-    /********************************** */
     let profilePictureFile = req.files["profilePicture"];
     console.log(profilePictureFile);
 
@@ -84,7 +83,6 @@ async function updateAccount(req, res) {
         if (err) throw err;
       });
     }
-    /*********************************** */
 
     const updatedAccount = await db.User.findOneAndUpdate(
       { email },
