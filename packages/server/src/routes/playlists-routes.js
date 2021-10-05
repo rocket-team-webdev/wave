@@ -16,7 +16,7 @@ playlistsRouter.get(
 playlistsRouter.get(
   "/:id",
   authFirebaseMiddleware,
-  playlistsController.getPlaylist,
+  playlistsController.getPlaylistById,
 );
 
 module.exports = {
