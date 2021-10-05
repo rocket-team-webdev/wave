@@ -34,10 +34,12 @@ export default function HomeElement({
               <p className="fnt-label-bold mb-3 truncate home-element-title">
                 {label.toUpperCase()}
               </p>
-              <Link to={to} className="mb-2 fnt-smallest">
-                See all
-                <i className="ms-2 fas fa-arrow-circle-right" />
-              </Link>
+              {to && (
+                <Link to={to} className="mb-2 fnt-smallest">
+                  See all
+                  <i className="ms-2 fas fa-arrow-circle-right" />
+                </Link>
+              )}
             </div>
             <div className={contentClasses}>{children}</div>
           </div>
@@ -49,10 +51,12 @@ export default function HomeElement({
               <p className="fnt-label-bold mb-3 truncate home-element-title">
                 {label.toUpperCase()}
               </p>
-              <Link to={to} className="mb-2 fnt-smallest">
-                See all
-                <i className="ms-2 fas fa-arrow-circle-right" />
-              </Link>
+              {to && (
+                <Link to={to} className="mb-2 fnt-smallest">
+                  See all
+                  <i className="ms-2 fas fa-arrow-circle-right" />
+                </Link>
+              )}
             </div>
             <div className={contentClasses}>{children}</div>
           </div>
