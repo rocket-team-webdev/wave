@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { motion } from "framer-motion";
 import { sortArrayDescendent } from "../../helpers/helpers";
+import { containerAnimation } from "../../utils/motionSettings";
 import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
 
@@ -66,29 +68,37 @@ function TrackList({ tracks, onAddLikedColumn }) {
                 sortByPopularity={handleSortByPopularity}
                 sortByDuration={handleSortByDuration}
               />
-              {listOfTracks &&
-                listOfTracks.map((song, index) => (
-                  <TrackCard
-                    key={song._id}
-                    trackNumber={index + 1}
-                    trackName={song.name}
-                    trackImg={song.album.thumbnail}
-                    artist={song.artist}
-                    albumName={song.album.title}
-                    time={song.duration}
-                    trackUrl={song.url}
-                    albumId={song.album._id}
-                    genreId={song.genreId}
-                    isLiked={song.isLiked}
-                    trackId={song._id}
-                    userId={song.userId}
-                    index={index}
-                    playCounter={song.popularity}
-                    // draggable
-                    updateLikedView={handleAddLikedColumn}
-                    updateDeletedView={handleDeletedView}
-                  />
-                ))}
+              {listOfTracks && (
+                <motion.div
+                  // Animation settings
+                  variants={containerAnimation}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {listOfTracks.map((song, index) => (
+                    <TrackCard
+                      key={song._id}
+                      trackNumber={index + 1}
+                      trackName={song.name}
+                      trackImg={song.album.thumbnail}
+                      artist={song.artist}
+                      albumName={song.album.title}
+                      time={song.duration}
+                      trackUrl={song.url}
+                      albumId={song.album._id}
+                      genreId={song.genreId}
+                      isLiked={song.isLiked}
+                      trackId={song._id}
+                      userId={song.userId}
+                      index={index}
+                      playCounter={song.popularity}
+                      // draggable
+                      updateLikedView={handleAddLikedColumn}
+                      updateDeletedView={handleDeletedView}
+                    />
+                  ))}
+                </motion.div>
+              )}
               {provided.placeholder}
             </div>
           )}

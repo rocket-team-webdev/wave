@@ -1,18 +1,33 @@
 import {
-  SET,
+  SET_SONG,
+  SET_QUEUE,
   ADD,
   CLEAR,
   SET_SHUFFLE,
   CLEAR_SHUFFLE,
   SET_ALL,
   LIKE,
+  NEXT_SONG,
+  PREV_SONG,
+  SET_LIST_POSITION,
+  SET_PLAY_STATE,
 } from "./types";
 
 import initialState from "./state";
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET:
+    case SET_SONG:
+      return {
+        ...state,
+        willPlay: false,
+        queue: [
+          ...state.queue.slice(0, state.listPosition),
+          action.payload,
+          ...state.queue.slice(state.listPosition + 1),
+        ],
+      };
+    case SET_QUEUE:
       return {
         ...state,
         queue: [action.payload],
@@ -45,7 +60,14 @@ const reducer = (state = initialState, action) => {
         ],
       };
     }
-    // eslint-disable-next-line no-case-declarations
+    case NEXT_SONG:
+      return { ...state, listPosition: state.listPosition + 1 };
+    case PREV_SONG:
+      return { ...state, listPosition: state.listPosition - 1 };
+    case SET_LIST_POSITION:
+      return { ...state, listPosition: action.payload };
+    case SET_PLAY_STATE:
+      return { ...state, willPlay: action.payload };
     default:
       break;
   }

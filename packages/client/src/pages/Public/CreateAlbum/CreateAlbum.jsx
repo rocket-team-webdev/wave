@@ -11,8 +11,6 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
 import { addAlbum } from "../../../api/album-api";
 
-import { PUBLIC } from "../../../constants/routes";
-
 export default function CreateAlbum() {
   const history = useHistory();
 
@@ -30,7 +28,7 @@ export default function CreateAlbum() {
         formData.append("year", albumState.year);
         formData.append("thumbnail", albumState.thumbnail);
         await addAlbum(formData);
-        history.push(PUBLIC.TRACK_UPLOAD);
+        history.goBack();
         return toast("Album created!", { type: "success" });
       } catch (error) {
         return toast(error.response.data.msg, { type: "error" });
