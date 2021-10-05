@@ -17,6 +17,7 @@ import SignIn from "./pages/Public/SignIn";
 import Account from "./pages/Public/Account/Account";
 import Reauthenticate from "./pages/Public/Reauthenticate";
 import ResetPassword from "./pages/Public/ResetPassword";
+import UserView from "./pages/Public/UserView";
 
 import TrackUpdate from "./pages/Public/TrackUpdate";
 import TrackUpload from "./pages/Public/TrackUpload";
@@ -84,6 +85,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
               <Account />
+            </PrivateRoute>
+            <PrivateRoute exact path={PUBLIC.USER_VIEW}>
+              <UserView />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
               <Reauthenticate />
