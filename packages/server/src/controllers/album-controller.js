@@ -5,6 +5,8 @@ const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 
+const { DEFAULT_ALBUM_THUMBNAIL } = require("../utils/default-presets");
+
 async function getAlbums(req, res, next) {
   try {
     const { email } = req.user;
@@ -23,21 +25,28 @@ async function getAlbums(req, res, next) {
 
 async function addAlbum(req, res, next) {
   try {
+    const { _id: userId } = await db.User.findOne({ firebaseId }, { _id: 1 });
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
 
     // Checking if title album already exists
-    const isAlbum = await db.Album.findOne({ title: req.body.title });
+    const isAlbum = await db.Album.findOne(
+      {
+        title: req.body.title,
+        userId: userId,
+      },
+      { _id: 1 },
+    );
     if (isAlbum) {
       return res.status(409).send({ msg: "Error: Album already exists" });
     }
 
     // Album cover by default
-    albumObj.thumbnail =
-      "https://res.cloudinary.com/dz5nspe7f/image/upload/v1632928589/default-preset/default-album_rakgsq.png";
+    albumObj.thumbnail = DEFAULT_ALBUM_THUMBNAIL;
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];
+      console.log("What we take for upload", thumbnail);
       const thumbnailLocation = path.join(
         __dirname,
         "../../",
@@ -57,6 +66,10 @@ async function addAlbum(req, res, next) {
         {
           upload_preset: "covers-preset",
           resource_type: "image",
+          quality: "auto:good",
+          width: 300,
+          height: 300,
+          crop: "limit",
         },
       );
       albumObj.thumbnail = cldThumbnailRes.secure_url;
@@ -68,7 +81,6 @@ async function addAlbum(req, res, next) {
     }
     // Mongodb store data
     const { firebaseId } = req.user;
-    const { _id: userId } = await db.User.findOne({ firebaseId });
 
     albumObj.title = req.body.title;
     albumObj.year = req.body.year;

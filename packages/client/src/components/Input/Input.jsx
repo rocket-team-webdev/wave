@@ -14,6 +14,7 @@ export default function Input({
   fullWidth = false,
   placeholder = "",
   inputFileText = "Choose your file",
+  acceptFiles = "image/*",
   handleChange = () => {},
   handleBlur = () => {},
   handleInput = () => {},
@@ -82,6 +83,7 @@ export default function Input({
             onChange={onHandleChange}
             onBlur={handleBlur}
             onInput={handleInput}
+            accept={acceptFiles}
             {...props}
           />
         </div>

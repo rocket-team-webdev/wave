@@ -32,7 +32,7 @@ export default function TrackCard({
   genreId,
   isLiked,
   index,
-  draggable = true,
+  draggable = false,
   trackId,
   updateLikedView = () => {},
   updateDeletedView = () => {},
