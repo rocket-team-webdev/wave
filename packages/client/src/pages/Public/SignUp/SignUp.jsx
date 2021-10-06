@@ -45,14 +45,21 @@ export default function SignUp() {
       setLoading(true);
 
       try {
+        const formData = new FormData();
+        formData.append("profilePicture", signUpState.profilePicture);
+        formData.append("firstName", signUpState.firstName);
+        formData.append("lastName", signUpState.lastName);
+        formData.append("birthDate", signUpState.birthDate);
+        formData.append("country", signUpState.country);
+        formData.append("email", signUpState.email);
+        formData.append("password", signUpState.password);
         await signUpWithEmailAndPassword(
           signUpState.email,
           signUpState.password,
         );
         await emailVerification();
-        await createClient(signUpState);
+        await createClient(formData);
         await signOut();
-
         toast(
           " Signed up! Check your email, we&aposve sent you a verification message. We&aposll redirect you to the sign in page in no time...",
           { type: "warning" },
@@ -68,6 +75,10 @@ export default function SignUp() {
       }
     },
   });
+
+  const profilePictureOnChange = async (event) => {
+    formik.setFieldValue("profilePicture", event.target.files[0]);
+  };
 
   const handleGoogleSignIn = async () => {
     try {
@@ -170,9 +181,9 @@ export default function SignUp() {
                 id="profilePicture"
                 type="file"
                 placeholder="Choose your file"
-                onChange={formik.handleChange}
+                onChange={profilePictureOnChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.profilePicture}
+                // value={formik.values.profilePicture}
                 errorMessage={formik.errors.profilePicture}
                 hasErrorMessage={formik.touched.profilePicture}
               />

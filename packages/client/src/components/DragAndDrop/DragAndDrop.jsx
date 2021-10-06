@@ -20,7 +20,6 @@ export default function DragAndDrop({
     alignItems: "center",
     padding: "30px",
     paddingBottom: "50px",
-    // marginRight: "20px",
     borderWidth: 2,
     borderRadius: 2,
     borderColor: "#eeeeee",
