@@ -1,0 +1,17 @@
+@use "../../../sass/components/colors" as c;
+
+.heart-icon-positive {
+  color: c.$secondaryColor;
+  width: fit-content;
+  height: fit-content;
+}
+
+.heart-icon-negative {
+  color: c.$lightColor;
+  width: fit-content;
+  height: fit-content;
+}
+
+.large-heart-icon {
+  font-size: 30px;
+}

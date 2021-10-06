@@ -28,3 +28,14 @@ export async function getAllPlaylists(
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+
+export async function likePlaylist(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    `/${playlistId}/follow`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+}

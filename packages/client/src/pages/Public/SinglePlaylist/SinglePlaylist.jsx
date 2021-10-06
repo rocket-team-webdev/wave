@@ -11,7 +11,7 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById } from "../../../api/playlists-api";
+import { getPlaylistById, likePlaylist } from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
@@ -23,8 +23,7 @@ import "./SinglePlaylist.scss";
 export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
-  // const [isLiked, setIsLiked] = useState(false)
-  // const [isPlaying, setIsPlaying] = useState(false);
+  const [isFollowed, setIsFollowed] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -68,27 +67,34 @@ export default function SinglePlaylist() {
     dispatch(setPlayState(true));
   };
 
-  // const handleLike = async () => {};
+  const handleFollow = async () => {
+    setIsFollowed(!isFollowed);
+    await likePlaylist(playlistId);
+  };
 
   useEffect(() => {
     loadPlaylist();
+    setIsFollowed(playlist.isFollowed);
   }, []);
 
   return (
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
-        <div className="col col-12 col-md-6 row left-side mt-4">
-          <div className="d-flex justify-content-between">
+        <div className="col col-12 col-md-6 left-side mt-4">
+          <div className="d-flex justify-content-between align-items-start">
             <JumboText priText={playlist.name} cols="11" isNegative />
             <button
               className="text-center"
               type="button"
-              /* onClick={handleLike} */
+              onClick={handleFollow}
             >
-              {/* {isLiked ? <HeartIcon isFull /> : <HeartIcon />} */}
+              {isFollowed ? (
+                <HeartIcon isFull isLarge isNegative />
+              ) : (
+                <HeartIcon isLarge isNegative />
+              )}
             </button>
-            <HeartIcon isLarge isNegative />
           </div>
 
           {/* TODO only show creator if exists */}
