@@ -11,4 +11,5 @@ export {
   getCurrentUserEmail,
   getCurrentUser,
   setCredentialsPersistance,
+  initFirebase,
 } from "./auth";
