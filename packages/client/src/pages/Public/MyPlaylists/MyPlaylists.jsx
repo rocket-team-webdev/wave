@@ -80,8 +80,6 @@ function MyPlaylists() {
     setLoaded(true);
   }, []);
 
-  console.log("CREATED => ", createdPlaylists);
-  console.log("FOLLOWED => ", followedPlaylists);
   return (
     <Layout isNegative>
       <div className="row mb-5">
@@ -110,7 +108,7 @@ function MyPlaylists() {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
           {loaded && createdPlaylists && (
