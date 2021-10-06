@@ -1,13 +1,14 @@
 import React from "react";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+// import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
-import TrackCard from "../../../components/TrackCard";
+// import TrackCard from "../../../components/TrackCard";
 import Button from "../../../components/Button";
+import TrackList from "../../../components/TrackList";
 
-export default function PlaylistSongs() {
+export default function SinglePlaylist() {
   const playlistTitle = "Test asdfasdfasdf";
   const playlistGenres = ["Genre1", "Genre2", "Genre3"];
   const playlistTracks = [
@@ -43,7 +44,8 @@ export default function PlaylistSongs() {
           </div>
         </div>
         <div className="col col-12 col-md-6 right-side pe-0">
-          <div className="border border-1">Playlist song order component</div>
+          <TrackList tracks={playlistTracks} hasSorter />
+          {/* <div className="border border-1">Playlist song order component</div>
           {playlistTracks.length > 0 && (
             <DragDropContext onDragEnd={() => {}}>
               <Droppable droppableId="playlistTracks">
@@ -78,7 +80,7 @@ export default function PlaylistSongs() {
                 )}
               </Droppable>
             </DragDropContext>
-          )}
+          )} */}
         </div>
       </div>
     </Layout>

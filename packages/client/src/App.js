@@ -23,7 +23,7 @@ import TrackUpload from "./pages/Public/TrackUpload";
 import Tracks from "./pages/Public/Tracks";
 import MusicPlayer from "./components/MusicPlayer";
 import CreateAlbum from "./pages/Public/CreateAlbum";
-import PlaylistSongs from "./pages/Public/PlaylistSongs/PlaylistSongs";
+import SinglePlaylist from "./pages/Public/SinglePlaylist";
 
 function App() {
   const dispatch = useDispatch();
@@ -101,8 +101,8 @@ function App() {
             <PrivateRoute path={PUBLIC.MY_SONGS}>
               <Tracks />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.PLAYLIST_SONGS}>
-              <PlaylistSongs />
+            <PrivateRoute path={PUBLIC.SINGLE_PLAYLIST}>
+              <SinglePlaylist />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.HOME}>
               <Home />
