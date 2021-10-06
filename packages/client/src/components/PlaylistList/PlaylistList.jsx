@@ -3,19 +3,12 @@ import { motion } from "framer-motion";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import { containerAnimation } from "../../utils/motionSettings";
 
-function PlaylistList({ playlists /* onAddLikedColumn */ }) {
+function PlaylistList({ playlists, onAddFollowedColumn }) {
   const [listOfPlaylists, setListOfPlaylists] = useState(playlists);
 
-  // const handleAddLikedColumn = (song, isLiked) => {
-  //   onAddLikedColumn(song, isLiked);
-  // };
-
-  // const handleDeletedView = (trackId) => {
-  //   const updatedListOfPlaylists = listOfPlaylists.filter(
-  //     (v) => v._id !== trackId,
-  //   );
-  //   setListOfPlaylists(updatedListOfPlaylists);
-  // };
+  const handleAddFollowedColumn = (playlist, isFollowed) => {
+    onAddFollowedColumn(playlist, isFollowed);
+  };
 
   useEffect(() => {
     setListOfPlaylists(playlists);
@@ -34,9 +27,9 @@ function PlaylistList({ playlists /* onAddLikedColumn */ }) {
           playlistId={playlist._id}
           playlistName={playlist.name}
           userId={playlist.userId}
+          isFollowed={playlist.isFollowed}
           colsMd="6"
-          // updateLikedView={handleAddLikedColumn}
-          // updateDeletedView={handleDeletedView}
+          updateFollowedView={handleAddFollowedColumn}
         />
       ))}
     </motion.div>

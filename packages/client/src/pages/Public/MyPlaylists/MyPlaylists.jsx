@@ -11,7 +11,7 @@ import { PUBLIC } from "../../../constants/routes";
 
 function MyPlaylists() {
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
-  const [likedPlaylists, setLikedPlaylists] = useState([]);
+  const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const [searchBar, setSearchBar] = useState("");
   const [loaded, setLoaded] = useState(false);
 
@@ -24,10 +24,10 @@ function MyPlaylists() {
     }
   };
 
-  const fetchLikedPlaylists = async () => {
+  const fetchFollowedPlaylists = async () => {
     try {
       const { data } = await getFollowingPlaylists();
-      setLikedPlaylists(data.data);
+      setFollowedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -37,33 +37,35 @@ function MyPlaylists() {
     setSearchBar(e.target.value);
   };
 
-  const handleAddLikedColumn = (song, liked) => {
+  const handleAddFollowedColumn = (playlist, isFollowed) => {
     setLoaded(false);
     try {
-      if (liked) {
-        const updatedUploadedSongs = createdPlaylists.map((bySong) => {
-          if (bySong._id === song._id) return { ...bySong, isLiked: liked };
-          return bySong;
+      if (isFollowed) {
+        const updatedCreatedPlaylists = createdPlaylists.map((byPlaylist) => {
+          if (byPlaylist._id === playlist._id)
+            return { ...byPlaylist, isFollowed: isFollowed };
+          return byPlaylist;
         });
-        const updatedLikedSongs = likedPlaylists.filter(
-          (v) => v._id === song._id,
+        const updatedFollowedPlaylists = followedPlaylists.filter(
+          (v) => v._id === playlist._id,
         );
 
-        if (!updatedLikedSongs.length)
-          setLikedPlaylists((prevSongs) => [...prevSongs, song]);
+        if (!updatedFollowedPlaylists.length)
+          setFollowedPlaylists((prevSongs) => [...prevSongs, playlist]);
 
-        setCreatedPlaylists(updatedUploadedSongs);
+        setCreatedPlaylists(updatedCreatedPlaylists);
         setLoaded(true);
       } else {
-        const updatedLikedSongs = likedPlaylists.filter(
-          (v) => v._id !== song._id,
+        const updatedFollowedPlaylists = followedPlaylists.filter(
+          (pl) => pl._id !== playlist._id,
         );
-        const updatedUploadedSongs = createdPlaylists.map((bySong) => {
-          if (bySong._id === song._id) return { ...bySong, isLiked: liked };
-          return bySong;
+        const updatedCreatedPlaylists = createdPlaylists.map((byPlaylist) => {
+          if (byPlaylist._id === playlist._id)
+            return { ...byPlaylist, isFollowed: isFollowed };
+          return byPlaylist;
         });
-        setLikedPlaylists(updatedLikedSongs);
-        setCreatedPlaylists(updatedUploadedSongs);
+        setFollowedPlaylists(updatedFollowedPlaylists);
+        setCreatedPlaylists(updatedCreatedPlaylists);
         setLoaded(true);
       }
     } catch (error) {
@@ -74,10 +76,12 @@ function MyPlaylists() {
 
   useEffect(() => {
     fetchCreatedPlaylists();
-    fetchLikedPlaylists();
+    fetchFollowedPlaylists();
     setLoaded(true);
   }, []);
 
+  console.log("CREATED => ", createdPlaylists);
+  console.log("FOLLOWED => ", followedPlaylists);
   return (
     <Layout isNegative>
       <div className="row mb-5">
@@ -112,16 +116,16 @@ function MyPlaylists() {
           {loaded && createdPlaylists && (
             <PlaylistList
               playlists={createdPlaylists}
-              onAddLikedColumn={handleAddLikedColumn}
+              onAddFollowedColumn={handleAddFollowedColumn}
             />
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
-          <div className="fnt-page-title mb-4">Liked</div>
-          {loaded && likedPlaylists && (
+          <div className="fnt-page-title mb-4">Followed</div>
+          {loaded && followedPlaylists && (
             <PlaylistList
-              playlists={likedPlaylists}
-              onAddLikedColumn={handleAddLikedColumn}
+              playlists={followedPlaylists}
+              onAddFollowedColumn={handleAddFollowedColumn}
             />
           )}
         </div>

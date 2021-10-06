@@ -1,5 +1,5 @@
-import React, { useState /* , useEffect */ } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fromBottom } from "../../utils/motionSettings";
@@ -8,53 +8,47 @@ import HeartIcon from "../SVGicons/HeartIcon";
 import { PUBLIC } from "../../constants/routes";
 
 import "./playlist-card.scss";
+import { followPlaylist } from "../../api/playlists-api";
 
 export default function PlaylistCard({
   playlistId,
   playlistName,
   userId,
-  isLiked,
-  // classNames,
+  isFollowed,
   colsMd = "6",
-  // updateFollowedView = () => {},
+  updateFollowedView = () => {},
 }) {
-  const [liked, setLiked] = useState(isLiked);
-  // const playlistObject = {
-  //   name: playlistName,
-  //   playlistId: playlistId,
-  //   isLiked: isLiked,
-  //   userId: userId,
-  // };
-
-  const userState = useSelector((state) => state.user);
-
-  console.log(userState, userId);
-
-  // const handleIsOwned = () => {
-  //   if (userId === userState.mongoId) {
-  //     setIsOwned(true);
-  //   }
-  // };
+  const [followed, setFollowed] = useState(isFollowed);
+  const playlistObject = {
+    name: playlistName,
+    playlistId: playlistId,
+    isFollowed: isFollowed,
+    userId: userId,
+  };
 
   const handleLike = async () => {
-    const userLike = !liked;
-    setLiked(userLike);
+    const userFollows = !followed;
+    setFollowed(userFollows);
 
-    // try {
-    //   await followPlaylist(trackId);
-    //   updateFollowedView(
-    //     {
-    //       ...playlistObject,
-    //       isLiked: userLike,
-    //       _id: playlistId,
-    //     },
-    //     userLike,
-    //   );
-    // } catch (error) {
-    //   toast(error.message, { type: "error" });
-    //   setLiked(!liked);
-    // }
+    try {
+      await followPlaylist(playlistId);
+      updateFollowedView(
+        {
+          ...playlistObject,
+          isFollowed: userFollows,
+          _id: playlistId,
+        },
+        userFollows,
+      );
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setFollowed(!followed);
+    }
   };
+
+  useEffect(() => {
+    setFollowed(isFollowed);
+  }, [isFollowed]);
 
   const componentClasses = `col col-12 col-md-${colsMd} col-xl-4 col-xxl-3 p-2`;
   return (
@@ -73,7 +67,7 @@ export default function PlaylistCard({
             type="button"
             onClick={handleLike}
           >
-            {isLiked ? <HeartIcon isFull /> : <HeartIcon />}
+            {followed ? <HeartIcon isFull /> : <HeartIcon />}
           </button>
         </div>
 
