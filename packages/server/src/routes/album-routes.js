@@ -12,7 +12,7 @@ const mdlUpload = upload.fields([{ name: "thumbnail" }]);
 
 albumRouter.get("", authFirebaseMiddleware, albumController.getAlbums);
 
-albumRouter.get("/:id", authFirebaseMiddleware, albumRouter.getAlbumById);
+albumRouter.get("/:id", authFirebaseMiddleware, albumController.getAlbumById);
 
 albumRouter.post(
   "",
@@ -20,7 +20,7 @@ albumRouter.post(
   albumController.addAlbum,
 );
 
-albumRouter.delete("/:id", authFirebaseMiddleware, albumRouter.deleteAlbum);
+albumRouter.delete("/:id", authFirebaseMiddleware, albumController.deleteAlbum);
 
 module.exports = {
   albumRouter,

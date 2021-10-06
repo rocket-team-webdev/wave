@@ -96,18 +96,50 @@ async function addAlbum(req, res, next) {
   }
 }
 
-// async function getAlbumById(req, res, next) {
-//   try {
-//     const { id } = req.params;
-//     const { email } = req.user;
-//     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-//     const { page = 0, limit = 5 } = req.query;
+async function getAlbumById(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-//   } catch (err) {
-//     res.status(500).send({ error: err.message });
-//     next(err);
-//   }
-// }
+    const album = await db.Album.findOne(
+      { _id: id },
+      {
+        title: 1,
+        year: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        thumbnail: 1,
+        userId: 1,
+        tracks: 1,
+      },
+    ).lean();
+
+    const tracks = await db.Track.find(
+      { album: id },
+      {
+        name: 1,
+        arist: 1,
+        url: 1,
+        durantion: 1,
+        genreId: 1,
+        userId: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+      },
+    ).populate({
+      path: "genreId",
+      options: { select: "name" },
+    });
+
+    album.tracks = tracks;
+
+    res.status(200).send({ data: album });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
 
 async function updateAlbum(req, res, next) {
   try {
@@ -191,11 +223,11 @@ async function deleteAlbum(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    /*********************/
-    /*DELETE ALBUM SONGS*/
-    /********************/
+    // deleting tracks from album
+    await db.Track.deleteMany({ album: id });
 
-    db.Album.findOneAndUpdate({ _id: id, userId: userId }, { isDeleted: true });
+    // deleting albums
+    db.Album.findOneAndDelete({ _id: id, userId: userId }, { isDeleted: true });
 
     res.status(200).send({ message: "Album deleted successfully" });
   } catch (err) {
@@ -206,6 +238,7 @@ async function deleteAlbum(req, res, next) {
 
 module.exports = {
   getAlbums,
+  getAlbumById,
   addAlbum,
   updateAlbum,
   deleteAlbum,
