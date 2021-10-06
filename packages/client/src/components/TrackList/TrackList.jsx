@@ -6,7 +6,7 @@ import { containerAnimation } from "../../utils/motionSettings";
 import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
 
-function TrackList({ tracks, onAddLikedColumn }) {
+function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
   const [listOfTracks, setListOfTracks] = useState(tracks);
   const [flag, setFlag] = useState({
     flagTitle: 1,
@@ -220,12 +220,15 @@ function TrackList({ tracks, onAddLikedColumn }) {
         <Droppable droppableId="Uploaded">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              <TrackSorter
-                sortByTitleAndArtist={sortByTitleAndArtist}
-                sortByAlbum={sortByAlbum}
-                sortByPopularity={sortByPopularity}
-                sortByDuration={sortByDuration}
-              />
+              {hasSorter && (
+                <TrackSorter
+                  sortByTitleAndArtist={sortByTitleAndArtist}
+                  sortByAlbum={sortByAlbum}
+                  sortByPopularity={sortByPopularity}
+                  sortByDuration={sortByDuration}
+                />
+              )}
+
               {listOfTracks && (
                 <motion.div
                   // Animation settings
@@ -252,6 +255,7 @@ function TrackList({ tracks, onAddLikedColumn }) {
                       playCounter={song.popularity}
                       updateLikedView={handleAddLikedColumn}
                       updateDeletedView={handleDeletedView}
+                      draggable={hasSorter}
                     />
                   ))}
                 </motion.div>
