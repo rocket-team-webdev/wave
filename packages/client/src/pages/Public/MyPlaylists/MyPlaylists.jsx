@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../../components/Button";
@@ -6,13 +6,32 @@ import Input from "../../../components/Input";
 import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
 import PlaylistList from "../../../components/PlaylistList";
-// import { PUBLIC } from "../../../constants/routes";
+import { getMyPlaylists, getFollowingPlaylists } from "../../../api/me-api";
+import { PUBLIC } from "../../../constants/routes";
 
 function MyPlaylists() {
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [likedPlaylists, setLikedPlaylists] = useState([]);
   const [searchBar, setSearchBar] = useState("");
   const [loaded, setLoaded] = useState(false);
+
+  const fetchCreatedPlaylists = async () => {
+    try {
+      const { data } = await getMyPlaylists();
+      setCreatedPlaylists(data.data);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
+
+  const fetchLikedPlaylists = async () => {
+    try {
+      const { data } = await getFollowingPlaylists();
+      setLikedPlaylists(data.data);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
 
   const handleSearchChange = async (e) => {
     setSearchBar(e.target.value);
@@ -53,6 +72,12 @@ function MyPlaylists() {
     }
   };
 
+  useEffect(() => {
+    fetchCreatedPlaylists();
+    fetchLikedPlaylists();
+    setLoaded(true);
+  }, []);
+
   return (
     <Layout isNegative>
       <div className="row mb-5">
@@ -60,7 +85,7 @@ function MyPlaylists() {
           <JumboText priText="My Playlists" cols="12" isNegative />
         </div>
         <div className="col col-3">
-          <Link className="float-end p-3" to="/">
+          <Link className="float-end p-3" to={PUBLIC.ADD_PLAYLIST}>
             <Button isNegative>New Playlist</Button>
           </Link>
         </div>

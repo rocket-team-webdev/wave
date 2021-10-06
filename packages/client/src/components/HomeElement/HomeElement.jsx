@@ -16,7 +16,7 @@ export default function HomeElement({
 
   // Apply gutters to playlists/albums cards
   if (label.includes("laylists") || label.includes("lbums")) {
-    contentClasses += " row g-3";
+    contentClasses += " row";
   }
 
   return (
