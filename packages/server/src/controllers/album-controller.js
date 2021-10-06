@@ -5,6 +5,7 @@ const path = require("path");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 
+const { getPublicId } = require("../utils/cloudinaryUtils");
 const { DEFAULT_ALBUM_THUMBNAIL } = require("../utils/default-presets");
 
 async function getAlbums(req, res, next) {
@@ -95,7 +96,84 @@ async function addAlbum(req, res, next) {
   }
 }
 
+async function updateAlbum(req, res, next) {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    let thumbnailFile = req.files["thumbnail"];
+    let thumbnailUrl = DEFAULT_ALBUM_THUMBNAIL;
+
+    if (thumbnailFile) {
+      const { thumbnail: oldThumbnail } = await db.Album.findOne(
+        { _id: id, isDeleted: false, userId: userId },
+        {
+          thumbnail: 1,
+          _id: 0,
+        },
+      );
+
+      const isThumbnailDefault =
+        oldThumbnail === DEFAULT_ALBUM_THUMBNAIL ? true : false;
+
+      thumbnailFile = thumbnailFile[0];
+      const thumbnailLocation = path.join(
+        __dirname,
+        "../../",
+        "uploads",
+        thumbnailFile.originalname,
+      );
+
+      // upload file
+      await writeFileAsync(
+        thumbnailLocation,
+        Buffer.from(new Uint8Array(thumbnailFile.buffer)),
+      );
+
+      // upload to cloudinary
+      const cldThumbnailRes = await cloudinary.uploader.upload(
+        thumbnailLocation,
+        {
+          upload_preset: "covers-preset",
+          resource_type: "image",
+          width: 300,
+          height: 300,
+          crop: "limit",
+        },
+      );
+      thumbnailUrl = cldThumbnailRes.secure_url;
+
+      // delete old picture on cloudinary
+      if (!isThumbnailDefault) {
+        const publicId = getPublicId(oldThumbnail);
+        await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+      }
+
+      // delete uploaded file
+      fs.unlink(thumbnailLocation, (err) => {
+        if (err) throw err;
+      });
+    }
+
+    const { title, year } = req.body;
+
+    await db.Album.findOneAndUpdate(
+      { _id: id },
+      { title: title, year: year, thumbnail: thumbnailUrl },
+    );
+
+    res.status(200).send({
+      message: "Successful update",
+    });
+  } catch (error) {
+    res.status(400).send({ error: error });
+    next();
+  }
+}
+
 module.exports = {
   getAlbums,
   addAlbum,
+  updateAlbum,
 };
