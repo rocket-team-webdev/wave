@@ -83,8 +83,6 @@ async function updateAccount(req, res) {
       });
     }
 
-    console.log(profilePictureUrl);
-
     const updatedAccount = await db.User.findOneAndUpdate(
       { firebaseId: firebaseId },
       {
