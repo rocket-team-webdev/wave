@@ -33,13 +33,12 @@ async function updateAccount(req, res) {
     let isProfilePictureDefault = false;
 
     // checking if old profile picture is the default one
-    if (profilePicture === DEFAULT_PROFILE_PICTURE) {
+    if (profilePicture === DEFAULT_PROFILE_PICTURE)
       isProfilePictureDefault = true;
-    }
 
     let profilePictureFile = req.files["profilePicture"];
 
-    let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
+    let profilePictureUrl = profilePicture;
 
     if (profilePictureFile) {
       profilePictureFile = profilePictureFile[0];
