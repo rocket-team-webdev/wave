@@ -1,48 +1,51 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useRouteMatch } from "react-router-dom";
+import { toast } from "react-toastify";
 
-// import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { PUBLIC } from "../../../constants/routes";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
-// import TrackCard from "../../../components/TrackCard";
-import Button from "../../../components/Button";
-// import TrackList from "../../../components/TrackList";
+import TrackList from "../../../components/TrackList";
+
+import { getPlaylistById } from "../../../api/playlists-api";
 
 export default function SinglePlaylist() {
-  // const [playlistTracks, setPlaylistTracks] = useState([]);
+  const [playlist, setPlaylist] = useState({});
 
-  const playlistTitle = "Test asdfasdfasdf";
-  const playlistGenres = ["Genre1", "Genre2", "Genre3"];
+  const { playlistId } = useRouteMatch(
+    `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
+  ).params;
 
-  // const loadPlaylistTracks = async () => {
-  //   try {
-  //     const { data } = await getPlaylistById();
-  //     setPlaylistTracks();
-  //   } catch (error) {
-  //     toast(error.message, { type: "error" });
-  //   }
-  // };
+  const loadPlaylist = async () => {
+    try {
+      const { data } = await getPlaylistById(playlistId);
+      setPlaylist(data.data);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
 
-  // useEffect(() => {
-  //   loadPlaylistTracks();
-  // }, []);
+  useEffect(() => {
+    loadPlaylist();
+  }, []);
 
   return (
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row g-4">
         <div className="col col-12 col-md-6 left-side ps-0">
-          <JumboText priText={playlistTitle} cols="12" isNegative />
-          <div className="d-flex pt-4">
+          <JumboText priText={playlist.name} cols="12" isNegative />
+          {/* <div className="d-flex pt-4">
             {playlistGenres &&
               playlistGenres.map((genre) => (
                 <div key={genre} className="mb-2 me-2">
                   <Button isSmall>{genre.toUpperCase()}</Button>
                 </div>
               ))}
-          </div>
+          </div> */}
         </div>
         <div className="col col-12 col-md-6 right-side pe-0">
-          {/* <TrackList tracks={playlistTracks} hasSorter /> */}
+          <TrackList tracks={playlist.tracks} hasSorter />
         </div>
       </div>
     </Layout>
