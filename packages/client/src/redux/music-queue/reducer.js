@@ -30,7 +30,7 @@ const reducer = (state = initialState, action) => {
     case SET_QUEUE:
       return {
         ...state,
-        queue: [action.payload],
+        queue: action.payload,
       };
     case SET_ALL:
       return {
