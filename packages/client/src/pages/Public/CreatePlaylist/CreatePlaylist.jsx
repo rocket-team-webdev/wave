@@ -11,6 +11,7 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
 import Textarea from "../../../components/Textarea";
 import Checkbox from "../../../components/Checkbox";
+import { addPlaylist } from "../../../api/playlists-api";
 
 export default function CreatePlaylist() {
   const history = useHistory();
@@ -30,13 +31,16 @@ export default function CreatePlaylist() {
       console.log(playlistState);
 
       try {
-        // const formData = new FormData();
-        // formData.append("name", playlistState.name);
-        // formData.append("primaryColor", playlistState.primaryColor);
-        // formData.append("description", playlistState.description);
-        // formData.append("publicAccessible", playlistState.publicAccessible);
-        // formData.append("thumbnail", playlistState.thumbnail);
-        // await addPlaylist(formData);
+        const formData = new FormData();
+        formData.append("name", playlistState.name);
+        formData.append("primaryColor", playlistState.primaryColor);
+        formData.append("description", playlistState.description);
+        formData.append("publicAccessible", playlistState.publicAccessible);
+        formData.append("thumbnail", playlistState.thumbnail);
+
+        await addPlaylist(formData);
+        console.log("Se manDOOOOO");
+
         // history.goBack();
         return toast("Playlist created!", { type: "success" });
       } catch (error) {

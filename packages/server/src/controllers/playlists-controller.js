@@ -58,6 +58,7 @@ async function addPlaylist(req, res, next) {
     // Album cover by default
     playlistObj.thumbnail =
       "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633430445/default-preset/default-playlist-img_wuyzoh.png";
+
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];
