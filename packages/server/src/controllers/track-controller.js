@@ -9,7 +9,24 @@ const { getPublicId } = require("../utils/cloudinaryUtils");
 async function getTracks(req, res, next) {
   try {
     const { page = 0, limit = 5 } = req.query;
-    const foundTracks = await db.Track.find({})
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const foundTracks = await db.Track.find(
+      {},
+      {
+        name: 1,
+        artist: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        popularity: 1,
+        color: 1,
+        genreId: 1,
+        userId: 1,
+        album: 1,
+        duration: 1,
+        url: 1,
+      },
+    )
       .populate({
         path: "album",
         options: {
@@ -163,6 +180,11 @@ async function deleteTrack(req, res, next) {
         { _id: album._id },
         { $inc: { totalTracks: -1 } },
       );
+
+    // Delete song from playlists
+    await db.Playlist.updateMany({ trackId: id }, { $pull: { trackId: id } });
+    // Delete song from playback
+    await db.Playback.deleteOne({ trackId: id });
 
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {

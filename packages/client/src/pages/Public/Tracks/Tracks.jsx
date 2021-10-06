@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
-import TrackCard from "../../../components/TrackCard";
+import TrackList from "../../../components/TrackList";
 import { getLikedTracks, getMyTracks } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
+import Input from "../../../components/Input";
+import { searchTrack } from "../../../api/search-api";
+import useDebounce from "../../../hooks/useDebounce";
 
 export default function Tracks() {
-  const [uploadedSongs, setUploadedSongs] = useState();
-  const [likedSongs, setLikedSongs] = useState();
+  const [uploadedSongs, setUploadedSongs] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [searchBar, setSearchBar] = useState("");
+  const debouncedSearch = useDebounce(searchBar, 500);
+  const queueState = useSelector((state) => state.queue);
 
   const fetchUploadedSongs = async () => {
     try {
@@ -33,14 +40,20 @@ export default function Tracks() {
   };
 
   const handleAddLikedColumn = (song, liked) => {
+    setLoaded(false);
     try {
       if (liked) {
         const updatedUploadedSongs = uploadedSongs.map((bySong) => {
           if (bySong._id === song._id) return { ...bySong, isLiked: liked };
           return bySong;
         });
-        setLikedSongs((prevSongs) => [...prevSongs, song]);
+        const updatedLikedSongs = likedSongs.filter((v) => v._id === song._id);
+
+        if (!updatedLikedSongs.length)
+          setLikedSongs((prevSongs) => [...prevSongs, song]);
+
         setUploadedSongs(updatedUploadedSongs);
+        setLoaded(true);
       } else {
         const updatedLikedSongs = likedSongs.filter((v) => v._id !== song._id);
         const updatedUploadedSongs = uploadedSongs.map((bySong) => {
@@ -49,50 +62,48 @@ export default function Tracks() {
         });
         setLikedSongs(updatedLikedSongs);
         setUploadedSongs(updatedUploadedSongs);
+        setLoaded(true);
       }
     } catch (error) {
       toast(error.message, { type: "error" });
+      setLoaded(true);
     }
   };
 
-  const handleDeletedView = (trackId) => {
-    console.log("trackId", trackId);
-    const updatedLikedSongs = likedSongs.filter((v) => v._id !== trackId);
-    const updatedUploadedSongs = uploadedSongs.filter((v) => v._id !== trackId);
-    setLikedSongs(updatedLikedSongs);
-    setUploadedSongs(updatedUploadedSongs);
+  const handleSearchChange = async (e) => {
+    setSearchBar(e.target.value);
   };
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
+  useEffect(async () => {
+    try {
+      const { data } = await searchTrack(debouncedSearch);
+      const liked = data.tracks.filter((track) => track.isLiked);
+      const uploaded = data.tracks.filter((track) => track.isOwner);
 
-    result.splice(endIndex, 0, removed);
+      setUploadedSongs(uploaded);
+      setLikedSongs(liked);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  }, [debouncedSearch]);
 
-    return result;
-  };
+  useEffect(() => {
+    const newSong = {
+      ...queueState.queue[0],
+      _id: queueState.queue[0]?.trackId,
+      album: {
+        title: queueState.queue[0]?.album,
+        thumbnail: queueState.queue[0]?.trackImg,
+      },
+    };
 
-  const onDragEndUploaded = (res) => {
-    const { destination, source } = res;
-
-    if (!destination) return;
-
-    const items = reorder(uploadedSongs, source.index, destination.index);
-    setUploadedSongs(items);
-  };
-
-  const onDragEndLiked = (res) => {
-    const { destination, source } = res;
-
-    if (!destination) return;
-
-    const items = reorder(likedSongs, source.index, destination.index);
-    setLikedSongs(items);
-  };
+    handleAddLikedColumn(newSong, newSong.isLiked);
+  }, [queueState.queue]);
 
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
+    setLoaded(true);
   }, []);
 
   return (
@@ -106,81 +117,42 @@ export default function Tracks() {
             <Button isNegative>Upload</Button>
           </Link>
         </div>
+        <div className="col-12">
+          <form className="">
+            <Input
+              id="searchBar"
+              name="searchBar"
+              type="text"
+              placeholder="Search"
+              handleChange={handleSearchChange}
+              // handleBlur={handleSearchChange}
+              value={searchBar}
+              classNames="col-12 col-md-6 col-lg-4"
+              isNegative
+            />
+          </form>
+        </div>
       </div>
-      <div className="row">
-        <DragDropContext onDragEnd={onDragEndUploaded}>
-          <Droppable droppableId="Uploaded">
-            {(provided) => (
-              <div
-                className="col col-12 col-md-6 pb-5 pb-md-0"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <div className="fnt-page-title mb-4">Uploaded</div>
-                {uploadedSongs &&
-                  uploadedSongs.map((song, index) => (
-                    <TrackCard
-                      key={song._id}
-                      trackNumber={index + 1}
-                      trackName={song.name}
-                      trackImg={song.album.thumbnail}
-                      artist={song.artist}
-                      albumName={song.album.title}
-                      time={song.duration}
-                      trackUrl={song.url}
-                      albumId={song.album._id}
-                      genreId={song.genreId}
-                      isLiked={song.isLiked}
-                      trackId={song._id}
-                      userId={song.userId}
-                      index={index}
-                      draggable
-                      updateLikedView={handleAddLikedColumn}
-                      updateDeletedView={handleDeletedView}
-                    />
-                  ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
 
-        <DragDropContext onDragEnd={onDragEndLiked}>
-          <Droppable droppableId="liked">
-            {(provided) => (
-              <div
-                className="col col-12 col-md-6"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <div className="fnt-page-title mb-4">Liked</div>
-                {likedSongs &&
-                  likedSongs.map((song, index) => (
-                    <TrackCard
-                      key={song._id}
-                      trackNumber={index + 1}
-                      trackName={song.name}
-                      trackImg={song.album.thumbnail}
-                      artist={song.artist}
-                      albumName={song.album.title}
-                      time={song.duration}
-                      trackUrl={song.url}
-                      albumId={song.album._id}
-                      genreId={song.genreId}
-                      isLiked={song.isLiked}
-                      trackId={song._id}
-                      userId={song.userId}
-                      index={index}
-                      draggable
-                      updateLikedView={handleAddLikedColumn}
-                      updateDeletedView={handleDeletedView}
-                    />
-                  ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+      <div className="row">
+        <div className="col col-12 col-md-6 pb-5 pb-md-0">
+          <div className="fnt-page-title mb-4">Uploaded</div>
+          {loaded && uploadedSongs && (
+            <TrackList
+              tracks={uploadedSongs}
+              onAddLikedColumn={handleAddLikedColumn}
+            />
+          )}
+        </div>
+        <div className="col col-12 col-md-6 pb-5 pb-md-0">
+          <div className="fnt-page-title mb-4">Liked</div>
+          {loaded && likedSongs && (
+            <TrackList
+              tracks={likedSongs}
+              onAddLikedColumn={handleAddLikedColumn}
+            />
+          )}
+        </div>
       </div>
     </Layout>
   );

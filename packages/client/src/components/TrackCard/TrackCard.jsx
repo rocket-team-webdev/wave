@@ -3,10 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { addSong, setQueue } from "../../redux/music-queue/actions";
+import { motion } from "framer-motion";
+import {
+  addSong,
+  setPlayState,
+  setSong,
+  like,
+} from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
+import { fromBottom /* pressedElement */ } from "../../utils/motionSettings";
+
+import HeartIcon from "../SVGicons/HeartIcon";
 
 import "./TrackCard.scss";
 
@@ -32,6 +40,7 @@ export default function TrackCard({
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
   const userState = useSelector((state) => state.user);
+  const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
   const trackObject = {
     name: trackName,
@@ -68,6 +77,11 @@ export default function TrackCard({
         },
         userLike,
       );
+
+      queueState.queue.map((song, i) => {
+        if (song.trackId === trackId) dispatch(like(i));
+        return song;
+      });
     } catch (error) {
       toast(error.message, { type: "error" });
       setLiked(!liked);
@@ -75,7 +89,8 @@ export default function TrackCard({
   };
 
   const handlePlay = () => {
-    dispatch(setQueue(trackObject));
+    dispatch(setSong(trackObject));
+    dispatch(setPlayState(true));
   };
 
   const handleAddToQueue = () => {
@@ -121,122 +136,144 @@ export default function TrackCard({
   }, []);
 
   return (
-    <Draggable draggableId={trackId} index={index} isDragDisabled={!draggable}>
-      {(provided, snapshot) => (
-        <div
-          className="row m-0 col col-12 card-hover fx-rounded clr-primary"
-          onDoubleClick={handlePlay}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-          style={getItemStyle(
-            snapshot.isDragging,
-            provided.draggableProps.style,
-          )}
-        >
-          <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-            {/* Number */}
-            <h3 className="m-0 px-2 fnt-song-bold text-start song-index">
-              {trackNumber}
-            </h3>
-            {/* Thumbnail */}
-            <div
-              className="d-none d-lg-inline play-hover"
-              onClick={handlePlay}
-              aria-hidden="true"
-            >
-              <img className="fx-rounded mx-2" src={trackImg} alt={trackName} />
-              <i className="fas fa-play fnt-white" />
-            </div>
-            {/* Like */}
-            <div className="d-flex fnt-primary px-2">
-              <button
-                className="text-center"
-                type="button"
-                onClick={handleLike}
-              >
-                {liked ? <FaHeart /> : <FaRegHeart />}
-              </button>
-            </div>
-            {/* Title/Artist */}
-            <div className=" px-2 col title-and-artist">
-              <h3 className="m-0 text-start fnt-song-bold truncate">
-                {trackName}
-              </h3>
-              <h4 className="m-0 text-start fnt-artist truncate">{artist}</h4>
-            </div>
-            {/* Album */}
-            <Link
-              className="m-0 text-start fnt-song-regular px-2 col truncate track-album"
-              to={`${PUBLIC.ALBUMS}/${albumId}`}
-            >
-              {albumName}
-            </Link>
-            {/* Playcounter */}
-            <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
-              {formatPlayCounter(playCounter)}
-            </h4>
-            {/* Time */}
-            <h4 className="m-0 text-start fnt-song-regular px-2 track-time">
-              {timeIntoString(time)}
-            </h4>
-            {/* Contextual menu */}
-            <div className="dropdown">
-              <button
-                className="m-0 text-end"
-                type="button"
-                id="contextSongMenu"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i className="fas fa-ellipsis-h" />
-              </button>
-              <ul
-                className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-                aria-labelledby="contextSongMenu"
-              >
-                <button
-                  className="dropdown-item fnt-light fnt-song-regular "
-                  type="button"
-                  onClick={handleAddToQueue}
+    <motion.div
+      // Animation settings
+      variants={fromBottom}
+      // whileTap={pressedElement}
+    >
+      <Draggable
+        draggableId={trackId}
+        index={index}
+        isDragDisabled={!draggable}
+      >
+        {(provided, snapshot) => (
+          <div
+            className="row m-0 col col-12 card-hover fx-rounded clr-primary"
+            onDoubleClick={handlePlay}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            style={getItemStyle(
+              snapshot.isDragging,
+              provided.draggableProps.style,
+            )}
+          >
+            <div className="col col-12 d-flex justify-content-between align-items-center py-2">
+              {/* Number */}
+              <div className="col col-2 d-flex justify-content-between align-items-center">
+                <h3 className="m-0 px-2 fnt-song-bold text-start song-index">
+                  {trackNumber}
+                </h3>
+                {/* Thumbnail */}
+                <div
+                  className="d-none d-lg-inline play-hover"
+                  onClick={handlePlay}
+                  aria-hidden="true"
                 >
-                  Add to queue
-                </button>
-                <hr className="dropdown-wrapper m-0" />
-                {isOwned ? (
-                  <>
-                    <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
-                      <p
-                        className="dropdown-item fnt-light fnt-song-regular m-0"
-                        type="button"
-                      >
-                        Edit
-                      </p>
-                    </Link>
-                    <hr className="dropdown-wrapper m-0" />
+                  <img className="fx-rounded" src={trackImg} alt={trackName} />
+                  <i className="fas fa-play fnt-white" />
+                </div>
+                {/* Like */}
+                <div className="d-flex fnt-primary px-2">
+                  <button
+                    className="text-center"
+                    type="button"
+                    onClick={handleLike}
+                  >
+                    {liked ? <HeartIcon isFull /> : <HeartIcon />}
+                  </button>
+                </div>
+              </div>
+              <div className="col col-3 d-flex justify-content-between align-items-center">
+                {/* Title/Artist */}
+                <div className=" px-2 col title-and-artist">
+                  <h3 className="m-0 text-start fnt-song-bold truncate">
+                    {trackName}
+                  </h3>
+                  <h4 className="m-0 text-start fnt-artist truncate">
+                    {artist}
+                  </h4>
+                </div>
+              </div>
+              <div className="col col-3 d-flex justify-content-between align-items-center">
+                {/* Album */}
+                <Link
+                  className="m-0 text-start fnt-song-regular px-2 col truncate track-album"
+                  to={`${PUBLIC.ALBUMS}/${albumId}`}
+                >
+                  {albumName}
+                </Link>
+              </div>
+              {/* Playcounter */}
+              <div className="col col-2 d-flex justify-content-between align-items-center">
+                <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
+                  {formatPlayCounter(playCounter)}
+                </h4>
+              </div>
+              <div className="col col-2 d-flex justify-content-between align-items-center">
+                {/* Time */}
+                <h4 className="m-0 text-start fnt-song-regular px-2 track-time">
+                  {timeIntoString(time)}
+                </h4>
+                {/* Contextual menu */}
+                <div className="dropdown">
+                  <button
+                    className="m-0 text-end"
+                    type="button"
+                    id="contextSongMenu"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i className="fas fa-ellipsis-h" />
+                  </button>
+                  <ul
+                    className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+                    aria-labelledby="contextSongMenu"
+                  >
                     <button
-                      className="dropdown-item fnt-light fnt-song-regular"
+                      className="dropdown-item fnt-light fnt-song-regular "
                       type="button"
-                      onClick={handleDeleteSong}
+                      onClick={handleAddToQueue}
                     >
-                      Delete
+                      Add to queue
                     </button>
-                  </>
-                ) : (
-                  <Link to={`${PUBLIC.USERS}/${userId}`}>
-                    <p
-                      className="dropdown-item fnt-light fnt-song-regular m-0"
-                      type="button"
-                    >
-                      Go to user
-                    </p>
-                  </Link>
-                )}
-              </ul>
+                    <hr className="dropdown-wrapper m-0" />
+                    {isOwned ? (
+                      <>
+                        <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                          <p
+                            className="dropdown-item fnt-light fnt-song-regular m-0"
+                            type="button"
+                          >
+                            Edit
+                          </p>
+                        </Link>
+                        <hr className="dropdown-wrapper m-0" />
+                        <button
+                          className="dropdown-item fnt-light fnt-song-regular"
+                          type="button"
+                          onClick={handleDeleteSong}
+                        >
+                          Delete
+                        </button>
+                      </>
+                    ) : (
+                      <Link to={`${PUBLIC.USERS}/${userId}`}>
+                        <p
+                          className="dropdown-item fnt-light fnt-song-regular m-0"
+                          type="button"
+                        >
+                          Go to user
+                        </p>
+                      </Link>
+                    )}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </Draggable>
+        )}
+      </Draggable>
+    </motion.div>
   );
 }
