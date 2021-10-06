@@ -15,6 +15,7 @@ export const PUBLIC = {
   TRACK_UPLOAD: "/tracks/upload",
   TRACK_UPDATE: "/tracks/update",
   ADD_ALBUM: "/albums/add",
+  ADD_PLAYLIST: "/playlists/add",
   PLAYLIST_TRACKS: "/playlists",
 };
 

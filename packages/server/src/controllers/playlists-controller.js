@@ -59,6 +59,7 @@ async function addPlaylist(req, res, next) {
 
     // Playlist cover by default
     playlistObj.thumbnail = DEFAULT_PLAYLIST_THUMBNAIL;
+
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];
@@ -81,6 +82,7 @@ async function addPlaylist(req, res, next) {
         {
           upload_preset: "covers-preset",
           resource_type: "image",
+          quality: "auto:good",
           width: 300,
           height: 300,
           crop: "limit",
