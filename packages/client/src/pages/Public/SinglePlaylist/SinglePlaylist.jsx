@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { FaPlay, FaPause } from "react-icons/fa";
-import { setQueue, setPlayState } from "../../../redux/music-queue/actions";
+import { FaPlay } from "react-icons/fa";
+
+import {
+  setQueue,
+  clearQueue,
+  setPlayState,
+} from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
 import { getPlaylistById } from "../../../api/playlists-api";
@@ -16,9 +21,8 @@ import "./SinglePlaylist.scss";
 
 export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
 
-  // const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
 
   const { playlistId } = useRouteMatch(
@@ -35,6 +39,7 @@ export default function SinglePlaylist() {
   };
 
   const handlePlaying = () => {
+    dispatch(clearQueue());
     // eslint-disable-next-line prefer-const
     let tracksArray = [];
 
@@ -56,11 +61,8 @@ export default function SinglePlaylist() {
       tracksArray.push(trackObject);
     });
 
-    if (isPlaying === false) {
-      dispatch(setQueue(tracksArray));
-      dispatch(setPlayState(true));
-    }
-    setIsPlaying(!isPlaying);
+    dispatch(setQueue(tracksArray));
+    dispatch(setPlayState(true));
   };
 
   useEffect(() => {
@@ -78,7 +80,7 @@ export default function SinglePlaylist() {
             onClick={handlePlaying}
             className="play-button clr-light fnt-secondary d-flex justify-content-center align-items-center mt-5"
           >
-            {isPlaying ? <FaPause /> : <FaPlay />}
+            <FaPlay />
           </button>
         </div>
         {/* Right side */}
