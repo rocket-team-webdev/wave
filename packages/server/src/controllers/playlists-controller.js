@@ -81,6 +81,7 @@ async function addPlaylist(req, res, next) {
         {
           upload_preset: "covers-preset",
           resource_type: "image",
+          quality: "auto:good",
         },
       );
       playlistObj.thumbnail = cldThumbnailRes.secure_url;
