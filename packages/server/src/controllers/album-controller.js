@@ -96,6 +96,19 @@ async function addAlbum(req, res, next) {
   }
 }
 
+// async function getAlbumById(req, res, next) {
+//   try {
+//     const { id } = req.params;
+//     const { email } = req.user;
+//     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+//     const { page = 0, limit = 5 } = req.query;
+
+//   } catch (err) {
+//     res.status(500).send({ error: err.message });
+//     next(err);
+//   }
+// }
+
 async function updateAlbum(req, res, next) {
   try {
     const { email } = req.user;
@@ -164,7 +177,7 @@ async function updateAlbum(req, res, next) {
     );
 
     res.status(200).send({
-      message: "Successful update",
+      message: "Album updated successfully",
     });
   } catch (error) {
     res.status(400).send({ error: error });
@@ -172,8 +185,28 @@ async function updateAlbum(req, res, next) {
   }
 }
 
+async function deleteAlbum(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    /*********************/
+    /*DELETE ALBUM SONGS*/
+    /********************/
+
+    db.Album.findOneAndUpdate({ _id: id, userId: userId }, { isDeleted: true });
+
+    res.status(200).send({ message: "Album deleted successfully" });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
 module.exports = {
   getAlbums,
   addAlbum,
   updateAlbum,
+  deleteAlbum,
 };
