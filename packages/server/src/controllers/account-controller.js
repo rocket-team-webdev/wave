@@ -27,9 +27,12 @@ async function getAccount(req, res, next) {
 
 async function updateAccount(req, res) {
   try {
-    const { email } = req.user;
+    const { firebaseId } = req.user;
+    const { firstName, lastName, birthDate, country, email } = req.body;
+    const { profilePicture } = await db.User.findOne({
+      firebaseId: firebaseId,
+    });
 
-    const { profilePicture } = await db.User.findOne({ email: email });
     let isProfilePictureDefault = false;
 
     // checking if old profile picture is the default one
@@ -61,6 +64,9 @@ async function updateAccount(req, res) {
         {
           upload_preset: "profile-pictures-preset",
           resource_type: "image",
+          width: 300,
+          height: 300,
+          crop: "limit",
         },
       );
       profilePictureUrl = cldProfilePictureRes.secure_url;
@@ -77,9 +83,18 @@ async function updateAccount(req, res) {
       });
     }
 
+    console.log(profilePictureUrl);
+
     const updatedAccount = await db.User.findOneAndUpdate(
-      { email },
-      { ...req.body, profilePicture: profilePictureUrl },
+      { firebaseId: firebaseId },
+      {
+        firstName: firstName,
+        lastName: lastName,
+        birthDate: birthDate,
+        email: email,
+        country: country,
+        profilePicture: profilePictureUrl,
+      },
       {
         new: true,
       },
