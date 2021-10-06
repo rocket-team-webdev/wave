@@ -3,6 +3,8 @@ const { cloudinary } = require("../services/cloudinary");
 const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
+const { DEFAULT_PLAYLIST_THUMBNAIL } = require("../utils/default-presets");
+const { getPublicId } = require("../utils/cloudinaryUtils");
 const writeFileAsync = promisify(fs.writeFile);
 
 async function getPlaylists(req, res, next) {
@@ -55,9 +57,8 @@ async function addPlaylist(req, res, next) {
       return res.status(409).send({ msg: "Error: Playlist already exists" });
     }
 
-    // Album cover by default
-    playlistObj.thumbnail =
-      "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633430445/default-preset/default-playlist-img_wuyzoh.png";
+    // Playlist cover by default
+    playlistObj.thumbnail = DEFAULT_PLAYLIST_THUMBNAIL;
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];
@@ -94,6 +95,8 @@ async function addPlaylist(req, res, next) {
     playlistObj.name = req.body.name;
     playlistObj.description = req.body.description;
     playlistObj.primaryColor = req.body.primaryColor;
+    playlistObj.collaborative = req.body.collaborative;
+    playlistObj.publicAccessible = req.body.publicAccessible;
     playlistObj.userId = userId;
 
     await db.Playlist.create(playlistObj);
@@ -106,9 +109,88 @@ async function addPlaylist(req, res, next) {
 }
 
 async function updatePlaylist(req, res, next) {
-  // TODO: waiting for updateAlbum to be created
-  res.status(400).send({ req: req, error: "this endpoint wasn't written yet" });
-  next();
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    console.log("userId", userId);
+    let thumbnailFile = req.files["thumbnail"];
+    let thumbnailUrl = DEFAULT_PLAYLIST_THUMBNAIL;
+
+    if (thumbnailFile) {
+      const { thumbnail: oldThumbnail } = await db.Playlist.findOne(
+        { _id: id, isDeleted: false, userId: userId },
+        {
+          // collaborative: 1,
+          // publicAccessible: 1,
+          // name: 1,
+          thumbnail: 1,
+          // description: 1,
+          // primaryColor: 1,
+          _id: 0,
+        },
+      );
+
+      const isThumbnailDefault =
+        oldThumbnail === DEFAULT_PLAYLIST_THUMBNAIL ? true : false;
+
+      thumbnailFile = thumbnailFile[0];
+      const thumbnailLocation = path.join(
+        __dirname,
+        "../../",
+        "uploads",
+        thumbnailFile.originalname,
+      );
+
+      // upload file
+      await writeFileAsync(
+        thumbnailLocation,
+        Buffer.from(new Uint8Array(thumbnailFile.buffer)),
+      );
+
+      // upload to cloudinary
+      const cldThumbnailRes = await cloudinary.uploader.upload(
+        thumbnailLocation,
+        {
+          upload_preset: "covers-preset",
+          resource_type: "image",
+        },
+      );
+      thumbnailUrl = cldThumbnailRes.secure_url;
+
+      // delete old picture on cloudinary
+      if (!isThumbnailDefault) {
+        const publicId = getPublicId(oldThumbnail);
+        await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+      }
+
+      // delete uploaded file
+      fs.unlink(thumbnailLocation, (err) => {
+        if (err) throw err;
+      });
+    }
+
+    const { name, description, primaryColor, collaborative, publicAccessible } =
+      req.body;
+    await db.Playlist.findOneAndUpdate(
+      { _id: id },
+      {
+        name: name,
+        description: description,
+        primaryColor: primaryColor,
+        collaborative: collaborative,
+        publicAccessible: publicAccessible,
+        thumbnail: thumbnailUrl,
+      },
+    );
+
+    res.status(200).send({
+      message: "Successful update",
+    });
+  } catch (error) {
+    res.status(400).send({ error: error });
+    next();
+  }
 }
 
 async function getPlaylistById(req, res, next) {
