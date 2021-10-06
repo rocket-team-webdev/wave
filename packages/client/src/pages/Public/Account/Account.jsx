@@ -39,8 +39,8 @@ export default function Account() {
       try {
         const formData = new FormData();
         formData.append("profilePicture", updateState.profilePicture);
-        formData.append("firstName", updateState.firstName);
         formData.append("lastName", updateState.lastName);
+        formData.append("firstName", updateState.firstName);
         formData.append("birthDate", updateState.birthDate);
         formData.append("email", updateState.email);
         formData.append("country", updateState.country);
