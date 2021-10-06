@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -10,30 +10,35 @@ import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
 import Textarea from "../../../components/Textarea";
-import { addAlbum } from "../../../api/album-api";
+import Checkbox from "../../../components/Checkbox";
 
 export default function CreatePlaylist() {
   const history = useHistory();
+  const [publicAccessible, setPublicAccessible] = useState(false);
+  const publicAccessibleCheckbox = useRef();
 
   const formik = useFormik({
     initialValues: {
       name: "",
       description: "",
       thumbnail: "",
-      primaryColor: "",
-      publicAccessible: "",
-      tracks: "",
+      primaryColor: "#000000",
+      publicAccessible: false,
     },
     validationSchema: playlistSchema,
-    onSubmit: async (albumState) => {
+    onSubmit: async (playlistState) => {
+      console.log(playlistState);
+
       try {
-        const formData = new FormData();
-        formData.append("title", albumState.title);
-        formData.append("year", albumState.year);
-        formData.append("thumbnail", albumState.thumbnail);
-        await addAlbum(formData);
-        history.goBack();
-        return toast("Album created!", { type: "success" });
+        // const formData = new FormData();
+        // formData.append("name", playlistState.name);
+        // formData.append("primaryColor", playlistState.primaryColor);
+        // formData.append("description", playlistState.description);
+        // formData.append("publicAccessible", playlistState.publicAccessible);
+        // formData.append("thumbnail", playlistState.thumbnail);
+        // await addPlaylist(formData);
+        // history.goBack();
+        return toast("Playlist created!", { type: "success" });
       } catch (error) {
         return toast(error.response.data.msg, { type: "error" });
       }
@@ -42,6 +47,16 @@ export default function CreatePlaylist() {
 
   const thumbnailOnChange = async (files) => {
     formik.setFieldValue("thumbnail", files[0]);
+  };
+
+  const handlePublicAccessible = () => {
+    if (publicAccessibleCheckbox.current.checked) {
+      setPublicAccessible(true);
+      formik.setFieldValue("publicAccessible", true);
+    } else {
+      setPublicAccessible(false);
+      formik.setFieldValue("publicAccessible", false);
+    }
   };
 
   return (
@@ -61,13 +76,13 @@ export default function CreatePlaylist() {
 
         <div className="row col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
-            <h1 className="fnt-form-title mb-5">Album details</h1>
+            <h1 className="fnt-form-title mb-5">Playlist details</h1>
             <div className="row">
               <Input
                 label="name"
                 type="text"
                 id="name"
-                classNames="col col-12 col-md-7"
+                classNames="col col-12 col-md-8"
                 placeholder="Playlist name"
                 isNegative
                 onChange={formik.handleChange}
@@ -80,7 +95,7 @@ export default function CreatePlaylist() {
                 label="color"
                 type="color"
                 id="primaryColor"
-                classNames="col col-12 col-md-7"
+                classNames="col col-12 col-md-4"
                 placeholder="Playlist name"
                 isNegative
                 onChange={formik.handleChange}
@@ -101,6 +116,14 @@ export default function CreatePlaylist() {
                 value={formik.values.description}
                 errorMessage={formik.errors.description}
                 hasErrorMessage={formik.touched.description}
+              />
+
+              <Checkbox
+                label="Private"
+                id="publicAccessible"
+                ref={publicAccessibleCheckbox}
+                checked={publicAccessible}
+                onChange={handlePublicAccessible}
               />
             </div>
             <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
