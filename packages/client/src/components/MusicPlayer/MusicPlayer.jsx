@@ -22,6 +22,10 @@ import {
   clearShuffle,
   setShuffle,
   like,
+  nextSong,
+  prevSong,
+  setListPosition,
+  setPlayState,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 
@@ -30,20 +34,24 @@ import HeartIcon from "../SVGicons/HeartIcon";
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
-  const [listPosition, setListPosition] = useState(0);
+  const listPosition = queueState.listPosition;
   const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
-  const [isShuffle, setIsShuffle] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(queueState.isShuffled);
   const [repeatState, setRepeatState] = useState("false");
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
 
+  const handlePlay = () => {
+    dispatch(setPlayState(false));
+  };
+
   const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
-      setListPosition(listPosition + 1);
-    } else if (repeatState === "queue") setListPosition(0);
+      dispatch(nextSong());
+    } else if (repeatState === "queue") dispatch(setListPosition(0));
 
     if (listPosition >= queueState.queue.length - 2 && repeatState !== "queue")
       setNextButtonDisabled(true);
@@ -52,7 +60,7 @@ export default function MusicPlayer() {
   };
   const previousTrack = () => {
     if (listPosition > 0) {
-      setListPosition(listPosition - 1);
+      dispatch(prevSong());
       setNextButtonDisabled(false);
     }
     if (listPosition <= 1) setPrevButtonDisabled(true);
@@ -137,6 +145,18 @@ export default function MusicPlayer() {
     }
   }, [queueState]);
 
+  useEffect(() => {
+    if (queueState.willPlay) {
+      audioPlayer.current.audio.current.play();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (queueState.willPlay) {
+      audioPlayer.current.audio.current.play();
+    }
+  }, [queueState.willPlay]);
+
   return (
     <>
       {queueState.queue.length > 0 && (
@@ -206,11 +226,12 @@ export default function MusicPlayer() {
             </div>
           </div>
           <AudioPlayer
-            autoPlay
-            volume={0}
+            autoPlayAfterSrcChange={false}
+            volume={0.1}
             showSkipControls
             showJumpControls={false}
             src={trackObject.url}
+            onPlay={handlePlay}
             onClickNext={nextTrack}
             onClickPrevious={previousTrack}
             onEnded={nextTrack}

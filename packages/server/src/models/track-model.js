@@ -60,6 +60,9 @@ const trackSchema = new Schema(
   },
 );
 
+// indexes
+trackSchema.index({ name: "text", artist: "text" });
+
 const Track = mongoose.model("track", trackSchema);
 
 module.exports = Track;

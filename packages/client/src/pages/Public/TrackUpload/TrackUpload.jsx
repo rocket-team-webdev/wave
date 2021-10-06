@@ -63,6 +63,8 @@ export default function TrackUpload() {
         if (!uploadState.track)
           return toast("Choose a track!", { type: "error" });
 
+        console.log("uploadState", uploadState);
+
         const formData = new FormData();
         formData.append("name", uploadState.name);
         formData.append("artist", uploadState.artist);
@@ -99,10 +101,10 @@ export default function TrackUpload() {
 
     // read metadata ID3
     const tags = await id3.fromFile(files[0]);
-    formik.setFieldValue("name", tags?.title);
-    formik.setFieldValue("artist", tags?.artist);
-    formik.setFieldValue("album", tags?.album);
-    formik.setFieldValue("genre", tags?.genre);
+    if (tags?.title) formik.setFieldValue("name", tags?.title || "", false);
+    if (tags?.artist) formik.setFieldValue("artist", tags?.artist || "", false);
+    if (tags?.album) formik.setFieldValue("album", tags?.album || "", false);
+    if (tags?.genre) formik.setFieldValue("genre", tags?.genre || "", false);
   };
 
   const handleCreateAlbum = () => {
@@ -170,8 +172,8 @@ export default function TrackUpload() {
                 id="genre"
                 type="select"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
@@ -186,8 +188,8 @@ export default function TrackUpload() {
                   type="select"
                   hasAddIcon
                   isNegative
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  handleChange={formik.handleChange}
+                  handleBlur={formik.handleBlur}
                   handleAddIcon={handleCreateAlbum}
                   value={formik.values.album}
                   errorMessage={formik.errors.album}
