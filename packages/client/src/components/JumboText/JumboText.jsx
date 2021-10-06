@@ -19,17 +19,33 @@ export default function JumboText({
           initial="hidden"
           animate="visible"
         >
-          <p className={isNegative ? "fnt-light mb-0" : "fnt-primary mb-0"}>
+          <p
+            className={
+              isNegative
+                ? "fnt-light mb-0 text-break"
+                : "fnt-primary mb-0 text-break"
+            }
+          >
             {priText}
           </p>
-          {secText && <p className="fnt-secondary mb-0">{secText}</p>}
+          {secText && (
+            <p className="fnt-secondary mb-0 text-break">{secText}</p>
+          )}
         </motion.div>
       ) : (
         <div className={classNames}>
-          <p className={isNegative ? "fnt-light mb-0" : "fnt-primary mb-0"}>
+          <p
+            className={
+              isNegative
+                ? "fnt-light mb-0 text-break"
+                : "fnt-primary mb-0 text-break"
+            }
+          >
             {priText}
           </p>
-          {secText && <p className="fnt-secondary mb-0">{secText}</p>}
+          {secText && (
+            <p className="fnt-secondary mb-0 text-break">{secText}</p>
+          )}
         </div>
       )}
     </>
