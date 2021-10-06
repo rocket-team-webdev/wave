@@ -6,7 +6,7 @@ const DEFAULT_PLAYLIST_THUMBNAIL =
   "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633430445/default-preset/default-playlist-img_wuyzoh.png";
 
 module.exports = {
-  DEFAULT_ALBUM_THUMBNAIL: DEFAULT_ALBUM_THUMBNAIL,
-  DEFAULT_PROFILE_PICTURE: DEFAULT_PROFILE_PICTURE,
+  DEFAULT_ALBUM_THUMBNAIL,
+  DEFAULT_PROFILE_PICTURE,
   DEFAULT_PLAYLIST_THUMBNAIL,
 };
