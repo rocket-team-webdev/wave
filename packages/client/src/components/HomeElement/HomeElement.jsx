@@ -7,7 +7,7 @@ import "./HomeElement.scss";
 
 export default function HomeElement({
   label,
-  to = "/",
+  to = false,
   cols = "12",
   isAnimationContainer,
   children,

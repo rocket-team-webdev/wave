@@ -4,6 +4,8 @@ import Layout from "../../../components/Layout";
 import HomeElement from "../../../components/HomeElement";
 import PlaylistCard from "../../../components/PlaylistCard";
 import GenreCard from "../../../components/GenreCard";
+// import TrackList from "../../../components/TrackList";
+
 // import TrackCard from "../../../components/TrackCard";
 
 export default function UserView() {
@@ -19,7 +21,7 @@ export default function UserView() {
 
   const userPlaylists = ["userPlaylist1", "userPlaylist1"];
   const userAlbums = ["userAlbum1", "userAlbum1"];
-  //   const userUploadedTrack = [
+  //   const userUploadedTracks = [
   //     "uploadedTrack",
   //     "uploadedTrack",
   //     "uploadedTrack",
@@ -66,10 +68,23 @@ export default function UserView() {
                 ))}
               </HomeElement>
             )}
+            {/* Uploaded tracks */}
+            {/* {userUploadedTracks.length > 0 && (
+              <HomeElement label="Albums" cols="6" isAnimationContainer>
+                <TrackList tracks={userUploadedTracks} />
+              </HomeElement>
+            )} */}
+            {/* Liked tracks */}
+            {/* {userLikedTracks.length > 0 && (
+              <HomeElement label="Albums" cols="6" isAnimationContainer>
+                <TrackList tracks={userLikedTracks} />
+              </HomeElement>
+            )} */}
           </div>
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-2 pe-0">
+          {/* Genres */}
           {userGenresList.length > 0 && (
             <HomeElement label="My genres" isAnimationContainer>
               {userGenresList.map((genre) => (

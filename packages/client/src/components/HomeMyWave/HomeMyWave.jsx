@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion";
-
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistCard from "../PlaylistCard";
-import TrackCard from "../TrackCard";
+import TrackList from "../TrackList";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -23,8 +20,6 @@ import {
   getLikedTracks,
   // getTrack,
 } from "../../api/me-api";
-
-import { containerAnimation } from "../../utils/motionSettings";
 
 export default function HomeMyWave({ artistsList = false }) {
   // const [loadStatus, setLoadStatus] = useState(false);
@@ -177,88 +172,12 @@ export default function HomeMyWave({ artistsList = false }) {
       )}
       {myTracks.length > 0 && (
         <HomeElement label="My tracks" to={PUBLIC.MY_SONGS}>
-          <DragDropContext onDragEnd={() => {}}>
-            <Droppable droppableId="myTracks">
-              {(provided) => (
-                <motion.div
-                  className="col col-12 "
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  // Animation settings
-                  variants={containerAnimation}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {myTracks &&
-                    myTracks.map((song, index) => (
-                      <TrackCard
-                        key={song._id}
-                        trackNumber={index + 1}
-                        trackName={song.name}
-                        trackImg={song.album.thumbnail}
-                        artist={song.artist}
-                        albumName={song.album.title}
-                        time={song.duration}
-                        trackUrl={song.url}
-                        albumId={song.album._id}
-                        genreId={song.genreId}
-                        isLiked={song.isLiked}
-                        trackId={song._id}
-                        userId={song.userId}
-                        index={index}
-                        draggable={false}
-                        // updateLikedView={handleAddLikedColumn}
-                        // updateDeletedView={handleDeletedView}
-                      />
-                    ))}
-                  {provided.placeholder}
-                </motion.div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <TrackList tracks={myTracks} />
         </HomeElement>
       )}
       {userLikedTracks.length > 0 && (
         <HomeElement label="Liked songs" to={PUBLIC.MY_SONGS}>
-          <DragDropContext onDragEnd={() => {}}>
-            <Droppable droppableId="userLikedTracks">
-              {(provided) => (
-                <motion.div
-                  className="col col-12 "
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  // Animation settings
-                  variants={containerAnimation}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {userLikedTracks &&
-                    userLikedTracks.map((song, index) => (
-                      <TrackCard
-                        key={song._id}
-                        trackNumber={index + 1}
-                        trackName={song.name}
-                        trackImg={song.album.thumbnail}
-                        artist={song.artist}
-                        albumName={song.album.title}
-                        time={song.duration}
-                        trackUrl={song.url}
-                        albumId={song.album._id}
-                        genreId={song.genreId}
-                        isLiked={song.isLiked}
-                        trackId={song._id}
-                        userId={song.userId}
-                        index={index}
-                        draggable={false}
-                        // updateLikedView={handleAddLikedColumn}
-                        // updateDeletedView={handleDeletedView}
-                      />
-                    ))}
-                  {provided.placeholder}
-                </motion.div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <TrackList tracks={userLikedTracks} />
         </HomeElement>
       )}
     </div>
