@@ -81,6 +81,9 @@ async function addPlaylist(req, res, next) {
         {
           upload_preset: "covers-preset",
           resource_type: "image",
+          width: 300,
+          height: 300,
+          crop: "limit",
         },
       );
       playlistObj.thumbnail = cldThumbnailRes.secure_url;
@@ -154,6 +157,9 @@ async function updatePlaylist(req, res, next) {
         {
           upload_preset: "covers-preset",
           resource_type: "image",
+          width: 300,
+          height: 300,
+          crop: "limit",
         },
       );
       thumbnailUrl = cldThumbnailRes.secure_url;
