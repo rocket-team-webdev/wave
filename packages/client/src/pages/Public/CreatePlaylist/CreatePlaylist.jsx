@@ -28,8 +28,6 @@ export default function CreatePlaylist() {
     },
     validationSchema: playlistSchema,
     onSubmit: async (playlistState) => {
-      console.log(playlistState);
-
       try {
         const formData = new FormData();
         formData.append("name", playlistState.name);
@@ -39,9 +37,7 @@ export default function CreatePlaylist() {
         formData.append("thumbnail", playlistState.thumbnail);
 
         await addPlaylist(formData);
-        console.log("Se manDOOOOO");
-
-        // history.goBack();
+        history.goBack();
         return toast("Playlist created!", { type: "success" });
       } catch (error) {
         return toast(error.response.data.msg, { type: "error" });
@@ -68,6 +64,8 @@ export default function CreatePlaylist() {
 
         <div className="col col-12 col-md-6">
           <DragAndDrop
+            paddingBottom="65px"
+            paddingTop="65px"
             acceptFiles="image/*"
             handleChange={thumbnailOnChange}
             dropText="Drop the cover here..."
