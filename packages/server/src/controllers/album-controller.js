@@ -25,11 +25,18 @@ async function getAlbums(req, res, next) {
 
 async function addAlbum(req, res, next) {
   try {
+    const { _id: userId } = await db.User.findOne({ firebaseId }, { _id: 1 });
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
 
     // Checking if title album already exists
-    const isAlbum = await db.Album.findOne({ title: req.body.title });
+    const isAlbum = await db.Album.findOne(
+      {
+        title: req.body.title,
+        userId: userId,
+      },
+      { _id: 1 },
+    );
     if (isAlbum) {
       return res.status(409).send({ msg: "Error: Album already exists" });
     }
@@ -70,7 +77,6 @@ async function addAlbum(req, res, next) {
     }
     // Mongodb store data
     const { firebaseId } = req.user;
-    const { _id: userId } = await db.User.findOne({ firebaseId });
 
     albumObj.title = req.body.title;
     albumObj.year = req.body.year;
