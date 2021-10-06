@@ -6,28 +6,26 @@ import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 // import TrackCard from "../../../components/TrackCard";
 import Button from "../../../components/Button";
-import TrackList from "../../../components/TrackList";
+// import TrackList from "../../../components/TrackList";
 
 export default function SinglePlaylist() {
+  // const [playlistTracks, setPlaylistTracks] = useState([]);
+
   const playlistTitle = "Test asdfasdfasdf";
   const playlistGenres = ["Genre1", "Genre2", "Genre3"];
-  const playlistTracks = [
-    "track1",
-    "track2",
-    "track3",
-    "track4",
-    "track5",
-    "track6",
-    "track7",
-    "track8",
-    "track9",
-    "track10",
-    "track11",
-    "track12",
-    "track13",
-    "track14",
-    "track15",
-  ];
+
+  // const loadPlaylistTracks = async () => {
+  //   try {
+  //     const { data } = await getPlaylistById();
+  //     setPlaylistTracks();
+  //   } catch (error) {
+  //     toast(error.message, { type: "error" });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   loadPlaylistTracks();
+  // }, []);
 
   return (
     <Layout isNegative>
@@ -44,43 +42,7 @@ export default function SinglePlaylist() {
           </div>
         </div>
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList tracks={playlistTracks} hasSorter />
-          {/* <div className="border border-1">Playlist song order component</div>
-          {playlistTracks.length > 0 && (
-            <DragDropContext onDragEnd={() => {}}>
-              <Droppable droppableId="playlistTracks">
-                {(provided) => (
-                  <div
-                    className="col col-12 "
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {playlistTracks &&
-                      playlistTracks.map((song, index) => (
-                        <TrackCard
-                          key={song._id}
-                          trackNumber={index + 1}
-                          trackName="name"
-                          trackImg="thumbnail"
-                          artist="artist"
-                          albumName="album"
-                          time="0:00"
-                          // trackUrl={song.url}
-                          // albumId={song.album._id}
-                          // genreId={song.genreId}
-                          // isLiked={song.isLiked}
-                          // trackId={song._id}
-                          // userId={song.userId}
-                          index={index}
-                          draggable={false}
-                        />
-                      ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          )} */}
+          {/* <TrackList tracks={playlistTracks} hasSorter /> */}
         </div>
       </div>
     </Layout>
