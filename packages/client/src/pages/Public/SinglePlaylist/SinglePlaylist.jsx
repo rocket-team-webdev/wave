@@ -16,11 +16,14 @@ import { getPlaylistById } from "../../../api/playlists-api";
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
+import HeartIcon from "../../../components/SVGicons/HeartIcon";
 
 import "./SinglePlaylist.scss";
 
 export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
+  const [tracks, setTracks] = useState([]);
+  // const [isLiked, setIsLiked] = useState(false)
   // const [isPlaying, setIsPlaying] = useState(false);
 
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ export default function SinglePlaylist() {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
+      setTracks(data.data.tracks);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -43,7 +47,7 @@ export default function SinglePlaylist() {
     // eslint-disable-next-line prefer-const
     let tracksArray = [];
 
-    playlist.tracks.forEach((track) => {
+    tracks.forEach((track) => {
       const trackObject = {
         name: track.name,
         url: track.url,
@@ -57,7 +61,6 @@ export default function SinglePlaylist() {
         albumId: track.album._id,
         trackImg: track.album.thumbnail,
       };
-
       tracksArray.push(trackObject);
     });
 
@@ -65,27 +68,50 @@ export default function SinglePlaylist() {
     dispatch(setPlayState(true));
   };
 
+  // const handleLike = async () => {};
+
   useEffect(() => {
     loadPlaylist();
   }, []);
 
   return (
     <Layout isNegative>
-      <div className="d-flex justify-content-between align-items-start row g-4">
+      <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
-        <div className="col col-12 col-md-6 left-side ps-0">
-          <JumboText priText={playlist.name} cols="12" isNegative />
-          <button
-            type="button"
-            onClick={handlePlaying}
-            className="play-button clr-light fnt-secondary d-flex justify-content-center align-items-center mt-5"
-          >
-            <FaPlay />
-          </button>
+        <div className="col col-12 col-md-6 row left-side mt-4">
+          <div className="d-flex justify-content-between">
+            <JumboText priText={playlist.name} cols="11" isNegative />
+            <button
+              className="text-center"
+              type="button"
+              /* onClick={handleLike} */
+            >
+              {/* {isLiked ? <HeartIcon isFull /> : <HeartIcon />} */}
+            </button>
+            <HeartIcon isLarge isNegative />
+          </div>
+
+          {/* TODO only show creator if exists */}
+          <h3 className="fnt-secondary fnt-caption mt-4">Created by</h3>
+
+          {playlist.description && (
+            <p className="fnt-secondary fnt-smallest mt-4">
+              {playlist.description}
+            </p>
+          )}
+          <div className="mt-5">
+            <button
+              type="button"
+              onClick={handlePlaying}
+              className="play-button clr-light fnt-secondary d-flex justify-content-center align-items-center"
+            >
+              <FaPlay />
+            </button>
+          </div>
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList tracks={playlist.tracks} hasSorter />
+          <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
         </div>
       </div>
     </Layout>
