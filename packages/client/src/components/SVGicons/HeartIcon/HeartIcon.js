@@ -6,8 +6,25 @@ import {
   heartAnimationHover,
 } from "../../../utils/motionSettings";
 
-export default function HeartIcon({ classNames, isFull }) {
-  const iconClassNames = `${classNames} heart-icon`;
+import "./HeartIcon.scss";
+
+export default function HeartIcon({
+  classNames,
+  isFull,
+  isLarge,
+  isNegative = false,
+}) {
+  let iconClassNames = `${classNames} `;
+
+  if (isNegative) {
+    iconClassNames += " heart-icon-negative";
+  } else {
+    iconClassNames += " heart-icon-positive";
+  }
+
+  if (isLarge) {
+    iconClassNames += " large-heart-icon";
+  }
   return (
     <motion.div
       className={iconClassNames}
