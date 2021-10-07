@@ -9,6 +9,14 @@ export function makePlaylistApi() {
   });
 }
 
+export async function getPlaylistById(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.get(`/${playlistId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 export async function getAllPlaylists(
   page = 0,
   limit = 4,
@@ -30,4 +38,15 @@ export async function addPlaylist(data = {}, api = makePlaylistApi()) {
       "Content-Type": `multipart/form-data"`,
     },
   });
+}
+
+export async function likePlaylist(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    `/${playlistId}/follow`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 }

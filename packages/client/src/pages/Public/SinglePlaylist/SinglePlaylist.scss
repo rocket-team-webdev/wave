@@ -1,0 +1,11 @@
+@use "../../../sass/components/colors" as c;
+
+.play-button {
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+}
+
+.playlist-ellipsis {
+  font-size: 22px;
+}

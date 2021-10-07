@@ -140,6 +140,7 @@ export default function Tracks() {
           {loaded && uploadedSongs && (
             <TrackList
               tracks={uploadedSongs}
+              setTracks={setUploadedSongs}
               onAddLikedColumn={handleAddLikedColumn}
               hasSorter
             />
@@ -150,6 +151,7 @@ export default function Tracks() {
           {loaded && likedSongs && (
             <TrackList
               tracks={likedSongs}
+              setTracks={setLikedSongs}
               onAddLikedColumn={handleAddLikedColumn}
               hasSorter
             />
