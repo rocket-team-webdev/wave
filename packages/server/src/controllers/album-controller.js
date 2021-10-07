@@ -224,10 +224,10 @@ async function deleteAlbum(req, res, next) {
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     // deleting tracks from album
-    await db.Track.deleteMany({ album: id });
+    await db.Track.deleteMany({ album: id, userId: userId });
 
     // deleting albums
-    db.Album.findOneAndDelete({ _id: id, userId: userId }, { isDeleted: true });
+    db.Album.findOneAndDelete({ _id: id, userId: userId });
 
     res.status(200).send({ message: "Album deleted successfully" });
   } catch (err) {
