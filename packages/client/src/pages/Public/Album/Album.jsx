@@ -11,7 +11,7 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById, likePlaylist } from "../../../api/playlists-api";
+import { getAlbumById, likeAlbum } from "../../../api/album-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
@@ -21,23 +21,21 @@ import HeartIcon from "../../../components/SVGicons/HeartIcon";
 import "./Album.scss";
 
 export default function SinglePlaylist() {
-  const [playlist, setPlaylist] = useState({});
+  const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);
-  const [isFollowed, setIsFollowed] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const [isOwned, setIsOwned] = useState(false);
 
   const userState = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
-  const { playlistId } = useRouteMatch(
-    `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
-  ).params;
+  const { albumId } = useRouteMatch(`${PUBLIC.ALBUM}/:albumId`).params;
 
-  const loadPlaylist = async () => {
+  const loadAlbum = async () => {
     try {
-      const { data } = await getPlaylistById(playlistId);
-      setPlaylist(data.data);
+      const { data } = await getAlbumById(albumId);
+      setAlbum(data.data);
       setTracks(data.data.tracks);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -70,24 +68,24 @@ export default function SinglePlaylist() {
   };
 
   const handleFollow = async () => {
-    setIsFollowed(!isFollowed);
-    await likePlaylist(playlistId);
+    setIsLiked(!isLiked);
+    await likeAlbum(albumId);
   };
 
   const handleIsOwned = () => {
-    if (playlist.userId === userState.mongoId) {
+    if (album.userId === userState.mongoId) {
       setIsOwned(true);
     }
   };
 
   useEffect(() => {
-    loadPlaylist();
-    setIsFollowed(playlist.isFollowed);
+    loadAlbum();
+    setIsLiked(album.isLiked);
   }, []);
 
   useEffect(() => {
     handleIsOwned();
-  }, [playlist]);
+  }, [album]);
 
   return (
     <Layout isNegative>
@@ -95,13 +93,13 @@ export default function SinglePlaylist() {
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText={playlist.name} cols="11" isNegative />
+            <JumboText priText={album.title} cols="11" isNegative />
             <button
               className="text-center"
               type="button"
               onClick={handleFollow}
             >
-              {isFollowed ? (
+              {isLiked ? (
                 <HeartIcon isFull isLarge isNegative />
               ) : (
                 <HeartIcon isLarge isNegative />
@@ -111,14 +109,9 @@ export default function SinglePlaylist() {
 
           {/* TODO only show creator if exists */}
           <h3 className="fnt-secondary fnt-caption mt-4">
-            Created by {playlist.userId}
+            Created by {album.userId}
           </h3>
 
-          {playlist.description && (
-            <p className="fnt-secondary fnt-smallest mt-4">
-              {playlist.description}
-            </p>
-          )}
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"
@@ -131,7 +124,7 @@ export default function SinglePlaylist() {
             {isOwned && (
               <>
                 <button
-                  className="ms-3 text-end fnt-light playlist-ellipsis"
+                  className="ms-3 text-end fnt-light album-ellipsis"
                   type="button"
                   id="contextPlaylistMenu"
                   data-bs-toggle="dropdown"

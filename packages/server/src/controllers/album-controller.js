@@ -119,9 +119,9 @@ async function getAlbumById(req, res, next) {
       { album: id },
       {
         name: 1,
-        arist: 1,
+        artist: 1,
         url: 1,
-        durantion: 1,
+        duration: 1,
         genreId: 1,
         userId: 1,
         likes: { $size: "$likedBy" },
