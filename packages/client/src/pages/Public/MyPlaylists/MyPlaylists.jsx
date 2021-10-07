@@ -8,11 +8,14 @@ import Layout from "../../../components/Layout";
 import PlaylistList from "../../../components/PlaylistList";
 import { getMyPlaylists, getFollowingPlaylists } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
+import useDebounce from "../../../hooks/useDebounce";
+import { searchPlaylists } from "../../../api/search-api";
 
 function MyPlaylists() {
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const [searchBar, setSearchBar] = useState("");
+  const debouncedSearch = useDebounce(searchBar, 500);
   const [loaded, setLoaded] = useState(false);
 
   const fetchCreatedPlaylists = async () => {
@@ -31,10 +34,6 @@ function MyPlaylists() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
-  };
-
-  const handleSearchChange = async (e) => {
-    setSearchBar(e.target.value);
   };
 
   const handleAddFollowedColumn = (playlist, isFollowed) => {
@@ -73,6 +72,23 @@ function MyPlaylists() {
       setLoaded(true);
     }
   };
+
+  const handleSearchChange = async (e) => {
+    setSearchBar(e.target.value);
+  };
+
+  useEffect(async () => {
+    try {
+      const { data } = await searchPlaylists(debouncedSearch);
+      const liked = data.tracks.filter((track) => track.isLiked);
+      const uploaded = data.tracks.filter((track) => track.isOwner);
+
+      setCreatedPlaylists(uploaded);
+      setFollowedPlaylists(liked);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  }, [debouncedSearch]);
 
   useEffect(() => {
     fetchCreatedPlaylists();
