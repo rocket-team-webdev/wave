@@ -100,11 +100,11 @@ function App() {
             <PrivateRoute path={PUBLIC.ADD_ALBUM}>
               <CreateAlbum />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.MY_PLAYLISTS}>
-              <MyPlaylists />
-            </PrivateRoute>
             <PrivateRoute path={PUBLIC.ADD_PLAYLIST}>
               <CreatePlaylist />
+            </PrivateRoute>
+            <PrivateRoute path={PUBLIC.MY_PLAYLISTS}>
+              <MyPlaylists />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.MY_SONGS}>
               <Tracks />
