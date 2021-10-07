@@ -26,7 +26,9 @@ export default function PlaylistCard({
     userId: userId,
   };
 
-  const handleLike = async () => {
+  const handleLike = async (e) => {
+    e.preventDefault();
+    // e.stopPropagation();
     const userFollows = !followed;
     setFollowed(userFollows);
 
@@ -53,7 +55,7 @@ export default function PlaylistCard({
   const componentClasses = `col col-12 col-md-${colsMd} col-xl-4 col-xxl-3 p-2`;
   return (
     <Link
-      to={`${PUBLIC.MY_PLAYLISTS}/${playlistId}`}
+      to={`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`}
       className={componentClasses}
     >
       <motion.div

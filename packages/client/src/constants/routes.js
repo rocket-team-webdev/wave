@@ -17,7 +17,7 @@ export const PUBLIC = {
   TRACK_UPDATE: "/tracks/update",
   ADD_ALBUM: "/albums/add",
   ADD_PLAYLIST: "/playlists/add",
-  PLAYLIST_TRACKS: "/playlists",
+  SINGLE_PLAYLIST: "/playlist",
 };
 
 // PRIVATE PAGES
