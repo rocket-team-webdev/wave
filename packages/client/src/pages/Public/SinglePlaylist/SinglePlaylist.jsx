@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useRouteMatch, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { FaPlay } from "react-icons/fa";
+import { FaPlay, FaEllipsisH } from "react-icons/fa";
 
 import {
   setQueue,
@@ -24,6 +24,9 @@ export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
+  const [isOwned, setIsOwned] = useState(false);
+
+  const userState = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -43,8 +46,7 @@ export default function SinglePlaylist() {
 
   const handlePlaying = () => {
     dispatch(clearQueue());
-    // eslint-disable-next-line prefer-const
-    let tracksArray = [];
+    const tracksArray = [];
 
     tracks.forEach((track) => {
       const trackObject = {
@@ -72,10 +74,20 @@ export default function SinglePlaylist() {
     await likePlaylist(playlistId);
   };
 
+  const handleIsOwned = () => {
+    if (playlist.userId === userState.mongoId) {
+      setIsOwned(true);
+    }
+  };
+
   useEffect(() => {
     loadPlaylist();
     setIsFollowed(playlist.isFollowed);
   }, []);
+
+  useEffect(() => {
+    handleIsOwned();
+  }, [playlist]);
 
   return (
     <Layout isNegative>
@@ -105,7 +117,7 @@ export default function SinglePlaylist() {
               {playlist.description}
             </p>
           )}
-          <div className="mt-5">
+          <div className="d-flex align-items-center mt-5">
             <button
               type="button"
               onClick={handlePlaying}
@@ -113,6 +125,41 @@ export default function SinglePlaylist() {
             >
               <FaPlay />
             </button>
+            {/* Dropdown menu if user is owner */}
+            {isOwned && (
+              <>
+                <button
+                  className="ms-3 text-end fnt-light playlist-ellipsis"
+                  type="button"
+                  id="contextPlaylistMenu"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <FaEllipsisH />
+                </button>
+                <ul
+                  className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+                  aria-labelledby="contextSongMenu"
+                >
+                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                    <p
+                      className="dropdown-item fnt-light fnt-song-regular m-0"
+                      type="button"
+                    >
+                      Edit
+                    </p>
+                  </Link>
+                  <hr className="dropdown-wrapper m-0" />
+                  <button
+                    className="dropdown-item fnt-light fnt-song-regular"
+                    type="button"
+                    // onClick={handleDeleteSong}
+                  >
+                    Delete
+                  </button>
+                </ul>
+              </>
+            )}
           </div>
         </div>
         {/* Right side */}
