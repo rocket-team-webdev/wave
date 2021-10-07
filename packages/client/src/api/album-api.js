@@ -26,3 +26,29 @@ export async function addAlbum(file = {}, api = makeAlbumApi()) {
     },
   });
 }
+
+export async function getAlbumById(albumId, api = makeAlbumApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.get(`/${albumId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function updateAlbum(file = {}, api = makeAlbumApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.post(``, file, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": `multipart/form-data"`,
+    },
+  });
+}
+
+export async function deleteAlbum(api = makeAlbumApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(``, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
