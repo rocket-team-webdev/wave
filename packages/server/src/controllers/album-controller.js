@@ -66,6 +66,10 @@ async function addAlbum(req, res, next) {
         {
           upload_preset: "covers-preset",
           resource_type: "image",
+          quality: "auto:good",
+          width: 300,
+          height: 300,
+          crop: "limit",
         },
       );
       albumObj.thumbnail = cldThumbnailRes.secure_url;

@@ -29,6 +29,17 @@ export async function getAllPlaylists(
   });
 }
 
+export async function addPlaylist(data = {}, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.post(``, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": `multipart/form-data"`,
+    },
+  });
+}
+
 export async function likePlaylist(playlistId, api = makePlaylistApi()) {
   const token = await getCurrentUserToken();
   return api.put(

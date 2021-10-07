@@ -1,11 +1,14 @@
 const { playlistsController } = require("../controllers");
 const Router = require("express").Router;
+const multer = require("multer"); //use multer to upload blob data
+const upload = multer(); // setup the multer
 
 const {
   authFirebaseMiddleware,
 } = require("../middlewares/auth-firebase-middleware");
 
 const playlistsRouter = Router();
+const mdlUpload = upload.fields([{ name: "thumbnail" }]);
 
 playlistsRouter.get(
   "/",
@@ -15,7 +18,7 @@ playlistsRouter.get(
 
 playlistsRouter.post(
   "/",
-  authFirebaseMiddleware,
+  [authFirebaseMiddleware, mdlUpload],
   playlistsController.addPlaylist,
 );
 

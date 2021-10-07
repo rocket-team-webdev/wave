@@ -9,6 +9,9 @@ import "./DragAndDrop.scss";
 export default function DragAndDrop({
   handleChange,
   dropText,
+  paddingBottom = "50px",
+  paddingTop = "0px",
+  marginBottom = "15px",
   acceptFiles = "audio/*",
 }) {
   const [files, setFiles] = useState(dropText);
@@ -19,7 +22,9 @@ export default function DragAndDrop({
     flexDirection: "column",
     alignItems: "center",
     padding: "30px",
-    paddingBottom: "50px",
+    paddingBottom: paddingBottom,
+    paddingTop: paddingTop,
+    marginBottom: marginBottom,
     borderWidth: 2,
     borderRadius: 2,
     borderColor: "#eeeeee",
