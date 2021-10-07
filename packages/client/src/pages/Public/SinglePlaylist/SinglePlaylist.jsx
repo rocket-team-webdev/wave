@@ -11,7 +11,7 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById, likePlaylist } from "../../../api/playlists-api";
+import { getPlaylistById, followPlaylist } from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
@@ -71,7 +71,7 @@ export default function SinglePlaylist() {
 
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
-    await likePlaylist(playlistId);
+    await followPlaylist(playlistId);
   };
 
   const handleIsOwned = () => {
@@ -143,7 +143,7 @@ export default function SinglePlaylist() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                  <Link to={`${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"

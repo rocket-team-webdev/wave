@@ -1,33 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
-import { /* useHistory */, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
 import Layout from "../../../components/Layout";
-import playlistSchema from "./playlist-schema";
-// import Button from "../../../components/Button";
-// import Input from "../../../components/Input";
+import playlistUpdateSchema from "./playlist-update-schema";
+import Button from "../../../components/Button";
+import Input from "../../../components/Input";
 import JumboText from "../../../components/JumboText";
-// import Textarea from "../../../components/Textarea";
-// import Checkbox from "../../../components/Checkbox";
+import Textarea from "../../../components/Textarea";
+import Checkbox from "../../../components/Checkbox";
 import Spinner from "../../../components/Spinner";
 import BigThumbnail from "../../../components/BigThumbnail";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById } from "../../../api/playlists-api";
+import {
+  getPlaylistById,
+  updatePlaylistById,
+} from "../../../api/playlists-api";
 
 export default function PlaylistUpdate() {
   const { playlistId } = useRouteMatch(
-    `${PUBLIC.PLAYLIST_EDIT}/:trackId`,
+    `${PUBLIC.PLAYLIST_UPDATE}/:playlistId`,
   ).params;
 
-//   const [publicAccessible, setPublicAccessible] = useState(false);
+  const [publicAccessible, setPublicAccessible] = useState(false);
   const [playlistState, setPlaylistState] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const publicAccessibleCheckbox = useRef();
 
-//   const history = useHistory();
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -37,23 +40,17 @@ export default function PlaylistUpdate() {
       primaryColor: "#000000",
       publicAccessible: false,
     },
-    validationSchema: playlistSchema,
+    validationSchema: playlistUpdateSchema,
     onSubmit: async (playlist) => {
-      try {
-        const formData = new FormData();
-        formData.append("name", playlist.name);
-        formData.append("primaryColor", playlist.primaryColor);
-        formData.append("description", playlist.description);
-        formData.append("publicAccessible", playlist.publicAccessible);
-        formData.append("thumbnail", playlist.thumbnail);
-
-        // await updatePlaylist(formData);
-        console.log("Form data =>", formData);
-        // history.goBack();
-        return toast("Playlist created!", { type: "success" });
-      } catch (error) {
-        return toast(error.response.data.msg, { type: "error" });
-      }
+      const data = {
+        id: playlistId,
+        name: playlist.name,
+        description: playlist.description,
+        primaryColor: playlist.primaryColor,
+        publicAccessible: playlist.publicAccessible,
+      };
+      await updatePlaylistById(data);
+      history.push(`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`);
     },
   });
 
@@ -62,10 +59,10 @@ export default function PlaylistUpdate() {
     try {
       const { data } = await getPlaylistById(id);
       formik.setValues({
-        title: data.data.name,
-        artist: data.data.artist,
-        album: data.data.album.title || "",
-        genre: data.data.genreId.name,
+        name: data.data.name,
+        description: data.data.description,
+        primaryColor: data.data.primaryColor,
+        publicAccessible: data.data.publicAccessible,
       });
       setPlaylistState(data.data);
     } catch (error) {
@@ -104,7 +101,7 @@ export default function PlaylistUpdate() {
           />
         )}
 
-        {/* <div className="row col col-12 col-md-6">
+        <div className="row col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
             <h1 className="fnt-form-title mb-5">Playlist details</h1>
             <div className="row">
@@ -165,7 +162,7 @@ export default function PlaylistUpdate() {
                 <Button
                   isNegative
                   secondaryBtn
-                  handleClick={() => history.goBack()}
+                  handleClick={() => history.goBac()}
                 >
                   Back
                 </Button>
@@ -175,7 +172,7 @@ export default function PlaylistUpdate() {
               </div>
             </div>
           </form>
-        </div> */}
+        </div>
       </div>
     </Layout>
   );
