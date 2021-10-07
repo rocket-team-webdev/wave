@@ -5,8 +5,8 @@ import "@testing-library/jest-dom";
 
 import Input from "../Input";
 
-test("Renders app", () => {
+test("Check input label", () => {
   render(<Input label="waveApp" />);
 
-  expect(screen.getByLabelText(/waveApp/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/waveApp/)).toBeInTheDocument();
 });
