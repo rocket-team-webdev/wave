@@ -110,7 +110,9 @@ export default function SinglePlaylist() {
           </div>
 
           {/* TODO only show creator if exists */}
-          <h3 className="fnt-secondary fnt-caption mt-4">Created by</h3>
+          <h3 className="fnt-secondary fnt-caption mt-4">
+            Created by {playlist.userId}
+          </h3>
 
           {playlist.description && (
             <p className="fnt-secondary fnt-smallest mt-4">
