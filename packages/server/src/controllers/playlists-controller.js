@@ -346,7 +346,7 @@ async function removeTrackFromPlaylist(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const result = await db.Playlist.findOneAndUpdate(
+    await db.Playlist.findOneAndUpdate(
       {
         _id: playlistId,
         isDeleted: false,
@@ -356,9 +356,7 @@ async function removeTrackFromPlaylist(req, res, next) {
       {
         $pull: { tracks: trackId },
       },
-      { new: true },
     );
-    console.log("result", result);
 
     res.status(200).send({
       message: "Playlist updated successfully",
