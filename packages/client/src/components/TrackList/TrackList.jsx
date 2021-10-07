@@ -6,8 +6,8 @@ import { containerAnimation } from "../../utils/motionSettings";
 import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
 
-function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
-  const [listOfTracks, setListOfTracks] = useState(tracks);
+function TrackList({ tracks, setTracks, onAddLikedColumn, hasSorter }) {
+  // const [listOfTracks, setTracks] = useState(tracks);
   const [flag, setFlag] = useState({
     flagTitle: 1,
     flagAlbum: 1,
@@ -20,15 +20,15 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
   };
 
   const handleDeletedView = (trackId) => {
-    const updatedListOfTracks = listOfTracks.filter((v) => v._id !== trackId);
-    setListOfTracks(updatedListOfTracks);
+    const updatedListOfTracks = tracks.filter((v) => v._id !== trackId);
+    setTracks(updatedListOfTracks);
   };
 
   const sortByTitleAndArtist = () => {
     let sortedTracks = [];
     switch (flag.flagTitle) {
       case 0:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -37,8 +37,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 1:
-        sortedTracks = sortArrayDescendent(listOfTracks, "name");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayDescendent(tracks, "name");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 2,
           flagAlbum: 1,
@@ -47,8 +47,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 2:
-        sortedTracks = sortArrayAscendent(listOfTracks, "name");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayAscendent(tracks, "name");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 3,
           flagAlbum: 1,
@@ -57,8 +57,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 3:
-        sortedTracks = sortArrayDescendent(listOfTracks, "artist");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayDescendent(tracks, "artist");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 4,
           flagAlbum: 1,
@@ -67,8 +67,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 4:
-        sortedTracks = sortArrayAscendent(listOfTracks, "artist");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayAscendent(tracks, "artist");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 0,
           flagAlbum: 1,
@@ -77,7 +77,7 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       default:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
     }
   };
 
@@ -85,7 +85,7 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
     let sortedTracks = [];
     switch (flag.flagAlbum) {
       case 0:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -94,8 +94,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 1:
-        sortedTracks = sortArrayAscendent(listOfTracks, "album", "title");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayAscendent(tracks, "album", "title");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 2,
@@ -104,8 +104,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 2:
-        sortedTracks = sortArrayDescendent(listOfTracks, "album", "title");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayDescendent(tracks, "album", "title");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 0,
@@ -114,7 +114,7 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       default:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
     }
   };
 
@@ -122,7 +122,7 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
     let sortedTracks = [];
     switch (flag.flagPopularity) {
       case 0:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -131,8 +131,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 1:
-        sortedTracks = sortArrayDescendent(listOfTracks, "popularity");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayDescendent(tracks, "popularity");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -141,8 +141,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 2:
-        sortedTracks = sortArrayAscendent(listOfTracks, "popularity");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayAscendent(tracks, "popularity");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -151,7 +151,7 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       default:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
     }
   };
 
@@ -159,7 +159,7 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
     let sortedTracks = [];
     switch (flag.flagDuration) {
       case 0:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -168,8 +168,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 1:
-        sortedTracks = sortArrayDescendent(listOfTracks, "duration");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayDescendent(tracks, "duration");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -178,8 +178,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       case 2:
-        sortedTracks = sortArrayAscendent(listOfTracks, "duration");
-        setListOfTracks(sortedTracks);
+        sortedTracks = sortArrayAscendent(tracks, "duration");
+        setTracks(sortedTracks);
         setFlag({
           flagTitle: 1,
           flagAlbum: 1,
@@ -188,12 +188,12 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
         });
         break;
       default:
-        setListOfTracks(listOfTracks);
+        setTracks(tracks);
     }
   };
 
   useEffect(() => {
-    setListOfTracks(tracks);
+    setTracks(tracks);
   }, [tracks]);
 
   const reorder = (list, startIndex, endIndex) => {
@@ -210,8 +210,8 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
 
     if (!destination) return;
 
-    const items = reorder(listOfTracks, source.index, destination.index);
-    setListOfTracks(items);
+    const items = reorder(tracks, source.index, destination.index);
+    setTracks(items);
   };
 
   return (
@@ -229,14 +229,14 @@ function TrackList({ tracks, onAddLikedColumn, hasSorter }) {
                 />
               )}
 
-              {listOfTracks && (
+              {tracks && (
                 <motion.div
                   // Animation settings
                   variants={containerAnimation}
                   initial="hidden"
                   animate="visible"
                 >
-                  {listOfTracks.map((song, index) => (
+                  {tracks.map((song, index) => (
                     <TrackCard
                       key={song._id}
                       trackNumber={index + 1}

@@ -222,43 +222,42 @@ async function getPlaylistById(req, res, next) {
         userId: 1,
         tracks: 1,
       },
-    )
-      .populate({
-        path: "tracks",
-        select: {
-          name: 1,
-          artist: 1,
-          likes: { $size: "$likedBy" },
-          isLiked: { $setIsSubset: [[userId], "$likedBy"] },
-          popularity: 1,
-          color: 1,
-          genreId: 1,
-          userId: 1,
-          album: 1,
-          duration: 1,
-          url: 1,
-        },
-        options: {
-          skip: parseInt(page) * parseInt(limit),
-          limit: parseInt(limit),
-        },
-        populate: [
-          {
-            path: "album",
-            options: {
-              select: "title thumbnail",
-            },
+    ).populate({
+      path: "tracks",
+      select: {
+        name: 1,
+        artist: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        popularity: 1,
+        color: 1,
+        genreId: 1,
+        userId: 1,
+        album: 1,
+        duration: 1,
+        url: 1,
+      },
+      options: {
+        skip: parseInt(page) * parseInt(limit),
+        limit: parseInt(limit),
+      },
+      populate: [
+        {
+          path: "album",
+          options: {
+            select: "title thumbnail",
           },
-          {
-            path: "genreId",
-            options: {
-              select: "name",
-            },
+        },
+        {
+          path: "genreId",
+          options: {
+            select: "name",
           },
-        ],
-      })
-      .skip(parseInt(page) * parseInt(limit))
-      .limit(parseInt(limit));
+        },
+      ],
+    });
+    // .skip(parseInt(page) * parseInt(limit))
+    // .limit(parseInt(limit));
 
     res.status(200).send({ data: playlist });
   } catch (err) {

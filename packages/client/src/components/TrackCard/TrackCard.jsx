@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
+import { FaEllipsisH } from "react-icons/fa";
 import { motion } from "framer-motion";
 import {
   addSong,
@@ -12,7 +13,7 @@ import {
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
-import { fromBottom /* pressedElement */ } from "../../utils/motionSettings";
+import { fromBottom } from "../../utils/motionSettings";
 
 import HeartIcon from "../SVGicons/HeartIcon";
 
@@ -224,7 +225,7 @@ export default function TrackCard({
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i className="fas fa-ellipsis-h" />
+                    <FaEllipsisH />
                   </button>
                   <ul
                     className="dropdown-menu dropdown-menu-end clr-secondary p-1"
