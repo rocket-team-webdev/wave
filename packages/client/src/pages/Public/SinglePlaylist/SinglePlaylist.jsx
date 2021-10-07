@@ -114,7 +114,7 @@ export default function SinglePlaylist() {
             Created by {playlist.userId}
           </h3>
 
-          {playlist.description && (
+          {playlist.description !== "" && (
             <p className="fnt-secondary fnt-smallest mt-4">
               {playlist.description}
             </p>

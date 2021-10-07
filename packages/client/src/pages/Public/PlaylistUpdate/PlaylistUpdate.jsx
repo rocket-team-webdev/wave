@@ -54,7 +54,7 @@ export default function PlaylistUpdate() {
     },
   });
 
-  async function fetchPlaylisy(id) {
+  async function fetchPlaylist(id) {
     setIsLoading(true);
     try {
       const { data } = await getPlaylistById(id);
@@ -70,6 +70,10 @@ export default function PlaylistUpdate() {
     }
   }
 
+  const initialPublicAccessible = () => {
+    setPublicAccessible(playlistState.publicAccessible);
+  };
+
   const handlePublicAccessible = () => {
     const { checked } = publicAccessibleCheckbox.current;
     setPublicAccessible(checked);
@@ -77,9 +81,14 @@ export default function PlaylistUpdate() {
   };
 
   useEffect(() => {
-    fetchPlaylisy(playlistId);
+    fetchPlaylist(playlistId);
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    // Set checkbox
+    initialPublicAccessible();
+  }, [playlistState]);
 
   return (
     <Layout isNegative>
