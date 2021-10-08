@@ -114,7 +114,7 @@ export default function SinglePlaylist() {
             Created by {playlist.userId}
           </h3>
 
-          {playlist.description && (
+          {playlist.description !== "" && (
             <p className="fnt-secondary fnt-smallest mt-4">
               {playlist.description}
             </p>
@@ -143,7 +143,7 @@ export default function SinglePlaylist() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                  <Link to={`${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
