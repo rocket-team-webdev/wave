@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import JumboText from "../../../components/JumboText";
@@ -14,6 +15,7 @@ import { searchPlaylists } from "../../../api/search-api";
 function MyPlaylists() {
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
+  const userState = useSelector((state) => state.user);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const [loaded, setLoaded] = useState(false);
@@ -80,11 +82,14 @@ function MyPlaylists() {
   useEffect(async () => {
     try {
       const { data } = await searchPlaylists(debouncedSearch);
-      const liked = data.tracks.filter((track) => track.isLiked);
-      const uploaded = data.tracks.filter((track) => track.isOwner);
+      const currentUserId = userState.mongoId;
+      const followed = data.playlist.filter((playlist) => playlist.isFollowed);
+      const created = data.playlist.filter(
+        (playlist) => playlist.userId === currentUserId,
+      );
 
-      setCreatedPlaylists(uploaded);
-      setFollowedPlaylists(liked);
+      setCreatedPlaylists(created);
+      setFollowedPlaylists(followed);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
