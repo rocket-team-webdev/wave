@@ -7,7 +7,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
 import ArtistCard from "../ArtistCard";
-import PlaylistCard from "../PlaylistCard";
+// import PlaylistCard from "../PlaylistCard";
 import TrackCard from "../TrackCard";
 import Spinner from "../Spinner";
 
@@ -17,6 +17,7 @@ import { getAllGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
 import { getAllTracks } from "../../api/tracks-api";
 import { containerAnimation } from "../../utils/motionSettings";
+import PlaylistList from "../PlaylistList";
 
 export default function HomePopular({ artistsList = [] }) {
   const [loadStatus, setLoadStatus] = useState(false);
@@ -86,8 +87,18 @@ export default function HomePopular({ artistsList = [] }) {
       )}
       {!loadStatus ? (
         popularPlaylists.length > 0 && (
-          <HomeElement label="Playlists" isAnimationContainer>
-            {popularPlaylists.map((playlist) => (
+          <HomeElement
+            label="Playlists"
+            to={PUBLIC.MY_PLAYLISTS}
+            isAnimationContainer
+          >
+            {popularPlaylists && (
+              <PlaylistList
+                playlists={popularPlaylists}
+                onAddFollowedColumn={() => {}}
+              />
+            )}
+            {/* {popularPlaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
                 playListId={playlist._id}
@@ -95,7 +106,7 @@ export default function HomePopular({ artistsList = [] }) {
                 userId={playlist.userId}
                 // classNames=""
               />
-            ))}
+            ))} */}
           </HomeElement>
         )
       ) : (
