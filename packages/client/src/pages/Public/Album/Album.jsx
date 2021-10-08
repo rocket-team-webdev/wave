@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaPlay, FaEllipsisH } from "react-icons/fa";
@@ -11,7 +11,7 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getAlbumById, likeAlbum } from "../../../api/album-api";
+import { getAlbumById, likeAlbum, deleteAlbum } from "../../../api/album-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
@@ -21,6 +21,7 @@ import HeartIcon from "../../../components/SVGicons/HeartIcon";
 import "./Album.scss";
 
 export default function SinglePlaylist() {
+  const history = useHistory();
   const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
@@ -76,6 +77,16 @@ export default function SinglePlaylist() {
   const handleIsOwned = () => {
     if (album.userId === userState.mongoId) {
       setIsOwned(true);
+    }
+  };
+
+  const handleDeleteAlbum = async () => {
+    try {
+      await deleteAlbum(albumId);
+      history.push(PUBLIC.HOME);
+      return toast("Album deleted!", { type: "success" });
+    } catch (error) {
+      return toast(error.response.data.msg, { type: "error" });
     }
   };
 
@@ -144,7 +155,7 @@ export default function SinglePlaylist() {
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
                     type="button"
-                    // onClick={handleDeleteSong}
+                    onClick={handleDeleteAlbum}
                   >
                     Delete
                   </button>

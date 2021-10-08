@@ -213,12 +213,10 @@ async function updateAlbum(req, res, next) {
 
     const { title, year } = req.body;
 
-    const albumUpdated = await db.Album.findOneAndUpdate(
+    await db.Album.findOneAndUpdate(
       { _id: id },
       { title: title, year: year, thumbnail: thumbnailUrl },
     ).lean();
-
-    console.log(albumUpdated);
 
     res.status(200).send({
       message: "Album updated successfully",
