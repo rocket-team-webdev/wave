@@ -74,7 +74,7 @@ async function getMyPlaylists(req, res, next) {
         // publicAccessible: 1,
         userId: 1,
         // tracks: 1,
-        // isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
         follows: { $size: "$followedBy" },
       },
     )

@@ -23,6 +23,7 @@ import TrackUpload from "./pages/Public/TrackUpload";
 import Tracks from "./pages/Public/Tracks";
 import MusicPlayer from "./components/MusicPlayer";
 import CreateAlbum from "./pages/Public/CreateAlbum";
+import MyPlaylists from "./pages/Public/MyPlaylists/MyPlaylists";
 import CreatePlaylist from "./pages/Public/CreatePlaylist";
 import SinglePlaylist from "./pages/Public/SinglePlaylist";
 import PlaylistUpdate from "./pages/Public/PlaylistUpdate/PlaylistUpdate";
@@ -102,6 +103,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.ADD_PLAYLIST}>
               <CreatePlaylist />
+            </PrivateRoute>
+            <PrivateRoute path={PUBLIC.MY_PLAYLISTS}>
+              <MyPlaylists />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.MY_SONGS}>
               <Tracks />
