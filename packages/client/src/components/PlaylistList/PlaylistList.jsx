@@ -16,7 +16,7 @@ function PlaylistList({ playlists, onAddFollowedColumn = () => {} }) {
 
   return (
     <motion.div
-      className="content d-flex flex-wrap row"
+      className="content d-flex flex-wrap container-fluid row p-0 m-0"
       variants={containerAnimation}
       initial="hidden"
       animate="visible"
