@@ -322,6 +322,67 @@ async function followPlaylist(req, res, next) {
   }
 }
 
+async function addTrackToPlaylist(req, res, next) {
+  try {
+    const { playlistId, trackId } = req.body;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const result = await db.Playlist.findOneAndUpdate(
+      {
+        _id: playlistId,
+        isDeleted: false,
+        userId: userId,
+        tracks: { $nin: trackId },
+      },
+      {
+        $push: { tracks: trackId },
+      },
+      {
+        projection: { _id: 1 },
+      },
+    );
+    if (result) {
+      res.status(200).send({
+        message: "Playlist updated successfully",
+      });
+    } else {
+      res.status(400).send({
+        message: "Playlist already contains song",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
+async function removeTrackFromPlaylist(req, res, next) {
+  try {
+    const { playlistId, trackId } = req.body;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    await db.Playlist.findOneAndUpdate(
+      {
+        _id: playlistId,
+        isDeleted: false,
+        userId: userId,
+        tracks: trackId,
+      },
+      {
+        $pull: { tracks: trackId },
+      },
+    );
+
+    res.status(200).send({
+      message: "Playlist updated successfully",
+    });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
 module.exports = {
   getPlaylists,
   addPlaylist,
@@ -329,4 +390,6 @@ module.exports = {
   getPlaylistById,
   deletePlaylist,
   followPlaylist,
+  addTrackToPlaylist,
+  removeTrackFromPlaylist,
 };
