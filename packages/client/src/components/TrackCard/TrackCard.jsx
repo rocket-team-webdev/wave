@@ -11,6 +11,7 @@ import {
   like,
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
+import { getMyPlaylists } from "../../api/me-api";
 import { PUBLIC } from "../../constants/routes";
 import { fromBottom /* pressedElement */ } from "../../utils/motionSettings";
 
@@ -41,6 +42,7 @@ export default function TrackCard({
   const [isOwned, setIsOwned] = useState(false);
   const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
+  const [myPlaylists, setMyPlaylists] = useState([]);
   const dispatch = useDispatch();
   const trackObject = {
     name: trackName,
@@ -126,6 +128,16 @@ export default function TrackCard({
     // styles needed to apply on draggables
     ...draggableStyle,
   });
+
+  const handleOpenDropdown = async () => {
+    const myPlaylistsData = await getMyPlaylists(0, 10, true);
+    console.log(myPlaylistsData);
+    setMyPlaylists(myPlaylistsData.data.data);
+  };
+
+  const handleAddToPlaylist = () => {
+    console.log("funca");
+  };
 
   useEffect(() => {
     setLiked(isLiked);
@@ -223,6 +235,7 @@ export default function TrackCard({
                     id="contextSongMenu"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    onClick={handleOpenDropdown}
                   >
                     <i className="fas fa-ellipsis-h" />
                   </button>
@@ -230,43 +243,105 @@ export default function TrackCard({
                     className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                     aria-labelledby="contextSongMenu"
                   >
-                    <button
-                      className="dropdown-item fnt-light fnt-song-regular "
-                      type="button"
-                      onClick={handleAddToQueue}
-                    >
-                      Add to queue
-                    </button>
+                    <li>
+                      <button
+                        className="dropdown-item fnt-light fnt-song-regular "
+                        type="button"
+                        onClick={handleAddToQueue}
+                      >
+                        Add to queue
+                      </button>
+                    </li>
                     <hr className="dropdown-wrapper m-0" />
                     {isOwned ? (
                       <>
-                        <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                        <li>
+                          <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                            <p
+                              className="dropdown-item fnt-light fnt-song-regular m-0"
+                              type="button"
+                            >
+                              Edit
+                            </p>
+                          </Link>
+                          <hr className="dropdown-wrapper m-0" />
+                        </li>
+                        <li>
+                          <button
+                            className="dropdown-item fnt-light fnt-song-regular"
+                            type="button"
+                            onClick={handleDeleteSong}
+                          >
+                            Delete
+                          </button>
+                        </li>
+                      </>
+                    ) : (
+                      <li>
+                        <Link to={`${PUBLIC.USERS}/${userId}`}>
                           <p
                             className="dropdown-item fnt-light fnt-song-regular m-0"
                             type="button"
                           >
-                            Edit
+                            Go to user
                           </p>
                         </Link>
-                        <hr className="dropdown-wrapper m-0" />
-                        <button
-                          className="dropdown-item fnt-light fnt-song-regular"
-                          type="button"
-                          onClick={handleDeleteSong}
-                        >
-                          Delete
-                        </button>
-                      </>
-                    ) : (
-                      <Link to={`${PUBLIC.USERS}/${userId}`}>
-                        <p
-                          className="dropdown-item fnt-light fnt-song-regular m-0"
-                          type="button"
-                        >
-                          Go to user
-                        </p>
-                      </Link>
+                      </li>
                     )}
+                    <hr className="dropdown-wrapper m-0" />
+                    <li className="">
+                      <a
+                        className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
+                        // type="button"
+                        data-toggle="dropdown"
+                        href="#addToPlaylist"
+                      >
+                        <span className="fnt-light fnt-song-regular">
+                          Add to playlist
+                        </span>
+                      </a>
+                      <ul
+                        className="dropdown-menu dropdown-submenu dropdown-submenu-left clr-secondary p-1"
+                        id="addToPlaylist"
+                      >
+                        {myPlaylists.length > 0 &&
+                          myPlaylists.map((playlistElement, playlistIndex) => (
+                            <li key={playlistElement._id}>
+                              {playlistIndex > 0 && (
+                                <hr className="dropdown-wrapper m-0" />
+                              )}
+                              <button
+                                className="dropdown-item fnt-light fnt-song-regular"
+                                type="button"
+                                onClick={handleAddToPlaylist}
+                                playlistid={playlistElement._id}
+                              >
+                                {playlistElement.name}
+                              </button>
+                            </li>
+                          ))}
+                        <li>
+                          <hr className="dropdown-wrapper m-0" />
+
+                          <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackId}`}>
+                            {/* TODO: when creating playlist adding that song */}
+                            <p
+                              className="dropdown-item fnt-light fnt-song-regular m-0"
+                              type="button"
+                            >
+                              New Playlist
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                    {/* <button
+                      className="dropdown-item fnt-light fnt-song-regular "
+                      type="button"
+                      onClick={handleAddToQueue}
+                    >
+                      Add to playlist
+                    </button> */}
                   </ul>
                 </div>
               </div>
