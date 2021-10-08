@@ -46,9 +46,9 @@ export async function updateAlbum(file = {}, api = makeAlbumApi()) {
   });
 }
 
-export async function deleteAlbum(api = makeAlbumApi()) {
+export async function deleteAlbum(albumId, api = makeAlbumApi()) {
   const token = await getCurrentUserToken();
-  return api.delete(``, {
+  return api.delete(`/${albumId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }

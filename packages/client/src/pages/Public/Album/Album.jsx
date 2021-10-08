@@ -86,7 +86,7 @@ export default function SinglePlaylist() {
       history.push(PUBLIC.HOME);
       return toast("Album deleted!", { type: "success" });
     } catch (error) {
-      return toast(error.response.data.msg, { type: "error" });
+      return toast("Error deleting album", { type: "error" });
     }
   };
 

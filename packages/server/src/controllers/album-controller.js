@@ -230,6 +230,7 @@ async function updateAlbum(req, res, next) {
 async function deleteAlbum(req, res, next) {
   try {
     const { id } = req.params;
+    console.log(id);
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
@@ -237,7 +238,7 @@ async function deleteAlbum(req, res, next) {
     await db.Track.deleteMany({ album: id, userId: userId });
 
     // deleting albums
-    db.Album.findOneAndDelete({ _id: id, userId: userId });
+    await db.Album.findOneAndDelete({ _id: id, userId: userId });
 
     res.status(200).send({ message: "Album deleted successfully" });
   } catch (err) {
