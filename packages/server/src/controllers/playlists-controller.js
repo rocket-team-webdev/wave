@@ -283,7 +283,6 @@ async function deletePlaylist(req, res, next) {
       { _id: id, userId: userId },
       { isDeleted: true },
     );
-    console.log("---------------- \nDELETED PLAYLIST");
 
     res.status(200).send({
       message: "Playlist deleted successfully",
