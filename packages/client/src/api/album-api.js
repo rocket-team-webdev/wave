@@ -38,7 +38,7 @@ export async function getAlbumById(albumId, api = makeAlbumApi()) {
 export async function updateAlbum(file = {}, api = makeAlbumApi()) {
   const token = await getCurrentUserToken();
 
-  return api.post(``, file, {
+  return api.put(``, file, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": `multipart/form-data"`,

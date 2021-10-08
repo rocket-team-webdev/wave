@@ -20,6 +20,12 @@ albumRouter.post(
   albumController.addAlbum,
 );
 
+albumRouter.put(
+  "/",
+  [authFirebaseMiddleware, mdlUpload],
+  albumController.updateAlbum,
+);
+
 albumRouter.delete("/:id", authFirebaseMiddleware, albumController.deleteAlbum);
 
 albumRouter.put("/:id/like", authFirebaseMiddleware, albumController.likeAlbum);

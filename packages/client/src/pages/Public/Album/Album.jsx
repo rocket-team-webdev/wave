@@ -68,7 +68,7 @@ export default function SinglePlaylist() {
     dispatch(setPlayState(true));
   };
 
-  const handleFollow = async () => {
+  const handleLike = async () => {
     setIsLiked(!isLiked);
     await likeAlbum(albumId);
   };
@@ -94,11 +94,7 @@ export default function SinglePlaylist() {
         <div className="col col-12 col-md-6 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText={album.title} cols="11" isNegative />
-            <button
-              className="text-center"
-              type="button"
-              onClick={handleFollow}
-            >
+            <button className="text-center" type="button" onClick={handleLike}>
               {isLiked ? (
                 <HeartIcon isFull isLarge isNegative />
               ) : (
@@ -106,7 +102,7 @@ export default function SinglePlaylist() {
               )}
             </button>
           </div>
-
+          <h3 className="fnt-subtitle-light mt-4">{album.year}</h3>
           {/* TODO only show creator if exists */}
           <h3 className="fnt-secondary fnt-caption mt-4">
             Created by {album.userId}
@@ -136,7 +132,7 @@ export default function SinglePlaylist() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                  <Link to={`${PUBLIC.UPDATE_ALBUM}/${album._id}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"

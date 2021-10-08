@@ -161,7 +161,7 @@ async function updateAlbum(req, res, next) {
 
     if (thumbnailFile) {
       const { thumbnail: oldThumbnail } = await db.Album.findOne(
-        { _id: id, isDeleted: false, userId: userId },
+        { _id: id, userId: userId },
         {
           thumbnail: 1,
           _id: 0,
