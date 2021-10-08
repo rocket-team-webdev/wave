@@ -6,7 +6,12 @@ import { containerAnimation } from "../../utils/motionSettings";
 import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
 
-function TrackList({ tracks, setTracks, onAddLikedColumn, hasSorter }) {
+function TrackList({
+  tracks,
+  setTracks,
+  onAddLikedColumn = () => {},
+  hasSorter,
+}) {
   // const [listOfTracks, setTracks] = useState(tracks);
   const [flag, setFlag] = useState({
     flagTitle: 1,

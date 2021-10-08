@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import { containerAnimation } from "../../utils/motionSettings";
 
-function PlaylistList({ playlists, onAddFollowedColumn }) {
+function PlaylistList({ playlists, onAddFollowedColumn = () => {} }) {
   const [listOfPlaylists, setListOfPlaylists] = useState(playlists);
 
   const handleAddFollowedColumn = (playlist, isFollowed) => {
