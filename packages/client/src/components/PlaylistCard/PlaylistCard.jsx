@@ -52,7 +52,7 @@ export default function PlaylistCard({
     setFollowed(isFollowed);
   }, [isFollowed]);
 
-  const componentClasses = `col col-12 col-md-${colsMd} col-xl-4 col-xxl-3 p-2`;
+  const componentClasses = `col col-12 col-lg-${colsMd} col-xxl-4 p-2`;
   return (
     <Link
       to={`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`}
