@@ -64,7 +64,7 @@ async function getMyPlaylists(req, res, next) {
     const { page = 0, limit = 4 } = req.query;
 
     const playlists = await db.Playlist.find(
-      { userId: userId },
+      { userId: userId, isDeleted: false },
       {
         name: 1,
         // collaborative: 1,
@@ -99,7 +99,7 @@ async function getMyFollowingPlaylists(req, res, next) {
     const { page = 0, limit = 4 } = req.query;
 
     const playlists = await db.Playlist.find(
-      { followedBy: userId },
+      { followedBy: userId, isDeleted: false },
       {
         name: 1,
         // collaborative: 1,
