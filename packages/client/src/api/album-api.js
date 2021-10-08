@@ -56,7 +56,7 @@ export async function deleteAlbum(api = makeAlbumApi()) {
 export async function likeAlbum(albumId, api = makeAlbumApi()) {
   const token = await getCurrentUserToken();
   return api.put(
-    `/${albumId}/follow`,
+    `/${albumId}/like`,
     {},
     {
       headers: { Authorization: `Bearer ${token}` },

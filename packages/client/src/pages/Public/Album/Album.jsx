@@ -37,6 +37,7 @@ export default function SinglePlaylist() {
       const { data } = await getAlbumById(albumId);
       setAlbum(data.data);
       setTracks(data.data.tracks);
+      setIsLiked(data.data.isLiked);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -80,7 +81,6 @@ export default function SinglePlaylist() {
 
   useEffect(() => {
     loadAlbum();
-    setIsLiked(album.isLiked);
   }, []);
 
   useEffect(() => {
