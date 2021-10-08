@@ -42,4 +42,19 @@ describe("Backend 'tracks' api testing", function () {
         })
     );
   });
+
+  test("DELETE / delete track", () => {
+    return requestMeApi
+      .delete(`/${trackId}`)
+      .auth(token, { type: "bearer" })
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.message).toBe("Successfully deleted track");
+      })
+      .catch((err) => {
+        throw err;
+      });
+  });
 });

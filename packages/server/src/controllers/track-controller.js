@@ -143,13 +143,15 @@ async function uploadTrack(req, res, next) {
 
       console.log("trackObj", trackObj);
 
-      await db.Track.create(trackObj);
+      const { _id: trackId } = await db.Track.create(trackObj);
       await db.Album.updateOne(
         { _id: album._id },
         { $inc: { totalTracks: 1 } },
       );
 
-      return res.status(200).send({ message: "cloudinary track uploaded" });
+      return res
+        .status(200)
+        .send({ message: "cloudinary track uploaded", _id: trackId });
     }
 
     return res
