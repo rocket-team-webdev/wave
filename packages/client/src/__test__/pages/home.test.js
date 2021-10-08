@@ -38,4 +38,29 @@ describe("Home Page test", () => {
     // Home page rendered - Popular
     expect(screen.getByText(/welcome to waveapp/i)).toBeInTheDocument();
   });
+
+  test("Navigating from popular to myWave", async () => {
+    const history = createMemoryHistory();
+
+    const home = render(
+      <Router history={history}>
+        <Home />
+      </Router>,
+    );
+
+    // Home page rendered - Popular
+    expect(screen.getByText(/playlists/i)).toBeInTheDocument();
+
+    // fireEvent.click(mywave);
+    const mywave = home.getByLabelText(/mywave/i);
+    const popular = home.getByLabelText(/popular/i);
+
+    expect(popular).toBeChecked();
+    expect(mywave).not.toBeChecked();
+
+    fireEvent.change(mywave, { target: { checked: true } });
+
+    expect(popular).not.toBeChecked();
+    expect(mywave).toBeChecked();
+  });
 });
