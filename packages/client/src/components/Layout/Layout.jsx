@@ -7,7 +7,7 @@ import "./Layout.scss";
 
 function Layout({ children, isNegative = false }) {
   return (
-    <div className="d-flex flex-column layout-wrapper">
+    <div className="d-flex flex-column layout-wrapper" data-testid="layout">
       <Header />
       <main
         className={
