@@ -22,6 +22,8 @@ albumRouter.post(
 
 albumRouter.delete("/:id", authFirebaseMiddleware, albumController.deleteAlbum);
 
+albumRouter.put("/:id/like", authFirebaseMiddleware, albumController.likeAlbum);
+
 module.exports = {
   albumRouter,
 };

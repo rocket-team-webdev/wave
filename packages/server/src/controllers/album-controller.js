@@ -124,13 +124,22 @@ async function getAlbumById(req, res, next) {
         duration: 1,
         genreId: 1,
         userId: 1,
+        album: 1,
         likes: { $size: "$likedBy" },
         isLiked: { $setIsSubset: [[userId], "$likedBy"] },
       },
-    ).populate({
-      path: "genreId",
-      options: { select: "name" },
-    });
+    ).populate([
+      {
+        path: "genreId",
+        options: { select: "name" },
+      },
+      {
+        path: "album",
+        options: {
+          select: "title thumbnail",
+        },
+      },
+    ]);
 
     album.tracks = tracks;
 
@@ -236,10 +245,40 @@ async function deleteAlbum(req, res, next) {
   }
 }
 
+async function likeAlbum(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    await db.Album.findOneAndUpdate({ _id: id }, [
+      {
+        $set: {
+          likedBy: {
+            $cond: {
+              if: { $in: [userId, "$likedBy"] },
+              then: { $setDifference: ["$likedBy", [userId]] },
+              else: { $concatArrays: ["$likedBy", [userId]] },
+            },
+          },
+        },
+      },
+    ]);
+
+    res.status(200).send({
+      message: "Album liked successfully",
+    });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
 module.exports = {
   getAlbums,
   getAlbumById,
   addAlbum,
   updateAlbum,
   deleteAlbum,
+  likeAlbum,
 };
