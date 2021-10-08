@@ -12,7 +12,7 @@ const accountRouter = Router();
 accountRouter.get("/", authFirebaseMiddleware, accountController.getAccount);
 const mdlUpload = upload.fields([{ name: "profilePicture" }]);
 
-accountRouter.post(
+accountRouter.put(
   "/",
   [authFirebaseMiddleware, mdlUpload],
   accountController.updateAccount,
