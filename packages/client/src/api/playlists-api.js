@@ -9,14 +9,6 @@ export function makePlaylistApi() {
   });
 }
 
-export async function getPlaylistById(playlistId, api = makePlaylistApi()) {
-  const token = await getCurrentUserToken();
-
-  return api.get(`/${playlistId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
 export async function getAllPlaylists(
   page = 0,
   limit = 4,
@@ -29,14 +21,11 @@ export async function getAllPlaylists(
   });
 }
 
-export async function addPlaylist(data = {}, api = makePlaylistApi()) {
+export async function getPlaylistById(playlistId, api = makePlaylistApi()) {
   const token = await getCurrentUserToken();
 
-  return api.post(``, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": `multipart/form-data"`,
-    },
+  return api.get(`/${playlistId}`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 }
 
@@ -51,6 +40,26 @@ export async function updatePlaylistById(data = {}, api = makePlaylistApi()) {
       },
     },
   );
+}
+
+export async function addPlaylist(data = {}, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.post(``, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": `multipart/form-data"`,
+    },
+  });
+}
+
+export async function deletePlaylist(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(`/${playlistId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export async function followPlaylist(playlistId, api = makePlaylistApi()) {

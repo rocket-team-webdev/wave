@@ -60,6 +60,7 @@ async function searchPlaylist(req, res, next) {
     const data = await db.Playlist.find(
       {
         $or: [{ name: { $regex: searchText, $options: "i" } }],
+        isDeleted: false,
       },
       {
         name: 1,
