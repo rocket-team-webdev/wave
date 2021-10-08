@@ -81,7 +81,18 @@ async function getMyPlaylists(req, res, next) {
         };
     const playlists = await db.Playlist.find(
       { userId: userId, isDeleted: false },
-      projection,
+      {
+        name: 1,
+        // collaborative: 1,
+        // description: 1,
+        primaryColor: 1,
+        thumbnail: 1,
+        // publicAccessible: 1,
+        userId: 1,
+        // tracks: 1,
+        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+        follows: { $size: "$followedBy" },
+      },
     )
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));

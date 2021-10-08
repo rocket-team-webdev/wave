@@ -3,6 +3,7 @@
 export const PUBLIC = {
   HOME: "/",
   MY_SONGS: "/tracks",
+  MY_PLAYLISTS: "/playlists",
   ALBUMS: "/albums",
   UPDATE_PASSWORD: "/account/settings/update-password",
   RESET_PASSWORD: "/account/settings/reset-password",
@@ -11,12 +12,13 @@ export const PUBLIC = {
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
   USERS: "/users",
-  TRACK_EDIT: "/tracks/update",
+  TRACK_EDIT: "/tracks/update", // TODO delete this or TRACK_UPDATE
   TRACK_UPLOAD: "/tracks/upload",
   TRACK_UPDATE: "/tracks/update",
   ADD_ALBUM: "/albums/add",
   ADD_PLAYLIST: "/playlists/add",
-  PLAYLIST_TRACKS: "/playlists",
+  SINGLE_PLAYLIST: "/playlist",
+  PLAYLIST_UPDATE: "/playlist/update",
 };
 
 // PRIVATE PAGES

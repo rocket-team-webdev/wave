@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
 const { DEFAULT_PLAYLIST_THUMBNAIL } = require("../utils/default-presets");
-const { getPublicId } = require("../utils/cloudinaryUtils");
+// const { getPublicId } = require("../utils/cloudinaryUtils");
 const writeFileAsync = promisify(fs.writeFile);
 
 async function getPlaylists(req, res, next) {
@@ -115,80 +115,87 @@ async function addPlaylist(req, res, next) {
 
 async function updatePlaylist(req, res, next) {
   try {
-    const { email } = req.user;
+    // const { email } = req.user;
     const { id } = req.body;
-    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-    console.log("userId", userId);
-    let thumbnailFile = req.files["thumbnail"];
-    let thumbnailUrl = DEFAULT_PLAYLIST_THUMBNAIL;
+    // const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    // console.log("userId", userId);
 
-    if (thumbnailFile) {
-      const { thumbnail: oldThumbnail } = await db.Playlist.findOne(
-        { _id: id, isDeleted: false, userId: userId },
-        {
-          // collaborative: 1,
-          // publicAccessible: 1,
-          // name: 1,
-          thumbnail: 1,
-          // description: 1,
-          // primaryColor: 1,
-          _id: 0,
-        },
-      );
+    // In case we need to update
+    // let thumbnailFile = req.files["thumbnail"];
+    // let thumbnailUrl = DEFAULT_PLAYLIST_THUMBNAIL;
 
-      const isThumbnailDefault =
-        oldThumbnail === DEFAULT_PLAYLIST_THUMBNAIL ? true : false;
+    // if (thumbnailFile) {
+    //   const { thumbnail: oldThumbnail } = await db.Playlist.findOne(
+    //     { _id: id, isDeleted: false, userId: userId },
+    //     {
+    //       // collaborative: 1,
+    //       // publicAccessible: 1,
+    //       // name: 1,
+    //       thumbnail: 1,
+    //       // description: 1,
+    //       // primaryColor: 1,
+    //       _id: 0,
+    //     },
+    //   );
 
-      thumbnailFile = thumbnailFile[0];
-      const thumbnailLocation = path.join(
-        __dirname,
-        "../../",
-        "uploads",
-        thumbnailFile.originalname,
-      );
+    //   const isThumbnailDefault =
+    //     oldThumbnail === DEFAULT_PLAYLIST_THUMBNAIL ? true : false;
 
-      // upload file
-      await writeFileAsync(
-        thumbnailLocation,
-        Buffer.from(new Uint8Array(thumbnailFile.buffer)),
-      );
+    //   thumbnailFile = thumbnailFile[0];
+    //   const thumbnailLocation = path.join(
+    //     __dirname,
+    //     "../../",
+    //     "uploads",
+    //     thumbnailFile.originalname,
+    //   );
 
-      // upload to cloudinary
-      const cldThumbnailRes = await cloudinary.uploader.upload(
-        thumbnailLocation,
-        {
-          upload_preset: "covers-preset",
-          resource_type: "image",
-          width: 300,
-          height: 300,
-          crop: "limit",
-        },
-      );
-      thumbnailUrl = cldThumbnailRes.secure_url;
+    //   // upload file
+    //   await writeFileAsync(
+    //     thumbnailLocation,
+    //     Buffer.from(new Uint8Array(thumbnailFile.buffer)),
+    //   );
 
-      // delete old picture on cloudinary
-      if (!isThumbnailDefault) {
-        const publicId = getPublicId(oldThumbnail);
-        await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
-      }
+    //   // upload to cloudinary
+    //   const cldThumbnailRes = await cloudinary.uploader.upload(
+    //     thumbnailLocation,
+    //     {
+    //       upload_preset: "covers-preset",
+    //       resource_type: "image",
+    //       width: 300,
+    //       height: 300,
+    //       crop: "limit",
+    //     },
+    //   );
+    //   thumbnailUrl = cldThumbnailRes.secure_url;
 
-      // delete uploaded file
-      fs.unlink(thumbnailLocation, (err) => {
-        if (err) throw err;
-      });
-    }
+    //   // delete old picture on cloudinary
+    //   if (!isThumbnailDefault) {
+    //     const publicId = getPublicId(oldThumbnail);
+    //     await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+    //   }
 
-    const { name, description, primaryColor, collaborative, publicAccessible } =
-      req.body;
+    //   // delete uploaded file
+    //   fs.unlink(thumbnailLocation, (err) => {
+    //     if (err) throw err;
+    //   });
+    // }
+
+    const {
+      name,
+      description,
+      primaryColor,
+      /* collaborative, */
+      publicAccessible,
+    } = req.body;
     await db.Playlist.findOneAndUpdate(
       { _id: id },
       {
         name: name,
         description: description,
         primaryColor: primaryColor,
-        collaborative: collaborative,
+        // collaborative: collaborative,
         publicAccessible: publicAccessible,
-        thumbnail: thumbnailUrl,
+        // thumbnail: thumbnailUrl,
       },
     );
 
@@ -222,43 +229,42 @@ async function getPlaylistById(req, res, next) {
         userId: 1,
         tracks: 1,
       },
-    )
-      .populate({
-        path: "tracks",
-        select: {
-          name: 1,
-          artist: 1,
-          likes: { $size: "$likedBy" },
-          isLiked: { $setIsSubset: [[userId], "$likedBy"] },
-          popularity: 1,
-          color: 1,
-          genreId: 1,
-          userId: 1,
-          album: 1,
-          duration: 1,
-          url: 1,
-        },
-        options: {
-          skip: parseInt(page) * parseInt(limit),
-          limit: parseInt(limit),
-        },
-        populate: [
-          {
-            path: "album",
-            options: {
-              select: "title thumbnail",
-            },
+    ).populate({
+      path: "tracks",
+      select: {
+        name: 1,
+        artist: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        popularity: 1,
+        color: 1,
+        genreId: 1,
+        userId: 1,
+        album: 1,
+        duration: 1,
+        url: 1,
+      },
+      options: {
+        skip: parseInt(page) * parseInt(limit),
+        limit: parseInt(limit),
+      },
+      populate: [
+        {
+          path: "album",
+          options: {
+            select: "title thumbnail",
           },
-          {
-            path: "genreId",
-            options: {
-              select: "name",
-            },
+        },
+        {
+          path: "genreId",
+          options: {
+            select: "name",
           },
-        ],
-      })
-      .skip(parseInt(page) * parseInt(limit))
-      .limit(parseInt(limit));
+        },
+      ],
+    });
+    // .skip(parseInt(page) * parseInt(limit))
+    // .limit(parseInt(limit));
 
     res.status(200).send({ data: playlist });
   } catch (err) {
@@ -273,12 +279,14 @@ async function deletePlaylist(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    db.Playlist.findOneAndUpdate(
+    await db.Playlist.findOneAndUpdate(
       { _id: id, userId: userId },
       { isDeleted: true },
     );
 
-    res.status(200).send({ message: "Playlist deleted successfully" });
+    res.status(200).send({
+      message: "Playlist deleted successfully",
+    });
   } catch (err) {
     res.status(500).send({ error: err.message });
     next(err);

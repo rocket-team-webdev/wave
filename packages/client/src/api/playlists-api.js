@@ -21,6 +21,27 @@ export async function getAllPlaylists(
   });
 }
 
+export async function getPlaylistById(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.get(`/${playlistId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function updatePlaylistById(data = {}, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    ``,
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
+
 export async function addPlaylist(data = {}, api = makePlaylistApi()) {
   const token = await getCurrentUserToken();
 
@@ -30,6 +51,26 @@ export async function addPlaylist(data = {}, api = makePlaylistApi()) {
       "Content-Type": `multipart/form-data"`,
     },
   });
+}
+
+export async function deletePlaylist(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(`/${playlistId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function followPlaylist(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    `/${playlistId}/follow`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 }
 
 export async function addTrackToPlaylist(
