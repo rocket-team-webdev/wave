@@ -319,7 +319,7 @@ async function addTrackToPlaylist(req, res, next) {
     const { playlistId, trackId } = req.body;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-    await db.Playlist.findOneAndUpdate(
+    const result = await db.Playlist.findOneAndUpdate(
       {
         _id: playlistId,
         isDeleted: false,
@@ -329,11 +329,19 @@ async function addTrackToPlaylist(req, res, next) {
       {
         $push: { tracks: trackId },
       },
+      {
+        projection: { _id: 1 },
+      },
     );
-
-    res.status(200).send({
-      message: "Playlist updated successfully",
-    });
+    if (result) {
+      res.status(200).send({
+        message: "Playlist updated successfully",
+      });
+    } else {
+      res.status(400).send({
+        message: "Playlist already contains song",
+      });
+    }
   } catch (err) {
     res.status(500).send({ error: err.message });
     next(err);
