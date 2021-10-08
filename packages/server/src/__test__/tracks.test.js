@@ -6,7 +6,7 @@ const token = require("./token");
 const fs = require("fs");
 const { config } = require("../config/config");
 
-const requestMeApi = request(`http://localhost:${config.app.port}/api/tracks`);
+const requestApi = request(`http://localhost:${config.app.port}/api/tracks`);
 let trackId = null;
 
 describe("Backend 'tracks' api testing", function () {
@@ -16,7 +16,7 @@ describe("Backend 'tracks' api testing", function () {
     if (!fs.existsSync(filePath)) throw new Error("file does not exist");
 
     return (
-      requestMeApi
+      requestApi
         .post("/")
         .auth(token, { type: "bearer" })
         .set("Accept", "application/json")
@@ -44,7 +44,7 @@ describe("Backend 'tracks' api testing", function () {
   });
 
   test("DELETE / delete track", () => {
-    return requestMeApi
+    return requestApi
       .delete(`/${trackId}`)
       .auth(token, { type: "bearer" })
       .set("Accept", "application/json")
