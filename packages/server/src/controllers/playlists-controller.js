@@ -279,12 +279,16 @@ async function deletePlaylist(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    db.Playlist.findOneAndUpdate(
+    const deletedPlaylist = await db.Playlist.findOneAndUpdate(
       { _id: id, userId: userId },
       { isDeleted: true },
     );
+    console.log("---------------- \nDELETED PLAYLIST");
 
-    res.status(200).send({ message: "Playlist deleted successfully" });
+    res.status(200).send({
+      message: "Playlist deleted successfully",
+      playlist: deletedPlaylist,
+    });
   } catch (err) {
     res.status(500).send({ error: err.message });
     next(err);
