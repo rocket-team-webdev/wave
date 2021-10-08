@@ -9,27 +9,13 @@ import { render, screen, waitFor, cleanup } from "../../utils/test-utils";
 import "@testing-library/jest-dom";
 
 import Tracks from "../../pages/Public/Tracks";
-
-const userData = {
-  email: "brahimcasas@hotmail.es",
-  token:
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM1MDM0MmIwMjU1MDAyYWI3NWUwNTM0YzU4MmVjYzY2Y2YwZTE3ZDIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQnJhaGltIEJlbmFsaWEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2ozZVphQVRRQTZRYXplLVdyNnZpU3Noa3ZUUm1DLUdoU0NqZUNFPXM5Ni1jIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3dhdmUtNWNjYmEiLCJhdWQiOiJ3YXZlLTVjY2JhIiwiYXV0aF90aW1lIjoxNjMzNTk5NjkwLCJ1c2VyX2lkIjoiVk1YMThjWnpmbE1yb1dpWmhyYlY5VGZvRHZqMiIsInN1YiI6IlZNWDE4Y1p6ZmxNcm9XaVpocmJWOVRmb0R2ajIiLCJpYXQiOjE2MzM2MDM2ODYsImV4cCI6MTYzMzYwNzI4NiwiZW1haWwiOiJicmFoaW1jYXNhc0Bob3RtYWlsLmVzIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDI4ODEyNzY5ODU3NzY2ODY4OTIiXSwiZW1haWwiOlsiYnJhaGltY2FzYXNAaG90bWFpbC5lcyJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.VbRWaE9Gx-UfPIIqBKIwal6beFYhkTMn2o4jjptrpz28ypBY5UH8iJAE3PFp-S06ArE_BJEiwuUVbWsu7cmeNyQBSWQN6uFb2ZUF51EQM2G4BgV5Mo8EDfGzeUSI9eTzG4JBmEaHWogQ37BHGHfJzG5fD3eXaksSMRjfU9N6sPSG4nuQQN7lFClwdTS8eiv2RsMpCRM6hM50EzbbYph2jZhdfjPRnBFUK_4jOwWSih3c7YRyfUPsdF97qBAEfbAEXCC1irtwS0CxAyPxNqfmvL-leJdDrUxAsV5Ko86oG5dZAphtnygU7QvBsD0KJRmp6kNGKKDHOvMoVTq5FTjxvQ",
-  firstName: "Brahim",
-  lastName: "Benalia",
-  profilePicture:
-    "https://lh3.googleusercontent.com/a-/AOh14Gj3eZaATQA6Qaze-Wr6viSshkvTRmC-GhSCjeCE=s96-c",
-  firebaseId: "VMX18cZzflMroWiZhrbV9TfoDvj2",
-  isRegistering: false,
-  isLogged: true,
-  mongoId: "615486c478206d637454b5b6",
-  emailVerified: true,
-};
+import { getMyTracks } from "../../api/me-api";
 
 jest.mock("firebase/compat/app", () => {
   return {
     auth: jest.fn(() => {
       return {
-        onAuthStateChanged: jest.fn().mockResolvedValue(userData),
+        onAuthStateChanged: jest.fn().mockResolvedValue(),
       };
     }),
     apps: [],
@@ -83,15 +69,30 @@ const tracksData = {
 describe("Tracks Page test", () => {
   afterEach(cleanup);
 
-  test("Tracks page rendering", async () => {
+  test.skip("Tracks page rendering without songs", async () => {
     const history = createMemoryHistory();
 
-    //* Esto funciona con el mock de axios.js asi { get: ...}
-    // axios.get.mockResolvedValue(tracksData);
-    // const result = await getMyTracks(0, 5, axios);
-    // expect(result).toEqual(tracksData);
+    render(
+      <Router history={history}>
+        <Tracks />
+      </Router>,
+    );
 
-    //* Esto funciona con el mock de axios.js sin parametros
+    // tracks page rendered
+    expect(screen.getByText(/my songs/i)).toBeInTheDocument();
+  });
+
+  test.skip("Tracks page fetch songs", async () => {
+    axios.create.mockReturnThis();
+    axios.get.mockResolvedValue(tracksData);
+
+    const result = await getMyTracks(0, 5, axios);
+    expect(result).toEqual(tracksData);
+  });
+
+  test.skip("Tracks page rendering with songs", async () => {
+    const history = createMemoryHistory();
+
     axios.create.mockReturnThis();
     axios.get
       .mockResolvedValue({ data: { data: [] } })
@@ -111,7 +112,6 @@ describe("Tracks Page test", () => {
 
     // expect tracks to be rendered
     expect(browserRouter).toHaveLength(2);
-
     // tracks page rendered
     expect(screen.getByText(/my songs/i)).toBeInTheDocument();
   });
