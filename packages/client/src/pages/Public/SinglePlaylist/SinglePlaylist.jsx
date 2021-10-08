@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaPlay, FaEllipsisH } from "react-icons/fa";
@@ -11,7 +11,11 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById, likePlaylist } from "../../../api/playlists-api";
+import {
+  getPlaylistById,
+  deletePlaylist,
+  followPlaylist,
+} from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
@@ -29,16 +33,25 @@ export default function SinglePlaylist() {
   const userState = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { playlistId } = useRouteMatch(
     `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
   ).params;
+
+  const handleIsOwned = (userId) => {
+    if (userId === userState.mongoId) {
+      setIsOwned(true);
+    }
+  };
 
   const loadPlaylist = async () => {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      setIsFollowed(data.data.isFollowed);
+      handleIsOwned(data.data.userId);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -71,23 +84,18 @@ export default function SinglePlaylist() {
 
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
-    await likePlaylist(playlistId);
+    await followPlaylist(playlistId);
   };
 
-  const handleIsOwned = () => {
-    if (playlist.userId === userState.mongoId) {
-      setIsOwned(true);
-    }
+  const handleDeletePlaylist = async () => {
+    await deletePlaylist(playlistId);
+    history.push(PUBLIC.MY_PLAYLISTS);
+    // updateDeletedView(trackId);
   };
 
   useEffect(() => {
     loadPlaylist();
-    setIsFollowed(playlist.isFollowed);
   }, []);
-
-  useEffect(() => {
-    handleIsOwned();
-  }, [playlist]);
 
   return (
     <Layout isNegative>
@@ -114,7 +122,7 @@ export default function SinglePlaylist() {
             Created by {playlist.userId}
           </h3>
 
-          {playlist.description && (
+          {playlist.description !== "" && (
             <p className="fnt-secondary fnt-smallest mt-4">
               {playlist.description}
             </p>
@@ -143,7 +151,7 @@ export default function SinglePlaylist() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                  <Link to={`${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
@@ -155,7 +163,7 @@ export default function SinglePlaylist() {
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
                     type="button"
-                    // onClick={handleDeleteSong}
+                    onClick={handleDeletePlaylist}
                   >
                     Delete
                   </button>

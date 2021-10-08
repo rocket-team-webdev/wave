@@ -9,14 +9,6 @@ export function makePlaylistApi() {
   });
 }
 
-export async function getPlaylistById(playlistId, api = makePlaylistApi()) {
-  const token = await getCurrentUserToken();
-
-  return api.get(`/${playlistId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
 export async function getAllPlaylists(
   page = 0,
   limit = 4,
@@ -27,6 +19,27 @@ export async function getAllPlaylists(
   return api.get(`?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+}
+
+export async function getPlaylistById(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.get(`/${playlistId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function updatePlaylistById(data = {}, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    ``,
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 }
 
 export async function addPlaylist(data = {}, api = makePlaylistApi()) {
@@ -40,13 +53,40 @@ export async function addPlaylist(data = {}, api = makePlaylistApi()) {
   });
 }
 
-export async function likePlaylist(playlistId, api = makePlaylistApi()) {
+export async function deletePlaylist(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(`/${playlistId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function followPlaylist(playlistId, api = makePlaylistApi()) {
   const token = await getCurrentUserToken();
   return api.put(
     `/${playlistId}/follow`,
     {},
     {
       headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+}
+
+export async function addTrackToPlaylist(
+  playlistId,
+  trackId,
+  api = makePlaylistApi(),
+) {
+  const token = await getCurrentUserToken();
+
+  return api.post(
+    `${API.ADD_TRACK}`,
+    { playlistId, trackId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
   );
 }

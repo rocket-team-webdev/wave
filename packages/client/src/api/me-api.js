@@ -32,11 +32,19 @@ export async function getMyFollowings(page = 0, limit = 4, api = makeMeApi()) {
 // Playlists
 // ---------
 
-export async function getMyPlaylists(page = 0, limit = 4, api = makeMeApi()) {
+export async function getMyPlaylists(
+  page = 0,
+  limit = 4,
+  isContextualMenu = false,
+  api = makeMeApi(),
+) {
   const token = await getCurrentUserToken();
-  return api.get(`${API.PLAYLISTS}?page=${page}&limit=${limit}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return api.get(
+    `${API.PLAYLISTS}?page=${page}&limit=${limit}&isContextualMenu=${isContextualMenu}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 }
 
 export async function getFollowingPlaylists(
