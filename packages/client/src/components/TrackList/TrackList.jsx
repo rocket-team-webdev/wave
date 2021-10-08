@@ -11,8 +11,8 @@ function TrackList({
   setTracks,
   onAddLikedColumn = () => {},
   hasSorter,
+  isOnPlaylist = false,
 }) {
-  // const [listOfTracks, setTracks] = useState(tracks);
   const [flag, setFlag] = useState({
     flagTitle: 1,
     flagAlbum: 1,
@@ -261,6 +261,7 @@ function TrackList({
                       updateLikedView={handleAddLikedColumn}
                       updateDeletedView={handleDeletedView}
                       draggable={hasSorter}
+                      isOnPlaylist={isOnPlaylist}
                     />
                   ))}
                 </motion.div>

@@ -166,7 +166,12 @@ export default function SinglePlaylist() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
+          <TrackList
+            tracks={tracks}
+            setTracks={setTracks}
+            hasSorter
+            isOnPlaylist={playlist}
+          />
         </div>
       </div>
     </Layout>

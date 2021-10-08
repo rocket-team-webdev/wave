@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link /* useRouteMatch,  */ } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { FaEllipsisH } from "react-icons/fa";
@@ -37,9 +37,11 @@ export default function TrackCard({
   trackId,
   updateLikedView = () => {},
   updateDeletedView = () => {},
+  isOnPlaylist,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
+  const [onOwnedPlaylist, setOnOwnedPlaylist] = useState(false);
   const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
   const dispatch = useDispatch();
@@ -55,6 +57,11 @@ export default function TrackCard({
     trackId: trackId,
     albumId: albumId,
     trackImg: trackImg,
+  };
+
+  const handleOnOwnedPlaylist = () => {
+    if (isOnPlaylist && isOnPlaylist.userId === userState.mongoId)
+      setOnOwnedPlaylist(true);
   };
 
   const handleIsOwned = () => {
@@ -103,6 +110,11 @@ export default function TrackCard({
     updateDeletedView(trackId);
   };
 
+  const handleRemoveFromPlaylist = async () => {
+    // await deleteFromPlaylist(trackId);
+    updateDeletedView(trackId);
+  };
+
   const timeIntoString = (seconds) => {
     const data = parseInt(seconds, 10);
     let minute = Math.floor((data / 60) % 60);
@@ -134,6 +146,7 @@ export default function TrackCard({
 
   useEffect(() => {
     handleIsOwned();
+    handleOnOwnedPlaylist();
   }, []);
 
   return (
@@ -239,6 +252,15 @@ export default function TrackCard({
                       Add to queue
                     </button>
                     <hr className="dropdown-wrapper m-0" />
+                    {onOwnedPlaylist ? (
+                      <button
+                        className="dropdown-item fnt-danger fnt-song-regular clr-danger"
+                        type="button"
+                        onClick={handleRemoveFromPlaylist}
+                      >
+                        Remove from Playlist
+                      </button>
+                    ) : null}
                     {isOwned ? (
                       <>
                         <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
