@@ -20,29 +20,10 @@ if (!firebase.apps.length) {
   firebase.app();
 }
 
-export function initFirebase() {
-  if (!firebase.apps.length) {
-    const firebaseConfig = {
-      apiKey: "AIzaSyAkNV3TlhB3J6zhmWBK_3XMY90z845Z2tA",
-      authDomain: "wave-5ccba.firebaseapp.com",
-      projectId: "wave-5ccba",
-      storageBucket: "wave-5ccba.appspot.com",
-      messagingSenderId: "452328699060",
-      appId: "1:452328699060:web:2b254e1dca9657544653e1",
-      measurementId: "G-35FSM0H7MY",
-    };
-
-    firebase.initializeApp(firebaseConfig);
-  } else {
-    // if already initialized, use that one
-    firebase.app();
-  }
-  // return firebase.auth();
-}
-
 export const auth = firebase.auth();
 
 export function onAuthStateChanged(...props) {
+  console.log("testing onAuthStateChanged", auth);
   return auth.onAuthStateChanged(...props);
 }
 
