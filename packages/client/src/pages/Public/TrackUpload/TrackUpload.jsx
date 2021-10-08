@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import * as id3 from "id3js/lib/id3";
+// import * as id3 from "id3js/lib/id3";
 import { useHistory } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
@@ -100,11 +100,11 @@ export default function TrackUpload() {
     formik.setFieldValue("track", files[0]);
 
     // read metadata ID3
-    const tags = await id3.fromFile(files[0]);
-    if (tags?.title) formik.setFieldValue("name", tags?.title || "", false);
-    if (tags?.artist) formik.setFieldValue("artist", tags?.artist || "", false);
-    if (tags?.album) formik.setFieldValue("album", tags?.album || "", false);
-    if (tags?.genre) formik.setFieldValue("genre", tags?.genre || "", false);
+    // const tags = await id3.fromFile(files[0]);
+    // if (tags?.title) formik.setFieldValue("name", tags?.title || "", false);
+    // if (tags?.artist) formik.setFieldValue("artist", tags?.artist || "", false);
+    // if (tags?.album) formik.setFieldValue("album", tags?.album || "", false);
+    // if (tags?.genre) formik.setFieldValue("genre", tags?.genre || "", false);
   };
 
   const handleCreateAlbum = () => {
