@@ -31,3 +31,21 @@ export async function addPlaylist(data = {}, api = makePlaylistApi()) {
     },
   });
 }
+
+export async function addTrackToPlaylist(
+  playlistId,
+  trackId,
+  api = makePlaylistApi(),
+) {
+  const token = await getCurrentUserToken();
+
+  return api.post(
+    `${API.ADD_TRACK}`,
+    { playlistId, trackId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}

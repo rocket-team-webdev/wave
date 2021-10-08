@@ -12,6 +12,7 @@ import {
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
+import { addTrackToPlaylist } from "../../api/playlists-api";
 import { PUBLIC } from "../../constants/routes";
 import { fromBottom /* pressedElement */ } from "../../utils/motionSettings";
 
@@ -131,12 +132,23 @@ export default function TrackCard({
 
   const handleOpenDropdown = async () => {
     const myPlaylistsData = await getMyPlaylists(0, 10, true);
-    console.log(myPlaylistsData);
     setMyPlaylists(myPlaylistsData.data.data);
   };
 
-  const handleAddToPlaylist = () => {
-    console.log("funca");
+  const handleAddToPlaylist = async (event) => {
+    const playlistId = event.target.getAttribute("playlistid");
+    try {
+      await addTrackToPlaylist(playlistId, trackId);
+      toast(`Song successfully added to playlist`, { type: "success" });
+    } catch (error) {
+      if (error.message === "Request failed with status code 400") {
+        toast("This song is already part of this playlist", {
+          type: "warning",
+        });
+      } else {
+        toast(error.message, { type: "error" });
+      }
+    }
   };
 
   useEffect(() => {
