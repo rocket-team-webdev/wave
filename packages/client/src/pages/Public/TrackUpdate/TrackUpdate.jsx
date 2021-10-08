@@ -9,13 +9,13 @@ import Select from "../../../components/Select";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
 import Spinner from "../../../components/Spinner";
+import BigThumbnail from "../../../components/BigThumbnail";
 
 import trackUpdateSchema from "./track-update-schema";
 import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
 import { PUBLIC } from "../../../constants/routes";
 import { getTrackById, updateTrackById } from "../../../api/tracks-api";
-import BigThumbnail from "../../../components/BigThumbnail/BigThumbnail";
 
 function TrackUpdate() {
   const { trackId } = useRouteMatch(`${PUBLIC.TRACK_UPDATE}/:trackId`).params;

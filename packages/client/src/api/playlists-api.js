@@ -40,7 +40,20 @@ export async function addPlaylist(data = {}, api = makePlaylistApi()) {
   });
 }
 
-export async function likePlaylist(playlistId, api = makePlaylistApi()) {
+export async function updatePlaylistById(data = {}, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    ``,
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
+
+export async function followPlaylist(playlistId, api = makePlaylistApi()) {
   const token = await getCurrentUserToken();
   return api.put(
     `/${playlistId}/follow`,
