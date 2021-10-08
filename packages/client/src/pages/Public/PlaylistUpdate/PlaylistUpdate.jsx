@@ -86,7 +86,6 @@ export default function PlaylistUpdate() {
   }, []);
 
   useEffect(() => {
-    // Set checkbox
     initialPublicAccessible();
   }, [playlistState]);
 
