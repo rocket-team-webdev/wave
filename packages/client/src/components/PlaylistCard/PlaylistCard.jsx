@@ -7,7 +7,7 @@ import { fromBottom } from "../../utils/motionSettings";
 import HeartIcon from "../SVGicons/HeartIcon";
 import { PUBLIC } from "../../constants/routes";
 
-import "./playlist-card.scss";
+import "./PlaylistCard.scss";
 import { followPlaylist } from "../../api/playlists-api";
 
 export default function PlaylistCard({
