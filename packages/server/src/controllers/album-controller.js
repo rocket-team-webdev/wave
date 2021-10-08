@@ -230,15 +230,25 @@ async function updateAlbum(req, res, next) {
 async function deleteAlbum(req, res, next) {
   try {
     const { id } = req.params;
-    console.log(id);
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { thumbnail: thumbnail } = await db.Album.findOne(
+      { _id: id, userId: userId },
+      {
+        thumbnail: 1,
+        _id: 0,
+      },
+    );
 
     // deleting tracks from album
     await db.Track.deleteMany({ album: id, userId: userId });
 
     // deleting albums
     await db.Album.findOneAndDelete({ _id: id, userId: userId });
+
+    // deleting cover from cloudinary
+    const publicId = getPublicId(thumbnail);
+    await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
 
     res.status(200).send({ message: "Album deleted successfully" });
   } catch (err) {
