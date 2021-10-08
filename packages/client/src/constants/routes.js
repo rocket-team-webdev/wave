@@ -44,4 +44,5 @@ export const API = {
   FOLLOWERS: "/followers",
   FOLLOWING: "/following",
   SEARCH: "/search",
+  ADD_TRACK: "/add-track",
 };
