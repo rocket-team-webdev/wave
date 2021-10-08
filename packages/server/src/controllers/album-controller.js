@@ -154,6 +154,7 @@ async function updateAlbum(req, res, next) {
   try {
     const { email } = req.user;
     const { id } = req.body;
+    console.log(id);
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     let thumbnailFile = req.files["thumbnail"];
@@ -212,10 +213,12 @@ async function updateAlbum(req, res, next) {
 
     const { title, year } = req.body;
 
-    await db.Album.findOneAndUpdate(
+    const albumUpdated = await db.Album.findOneAndUpdate(
       { _id: id },
       { title: title, year: year, thumbnail: thumbnailUrl },
-    );
+    ).lean();
+
+    console.log(albumUpdated);
 
     res.status(200).send({
       message: "Album updated successfully",

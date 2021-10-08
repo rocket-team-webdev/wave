@@ -33,6 +33,7 @@ export default function UpdateAlbum() {
         formData.append("title", albumState.title);
         formData.append("year", albumState.year);
         formData.append("thumbnail", albumState.thumbnail);
+        formData.append("id", albumId);
         console.log(albumState);
         await updateAlbum(formData);
         history.push(`${PUBLIC.ALBUM}/${album._id}`);
