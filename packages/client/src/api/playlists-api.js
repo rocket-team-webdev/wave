@@ -53,6 +53,15 @@ export async function addPlaylist(data = {}, api = makePlaylistApi()) {
   });
 }
 
+export async function deletePlaylist(playlistId, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(`/${playlistId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export async function followPlaylist(playlistId, api = makePlaylistApi()) {
   const token = await getCurrentUserToken();
   return api.put(

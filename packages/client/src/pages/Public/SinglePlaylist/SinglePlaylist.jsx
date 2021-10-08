@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaPlay, FaEllipsisH } from "react-icons/fa";
@@ -11,7 +11,11 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById, followPlaylist } from "../../../api/playlists-api";
+import {
+  getPlaylistById,
+  deletePlaylist,
+  followPlaylist,
+} from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
@@ -29,6 +33,7 @@ export default function SinglePlaylist() {
   const userState = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { playlistId } = useRouteMatch(
     `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
@@ -82,10 +87,11 @@ export default function SinglePlaylist() {
     await followPlaylist(playlistId);
   };
 
-  // const handleDeletePlaylist = async () => {
-  //   await deleteTrack(trackId);
-  //   updateDeletedView(trackId);
-  // };
+  const handleDeletePlaylist = async () => {
+    await deletePlaylist(playlistId);
+    history.push(PUBLIC.MY_PLAYLISTS);
+    // updateDeletedView(trackId);
+  };
 
   useEffect(() => {
     loadPlaylist();
@@ -157,7 +163,7 @@ export default function SinglePlaylist() {
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
                     type="button"
-                    // onClick={handleDeletePlaylist}
+                    onClick={handleDeletePlaylist}
                   >
                     Delete
                   </button>
