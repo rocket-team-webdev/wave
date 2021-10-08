@@ -13,7 +13,10 @@ import {
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
-import { addTrackToPlaylist } from "../../api/playlists-api";
+import {
+  addTrackToPlaylist,
+  deleteTrackFromPlaylist,
+} from "../../api/playlists-api";
 import { PUBLIC } from "../../constants/routes";
 import { fromBottom } from "../../utils/motionSettings";
 
@@ -114,7 +117,7 @@ export default function TrackCard({
   };
 
   const handleRemoveFromPlaylist = async () => {
-    // await deleteFromPlaylist(trackId);
+    await deleteTrackFromPlaylist(trackId, isOnPlaylist._id);
     updateDeletedView(trackId);
   };
 

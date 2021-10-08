@@ -45,4 +45,5 @@ export const API = {
   FOLLOWING: "/following",
   SEARCH: "/search",
   ADD_TRACK: "/add-track",
+  REMOVE_TRACK: "/remove-track",
 };

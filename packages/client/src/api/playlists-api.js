@@ -90,3 +90,21 @@ export async function addTrackToPlaylist(
     },
   );
 }
+
+export async function deleteTrackFromPlaylist(
+  playlistId,
+  trackId,
+  api = makePlaylistApi(),
+) {
+  const token = await getCurrentUserToken();
+
+  return api.delete(
+    `${API.REMOVE_TRACK}`,
+    { playlistId, trackId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
