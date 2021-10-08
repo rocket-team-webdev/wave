@@ -34,11 +34,19 @@ export default function SinglePlaylist() {
     `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
   ).params;
 
+  const handleIsOwned = (userId) => {
+    if (userId === userState.mongoId) {
+      setIsOwned(true);
+    }
+  };
+
   const loadPlaylist = async () => {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      setIsFollowed(data.data.isFollowed);
+      handleIsOwned(data.data.userId);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -74,20 +82,14 @@ export default function SinglePlaylist() {
     await followPlaylist(playlistId);
   };
 
-  const handleIsOwned = () => {
-    if (playlist.userId === userState.mongoId) {
-      setIsOwned(true);
-    }
-  };
+  // const handleDeletePlaylist = async () => {
+  //   await deleteTrack(trackId);
+  //   updateDeletedView(trackId);
+  // };
 
   useEffect(() => {
     loadPlaylist();
-    setIsFollowed(playlist.isFollowed);
   }, []);
-
-  useEffect(() => {
-    handleIsOwned();
-  }, [playlist]);
 
   return (
     <Layout isNegative>
@@ -155,7 +157,7 @@ export default function SinglePlaylist() {
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
                     type="button"
-                    // onClick={handleDeleteSong}
+                    // onClick={handleDeletePlaylist}
                   >
                     Delete
                   </button>
