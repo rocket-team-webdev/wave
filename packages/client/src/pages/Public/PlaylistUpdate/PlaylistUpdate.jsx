@@ -170,7 +170,7 @@ export default function PlaylistUpdate() {
                 <Button
                   isNegative
                   secondaryBtn
-                  handleClick={() => history.goBac()}
+                  handleClick={() => history.goBack()}
                 >
                   Back
                 </Button>
