@@ -26,6 +26,7 @@ async function getAlbums(req, res, next) {
 
 async function addAlbum(req, res, next) {
   try {
+    const { firebaseId } = req.user;
     const { _id: userId } = await db.User.findOne({ firebaseId }, { _id: 1 });
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
@@ -81,8 +82,6 @@ async function addAlbum(req, res, next) {
       });
     }
     // Mongodb store data
-    const { firebaseId } = req.user;
-
     albumObj.title = req.body.title;
     albumObj.year = req.body.year;
     albumObj.userId = userId;
