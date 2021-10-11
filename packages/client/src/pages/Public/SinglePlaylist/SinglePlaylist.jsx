@@ -13,14 +13,15 @@ import {
 import { PUBLIC } from "../../../constants/routes";
 import {
   getPlaylistById,
-  deletePlaylist,
   followPlaylist,
+  deletePlaylist,
 } from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
 import HeartIcon from "../../../components/SVGicons/HeartIcon";
+import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 import "./SinglePlaylist.scss";
 
@@ -49,6 +50,8 @@ export default function SinglePlaylist() {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
+      console.log(data.data.userId.firstName);
+      console.log(data.data.userId._id);
       setTracks(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
       handleIsOwned(data.data.userId);
@@ -61,18 +64,16 @@ export default function SinglePlaylist() {
       }
     }
   };
-
   const handlePlaying = () => {
     dispatch(clearQueue());
     const tracksArray = [];
-
     tracks.forEach((track) => {
       const trackObject = {
         name: track.name,
         url: track.url,
         duration: track.duration,
         genreId: track.genreId,
-        userId: track.userId,
+        userId: track.userId._id,
         artist: track.artist,
         album: track.album.title,
         isLiked: track.isLiked,
@@ -82,17 +83,17 @@ export default function SinglePlaylist() {
       };
       tracksArray.push(trackObject);
     });
-
     dispatch(setQueue(tracksArray));
     dispatch(setPlayState(true));
   };
-
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
     await followPlaylist(playlistId);
   };
 
   const handleDeletePlaylist = async () => {
+    console.log(playlist);
+
     await deletePlaylist(playlistId);
     history.push(PUBLIC.MY_PLAYLISTS);
     // updateDeletedView(trackId);
@@ -100,7 +101,12 @@ export default function SinglePlaylist() {
 
   useEffect(() => {
     loadPlaylist();
+    setIsFollowed(playlist.isFollowed);
   }, []);
+
+  useEffect(() => {
+    handleIsOwned();
+  }, [playlist]);
 
   return (
     <Layout isNegative>
@@ -123,10 +129,18 @@ export default function SinglePlaylist() {
           </div>
 
           {/* TODO only show creator if exists */}
-          <h3 className="fnt-secondary fnt-caption mt-4">
-            Created by {playlist.userId}
+          {playlist.userId && (
+            <h3 className="fnt-secondary fnt-caption mt-4 d-flex align-items-center">
+              <p className="mb-0">Created by </p>
+              <Link to={`${PUBLIC.USERS}/${playlist.userId._id}`}>
+                <p className="mb-0 ms-1">{playlist.userId.firstName}</p>
+              </Link>
+            </h3>
+          )}
+          <h3 className="fnt-secondary fnt-caption d-flex align-items-center">
+            <HeartIcon isFull />{" "}
+            <p className="ms-2 mb-0">{playlist.follows} followers</p>
           </h3>
-
           {playlist.description !== "" && (
             <p className="fnt-secondary fnt-smallest mt-4">
               {playlist.description}
@@ -167,8 +181,9 @@ export default function SinglePlaylist() {
                   <hr className="dropdown-wrapper m-0" />
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deletePlaylistModal"
                     type="button"
-                    onClick={handleDeletePlaylist}
                   >
                     Delete
                   </button>
@@ -179,8 +194,19 @@ export default function SinglePlaylist() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
+          <TrackList
+            tracks={tracks}
+            setTracks={setTracks}
+            hasSorter
+            isOnPlaylist={playlist}
+          />
         </div>
+        <DeleteModal
+          id="deletePlaylistModal"
+          modalTitle="Removing playlist"
+          modalBody={`Are you sure you want to delete ${playlist.name}?`}
+          handleSubmit={handleDeletePlaylist}
+        />
       </div>
     </Layout>
   );

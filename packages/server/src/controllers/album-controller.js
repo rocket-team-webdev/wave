@@ -26,6 +26,7 @@ async function getAlbums(req, res, next) {
 
 async function addAlbum(req, res, next) {
   try {
+    const { firebaseId } = req.user;
     const { _id: userId } = await db.User.findOne({ firebaseId }, { _id: 1 });
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
@@ -81,8 +82,6 @@ async function addAlbum(req, res, next) {
       });
     }
     // Mongodb store data
-    const { firebaseId } = req.user;
-
     albumObj.title = req.body.title;
     albumObj.year = req.body.year;
     albumObj.userId = userId;
@@ -113,7 +112,12 @@ async function getAlbumById(req, res, next) {
         userId: 1,
         tracks: 1,
       },
-    ).lean();
+    )
+      .populate({
+        path: "userId",
+        options: { select: "firstName" },
+      })
+      .lean();
 
     const tracks = await db.Track.find(
       { album: id },
@@ -156,19 +160,18 @@ async function updateAlbum(req, res, next) {
     const { id } = req.body;
     console.log(id);
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { thumbnail: oldThumbnail } = await db.Album.findOne(
+      { _id: id, userId: userId },
+      {
+        thumbnail: 1,
+        _id: 0,
+      },
+    );
 
+    let thumbnailUrl = oldThumbnail;
     let thumbnailFile = req.files["thumbnail"];
-    let thumbnailUrl = DEFAULT_ALBUM_THUMBNAIL;
 
     if (thumbnailFile) {
-      const { thumbnail: oldThumbnail } = await db.Album.findOne(
-        { _id: id, userId: userId },
-        {
-          thumbnail: 1,
-          _id: 0,
-        },
-      );
-
       const isThumbnailDefault =
         oldThumbnail === DEFAULT_ALBUM_THUMBNAIL ? true : false;
 
@@ -247,8 +250,10 @@ async function deleteAlbum(req, res, next) {
     await db.Album.findOneAndDelete({ _id: id, userId: userId });
 
     // deleting cover from cloudinary
-    const publicId = getPublicId(thumbnail);
-    await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+    if (thumbnail !== DEFAULT_ALBUM_THUMBNAIL) {
+      const publicId = getPublicId(thumbnail);
+      await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+    }
 
     res.status(200).send({ message: "Album deleted successfully" });
   } catch (err) {

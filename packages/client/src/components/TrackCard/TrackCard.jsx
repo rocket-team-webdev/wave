@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link /* useRouteMatch,  */ } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { FaEllipsisH } from "react-icons/fa";
@@ -13,11 +13,16 @@ import {
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
-import { addTrackToPlaylist } from "../../api/playlists-api";
+import {
+  addTrackToPlaylist,
+  deleteTrackFromPlaylist,
+} from "../../api/playlists-api";
 import { PUBLIC } from "../../constants/routes";
 import { fromBottom } from "../../utils/motionSettings";
 
 import HeartIcon from "../SVGicons/HeartIcon";
+
+import DeleteModal from "../DeleteModal";
 
 import "./TrackCard.scss";
 
@@ -39,9 +44,11 @@ export default function TrackCard({
   trackId,
   updateLikedView = () => {},
   updateDeletedView = () => {},
+  isOnPlaylist,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
+  const [onOwnedPlaylist, setOnOwnedPlaylist] = useState(false);
   const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
   const [myPlaylists, setMyPlaylists] = useState([]);
@@ -58,6 +65,11 @@ export default function TrackCard({
     trackId: trackId,
     albumId: albumId,
     trackImg: trackImg,
+  };
+
+  const handleOnOwnedPlaylist = () => {
+    if (isOnPlaylist && isOnPlaylist.userId === userState.mongoId)
+      setOnOwnedPlaylist(true);
   };
 
   const handleIsOwned = () => {
@@ -104,6 +116,16 @@ export default function TrackCard({
   const handleDeleteSong = async () => {
     await deleteTrack(trackId);
     updateDeletedView(trackId);
+  };
+
+  const handleRemoveFromPlaylist = async () => {
+    try {
+      const playlistId = isOnPlaylist._id;
+      await deleteTrackFromPlaylist(playlistId, trackId);
+      updateDeletedView(trackId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
   };
 
   const timeIntoString = (seconds) => {
@@ -158,6 +180,7 @@ export default function TrackCard({
 
   useEffect(() => {
     handleIsOwned();
+    handleOnOwnedPlaylist();
   }, []);
 
   return (
@@ -184,14 +207,14 @@ export default function TrackCard({
             )}
           >
             <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-              {/* Number */}
-              <div className="col col-2 d-flex justify-content-between align-items-center">
-                <h3 className="m-0 px-2 fnt-song-bold text-start song-index">
+              <div className="col col-2 d-flex align-items-center">
+                {/* Number */}
+                <h3 className="m-0 ps-2 fnt-song-bold text-start song-index">
                   {trackNumber}
                 </h3>
                 {/* Thumbnail */}
                 <div
-                  className="d-none d-lg-inline play-hover"
+                  className="d-none d-xl-inline play-hover p-1 d-flex align-items-center"
                   onClick={handlePlay}
                   aria-hidden="true"
                 >
@@ -199,7 +222,7 @@ export default function TrackCard({
                   <i className="fas fa-play fnt-white" />
                 </div>
                 {/* Like */}
-                <div className="d-flex fnt-primary px-2">
+                <div className="d-flex fnt-primary">
                   <button
                     className="text-center"
                     type="button"
@@ -266,6 +289,16 @@ export default function TrackCard({
                       </button>
                     </li>
                     <hr className="dropdown-wrapper m-0" />
+                    {onOwnedPlaylist ? (
+                      <button
+                        className="dropdown-item fnt-danger fnt-song-regular clr-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteFromPlaylistModal"
+                        type="button"
+                      >
+                        Remove from Playlist
+                      </button>
+                    ) : null}
                     {isOwned ? (
                       <>
                         <li>
@@ -282,8 +315,10 @@ export default function TrackCard({
                         <li>
                           <button
                             className="dropdown-item fnt-light fnt-song-regular"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteTrackModal"
                             type="button"
-                            onClick={handleDeleteSong}
+                            // onClick={handleDeleteSong}
                           >
                             Delete
                           </button>
@@ -362,6 +397,18 @@ export default function TrackCard({
           </div>
         )}
       </Draggable>
+      <DeleteModal
+        id="deleteTrackModal"
+        modalTitle="Removing track"
+        modalBody={`Are you sure you want to delete ${trackName}?`}
+        handleSubmit={handleDeleteSong}
+      />
+      <DeleteModal
+        id="deleteFromPlaylistModal"
+        modalTitle="Removing track from playlist"
+        modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}
+        handleSubmit={handleRemoveFromPlaylist}
+      />
     </motion.div>
   );
 }

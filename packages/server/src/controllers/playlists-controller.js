@@ -229,40 +229,46 @@ async function getPlaylistById(req, res, next) {
         userId: 1,
         tracks: 1,
       },
-    ).populate({
-      path: "tracks",
-      select: {
-        name: 1,
-        artist: 1,
-        likes: { $size: "$likedBy" },
-        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
-        popularity: 1,
-        color: 1,
-        genreId: 1,
-        userId: 1,
-        album: 1,
-        duration: 1,
-        url: 1,
-      },
-      options: {
-        skip: parseInt(page) * parseInt(limit),
-        limit: parseInt(limit),
-      },
-      populate: [
-        {
-          path: "album",
-          options: {
-            select: "title thumbnail",
-          },
+    ).populate([
+      {
+        path: "tracks",
+        select: {
+          name: 1,
+          artist: 1,
+          likes: { $size: "$likedBy" },
+          isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+          popularity: 1,
+          color: 1,
+          genreId: 1,
+          userId: 1,
+          album: 1,
+          duration: 1,
+          url: 1,
         },
-        {
-          path: "genreId",
-          options: {
-            select: "name",
-          },
+        options: {
+          skip: parseInt(page) * parseInt(limit),
+          limit: parseInt(limit),
         },
-      ],
-    });
+        populate: [
+          {
+            path: "album",
+            options: {
+              select: "title thumbnail",
+            },
+          },
+          {
+            path: "genreId",
+            options: {
+              select: "name",
+            },
+          },
+        ],
+      },
+      {
+        path: "userId",
+        options: { select: "firstName" },
+      },
+    ]);
     // .skip(parseInt(page) * parseInt(limit))
     // .limit(parseInt(limit));
 
@@ -358,6 +364,8 @@ async function addTrackToPlaylist(req, res, next) {
 
 async function removeTrackFromPlaylist(req, res, next) {
   try {
+    console.log(req);
+    console.log("on back remove track from playlist");
     const { playlistId, trackId } = req.body;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
