@@ -357,6 +357,7 @@ async function addTrackToPlaylist(req, res, next) {
 }
 
 async function removeTrackFromPlaylist(req, res, next) {
+  console.log(req.body);
   try {
     const { playlistId, trackId } = req.body;
     const { email } = req.user;

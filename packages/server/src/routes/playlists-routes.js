@@ -52,7 +52,7 @@ playlistsRouter.post(
   playlistsController.addTrackToPlaylist,
 );
 
-playlistsRouter.post(
+playlistsRouter.delete(
   "/remove-track",
   authFirebaseMiddleware,
   playlistsController.removeTrackFromPlaylist,

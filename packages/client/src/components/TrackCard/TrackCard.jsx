@@ -117,7 +117,7 @@ export default function TrackCard({
   };
 
   const handleRemoveFromPlaylist = async () => {
-    await deleteTrackFromPlaylist(trackId, isOnPlaylist._id);
+    await deleteTrackFromPlaylist(isOnPlaylist._id, trackId);
     updateDeletedView(trackId);
   };
 

@@ -100,11 +100,12 @@ export async function deleteTrackFromPlaylist(
 
   return api.delete(
     `${API.REMOVE_TRACK}`,
-    { playlistId, trackId },
+
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      data: { playlistId, trackId },
     },
   );
 }
