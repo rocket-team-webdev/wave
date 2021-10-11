@@ -50,6 +50,8 @@ export default function SinglePlaylist() {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
+      console.log(data.data.userId.firstName);
+      console.log(data.data.userId._id);
       setTracks(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
       handleIsOwned(data.data.userId);
@@ -66,7 +68,7 @@ export default function SinglePlaylist() {
         url: track.url,
         duration: track.duration,
         genreId: track.genreId,
-        userId: track.userId,
+        userId: track.userId._id,
         artist: track.artist,
         album: track.album.title,
         isLiked: track.isLiked,
@@ -122,10 +124,18 @@ export default function SinglePlaylist() {
           </div>
 
           {/* TODO only show creator if exists */}
-          <h3 className="fnt-secondary fnt-caption mt-4">
-            Created by {playlist.userId}
+          {playlist.userId && (
+            <h3 className="fnt-secondary fnt-caption mt-4 d-flex align-items-center">
+              <p className="mb-0">Created by </p>
+              <Link to={`${PUBLIC.USERS}/${playlist.userId._id}`}>
+                <p className="mb-0 ms-1">{playlist.userId.firstName}</p>
+              </Link>
+            </h3>
+          )}
+          <h3 className="fnt-secondary fnt-caption d-flex align-items-center">
+            <HeartIcon isFull />{" "}
+            <p className="ms-2 mb-0">{playlist.follows} followers</p>
           </h3>
-
           {playlist.description !== "" && (
             <p className="fnt-secondary fnt-smallest mt-4">
               {playlist.description}
