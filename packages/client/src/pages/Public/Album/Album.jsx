@@ -40,7 +40,14 @@ export default function SinglePlaylist() {
       setTracks(data.data.tracks);
       setIsLiked(data.data.isLiked);
     } catch (error) {
-      toast(error.message, { type: "error" });
+      if (error.response.status === 500) {
+        toast("Album not found", {
+          type: "error",
+        });
+        history.push(PUBLIC.NOT_FOUND);
+      } else {
+        toast(error.message, { type: "error" });
+      }
     }
   };
 
