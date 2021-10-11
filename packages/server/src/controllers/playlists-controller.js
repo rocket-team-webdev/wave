@@ -364,6 +364,8 @@ async function addTrackToPlaylist(req, res, next) {
 
 async function removeTrackFromPlaylist(req, res, next) {
   try {
+    console.log(req);
+    console.log("on back remove track from playlist");
     const { playlistId, trackId } = req.body;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });

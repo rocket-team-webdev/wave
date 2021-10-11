@@ -13,14 +13,15 @@ import {
 import { PUBLIC } from "../../../constants/routes";
 import {
   getPlaylistById,
-  deletePlaylist,
   followPlaylist,
+  deletePlaylist,
 } from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
 import HeartIcon from "../../../components/SVGicons/HeartIcon";
+import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 import "./SinglePlaylist.scss";
 
@@ -58,11 +59,9 @@ export default function SinglePlaylist() {
       toast(error.message, { type: "error" });
     }
   };
-
   const handlePlaying = () => {
     dispatch(clearQueue());
     const tracksArray = [];
-
     tracks.forEach((track) => {
       const trackObject = {
         name: track.name,
@@ -79,17 +78,17 @@ export default function SinglePlaylist() {
       };
       tracksArray.push(trackObject);
     });
-
     dispatch(setQueue(tracksArray));
     dispatch(setPlayState(true));
   };
-
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
     await followPlaylist(playlistId);
   };
 
   const handleDeletePlaylist = async () => {
+    console.log(playlist);
+
     await deletePlaylist(playlistId);
     history.push(PUBLIC.MY_PLAYLISTS);
     // updateDeletedView(trackId);
@@ -97,7 +96,12 @@ export default function SinglePlaylist() {
 
   useEffect(() => {
     loadPlaylist();
+    setIsFollowed(playlist.isFollowed);
   }, []);
+
+  useEffect(() => {
+    handleIsOwned();
+  }, [playlist]);
 
   return (
     <Layout isNegative>
@@ -172,8 +176,9 @@ export default function SinglePlaylist() {
                   <hr className="dropdown-wrapper m-0" />
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deletePlaylistModal"
                     type="button"
-                    onClick={handleDeletePlaylist}
                   >
                     Delete
                   </button>
@@ -184,8 +189,19 @@ export default function SinglePlaylist() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
+          <TrackList
+            tracks={tracks}
+            setTracks={setTracks}
+            hasSorter
+            isOnPlaylist={playlist}
+          />
         </div>
+        <DeleteModal
+          id="deletePlaylistModal"
+          modalTitle="Removing playlist"
+          modalBody={`Are you sure you want to delete ${playlist.name}?`}
+          handleSubmit={handleDeletePlaylist}
+        />
       </div>
     </Layout>
   );
