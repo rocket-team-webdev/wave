@@ -34,10 +34,8 @@ export default function Home() {
       searchBar: "",
     },
     validationSchema: homeSearchSchema,
-    onSubmit: (searchState) => {
+    onSubmit: () => {
       setLoading(true);
-      console.log("Submitted search!");
-      console.log(searchState.searchBar);
       setLoading(false);
     },
   });

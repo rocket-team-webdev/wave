@@ -28,6 +28,8 @@ import {
   setPlayState,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
+import { getMyPlaylists } from "../../api/me-api";
+import { addTrackToPlaylist } from "../../api/playlists-api";
 
 import HeartIcon from "../SVGicons/HeartIcon";
 
@@ -43,6 +45,7 @@ export default function MusicPlayer() {
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
+  const [myPlaylists, setMyPlaylists] = useState([]);
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
@@ -123,6 +126,27 @@ export default function MusicPlayer() {
     }
   };
 
+  const handleOpenDropdown = async () => {
+    const myPlaylistsData = await getMyPlaylists(0, 10, true);
+    setMyPlaylists(myPlaylistsData.data.data);
+  };
+
+  const handleAddToPlaylist = async (event) => {
+    const playlistId = event.target.getAttribute("playlistid");
+    try {
+      await addTrackToPlaylist(playlistId, trackObject._id);
+      toast(`Song successfully added to playlist`, { type: "success" });
+    } catch (error) {
+      if (error.message === "Request failed with status code 400") {
+        toast("This song is already part of this playlist", {
+          type: "warning",
+        });
+      } else {
+        toast(error.message, { type: "error" });
+      }
+    }
+  };
+
   const handleError = (error) => {
     toast(error, { type: "error" });
   };
@@ -197,6 +221,7 @@ export default function MusicPlayer() {
                 id="contextTrackMenu"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                onClick={handleOpenDropdown}
               >
                 <i className="fas fa-ellipsis-h" />
               </button>
@@ -214,13 +239,52 @@ export default function MusicPlayer() {
                     </p>
                   </Link>
                   <hr className="dropdown-wrapper m-0" />
-                  <button
-                    className="dropdown-item fnt-light fnt-song-regular"
-                    type="button"
-                    onClick={() => {}}
-                  >
-                    Cast to device
-                  </button>
+                  <li className="">
+                    <a
+                      className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
+                      // type="button"
+                      data-toggle="dropdown"
+                      href="#addToPlaylist"
+                    >
+                      <span className="fnt-light fnt-song-regular">
+                        Add to playlist
+                      </span>
+                    </a>
+                    <ul
+                      className="dropdown-menu dropdown-submenu dropdown-submenu-left clr-secondary p-1"
+                      id="addToPlaylist"
+                    >
+                      {myPlaylists.length > 0 &&
+                        myPlaylists.map((playlistElement, playlistIndex) => (
+                          <li key={playlistElement._id}>
+                            {playlistIndex > 0 && (
+                              <hr className="dropdown-wrapper m-0" />
+                            )}
+                            <button
+                              className="dropdown-item fnt-light fnt-song-regular"
+                              type="button"
+                              onClick={handleAddToPlaylist}
+                              playlistid={playlistElement._id}
+                            >
+                              {playlistElement.name}
+                            </button>
+                          </li>
+                        ))}
+                      <li>
+                        <hr className="dropdown-wrapper m-0" />
+
+                        <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
+                          {/* TODO: when creating playlist adding that song */}
+                          <p
+                            className="dropdown-item fnt-light fnt-song-regular m-0"
+                            type="button"
+                          >
+                            New Playlist
+                          </p>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
                 </>
               </ul>
             </div>

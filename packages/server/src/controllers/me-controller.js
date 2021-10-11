@@ -61,10 +61,26 @@ async function getMyPlaylists(req, res, next) {
   try {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-    const { page = 0, limit = 4 } = req.query;
+    const { page = 0, limit = 4, isContextualMenu = false } = req.query;
 
+    const projection = !isContextualMenu
+      ? {
+          name: 1,
+          // collaborative: 1,
+          // description: 1,
+          primaryColor: 1,
+          thumbnail: 1,
+          // publicAccessible: 1,
+          userId: 1,
+          // tracks: 1,
+          // isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+          follows: { $size: "$followedBy" },
+        }
+      : {
+          name: 1,
+        };
     const playlists = await db.Playlist.find(
-      { userId: userId },
+      { userId: userId, isDeleted: false },
       {
         name: 1,
         // collaborative: 1,
@@ -99,7 +115,7 @@ async function getMyFollowingPlaylists(req, res, next) {
     const { page = 0, limit = 4 } = req.query;
 
     const playlists = await db.Playlist.find(
-      { followedBy: userId },
+      { followedBy: userId, isDeleted: false },
       {
         name: 1,
         // collaborative: 1,

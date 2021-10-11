@@ -63,8 +63,6 @@ export default function TrackUpload() {
         if (!uploadState.track)
           return toast("Choose a track!", { type: "error" });
 
-        console.log("uploadState", uploadState);
-
         const formData = new FormData();
         formData.append("name", uploadState.name);
         formData.append("artist", uploadState.artist);
