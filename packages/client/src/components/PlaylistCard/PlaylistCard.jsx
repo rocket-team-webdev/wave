@@ -30,7 +30,6 @@ export default function PlaylistCard({
     e.preventDefault();
     // e.stopPropagation();
     const userFollows = !followed;
-    setFollowed(userFollows);
 
     try {
       await followPlaylist(playlistId);
@@ -42,6 +41,7 @@ export default function PlaylistCard({
         },
         userFollows,
       );
+      setFollowed(userFollows);
     } catch (error) {
       toast(error.message, { type: "error" });
       setFollowed(!followed);

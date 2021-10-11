@@ -80,10 +80,10 @@ export default function TrackCard({
 
   const handleLike = async () => {
     const userLike = !liked;
-    setLiked(userLike);
 
     try {
       await likeTrack(trackId);
+      setLiked(userLike);
       updateLikedView(
         {
           ...trackObject,
