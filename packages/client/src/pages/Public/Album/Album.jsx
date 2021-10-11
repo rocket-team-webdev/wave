@@ -33,12 +33,19 @@ export default function SinglePlaylist() {
 
   const { albumId } = useRouteMatch(`${PUBLIC.ALBUM}/:albumId`).params;
 
+  const handleIsOwned = (userId) => {
+    if (userId === userState.mongoId) {
+      setIsOwned(true);
+    }
+  };
+
   const loadAlbum = async () => {
     try {
       const { data } = await getAlbumById(albumId);
       setAlbum(data.data);
       setTracks(data.data.tracks);
       setIsLiked(data.data.isLiked);
+      handleIsOwned(data.data.userId._id);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -54,7 +61,7 @@ export default function SinglePlaylist() {
         url: track.url,
         duration: track.duration,
         genreId: track.genreId,
-        userId: track.userId,
+        userId: track.userId._id,
         artist: track.artist,
         album: track.album.title,
         isLiked: track.isLiked,
@@ -74,12 +81,6 @@ export default function SinglePlaylist() {
     await likeAlbum(albumId);
   };
 
-  const handleIsOwned = () => {
-    if (album.userId === userState.mongoId) {
-      setIsOwned(true);
-    }
-  };
-
   const handleDeleteAlbum = async () => {
     try {
       await deleteAlbum(albumId);
@@ -93,10 +94,6 @@ export default function SinglePlaylist() {
   useEffect(() => {
     loadAlbum();
   }, []);
-
-  useEffect(() => {
-    handleIsOwned();
-  }, [album]);
 
   return (
     <Layout isNegative>
@@ -115,10 +112,18 @@ export default function SinglePlaylist() {
           </div>
           <h3 className="fnt-subtitle-light mt-4">{album.year}</h3>
           {/* TODO only show creator if exists */}
-          <h3 className="fnt-secondary fnt-caption mt-4">
-            Created by {album.userId}
+          {album.userId && (
+            <h3 className="fnt-secondary fnt-caption mt-4 d-flex align-items-center">
+              <p className="mb-0">Created by </p>
+              <Link to={`${PUBLIC.USERS}/${album.userId._id}`}>
+                <p className="mb-0 ms-1">{album.userId.firstName}</p>
+              </Link>
+            </h3>
+          )}
+          <h3 className="fnt-secondary fnt-caption d-flex align-items-center">
+            <HeartIcon isFull />{" "}
+            <p className="ms-2 mb-0">{album.likes} likes</p>
           </h3>
-
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"

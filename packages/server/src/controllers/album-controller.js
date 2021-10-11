@@ -112,7 +112,12 @@ async function getAlbumById(req, res, next) {
         userId: 1,
         tracks: 1,
       },
-    ).lean();
+    )
+      .populate({
+        path: "userId",
+        options: { select: "firstName" },
+      })
+      .lean();
 
     const tracks = await db.Track.find(
       { album: id },
