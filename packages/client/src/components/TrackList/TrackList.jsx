@@ -13,12 +13,13 @@ function TrackList({
   hasSorter,
   isOnPlaylist = false,
 }) {
-  const [flag, setFlag] = useState({
-    flagTitle: 1,
-    flagAlbum: 1,
-    flagPopularity: 1,
-    flagDuration: 1,
-  });
+  const flagInitialState = {
+    flagTitle: "titleDesc",
+    flagAlbum: "albumDesc",
+    flagPopularity: "popDesc",
+    flagDuration: "durDesc",
+  };
+  const [flag, setFlag] = useState(flagInitialState);
 
   const handleAddLikedColumn = (song, isLiked) => {
     onAddLikedColumn(song, isLiked);
@@ -32,53 +33,40 @@ function TrackList({
   const sortByTitleAndArtist = () => {
     let sortedTracks = [];
     switch (flag.flagTitle) {
-      case 0:
+      case "none":
         setTracks(tracks);
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "titleDesc":
         sortedTracks = sortArrayDescendent(tracks, "name");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 2,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "titleAsc",
         });
         break;
-      case 2:
+      case "titleAsc":
         sortedTracks = sortArrayAscendent(tracks, "name");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 3,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "artistDesc",
         });
         break;
-      case 3:
+      case "artistDesc":
         sortedTracks = sortArrayDescendent(tracks, "artist");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 4,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "artistAsc",
         });
         break;
-      case 4:
+      case "artistAsc":
         sortedTracks = sortArrayAscendent(tracks, "artist");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 0,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "none",
         });
         break;
       default:
@@ -89,33 +77,24 @@ function TrackList({
   const sortByAlbum = () => {
     let sortedTracks = [];
     switch (flag.flagAlbum) {
-      case 0:
+      case "none":
         setTracks(tracks);
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "albumDesc":
         sortedTracks = sortArrayAscendent(tracks, "album", "title");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 2,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagAlbum: "albumAsc",
         });
         break;
-      case 2:
+      case "albumAsc":
         sortedTracks = sortArrayDescendent(tracks, "album", "title");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 0,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagAlbum: "none",
         });
         break;
       default:
@@ -126,33 +105,24 @@ function TrackList({
   const sortByPopularity = () => {
     let sortedTracks = [];
     switch (flag.flagPopularity) {
-      case 0:
+      case "none":
         setTracks(tracks);
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "popDesc":
         sortedTracks = sortArrayDescendent(tracks, "popularity");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 2,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagPopularity: "popAsc",
         });
         break;
-      case 2:
+      case "popAsc":
         sortedTracks = sortArrayAscendent(tracks, "popularity");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 0,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagPopularity: "none",
         });
         break;
       default:
@@ -163,33 +133,24 @@ function TrackList({
   const sortByDuration = () => {
     let sortedTracks = [];
     switch (flag.flagDuration) {
-      case 0:
+      case "none":
         setTracks(tracks);
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "durDesc":
         sortedTracks = sortArrayDescendent(tracks, "duration");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 2,
+          ...flagInitialState,
+          flagDuration: "durAsc",
         });
         break;
-      case 2:
+      case "durAsc":
         sortedTracks = sortArrayAscendent(tracks, "duration");
         setTracks(sortedTracks);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 0,
+          ...flagInitialState,
+          flagDuration: "none",
         });
         break;
       default:
