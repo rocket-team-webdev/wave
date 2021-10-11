@@ -22,6 +22,8 @@ import { fromBottom } from "../../utils/motionSettings";
 
 import HeartIcon from "../SVGicons/HeartIcon";
 
+import DeleteModal from "../DeleteModal";
+
 import "./TrackCard.scss";
 
 export default function TrackCard({
@@ -290,8 +292,9 @@ export default function TrackCard({
                     {onOwnedPlaylist ? (
                       <button
                         className="dropdown-item fnt-danger fnt-song-regular clr-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteFromPlaylistModal"
                         type="button"
-                        onClick={handleRemoveFromPlaylist}
                       >
                         Remove from Playlist
                       </button>
@@ -312,8 +315,10 @@ export default function TrackCard({
                         <li>
                           <button
                             className="dropdown-item fnt-light fnt-song-regular"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteTrackModal"
                             type="button"
-                            onClick={handleDeleteSong}
+                            // onClick={handleDeleteSong}
                           >
                             Delete
                           </button>
@@ -392,6 +397,18 @@ export default function TrackCard({
           </div>
         )}
       </Draggable>
+      <DeleteModal
+        id="deleteTrackModal"
+        modalTitle="Removing track"
+        modalBody={`Are you sure you want to delete ${trackName}?`}
+        handleSubmit={handleDeleteSong}
+      />
+      <DeleteModal
+        id="deleteFromPlaylistModal"
+        modalTitle="Removing track from playlist"
+        modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}
+        handleSubmit={handleRemoveFromPlaylist}
+      />
     </motion.div>
   );
 }

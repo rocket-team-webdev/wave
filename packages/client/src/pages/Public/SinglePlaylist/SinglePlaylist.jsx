@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaPlay, FaEllipsisH } from "react-icons/fa";
@@ -11,12 +11,17 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById, followPlaylist } from "../../../api/playlists-api";
+import {
+  getPlaylistById,
+  followPlaylist,
+  deletePlaylist,
+} from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
 import HeartIcon from "../../../components/SVGicons/HeartIcon";
+import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 import "./SinglePlaylist.scss";
 
@@ -29,25 +34,32 @@ export default function SinglePlaylist() {
   const userState = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { playlistId } = useRouteMatch(
     `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
   ).params;
+
+  const handleIsOwned = (userId) => {
+    if (userId === userState.mongoId) {
+      setIsOwned(true);
+    }
+  };
 
   const loadPlaylist = async () => {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      setIsFollowed(data.data.isFollowed);
+      handleIsOwned(data.data.userId);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
-
   const handlePlaying = () => {
     dispatch(clearQueue());
     const tracksArray = [];
-
     tracks.forEach((track) => {
       const trackObject = {
         name: track.name,
@@ -64,20 +76,20 @@ export default function SinglePlaylist() {
       };
       tracksArray.push(trackObject);
     });
-
     dispatch(setQueue(tracksArray));
     dispatch(setPlayState(true));
   };
-
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
     await followPlaylist(playlistId);
   };
 
-  const handleIsOwned = () => {
-    if (playlist.userId === userState.mongoId) {
-      setIsOwned(true);
-    }
+  const handleDeletePlaylist = async () => {
+    console.log(playlist);
+
+    await deletePlaylist(playlistId);
+    history.push(PUBLIC.MY_PLAYLISTS);
+    // updateDeletedView(trackId);
   };
 
   useEffect(() => {
@@ -154,8 +166,9 @@ export default function SinglePlaylist() {
                   <hr className="dropdown-wrapper m-0" />
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deletePlaylistModal"
                     type="button"
-                    // onClick={handleDeleteSong}
                   >
                     Delete
                   </button>
@@ -173,6 +186,12 @@ export default function SinglePlaylist() {
             isOnPlaylist={playlist}
           />
         </div>
+        <DeleteModal
+          id="deletePlaylistModal"
+          modalTitle="Removing playlist"
+          modalBody={`Are you sure you want to delete ${playlist.name}?`}
+          handleSubmit={handleDeletePlaylist}
+        />
       </div>
     </Layout>
   );
