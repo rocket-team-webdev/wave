@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link /* useRouteMatch,  */ } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { FaEllipsisH } from "react-icons/fa";
@@ -13,7 +13,10 @@ import {
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
-import { addTrackToPlaylist } from "../../api/playlists-api";
+import {
+  addTrackToPlaylist,
+  deleteTrackFromPlaylist,
+} from "../../api/playlists-api";
 import { PUBLIC } from "../../constants/routes";
 import { fromBottom } from "../../utils/motionSettings";
 
@@ -41,9 +44,11 @@ export default function TrackCard({
   trackId,
   updateLikedView = () => {},
   updateDeletedView = () => {},
+  isOnPlaylist,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
+  const [onOwnedPlaylist, setOnOwnedPlaylist] = useState(false);
   const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
   const [myPlaylists, setMyPlaylists] = useState([]);
@@ -60,6 +65,11 @@ export default function TrackCard({
     trackId: trackId,
     albumId: albumId,
     trackImg: trackImg,
+  };
+
+  const handleOnOwnedPlaylist = () => {
+    if (isOnPlaylist && isOnPlaylist.userId === userState.mongoId)
+      setOnOwnedPlaylist(true);
   };
 
   const handleIsOwned = () => {
@@ -106,6 +116,16 @@ export default function TrackCard({
   const handleDeleteSong = async () => {
     await deleteTrack(trackId);
     updateDeletedView(trackId);
+  };
+
+  const handleRemoveFromPlaylist = async () => {
+    try {
+      const playlistId = isOnPlaylist._id;
+      await deleteTrackFromPlaylist(playlistId, trackId);
+      updateDeletedView(trackId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
   };
 
   const timeIntoString = (seconds) => {
@@ -160,6 +180,7 @@ export default function TrackCard({
 
   useEffect(() => {
     handleIsOwned();
+    handleOnOwnedPlaylist();
   }, []);
 
   return (
@@ -268,6 +289,15 @@ export default function TrackCard({
                       </button>
                     </li>
                     <hr className="dropdown-wrapper m-0" />
+                    {onOwnedPlaylist ? (
+                      <button
+                        className="dropdown-item fnt-danger fnt-song-regular clr-danger"
+                        type="button"
+                        onClick={handleRemoveFromPlaylist}
+                      >
+                        Remove from Playlist
+                      </button>
+                    ) : null}
                     {isOwned ? (
                       <>
                         <li>

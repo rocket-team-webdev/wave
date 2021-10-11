@@ -13,8 +13,8 @@ import {
 import { PUBLIC } from "../../../constants/routes";
 import {
   getPlaylistById,
-  deletePlaylist,
   followPlaylist,
+  deletePlaylist,
 } from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
@@ -40,19 +40,11 @@ export default function SinglePlaylist() {
     `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
   ).params;
 
-  const handleIsOwned = (userId) => {
-    if (userId === userState.mongoId) {
-      setIsOwned(true);
-    }
-  };
-
   const loadPlaylist = async () => {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
-      setIsFollowed(data.data.isFollowed);
-      handleIsOwned(data.data.userId);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -89,15 +81,25 @@ export default function SinglePlaylist() {
   };
 
   const handleDeletePlaylist = async () => {
-    console.log("Deleting playlist!");
     await deletePlaylist(playlistId);
     history.push(PUBLIC.MY_PLAYLISTS);
-    // updateDeletedView(trackId);
+  };
+
+  const handleIsOwned = () => {
+    if (playlist.userId === userState.mongoId) {
+      setIsOwned(true);
+    }
   };
 
   useEffect(() => {
     loadPlaylist();
+    setIsFollowed(playlist.isFollowed);
   }, []);
+
+  useEffect(() => {
+    console.log(playlist);
+    handleIsOwned();
+  }, [playlist]);
 
   return (
     <Layout isNegative>
@@ -177,7 +179,12 @@ export default function SinglePlaylist() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
+          <TrackList
+            tracks={tracks}
+            setTracks={setTracks}
+            hasSorter
+            isOnPlaylist={playlist}
+          />
         </div>
         <DeleteModal
           modalTitle="Removing playlist"
