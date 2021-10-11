@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaPlay, FaEllipsisH } from "react-icons/fa";
@@ -11,34 +11,34 @@ import {
 } from "../../../redux/music-queue/actions";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById, followPlaylist } from "../../../api/playlists-api";
+import { getAlbumById, likeAlbum, deleteAlbum } from "../../../api/album-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
 import HeartIcon from "../../../components/SVGicons/HeartIcon";
 
-import "./SinglePlaylist.scss";
+import "./Album.scss";
 
 export default function SinglePlaylist() {
-  const [playlist, setPlaylist] = useState({});
+  const history = useHistory();
+  const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);
-  const [isFollowed, setIsFollowed] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const [isOwned, setIsOwned] = useState(false);
 
   const userState = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
-  const { playlistId } = useRouteMatch(
-    `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
-  ).params;
+  const { albumId } = useRouteMatch(`${PUBLIC.ALBUM}/:albumId`).params;
 
-  const loadPlaylist = async () => {
+  const loadAlbum = async () => {
     try {
-      const { data } = await getPlaylistById(playlistId);
-      setPlaylist(data.data);
+      const { data } = await getAlbumById(albumId);
+      setAlbum(data.data);
       setTracks(data.data.tracks);
+      setIsLiked(data.data.isLiked);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -69,25 +69,34 @@ export default function SinglePlaylist() {
     dispatch(setPlayState(true));
   };
 
-  const handleFollow = async () => {
-    setIsFollowed(!isFollowed);
-    await followPlaylist(playlistId);
+  const handleLike = async () => {
+    setIsLiked(!isLiked);
+    await likeAlbum(albumId);
   };
 
   const handleIsOwned = () => {
-    if (playlist.userId === userState.mongoId) {
+    if (album.userId === userState.mongoId) {
       setIsOwned(true);
     }
   };
 
+  const handleDeleteAlbum = async () => {
+    try {
+      await deleteAlbum(albumId);
+      history.push(PUBLIC.HOME);
+      return toast("Album deleted!", { type: "success" });
+    } catch (error) {
+      return toast("Error deleting album", { type: "error" });
+    }
+  };
+
   useEffect(() => {
-    loadPlaylist();
-    setIsFollowed(playlist.isFollowed);
+    loadAlbum();
   }, []);
 
   useEffect(() => {
     handleIsOwned();
-  }, [playlist]);
+  }, [album]);
 
   return (
     <Layout isNegative>
@@ -95,30 +104,21 @@ export default function SinglePlaylist() {
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText={playlist.name} cols="11" isNegative />
-            <button
-              className="text-center"
-              type="button"
-              onClick={handleFollow}
-            >
-              {isFollowed ? (
+            <JumboText priText={album.title} cols="11" isNegative />
+            <button className="text-center" type="button" onClick={handleLike}>
+              {isLiked ? (
                 <HeartIcon isFull isLarge isNegative />
               ) : (
                 <HeartIcon isLarge isNegative />
               )}
             </button>
           </div>
-
+          <h3 className="fnt-subtitle-light mt-4">{album.year}</h3>
           {/* TODO only show creator if exists */}
           <h3 className="fnt-secondary fnt-caption mt-4">
-            Created by {playlist.userId}
+            Created by {album.userId}
           </h3>
 
-          {playlist.description !== "" && (
-            <p className="fnt-secondary fnt-smallest mt-4">
-              {playlist.description}
-            </p>
-          )}
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"
@@ -131,7 +131,7 @@ export default function SinglePlaylist() {
             {isOwned && (
               <>
                 <button
-                  className="ms-3 text-end fnt-light playlist-ellipsis"
+                  className="ms-3 text-end fnt-light album-ellipsis"
                   type="button"
                   id="contextPlaylistMenu"
                   data-bs-toggle="dropdown"
@@ -143,7 +143,7 @@ export default function SinglePlaylist() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`}>
+                  <Link to={`${PUBLIC.UPDATE_ALBUM}/${album._id}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
@@ -155,7 +155,7 @@ export default function SinglePlaylist() {
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
                     type="button"
-                    // onClick={handleDeleteSong}
+                    onClick={handleDeleteAlbum}
                   >
                     Delete
                   </button>
@@ -166,12 +166,7 @@ export default function SinglePlaylist() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList
-            tracks={tracks}
-            setTracks={setTracks}
-            hasSorter
-            isOnPlaylist={playlist}
-          />
+          <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
         </div>
       </div>
     </Layout>

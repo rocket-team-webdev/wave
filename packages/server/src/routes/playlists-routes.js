@@ -46,6 +46,18 @@ playlistsRouter.put(
   playlistsController.followPlaylist,
 );
 
+playlistsRouter.post(
+  "/add-track",
+  authFirebaseMiddleware,
+  playlistsController.addTrackToPlaylist,
+);
+
+playlistsRouter.put(
+  "/remove-track",
+  authFirebaseMiddleware,
+  playlistsController.removeTrackFromPlaylist,
+);
+
 module.exports = {
   playlistsRouter,
 };
