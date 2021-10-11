@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { PUBLIC } from "./constants/routes";
@@ -29,6 +29,7 @@ import SinglePlaylist from "./pages/Public/SinglePlaylist";
 import Album from "./pages/Public/Album";
 import UpdateAlbum from "./pages/Public/UpdateAlbum";
 import PlaylistUpdate from "./pages/Public/PlaylistUpdate/PlaylistUpdate";
+import NotFound from "./pages/Public/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,43 +77,43 @@ function App() {
       {!loading && (
         <BrowserRouter>
           <Switch>
-            <PrivateRoute path={PUBLIC.UPDATE_PASSWORD}>
+            <PrivateRoute path={PUBLIC.UPDATE_PASSWORD} exact>
               <UpdatePassword />
             </PrivateRoute>
-            <OnlyPublicRoute path={PUBLIC.RESET_PASSWORD}>
+            <OnlyPublicRoute path={PUBLIC.RESET_PASSWORD} exact>
               <ResetPassword />
             </OnlyPublicRoute>
-            <PrivateRoute path={PUBLIC.TRACK_UPLOAD}>
+            <PrivateRoute path={PUBLIC.TRACK_UPLOAD} exact>
               <TrackUpload />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
               <TrackUpdate />
             </PrivateRoute>
-            <PrivateRoute exact path={PUBLIC.USER_ACCOUNT}>
+            <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
               <Account />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.REAUTHENTICATE}>
+            <PrivateRoute path={PUBLIC.REAUTHENTICATE} exact>
               <Reauthenticate />
             </PrivateRoute>
-            <OnlyPublicRoute path={PUBLIC.SIGN_UP}>
+            <OnlyPublicRoute path={PUBLIC.SIGN_UP} exact>
               <SignUp />
             </OnlyPublicRoute>
-            <OnlyPublicRoute path={PUBLIC.SIGN_IN}>
+            <OnlyPublicRoute path={PUBLIC.SIGN_IN} exact>
               <SignIn />
             </OnlyPublicRoute>
-            <PrivateRoute path={PUBLIC.ADD_ALBUM}>
+            <PrivateRoute path={PUBLIC.ADD_ALBUM} exact>
               <CreateAlbum />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.UPDATE_ALBUM}>
               <UpdateAlbum />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.ADD_PLAYLIST}>
+            <PrivateRoute path={PUBLIC.ADD_PLAYLIST} exact>
               <CreatePlaylist />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.MY_PLAYLISTS}>
+            <PrivateRoute path={PUBLIC.MY_PLAYLISTS} exact>
               <MyPlaylists />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.MY_SONGS}>
+            <PrivateRoute path={PUBLIC.MY_SONGS} exact>
               <Tracks />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.ALBUM}>
@@ -124,9 +125,12 @@ function App() {
             <PrivateRoute path={PUBLIC.SINGLE_PLAYLIST}>
               <SinglePlaylist />
             </PrivateRoute>
-            <PrivateRoute path={PUBLIC.HOME}>
+            <PrivateRoute path={PUBLIC.HOME} exact>
               <Home />
             </PrivateRoute>
+            <Route path="*">
+              <NotFound />
+            </Route>
           </Switch>
           <MusicPlayer />
         </BrowserRouter>
