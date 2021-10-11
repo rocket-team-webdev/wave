@@ -142,7 +142,7 @@ export default function TrackCard({
       await addTrackToPlaylist(playlistId, trackId);
       toast(`Song successfully added to playlist`, { type: "success" });
     } catch (error) {
-      if (error.message === "Request failed with status code 400") {
+      if (error.response.status === 400) {
         toast("This song is already part of this playlist", {
           type: "warning",
         });
