@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { PUBLIC } from "./constants/routes";
@@ -128,9 +128,9 @@ function App() {
             <PrivateRoute path={PUBLIC.HOME} exact>
               <Home />
             </PrivateRoute>
-            <Route path="*">
+            <PrivateRoute path="*">
               <NotFound />
-            </Route>
+            </PrivateRoute>
           </Switch>
           <MusicPlayer />
         </BrowserRouter>
