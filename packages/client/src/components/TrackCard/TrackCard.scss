@@ -18,10 +18,11 @@
   position: relative;
   display: inline-block;
   overflow: hidden;
+  object-fit: content;
+
   img {
-    width: 50px;
-    height: 50px;
-    object-fit: content;
+    aspect-ratio: 1 / 1;
+    width: 100%;
   }
 }
 
