@@ -23,7 +23,7 @@ export default function HomeElement({
     <>
       {isAnimationContainer ? (
         <motion.div
-          className={`col col-12 col-md-${cols}`}
+          className={`mb-4 col col-12 col-md-${cols}`}
           // Animation settings
           variants={containerAnimation}
           initial="hidden"
@@ -43,7 +43,7 @@ export default function HomeElement({
           </div>
         </motion.div>
       ) : (
-        <div className={`col col-12 col-md-${cols}`}>
+        <div className={`mb-4 col col-12 col-md-${cols}`}>
           <div className="p-0 mx-0">
             <div className="d-flex justify-content-between align-items-center home-element-header pt-2">
               <p className="fnt-label-bold mb-3 truncate home-element-title">

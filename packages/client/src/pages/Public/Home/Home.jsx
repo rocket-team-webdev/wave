@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
@@ -7,7 +8,6 @@ import homeSearchSchema from "./home-search-schema";
 import Layout from "../../../components/Layout";
 import HomePopular from "../../../components/HomePopular";
 import HomeMyWave from "../../../components/HomeMyWave";
-import JumboText from "../../../components/JumboText";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 import Spinner from "../../../components/Spinner";
@@ -52,30 +52,50 @@ export default function Home() {
   return (
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
-        <div className="col col-12 col-md-6 p-0 left-side">
-          <JumboText secText={userFirstName} cols="12" isNegative isAnimated />
-          <form className="my-5" onSubmit={formik.handleSubmit}>
-            <Input
-              id="searchbar"
-              name="searchbar"
-              placeholder="Search"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.searchbar}
-              errorMessage={formik.errors.searchbar}
-              hasErrorMessage={formik.touched.searchbar}
-              classNames="col col-12 col-md-6"
-              isNegative
-            />
-          </form>
-          {loading && <Spinner isNegative />}
-        </div>
-        <div className="col col-12 col-md-5 container-fluid mx-0">
-          {/* Popular/MyWave */}
-          <div className="d-flex justify-content-between align-items-center mb-5">
-            <p className="fnt-label-bold fnt-light">App view</p>
-            <RadioButtons handleChange={handleChangeView} />
+        {/* Top part */}
+        <div className="d-flex top-part row p-0 m-0 mb-5">
+          {loading ? (
+            <Spinner isNegative />
+          ) : (
+            <h1 className="fnt-light fnt-page-title text-break col col-12 col-md-9 pt-3">
+              {popularView ? (
+                "WAVEAPP GENERAL DASHBOARD"
+              ) : (
+                <div className="d-flex">
+                  <p>YOUR DASHBOARD,&nbsp;</p>
+                  <p className="fnt-secondary ">
+                    {userFirstName.toUpperCase()}
+                  </p>
+                </div>
+              )}
+            </h1>
+          )}
+
+          <div className="col col-12 col-md-3">
+            {/* Search bar */}
+            <form className=" p-0" onSubmit={formik.handleSubmit}>
+              <Input
+                id="searchbar"
+                name="searchbar"
+                placeholder="Search in WaveApp"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.searchbar}
+                errorMessage={formik.errors.searchbar}
+                hasErrorMessage={formik.touched.searchbar}
+                isNegative
+              />
+            </form>
+
+            {/* Popular/MyWave button */}
+            <div className="d-flex justify-content-end align-items-center">
+              <RadioButtons handleChange={handleChangeView} />
+            </div>
           </div>
+        </div>
+
+        {/* Bottom part */}
+        <div className="row p-0 m-0">
           {/* Switch view */}
           {popularView ? (
             <HomePopular artistsList={artistsList} />

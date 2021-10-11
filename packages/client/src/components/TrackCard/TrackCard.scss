@@ -19,6 +19,7 @@
   display: inline-block;
   overflow: hidden;
   object-fit: content;
+  min-width: 30px;
 
   img {
     aspect-ratio: 1 / 1;
