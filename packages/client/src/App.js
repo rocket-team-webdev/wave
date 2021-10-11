@@ -26,6 +26,8 @@ import CreateAlbum from "./pages/Public/CreateAlbum";
 import MyPlaylists from "./pages/Public/MyPlaylists/MyPlaylists";
 import CreatePlaylist from "./pages/Public/CreatePlaylist";
 import SinglePlaylist from "./pages/Public/SinglePlaylist";
+import Album from "./pages/Public/Album";
+import UpdateAlbum from "./pages/Public/UpdateAlbum";
 import PlaylistUpdate from "./pages/Public/PlaylistUpdate/PlaylistUpdate";
 
 function App() {
@@ -101,6 +103,9 @@ function App() {
             <PrivateRoute path={PUBLIC.ADD_ALBUM}>
               <CreateAlbum />
             </PrivateRoute>
+            <PrivateRoute path={PUBLIC.UPDATE_ALBUM}>
+              <UpdateAlbum />
+            </PrivateRoute>
             <PrivateRoute path={PUBLIC.ADD_PLAYLIST}>
               <CreatePlaylist />
             </PrivateRoute>
@@ -109,6 +114,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.MY_SONGS}>
               <Tracks />
+            </PrivateRoute>
+            <PrivateRoute path={PUBLIC.ALBUM}>
+              <Album />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.PLAYLIST_UPDATE}>
               <PlaylistUpdate />

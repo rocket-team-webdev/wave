@@ -314,7 +314,7 @@ async function followPlaylist(req, res, next) {
     ]);
 
     res.status(200).send({
-      message: "Playlist updated successfully",
+      message: "Playlist followed successfully",
     });
   } catch (err) {
     res.status(500).send({ error: err.message });

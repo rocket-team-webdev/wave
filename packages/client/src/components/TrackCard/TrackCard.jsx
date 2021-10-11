@@ -205,14 +205,14 @@ export default function TrackCard({
             )}
           >
             <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-              {/* Number */}
-              <div className="col col-2 d-flex justify-content-between align-items-center">
-                <h3 className="m-0 px-2 fnt-song-bold text-start song-index">
+              <div className="col col-2 d-flex align-items-center">
+                {/* Number */}
+                <h3 className="m-0 ps-2 fnt-song-bold text-start song-index">
                   {trackNumber}
                 </h3>
                 {/* Thumbnail */}
                 <div
-                  className="d-none d-lg-inline play-hover"
+                  className="d-none d-xl-inline play-hover p-1 d-flex align-items-center"
                   onClick={handlePlay}
                   aria-hidden="true"
                 >
@@ -220,7 +220,7 @@ export default function TrackCard({
                   <i className="fas fa-play fnt-white" />
                 </div>
                 {/* Like */}
-                <div className="d-flex fnt-primary px-2">
+                <div className="d-flex fnt-primary">
                   <button
                     className="text-center"
                     type="button"

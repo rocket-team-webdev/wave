@@ -7,7 +7,7 @@ import { fromBottom } from "../../utils/motionSettings";
 import HeartIcon from "../SVGicons/HeartIcon";
 import { PUBLIC } from "../../constants/routes";
 
-import "./playlist-card.scss";
+import "./PlaylistCard.scss";
 import { followPlaylist } from "../../api/playlists-api";
 
 export default function PlaylistCard({
@@ -52,7 +52,7 @@ export default function PlaylistCard({
     setFollowed(isFollowed);
   }, [isFollowed]);
 
-  const componentClasses = `col col-12 col-md-${colsMd} col-xl-4 col-xxl-3 p-2`;
+  const componentClasses = `col col-12 col-lg-${colsMd} col-xxl-4 p-2`;
   return (
     <Link
       to={`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`}
