@@ -53,7 +53,12 @@ export default function SinglePlaylist() {
       setIsFollowed(data.data.isFollowed);
       handleIsOwned(data.data.userId);
     } catch (error) {
-      toast(error.message, { type: "error" });
+      if (error.response.status === 500) {
+        toast("Playlist not found", { type: "error" });
+        history.push(PUBLIC.NOT_FOUND);
+      } else {
+        toast(error.message, { type: "error" });
+      }
     }
   };
 

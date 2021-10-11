@@ -21,6 +21,7 @@ export const PUBLIC = {
   ADD_PLAYLIST: "/playlists/add",
   SINGLE_PLAYLIST: "/playlist",
   PLAYLIST_UPDATE: "/playlist/update",
+  NOT_FOUND: "/404",
 };
 
 // PRIVATE PAGES
