@@ -21,6 +21,7 @@ import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
 import HeartIcon from "../../../components/SVGicons/HeartIcon";
+import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 import "./SinglePlaylist.scss";
 
@@ -88,6 +89,7 @@ export default function SinglePlaylist() {
   };
 
   const handleDeletePlaylist = async () => {
+    console.log("Deleting playlist!");
     await deletePlaylist(playlistId);
     history.push(PUBLIC.MY_PLAYLISTS);
     // updateDeletedView(trackId);
@@ -162,8 +164,9 @@ export default function SinglePlaylist() {
                   <hr className="dropdown-wrapper m-0" />
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal"
                     type="button"
-                    onClick={handleDeletePlaylist}
                   >
                     Delete
                   </button>
@@ -176,6 +179,11 @@ export default function SinglePlaylist() {
         <div className="col col-12 col-md-6 right-side pe-0">
           <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
         </div>
+        <DeleteModal
+          modalTitle="Removing playlist"
+          modalBody={`Are you sure you want to delete ${playlist.name}?`}
+          handleSubmit={handleDeletePlaylist}
+        />
       </div>
     </Layout>
   );
