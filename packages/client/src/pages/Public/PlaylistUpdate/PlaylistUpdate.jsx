@@ -14,7 +14,10 @@ import Spinner from "../../../components/Spinner";
 import DragAndDrop from "../../../components/DragAndDrop";
 
 import { PUBLIC } from "../../../constants/routes";
-import { getPlaylistById } from "../../../api/playlists-api";
+import {
+  getPlaylistById,
+  updatePlaylistById,
+} from "../../../api/playlists-api";
 
 export default function PlaylistUpdate() {
   const { playlistId } = useRouteMatch(
@@ -46,9 +49,10 @@ export default function PlaylistUpdate() {
         formData.append("primaryColor", playlist.primaryColor);
         formData.append("publicAccessible", playlist.publicAccessible);
         formData.append("thumbnail", playlist.thumbnail);
-        console.log(playlist);
-        // await updatePlaylistById(formData);
-        // history.push(`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`);
+        formData.append("id", playlistId);
+        // console.log(playlist);
+        await updatePlaylistById(formData);
+        history.push(`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`);
         return toast("Playlist updated!", { type: "success" });
       } catch (error) {
         return toast(error.response.data.msg, { type: "error" });
@@ -180,7 +184,7 @@ export default function PlaylistUpdate() {
                   Back
                 </Button>
                 <Button isNegative submitButton>
-                  Add
+                  Update
                 </Button>
               </div>
             </div>
