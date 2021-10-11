@@ -117,8 +117,13 @@ export default function TrackCard({
   };
 
   const handleRemoveFromPlaylist = async () => {
-    await deleteTrackFromPlaylist(isOnPlaylist._id, trackId);
-    updateDeletedView(trackId);
+    try {
+      const playlistId = isOnPlaylist._id;
+      await deleteTrackFromPlaylist(playlistId, trackId);
+      updateDeletedView(trackId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
   };
 
   const timeIntoString = (seconds) => {

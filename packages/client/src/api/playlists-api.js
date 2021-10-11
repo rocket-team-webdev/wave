@@ -97,15 +97,13 @@ export async function deleteTrackFromPlaylist(
   api = makePlaylistApi(),
 ) {
   const token = await getCurrentUserToken();
-
-  return api.delete(
+  return api.put(
     `${API.REMOVE_TRACK}`,
-
+    { playlistId, trackId },
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: { playlistId, trackId },
     },
   );
 }
