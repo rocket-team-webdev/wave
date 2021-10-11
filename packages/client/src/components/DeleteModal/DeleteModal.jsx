@@ -3,22 +3,23 @@ import React from "react";
 import "./DeleteModal.scss";
 
 export default function DeleteModal({
+  id,
   modalTitle = "Modal title",
   modalBody = "Modal body",
   handleSubmit = async () => {},
 }) {
   return (
     <div
-      className="modal fade"
-      id="deleteModal"
+      className="modal fade custom-modal"
+      id={id}
       tabIndex="-1"
-      aria-labelledby="deleteModalLabel"
+      aria-labelledby={`${id}Label`}
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content fnt-danger">
           <div className="modal-header">
-            <h5 className="modal-title" id="deleteModalLabel">
+            <h5 className="modal-title" id={`${id}Label`}>
               {modalTitle}
             </h5>
             <button

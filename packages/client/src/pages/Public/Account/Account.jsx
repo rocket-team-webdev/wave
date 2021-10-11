@@ -185,7 +185,7 @@ export default function Account() {
                   <Button
                     // handleClick={handleDeleteAccount}
                     data-bs-toggle="modal"
-                    data-bs-target="#deleteModal"
+                    data-bs-target="#deleteUserModal"
                     isDanger
                   >
                     Delete account
@@ -199,6 +199,7 @@ export default function Account() {
           </FormWrapper>
         </div>
         <DeleteModal
+          id="deleteUserModal"
           modalTitle="Removing user"
           modalBody="Are you sure you want to delete this user?"
           handleSubmit={handleDeleteAccount}

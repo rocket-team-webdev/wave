@@ -40,20 +40,26 @@ export default function SinglePlaylist() {
     `${PUBLIC.SINGLE_PLAYLIST}/:playlistId`,
   ).params;
 
+  const handleIsOwned = (userId) => {
+    if (userId === userState.mongoId) {
+      setIsOwned(true);
+    }
+  };
+
   const loadPlaylist = async () => {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      setIsFollowed(data.data.isFollowed);
+      handleIsOwned(data.data.userId);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
-
   const handlePlaying = () => {
     dispatch(clearQueue());
     const tracksArray = [];
-
     tracks.forEach((track) => {
       const trackObject = {
         name: track.name,
@@ -70,25 +76,20 @@ export default function SinglePlaylist() {
       };
       tracksArray.push(trackObject);
     });
-
     dispatch(setQueue(tracksArray));
     dispatch(setPlayState(true));
   };
-
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
     await followPlaylist(playlistId);
   };
 
   const handleDeletePlaylist = async () => {
+    console.log(playlist);
+
     await deletePlaylist(playlistId);
     history.push(PUBLIC.MY_PLAYLISTS);
-  };
-
-  const handleIsOwned = () => {
-    if (playlist.userId === userState.mongoId) {
-      setIsOwned(true);
-    }
+    // updateDeletedView(trackId);
   };
 
   useEffect(() => {
@@ -97,7 +98,6 @@ export default function SinglePlaylist() {
   }, []);
 
   useEffect(() => {
-    console.log(playlist);
     handleIsOwned();
   }, [playlist]);
 
@@ -167,7 +167,7 @@ export default function SinglePlaylist() {
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
                     data-bs-toggle="modal"
-                    data-bs-target="#deleteModal"
+                    data-bs-target="#deletePlaylistModal"
                     type="button"
                   >
                     Delete
@@ -187,6 +187,7 @@ export default function SinglePlaylist() {
           />
         </div>
         <DeleteModal
+          id="deletePlaylistModal"
           modalTitle="Removing playlist"
           modalBody={`Are you sure you want to delete ${playlist.name}?`}
           handleSubmit={handleDeletePlaylist}
