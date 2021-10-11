@@ -295,7 +295,6 @@ export default function TrackCard({
                         data-bs-toggle="modal"
                         data-bs-target="#deleteFromPlaylistModal"
                         type="button"
-                        // onClick={handleRemoveFromPlaylist}
                       >
                         Remove from Playlist
                       </button>
