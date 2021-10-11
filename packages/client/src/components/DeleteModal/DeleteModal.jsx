@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./DeleteModal.scss";
+
 export default function DeleteModal({
   modalTitle = "Modal title",
   modalBody = "Modal body",
