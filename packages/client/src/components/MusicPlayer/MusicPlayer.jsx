@@ -251,7 +251,7 @@ export default function MusicPlayer() {
                       </span>
                     </a>
                     <ul
-                      className="dropdown-menu dropdown-submenu dropdown-submenu-left clr-secondary p-1"
+                      className="dropdown-menu dropdown-submenu dropdown-submenu-left-top clr-secondary p-1"
                       id="addToPlaylist"
                     >
                       {myPlaylists.length > 0 &&

@@ -73,9 +73,15 @@
   left: 100%;
   top: -7px;
 }
-.dropdown-menu .dropdown-submenu-left {
+.dropdown-menu .dropdown-submenu-left-bottom {
   right: 100%;
   left: auto;
+}
+.dropdown-menu .dropdown-submenu-left-top {
+  right: 100%;
+  left: auto;
+  bottom: 0px;
+  top: inherit;
 }
 .dropdown-menu > li:hover > .dropdown-submenu {
   display: block;

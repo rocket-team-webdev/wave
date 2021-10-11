@@ -314,7 +314,7 @@ export default function TrackCard({
                         </span>
                       </a>
                       <ul
-                        className="dropdown-menu dropdown-submenu dropdown-submenu-left clr-secondary p-1"
+                        className="dropdown-menu dropdown-submenu dropdown-submenu-left-bottom clr-secondary p-1"
                         id="addToPlaylist"
                       >
                         {myPlaylists.length > 0 &&
