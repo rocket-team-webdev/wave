@@ -155,19 +155,18 @@ async function updateAlbum(req, res, next) {
     const { id } = req.body;
     console.log(id);
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { thumbnail: oldThumbnail } = await db.Album.findOne(
+      { _id: id, userId: userId },
+      {
+        thumbnail: 1,
+        _id: 0,
+      },
+    );
 
+    let thumbnailUrl = oldThumbnail;
     let thumbnailFile = req.files["thumbnail"];
-    let thumbnailUrl = DEFAULT_ALBUM_THUMBNAIL;
 
     if (thumbnailFile) {
-      const { thumbnail: oldThumbnail } = await db.Album.findOne(
-        { _id: id, userId: userId },
-        {
-          thumbnail: 1,
-          _id: 0,
-        },
-      );
-
       const isThumbnailDefault =
         oldThumbnail === DEFAULT_ALBUM_THUMBNAIL ? true : false;
 
@@ -246,8 +245,10 @@ async function deleteAlbum(req, res, next) {
     await db.Album.findOneAndDelete({ _id: id, userId: userId });
 
     // deleting cover from cloudinary
-    const publicId = getPublicId(thumbnail);
-    await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+    if (thumbnail !== DEFAULT_ALBUM_THUMBNAIL) {
+      const publicId = getPublicId(thumbnail);
+      await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+    }
 
     res.status(200).send({ message: "Album deleted successfully" });
   } catch (err) {
