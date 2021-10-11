@@ -86,7 +86,8 @@ export default function TrackUpload() {
           false,
         );
 
-        return toast("Track uploaded!", { type: "success" });
+        toast("Track uploaded!", { type: "success" });
+        return history.goBack();
       } catch (error) {
         setLoading(false);
         return toast(error.message, { type: "error" });
