@@ -385,6 +385,41 @@ async function removeTrackFromPlaylist(req, res, next) {
   }
 }
 
+async function reorderTracksInPlaylist(req, res, next) {
+  try {
+    const { source, destination, playlistId } = req.body;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    await db.Playlist.findOneAndUpdate(
+      {
+        _id: playlistId,
+        userId: userId,
+        tracks: { $in: [source.trackId] },
+      },
+      {
+        $pull: { tracks: source.trackId },
+      },
+    );
+
+    await db.Playlist.updateOne(
+      { _id: playlistId, userId },
+      {
+        $push: {
+          tracks: { $each: [source.trackId], $position: destination.index },
+        },
+      },
+    );
+
+    res.status(200).send({
+      message: "Playlist updated successfully",
+    });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
 module.exports = {
   getPlaylists,
   addPlaylist,
@@ -394,4 +429,5 @@ module.exports = {
   followPlaylist,
   addTrackToPlaylist,
   removeTrackFromPlaylist,
+  reorderTracksInPlaylist,
 };
