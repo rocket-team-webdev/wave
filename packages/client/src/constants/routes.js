@@ -33,7 +33,7 @@ export const PRIVATE = {
 // API
 
 export const API = {
-  MAIN: "http://localhost:4000/api",
+  MAIN: "https://wave-app-api-dev.herokuapp.com/api",
   ACCOUNT: "/account",
   REGISTER: "/register",
   AUTHENTICATE: "/authenticate",
