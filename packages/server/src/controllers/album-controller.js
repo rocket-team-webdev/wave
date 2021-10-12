@@ -158,7 +158,6 @@ async function updateAlbum(req, res, next) {
   try {
     const { email } = req.user;
     const { id } = req.body;
-    console.log(id);
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { thumbnail: oldThumbnail } = await db.Album.findOne(
       { _id: id, userId: userId },

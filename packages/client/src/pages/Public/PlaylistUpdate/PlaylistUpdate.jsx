@@ -11,7 +11,7 @@ import JumboText from "../../../components/JumboText";
 import Textarea from "../../../components/Textarea";
 import Checkbox from "../../../components/Checkbox";
 import Spinner from "../../../components/Spinner";
-import BigThumbnail from "../../../components/BigThumbnail";
+import DragAndDrop from "../../../components/DragAndDrop";
 
 import { PUBLIC } from "../../../constants/routes";
 import {
@@ -42,15 +42,21 @@ export default function PlaylistUpdate() {
     },
     validationSchema: playlistUpdateSchema,
     onSubmit: async (playlist) => {
-      const data = {
-        id: playlistId,
-        name: playlist.name,
-        description: playlist.description,
-        primaryColor: playlist.primaryColor,
-        publicAccessible: playlist.publicAccessible,
-      };
-      await updatePlaylistById(data);
-      history.push(`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`);
+      try {
+        const formData = new FormData();
+        formData.append("name", playlist.name);
+        formData.append("description", playlist.description);
+        formData.append("primaryColor", playlist.primaryColor);
+        formData.append("publicAccessible", playlist.publicAccessible);
+        formData.append("thumbnail", playlist.thumbnail);
+        formData.append("id", playlistId);
+        // console.log(playlist);
+        await updatePlaylistById(formData);
+        history.push(`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`);
+        return toast("Playlist updated!", { type: "success" });
+      } catch (error) {
+        return toast(error.response.data.msg, { type: "error" });
+      }
     },
   });
 
@@ -89,25 +95,28 @@ export default function PlaylistUpdate() {
     initialPublicAccessible();
   }, [playlistState]);
 
+  const thumbnailOnChange = async (files) => {
+    formik.setFieldValue("thumbnail", files[0]);
+  };
+
   return (
     <Layout isNegative>
       <div className="row">
         <div className="mb-5">
-          <JumboText priText="Update playlist" cols="12" isNegative />
+          <JumboText priText={playlistState.name} cols="12" isNegative />
           {isLoading && (
             <div className="col d-flex justify-content-end">
               <Spinner isNegative />
             </div>
           )}
         </div>
-        {isLoading ? (
-          <Spinner isNegative />
-        ) : (
-          <BigThumbnail
-            image={playlistState.thumbnail}
-            altText={`${playlistState.name} cover`}
+        <div className="col col-12 col-md-6">
+          <DragAndDrop
+            acceptFiles="image/*"
+            handleChange={thumbnailOnChange}
+            dropText="Drop the cover here..."
           />
-        )}
+        </div>
 
         <div className="row col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
@@ -175,7 +184,7 @@ export default function PlaylistUpdate() {
                   Back
                 </Button>
                 <Button isNegative submitButton>
-                  Add
+                  Update
                 </Button>
               </div>
             </div>

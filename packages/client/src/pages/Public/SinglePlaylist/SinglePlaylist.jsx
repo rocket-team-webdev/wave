@@ -50,11 +50,9 @@ export default function SinglePlaylist() {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
-      console.log(data.data.userId.firstName);
-      console.log(data.data.userId._id);
       setTracks(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
-      handleIsOwned(data.data.userId);
+      handleIsOwned(data.data.userId._id);
     } catch (error) {
       if (error.response.status === 500) {
         toast("Playlist not found", { type: "error" });
@@ -92,21 +90,14 @@ export default function SinglePlaylist() {
   };
 
   const handleDeletePlaylist = async () => {
-    console.log(playlist);
-
     await deletePlaylist(playlistId);
     history.push(PUBLIC.MY_PLAYLISTS);
-    // updateDeletedView(trackId);
   };
 
   useEffect(() => {
     loadPlaylist();
     setIsFollowed(playlist.isFollowed);
   }, []);
-
-  useEffect(() => {
-    handleIsOwned();
-  }, [playlist]);
 
   return (
     <Layout isNegative>
