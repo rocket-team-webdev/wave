@@ -24,7 +24,7 @@ playlistsRouter.post(
 
 playlistsRouter.put(
   "/",
-  authFirebaseMiddleware,
+  [authFirebaseMiddleware, mdlUpload],
   playlistsController.updatePlaylist,
 );
 

@@ -7,65 +7,53 @@ function TrackSorter({
   sortByPopularity,
   sortByDuration,
 }) {
+  const flagInitialState = {
+    flagTitle: "titleDesc",
+    flagAlbum: "albumDesc",
+    flagPopularity: "popDesc",
+    flagDuration: "durDesc",
+  };
   const [title, setTitle] = useState("Title");
   const [icon, setIcon] = useState("");
-  const [flag, setFlag] = useState({
-    flagTitle: 1,
-    flagAlbum: 1,
-    flagPopularity: 1,
-    flagDuration: 1,
-  });
+  const [flag, setFlag] = useState(flagInitialState);
 
   const handleSortByTitleAndArtist = () => {
     switch (flag.flagTitle) {
-      case 0:
+      case "none":
         setTitle("Title");
         setIcon("");
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "titleDesc":
         setTitle("Title");
         setIcon(<i className="fas fa-caret-down fnt-light" />);
         setFlag({
-          flagTitle: 2,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "titleAsc",
         });
         break;
-      case 2:
+      case "titleAsc":
         setTitle("Title");
         setIcon(<i className="fas fa-caret-up fnt-light" />);
         setFlag({
-          flagTitle: 3,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "artistDesc",
         });
         break;
-      case 3:
+      case "artistDesc":
         setTitle("Artist");
         setIcon(<i className="fas fa-caret-down fnt-light" />);
         setFlag({
-          flagTitle: 4,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "artistAsc",
         });
         break;
-      case 4:
+      case "artistAsc":
         setTitle("Artist");
         setIcon(<i className="fas fa-caret-up fnt-light" />);
         setFlag({
-          flagTitle: 0,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagTitle: "none",
         });
         break;
       default:
@@ -76,31 +64,22 @@ function TrackSorter({
 
   const handleSortByAlbum = () => {
     switch (flag.flagAlbum) {
-      case 0:
+      case "none":
         setIcon("");
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "albumDesc":
         setIcon(<i className="fas fa-caret-down fnt-light" />);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 2,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagAlbum: "albumAsc",
         });
         break;
-      case 2:
+      case "albumAsc":
         setIcon(<i className="fas fa-caret-up fnt-light" />);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 0,
-          flagPopularity: 1,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagAlbum: "none",
         });
         break;
       default:
@@ -111,31 +90,22 @@ function TrackSorter({
 
   const handleSortByPopularity = () => {
     switch (flag.flagPopularity) {
-      case 0:
+      case "none":
         setIcon("");
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "popDesc":
         setIcon(<i className="fas fa-caret-down fnt-light" />);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 2,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagPopularity: "popAsc",
         });
         break;
-      case 2:
+      case "popAsc":
         setIcon(<i className="fas fa-caret-up fnt-light" />);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 0,
-          flagDuration: 1,
+          ...flagInitialState,
+          flagPopularity: "none",
         });
         break;
       default:
@@ -146,31 +116,22 @@ function TrackSorter({
 
   const handleSortByDuration = () => {
     switch (flag.flagDuration) {
-      case 0:
+      case "none":
         setIcon("");
-        setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 1,
-        });
+        setFlag(flagInitialState);
         break;
-      case 1:
+      case "durDesc":
         setIcon(<i className="fas fa-caret-down fnt-light" />);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 2,
+          ...flagInitialState,
+          flagDuration: "durAsc",
         });
         break;
-      case 2:
+      case "durAsc":
         setIcon(<i className="fas fa-caret-up fnt-light" />);
         setFlag({
-          flagTitle: 1,
-          flagAlbum: 1,
-          flagPopularity: 1,
-          flagDuration: 0,
+          ...flagInitialState,
+          flagDuration: "none",
         });
         break;
       default:
@@ -189,28 +150,28 @@ function TrackSorter({
           <SorterElement
             title={title}
             handleClick={handleSortByTitleAndArtist}
-            orderIcon={flag.flagTitle === 1 ? "" : icon}
+            orderIcon={flag.flagTitle === "titleDesc" ? "" : icon}
           />
         </div>
         <div className="col col-3">
           <SorterElement
             title="Album"
             handleClick={handleSortByAlbum}
-            orderIcon={flag.flagAlbum === 1 ? "" : icon}
+            orderIcon={flag.flagAlbum === "albumDesc" ? "" : icon}
           />
         </div>
         <div className="col col-2">
           <SorterElement
             title="Popularity"
             handleClick={handleSortByPopularity}
-            orderIcon={flag.flagPopularity === 1 ? "" : icon}
+            orderIcon={flag.flagPopularity === "popDesc" ? "" : icon}
           />
         </div>
         <div className="col col-2">
           <SorterElement
             title="Duration"
             handleClick={handleSortByDuration}
-            orderIcon={flag.flagDuration === 1 ? "" : icon}
+            orderIcon={flag.flagDuration === "durDesc" ? "" : icon}
           />
         </div>
       </div>

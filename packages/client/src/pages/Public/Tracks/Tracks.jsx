@@ -16,7 +16,6 @@ import useDebounce from "../../../hooks/useDebounce";
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
-  const [loaded, setLoaded] = useState(false);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const queueState = useSelector((state) => state.queue);
@@ -40,7 +39,6 @@ export default function Tracks() {
   };
 
   const handleAddLikedColumn = (song, liked) => {
-    setLoaded(false);
     try {
       if (liked) {
         const updatedUploadedSongs = uploadedSongs.map((bySong) => {
@@ -53,7 +51,6 @@ export default function Tracks() {
           setLikedSongs((prevSongs) => [...prevSongs, song]);
 
         setUploadedSongs(updatedUploadedSongs);
-        setLoaded(true);
       } else {
         const updatedLikedSongs = likedSongs.filter((v) => v._id !== song._id);
         const updatedUploadedSongs = uploadedSongs.map((bySong) => {
@@ -62,11 +59,9 @@ export default function Tracks() {
         });
         setLikedSongs(updatedLikedSongs);
         setUploadedSongs(updatedUploadedSongs);
-        setLoaded(true);
       }
     } catch (error) {
       toast(error.message, { type: "error" });
-      setLoaded(true);
     }
   };
 
@@ -106,7 +101,6 @@ export default function Tracks() {
   useEffect(() => {
     fetchUploadedSongs();
     fetchLikedSongs();
-    setLoaded(true);
   }, []);
 
   return (
@@ -140,7 +134,7 @@ export default function Tracks() {
       <div className="row">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Uploaded</div>
-          {loaded && uploadedSongs && (
+          {uploadedSongs && (
             <TrackList
               tracks={uploadedSongs}
               setTracks={setUploadedSongs}
@@ -151,7 +145,7 @@ export default function Tracks() {
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Liked</div>
-          {loaded && likedSongs && (
+          {likedSongs && (
             <TrackList
               tracks={likedSongs}
               setTracks={setLikedSongs}
