@@ -1,5 +1,9 @@
 @use "../../sass/components/colors" as c;
 
+.home-element {
+  height: fit-content;
+}
+
 .home-element-header {
   border-top: 1px solid c.$secondaryColor;
   .home-element-title {
