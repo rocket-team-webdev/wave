@@ -77,3 +77,15 @@ label {
 .error-msg {
   color: #ab1515;
 }
+
+input[type="color"] {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 0px !important;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 8px;
+  padding: 0px;
+}

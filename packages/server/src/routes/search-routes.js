@@ -13,6 +13,12 @@ searchRouter.get(
   searchController.searchTrack,
 );
 
+searchRouter.get(
+  "/playlists",
+  authFirebaseMiddleware,
+  searchController.searchPlaylist,
+);
+
 module.exports = {
   searchRouter,
 };

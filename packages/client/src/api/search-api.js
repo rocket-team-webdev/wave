@@ -17,3 +17,12 @@ export async function searchTrack(search, api = makeSearchApi()) {
     },
   });
 }
+
+export async function searchPlaylists(search, api = makeSearchApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.PLAYLISTS}/?q=${search}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

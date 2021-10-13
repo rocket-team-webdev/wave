@@ -1,5 +1,13 @@
 const db = require("../models");
 
+const { cloudinary } = require("../services/cloudinary");
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require("util");
+const writeFileAsync = promisify(fs.writeFile);
+
+const { DEFAULT_PROFILE_PICTURE } = require("../utils/default-presets");
+
 async function signUp(req, res, next) {
   const { firebaseId } = req.user;
 
@@ -11,9 +19,48 @@ async function signUp(req, res, next) {
         (k) => req.body[k] == "" && delete req.body[k],
       );
 
+      let profilePicture = req.files["profilePicture"];
+
+      let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
+
+      if (profilePicture) {
+        profilePicture = profilePicture[0];
+        const profilePictureLocation = path.join(
+          __dirname,
+          "../../",
+          "uploads",
+          profilePicture.originalname,
+        );
+
+        // upload file
+        await writeFileAsync(
+          profilePictureLocation,
+          Buffer.from(new Uint8Array(profilePicture.buffer)),
+        );
+
+        // upload to cloudinary
+        const cldProfilePictureRes = await cloudinary.uploader.upload(
+          profilePictureLocation,
+          {
+            upload_preset: "profile-pictures-preset",
+            resource_type: "image",
+            width: 300,
+            height: 300,
+            crop: "limit",
+          },
+        );
+        profilePictureUrl = cldProfilePictureRes.secure_url;
+
+        // delete uploaded file
+        fs.unlink(profilePictureLocation, (err) => {
+          if (err) throw err;
+        });
+      }
+
       const newUser = await db.User.create({
         ...req.user,
         ...req.body,
+        profilePicture: profilePictureUrl,
       });
 
       return res

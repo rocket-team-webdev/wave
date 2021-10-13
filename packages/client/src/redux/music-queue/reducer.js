@@ -30,7 +30,7 @@ const reducer = (state = initialState, action) => {
     case SET_QUEUE:
       return {
         ...state,
-        queue: [action.payload],
+        queue: action.payload,
       };
     case SET_ALL:
       return {
@@ -61,9 +61,9 @@ const reducer = (state = initialState, action) => {
       };
     }
     case NEXT_SONG:
-      return { ...state, listPosition: state.listPosition + 1 };
+      return { ...state, listPosition: state.listPosition + 1, willPlay: true };
     case PREV_SONG:
-      return { ...state, listPosition: state.listPosition - 1 };
+      return { ...state, listPosition: state.listPosition - 1, willPlay: true };
     case SET_LIST_POSITION:
       return { ...state, listPosition: action.payload };
     case SET_PLAY_STATE:
