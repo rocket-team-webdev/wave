@@ -383,7 +383,6 @@ export default function TrackCard({
                               },
                             }}
                           >
-                            {/* TODO: when creating playlist adding that song */}
                             <p
                               className="dropdown-item fnt-light fnt-song-regular m-0"
                               type="button"
