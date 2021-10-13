@@ -13,20 +13,29 @@ async function getPlaylists(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const foundPlaylists = await db.Playlist.find(
+    const foundPlaylists = await db.Playlist.aggregate([
       {
-        $or: [{ publicAccessible: true }, { userId: userId }],
-        isDeleted: false,
+        $match: {
+          $or: [{ publicAccessible: true }, { userId: userId }],
+          isDeleted: false,
+        },
       },
       {
-        name: 1,
-        follows: { $size: "$followedBy" },
-        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
-        primaryColor: 1,
-        thumbnail: 1,
-        userId: 1,
+        $project: {
+          name: 1,
+          follows: { $size: "$followedBy" },
+          isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+          primaryColor: 1,
+          thumbnail: 1,
+          userId: 1,
+        },
       },
-    )
+      {
+        $sort: {
+          follows: -1,
+        },
+      },
+    ])
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
