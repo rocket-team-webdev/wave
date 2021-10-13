@@ -8,7 +8,6 @@ import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
-import PlaylistCard from "../PlaylistCard";
 import TrackCard from "../TrackCard";
 
 import { PUBLIC } from "../../constants/routes";
@@ -162,7 +161,17 @@ export default function HomeMyWave({ artistsList = false }) {
               onAddFollowedColumn={() => {}}
             />
           )}
-          {/* {userPlaylists.map((playlist) => (
+        </HomeElement>
+      )}
+      {myFollowingPlaylists.length > 0 && (
+        <HomeElement label="Following playlists" isAnimationContainer>
+          {myFollowingPlaylists && (
+            <PlaylistList
+              playlists={myFollowingPlaylists}
+              onAddFollowedColumn={() => {}}
+            />
+          )}
+          {/* {myFollowingPlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist._id}
               playListId={playlist._id}
@@ -171,19 +180,6 @@ export default function HomeMyWave({ artistsList = false }) {
               // classNames=""
             />
           ))} */}
-        </HomeElement>
-      )}
-      {myFollowingPlaylists.length > 0 && (
-        <HomeElement label="Following playlists" isAnimationContainer>
-          {myFollowingPlaylists.map((playlist) => (
-            <PlaylistCard
-              key={playlist._id}
-              playListId={playlist._id}
-              playlistName={playlist.name}
-              userId={playlist.userId}
-              // classNames=""
-            />
-          ))}
         </HomeElement>
       )}
       {myTracks.length > 0 && (

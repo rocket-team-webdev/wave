@@ -63,39 +63,27 @@ async function getMyPlaylists(req, res, next) {
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 4, isContextualMenu = false } = req.query;
 
-    // const projection = !isContextualMenu
-    //   ? {
-    //       name: 1,
-    //       // collaborative: 1,
-    //       // description: 1,
-    //       primaryColor: 1,
-    //       thumbnail: 1,
-    //       // publicAccessible: 1,
-    //       userId: 1,
-    //       // tracks: 1,
-    //       // isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
-    //       follows: { $size: "$followedBy" },
-    //     }
-    //   : {
-    //       name: 1,
-    //     };
+    const projection = !isContextualMenu
+      ? {
+          name: 1,
+          // collaborative: 1,
+          // description: 1,
+          primaryColor: 1,
+          thumbnail: 1,
+          // publicAccessible: 1,
+          userId: 1,
+          // tracks: 1,
+          // isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+          follows: { $size: "$followedBy" },
+        }
+      : {
+          name: 1,
+        };
     const playlists = await db.Playlist.find(
       { userId: userId, isDeleted: false },
-      {
-        name: 1,
-        // collaborative: 1,
-        // description: 1,
-        primaryColor: 1,
-        thumbnail: 1,
-        // publicAccessible: 1,
-        userId: 1,
-        // tracks: 1,
-        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
-        follows: { $size: "$followedBy" },
-        updatedAt: 1,
-      },
+      projection,
     )
-      .sort({ updatedAt: -1 })
+      .sort({ createdAt: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
