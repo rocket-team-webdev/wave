@@ -131,7 +131,11 @@ export default function HomeMyWave({ artistsList = false }) {
           isAnimationContainer
         >
           {myFollowings.map((following) => (
-            <UserCard key={following._id} userName={following.firstName} />
+            <UserCard
+              key={following._id}
+              userId={following._id}
+              userName={following.firstName}
+            />
           ))}
         </HomeElement>
       )}
