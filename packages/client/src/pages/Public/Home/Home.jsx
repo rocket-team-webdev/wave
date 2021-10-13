@@ -61,11 +61,8 @@ export default function Home() {
               {popularView ? (
                 "WAVEAPP GENERAL DASHBOARD"
               ) : (
-                <div className="d-flex">
-                  <p>YOUR DASHBOARD,&nbsp;</p>
-                  <p className="fnt-secondary ">
-                    {userFirstName.toUpperCase()}
-                  </p>
+                <div className="d-inline">
+                  <p>{`Your dashboard, ${userFirstName}`.toUpperCase()}</p>
                 </div>
               )}
             </h1>
