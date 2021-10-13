@@ -20,6 +20,12 @@ usersRouter.get(
 );
 
 usersRouter.get(
+  "/:id/tracks/liked",
+  authFirebaseMiddleware,
+  usersController.getUserLikedTracks,
+);
+
+usersRouter.get(
   "/:id/tracks",
   authFirebaseMiddleware,
   usersController.getUserTracks,
