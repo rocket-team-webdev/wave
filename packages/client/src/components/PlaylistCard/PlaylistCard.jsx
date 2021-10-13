@@ -28,7 +28,6 @@ export default function PlaylistCard({
 
   const handleLike = async (e) => {
     e.preventDefault();
-    // e.stopPropagation();
     const userFollows = !followed;
 
     try {
