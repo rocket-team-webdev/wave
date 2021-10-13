@@ -51,6 +51,7 @@ export default function SinglePlaylist() {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      console.log(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
       handleIsOwned(data.data.userId._id);
     } catch (error) {

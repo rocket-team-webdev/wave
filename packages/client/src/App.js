@@ -28,7 +28,8 @@ import CreatePlaylist from "./pages/Public/CreatePlaylist";
 import SinglePlaylist from "./pages/Public/SinglePlaylist";
 import Album from "./pages/Public/Album";
 import UpdateAlbum from "./pages/Public/UpdateAlbum";
-import PlaylistUpdate from "./pages/Public/PlaylistUpdate/PlaylistUpdate";
+import PlaylistUpdate from "./pages/Public/PlaylistUpdate";
+import Queue from "./pages/Public/Queue";
 import NotFound from "./pages/Public/NotFound";
 
 function App() {
@@ -88,6 +89,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
               <TrackUpdate />
+            </PrivateRoute>
+            <PrivateRoute path={PUBLIC.QUEUE}>
+              <Queue />
             </PrivateRoute>
             <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
               <Account />
