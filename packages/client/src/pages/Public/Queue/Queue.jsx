@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-// import {
-//   setQueue,
-//   clearQueue,
-//   setPlayState,
-// } from "../../../redux/music-queue/actions";
+import { MdClose } from "react-icons/md";
 
 import { PUBLIC } from "../../../constants/routes";
-// import {
-//   getPlaylistById,
-//   followPlaylist,
-//   deletePlaylist,
-// } from "../../../api/playlists-api";
 
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
-// import HeartIcon from "../../../components/SVGicons/HeartIcon";
+import Button from "../../../components/Button";
+
+import {
+  // setQueue,
+  clearQueue,
+  // setPlayState,
+} from "../../../redux/music-queue/actions";
+
+import "./Queue.scss";
 
 export default function Queue() {
   // const [playlist, setPlaylist] = useState({});
@@ -28,7 +27,7 @@ export default function Queue() {
   // const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const loadQueue = async () => {
@@ -68,9 +67,18 @@ export default function Queue() {
     }
   };
 
+  const handleCloseQueue = () => {
+    history.goBack();
+  };
+
+  const handleClearQueue = () => {
+    dispatch(clearQueue());
+    // history.goBack();
+  };
+
   useEffect(() => {
     loadQueue();
-  }, []);
+  }, [queueState.queue]);
 
   return (
     <Layout isNegative>
@@ -80,6 +88,10 @@ export default function Queue() {
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Queue" cols="11" isNegative />
           </div>
+          <div className="mt-5" />
+          <Button handleClick={handleClearQueue} isDanger>
+            Clear queue
+          </Button>
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-8 right-side pe-0">
@@ -91,6 +103,9 @@ export default function Queue() {
           />
         </div>
       </div>
+      <button type="button" className="close-button" onClick={handleCloseQueue}>
+        <MdClose />
+      </button>
     </Layout>
   );
 }
