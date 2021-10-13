@@ -2,6 +2,7 @@ import {
   SET_SONG,
   SET_QUEUE,
   ADD,
+  DELETE,
   CLEAR,
   SET_SHUFFLE,
   CLEAR_SHUFFLE,
@@ -30,6 +31,11 @@ export const setQueueAll = (value) => ({
 
 export const addSong = (value) => ({
   type: ADD,
+  payload: value,
+});
+
+export const deleteSong = (value) => ({
+  type: DELETE,
   payload: value,
 });
 

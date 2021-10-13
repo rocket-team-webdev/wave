@@ -2,6 +2,7 @@ import {
   SET_SONG,
   SET_QUEUE,
   ADD,
+  DELETE,
   CLEAR,
   SET_SHUFFLE,
   CLEAR_SHUFFLE,
@@ -41,6 +42,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         queue: [...state.queue, action.payload],
+      };
+    case DELETE:
+      return {
+        ...state,
+        willPlay: false,
+        queue: [
+          ...state.queue.slice(0, action.payload),
+          ...state.queue.slice(action.payload + 1),
+        ],
       };
     case CLEAR:
       return initialState;

@@ -7,6 +7,7 @@ import { FaEllipsisH } from "react-icons/fa";
 import { motion } from "framer-motion";
 import {
   addSong,
+  deleteSong,
   setPlayState,
   setSong,
   like,
@@ -114,7 +115,10 @@ export default function TrackCard({
     dispatch(addSong(trackObject));
   };
 
-  const handleDeleteFromQueue = () => {};
+  const handleDeleteFromQueue = () => {
+    console.log(index);
+    dispatch(deleteSong(index));
+  };
 
   const handleDeleteSong = async () => {
     await deleteTrack(trackId);
