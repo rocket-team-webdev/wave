@@ -18,6 +18,13 @@ usersRouter.get(
   authFirebaseMiddleware,
   usersController.getUserPlaylists,
 );
+
+usersRouter.get(
+  "/:id/tracks",
+  authFirebaseMiddleware,
+  usersController.getUserTracks,
+);
+
 usersRouter.get("/:id", authFirebaseMiddleware, usersController.getUserById);
 
 module.exports = {

@@ -75,7 +75,7 @@ export async function getUserFollowingPlaylists(
 // Tracks
 // ------
 
-export async function getMyTracks(
+export async function getUserTracks(
   id,
   page = 0,
   limit = 5,
