@@ -14,7 +14,9 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
     mainClassNames += "main-with-thumbnail ";
     backgroundStyles = {
       background: `url(${thumbnailUrl})`,
-      filter: "blur(30px) brightness(70%)",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
     };
   }
 
