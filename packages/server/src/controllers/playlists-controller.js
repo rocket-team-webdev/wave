@@ -113,9 +113,11 @@ async function addPlaylist(req, res, next) {
     playlistObj.publicAccessible = req.body.publicAccessible;
     playlistObj.userId = userId;
 
-    await db.Playlist.create(playlistObj);
+    const data = await db.Playlist.create(playlistObj);
 
-    return res.status(200).send({ message: "Playlist created successfully" });
+    return res
+      .status(200)
+      .send({ message: "Playlist created successfully", playlistId: data._id });
   } catch (err) {
     res.status(500).send({ error: err.message });
     next(err);
