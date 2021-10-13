@@ -15,3 +15,16 @@ main {
 footer {
   border-top: 2px solid c.$lightColor;
 }
+
+.main-with-thumbnail {
+  position: relative;
+  .thumbnail-background {
+    position: absolute;
+    z-index: -1;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    filter: blur(30px) brightness(70%);
+  }
+}
