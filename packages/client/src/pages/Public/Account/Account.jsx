@@ -15,6 +15,7 @@ import { PUBLIC } from "../../../constants/routes";
 import { getAccount, updateAccount } from "../../../api/account-api";
 import AccountSideBar from "../../../components/AccountSideBar";
 import FormWrapper from "../../../components/FormWrapper";
+import DeleteModal from "../../../components/DeleteModal";
 
 export default function Account() {
   const history = useHistory();
@@ -39,8 +40,8 @@ export default function Account() {
       try {
         const formData = new FormData();
         formData.append("profilePicture", updateState.profilePicture);
-        formData.append("firstName", updateState.firstName);
         formData.append("lastName", updateState.lastName);
+        formData.append("firstName", updateState.firstName);
         formData.append("birthDate", updateState.birthDate);
         formData.append("email", updateState.email);
         formData.append("country", updateState.country);
@@ -181,7 +182,12 @@ export default function Account() {
               />
               <div className="d-flex justify-content-between mt-5">
                 <div className="col-6 d-flex justify-content-start">
-                  <Button handleClick={handleDeleteAccount} isDanger>
+                  <Button
+                    // handleClick={handleDeleteAccount}
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteUserModal"
+                    isDanger
+                  >
                     Delete account
                   </Button>
                 </div>
@@ -192,6 +198,12 @@ export default function Account() {
             </form>
           </FormWrapper>
         </div>
+        <DeleteModal
+          id="deleteUserModal"
+          modalTitle="Removing user"
+          modalBody="Are you sure you want to delete this user?"
+          handleSubmit={handleDeleteAccount}
+        />
       </div>
     </Layout>
   );

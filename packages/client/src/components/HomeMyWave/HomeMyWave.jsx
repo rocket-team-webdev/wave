@@ -21,6 +21,8 @@ import {
   // getTrack,
 } from "../../api/me-api";
 
+import PlaylistList from "../PlaylistList/PlaylistList";
+
 export default function HomeMyWave({ artistsList = false }) {
   // const [loadStatus, setLoadStatus] = useState(false);
   // const [userFollowers, setUserFollowers] = useState([]);
@@ -145,8 +147,18 @@ export default function HomeMyWave({ artistsList = false }) {
         </HomeElement>
       )}
       {userPlaylists.length > 0 && (
-        <HomeElement label="My playlists" isAnimationContainer>
-          {userPlaylists.map((playlist) => (
+        <HomeElement
+          label="My playlists"
+          to={PUBLIC.MY_PLAYLISTS}
+          isAnimationContainer
+        >
+          {userPlaylists && (
+            <PlaylistList
+              playlists={userPlaylists}
+              onAddFollowedColumn={() => {}}
+            />
+          )}
+          {/* {userPlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist._id}
               playListId={playlist._id}
@@ -154,7 +166,7 @@ export default function HomeMyWave({ artistsList = false }) {
               userId={playlist.userId}
               // classNames=""
             />
-          ))}
+          ))} */}
         </HomeElement>
       )}
       {myFollowingPlaylists.length > 0 && (

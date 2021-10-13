@@ -63,8 +63,6 @@ export default function TrackUpload() {
         if (!uploadState.track)
           return toast("Choose a track!", { type: "error" });
 
-        console.log("uploadState", uploadState);
-
         const formData = new FormData();
         formData.append("name", uploadState.name);
         formData.append("artist", uploadState.artist);
@@ -88,7 +86,8 @@ export default function TrackUpload() {
           false,
         );
 
-        return toast("Track uploaded!", { type: "success" });
+        toast("Track uploaded!", { type: "success" });
+        return history.goBack();
       } catch (error) {
         setLoading(false);
         return toast(error.message, { type: "error" });

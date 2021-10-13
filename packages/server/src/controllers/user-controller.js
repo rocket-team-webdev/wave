@@ -44,6 +44,9 @@ async function signUp(req, res, next) {
           {
             upload_preset: "profile-pictures-preset",
             resource_type: "image",
+            width: 300,
+            height: 300,
+            crop: "limit",
           },
         );
         profilePictureUrl = cldProfilePictureRes.secure_url;

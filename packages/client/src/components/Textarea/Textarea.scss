@@ -1,0 +1,45 @@
+@use "../../sass/components/colors" as c;
+
+.custom-input {
+  position: relative;
+}
+
+textarea:focus,
+textarea:active {
+  outline: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+}
+
+label {
+  font-size: 36px;
+  text-transform: uppercase;
+}
+
+.positive-label {
+  color: c.$secondaryColor;
+}
+
+.negative-label {
+  color: c.$lightColor;
+}
+
+.positive-input {
+  color: c.$secondaryColor;
+  background: "white";
+  border: 2px solid c.$grayColor;
+}
+
+.negative-input {
+  color: c.$lightColor;
+  background: c.$lightColor20;
+  border: 2px solid c.$lightColor;
+}
+
+.negative-input::placeholder {
+  color: c.$lightColor60;
+}
+
+.error-msg {
+  color: #ab1515;
+}
