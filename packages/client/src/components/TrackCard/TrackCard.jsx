@@ -376,8 +376,14 @@ export default function TrackCard({
                         <li>
                           <hr className="dropdown-wrapper m-0" />
 
-                          <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackId}`}>
-                            {/* TODO: when creating playlist adding that song */}
+                          <Link
+                            to={{
+                              pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                              state: {
+                                trackId: trackId,
+                              },
+                            }}
+                          >
                             <p
                               className="dropdown-item fnt-light fnt-song-regular m-0"
                               type="button"
