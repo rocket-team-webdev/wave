@@ -57,7 +57,6 @@ export default function Queue() {
         };
         tracksArray.push(trackObject);
       });
-      console.log(tracksArray);
       setTracks(tracksArray);
     } catch (error) {
       if (error.response.status === 500) {
@@ -77,14 +76,19 @@ export default function Queue() {
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
-        <div className="col col-12 col-md-6 left-side mt-4">
+        <div className="col col-12 col-md-4 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Queue" cols="11" isNegative />
           </div>
         </div>
         {/* Right side */}
-        <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
+        <div className="col col-12 col-md-8 right-side pe-0">
+          <TrackList
+            tracks={tracks}
+            setTracks={setTracks}
+            hasSorter
+            isOnQueue
+          />
         </div>
       </div>
     </Layout>

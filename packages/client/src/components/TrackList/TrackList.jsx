@@ -12,6 +12,7 @@ function TrackList({
   onAddLikedColumn = () => {},
   hasSorter,
   isOnPlaylist = false,
+  isOnQueue = false,
 }) {
   const flagInitialState = {
     flagTitle: "titleDesc",
@@ -223,6 +224,7 @@ function TrackList({
                       updateDeletedView={handleDeletedView}
                       draggable={hasSorter}
                       isOnPlaylist={isOnPlaylist}
+                      isOnQueue={isOnQueue}
                     />
                   ))}
                 </motion.div>

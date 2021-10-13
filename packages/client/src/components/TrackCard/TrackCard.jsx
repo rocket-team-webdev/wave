@@ -45,6 +45,7 @@ export default function TrackCard({
   updateLikedView = () => {},
   updateDeletedView = () => {},
   isOnPlaylist,
+  isOnQueue,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
@@ -112,6 +113,8 @@ export default function TrackCard({
   const handleAddToQueue = () => {
     dispatch(addSong(trackObject));
   };
+
+  const handleDeleteFromQueue = () => {};
 
   const handleDeleteSong = async () => {
     await deleteTrack(trackId);
@@ -279,15 +282,28 @@ export default function TrackCard({
                     className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                     aria-labelledby="contextSongMenu"
                   >
-                    <li>
-                      <button
-                        className="dropdown-item fnt-light fnt-song-regular "
-                        type="button"
-                        onClick={handleAddToQueue}
-                      >
-                        Add to queue
-                      </button>
-                    </li>
+                    {isOnQueue ? (
+                      <li>
+                        <button
+                          className="dropdown-item fnt-light fnt-song-regular "
+                          type="button"
+                          onClick={handleDeleteFromQueue}
+                        >
+                          Delete from queue
+                        </button>
+                      </li>
+                    ) : (
+                      <li>
+                        <button
+                          className="dropdown-item fnt-light fnt-song-regular "
+                          type="button"
+                          onClick={handleAddToQueue}
+                        >
+                          Add to queue
+                        </button>
+                      </li>
+                    )}
+
                     <hr className="dropdown-wrapper m-0" />
                     {onOwnedPlaylist ? (
                       <button
