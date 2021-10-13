@@ -12,6 +12,31 @@ async function getUserById(req, res, next) {
   }
 }
 
+// -----
+// Users
+// -----
+async function getUserFollowers(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { page = 0, limit = 4 } = req.query;
+
+    const followers = await db.User.find({ _id: id }, { followedBy: 1, _id: 0 })
+      .populate({
+        path: "followedBy",
+        options: {
+          select: "_id firstName",
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).send({ data: followers });
+  } catch (err) {
+    res.status(500).send({ error: err });
+    next(err);
+  }
+}
+
 // ---------
 // Playlists
 // ---------
@@ -19,7 +44,6 @@ async function getUserById(req, res, next) {
 async function getUserPlaylists(req, res, next) {
   try {
     const { id } = req.params;
-    // const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 4 } = req.query;
     const playlists = await db.Playlist.find(
       { userId: id, isDeleted: false },
@@ -175,6 +199,7 @@ async function getUserLikedTracks(req, res, next) {
 
 module.exports = {
   getUserById: getUserById,
+  getUserFollowers: getUserFollowers,
   getUserPlaylists: getUserPlaylists,
   getUserFollowingPlaylists: getUserFollowingPlaylists,
   getUserTracks: getUserTracks,

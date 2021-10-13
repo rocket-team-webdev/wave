@@ -20,9 +20,14 @@ export async function getUserById(id, api = makeUsersApi()) {
 // Users
 // -----
 
-export async function getUserFollowers(id, api = makeUsersApi()) {
+export async function getUserFollowers(
+  id,
+  page = 0,
+  limit = 5,
+  api = makeUsersApi(),
+) {
   const token = await getCurrentUserToken();
-  return api.get(`/${id}${API.FOLLOWERS}`, {
+  return api.get(`/${id}${API.FOLLOWERS}?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
@@ -30,7 +35,7 @@ export async function getUserFollowers(id, api = makeUsersApi()) {
 export async function getUserFollowings(
   id,
   page = 0,
-  limit = 4,
+  limit = 5,
   api = makeUsersApi(),
 ) {
   const token = await getCurrentUserToken();
