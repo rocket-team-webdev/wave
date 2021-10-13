@@ -40,12 +40,13 @@ export default function CreatePlaylist() {
         formData.append("thumbnail", playlistState.thumbnail);
 
         const newPlaylist = await addPlaylist(formData);
-        const newPlaylistId = newPlaylist.data.playlistId;
         if (location.state?.trackId) {
           const { trackId } = location.state;
           try {
-            await addTrackToPlaylist(newPlaylistId, trackId);
-            history.push(`${PUBLIC.SINGLE_PLAYLIST}/${newPlaylistId}`);
+            await addTrackToPlaylist(newPlaylist.data.playlistId, trackId);
+            history.push(
+              `${PUBLIC.SINGLE_PLAYLIST}/${newPlaylist.data.playlistId}`,
+            );
             return toast("Playlist created and track added!", {
               type: "success",
             });
