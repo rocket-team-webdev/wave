@@ -18,11 +18,33 @@ async function getUserById(req, res, next) {
 async function getUserFollowers(req, res, next) {
   try {
     const { id } = req.params;
-    const { page = 0, limit = 4 } = req.query;
+    const { page = 0, limit = 5 } = req.query;
 
     const followers = await db.User.find({ _id: id }, { followedBy: 1, _id: 0 })
       .populate({
         path: "followedBy",
+        options: {
+          select: "_id firstName",
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).send({ data: followers });
+  } catch (err) {
+    res.status(500).send({ error: err });
+    next(err);
+  }
+}
+
+async function getUserFollowings(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { page = 0, limit = 5 } = req.query;
+
+    const followers = await db.User.find({ _id: id }, { following: 1, _id: 0 })
+      .populate({
+        path: "following",
         options: {
           select: "_id firstName",
         },
@@ -200,6 +222,7 @@ async function getUserLikedTracks(req, res, next) {
 module.exports = {
   getUserById: getUserById,
   getUserFollowers: getUserFollowers,
+  getUserFollowings: getUserFollowings,
   getUserPlaylists: getUserPlaylists,
   getUserFollowingPlaylists: getUserFollowingPlaylists,
   getUserTracks: getUserTracks,

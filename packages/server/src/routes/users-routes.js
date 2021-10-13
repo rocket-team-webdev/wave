@@ -14,6 +14,18 @@ usersRouter.get(
 );
 
 usersRouter.get(
+  "/:id/followings",
+  authFirebaseMiddleware,
+  usersController.getUserFollowings,
+);
+
+usersRouter.get(
+  "/:id/followers",
+  authFirebaseMiddleware,
+  usersController.getUserFollowers,
+);
+
+usersRouter.get(
   "/:id/playlists/following",
   authFirebaseMiddleware,
   usersController.getUserFollowingPlaylists,
