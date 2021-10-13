@@ -7,7 +7,7 @@ import { PUBLIC } from "../../constants/routes";
 
 import "./UserCard.scss";
 
-export default function UserCard({ userName }) {
+export default function UserCard({ userId, userName }) {
   return (
     <motion.div
       // className=""
@@ -15,7 +15,7 @@ export default function UserCard({ userName }) {
       variants={fromBottom}
     >
       <Link
-        to={PUBLIC.USER_VIEW}
+        to={`${PUBLIC.USER_VIEW}/${userId}`}
         className="d-flex align-items-center me-4 mb-2 user-card "
       >
         <i className="fas fa-user-circle fnt-light me-2 fs-4" />
