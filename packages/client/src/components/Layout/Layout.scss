@@ -15,3 +15,18 @@ main {
 footer {
   border-top: 2px solid c.$lightColor;
 }
+
+.main-with-thumbnail {
+  position: relative;
+  .thumbnail-background {
+    position: absolute;
+    z-index: -1;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+  }
+  // .thumbnail-childrens {
+  //   z-index: 99;
+  // }
+}
