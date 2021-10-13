@@ -1,15 +1,22 @@
-import React, { /* useState */ useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouteMatch } from "react-router-dom";
+
+import { toast } from "react-toastify";
+
+import { getUserById } from "../../../api/users-api";
+import { PUBLIC } from "../../../constants/routes";
 
 import Layout from "../../../components/Layout";
-import HomeElement from "../../../components/HomeElement";
-import PlaylistCard from "../../../components/PlaylistCard";
-import GenreCard from "../../../components/GenreCard";
+// import HomeElement from "../../../components/HomeElement";
+// import PlaylistCard from "../../../components/PlaylistCard";
+// import GenreCard from "../../../components/GenreCard";
 // import TrackList from "../../../components/TrackList";
-
 // import TrackCard from "../../../components/TrackCard";
 
 export default function UserView() {
-  //   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState({});
   //   const [userFollowers, setUserFollowers] = useState([]);
   //   const [userFollowings, setUserFollowings] = useState([]);
   //   const [userPlaylists, setUserPlaylists] = useState([]);
@@ -17,21 +24,25 @@ export default function UserView() {
   //   const [userUploadedTracks, setUserUploadedTracks] = useState([]);
   //   const [userLikedTracks, setUserLikedTracks] = useState([]);
 
-  const userGenresList = ["Mathi", "Nacho", "Hugo", "Brahim", "Ernest", "Rick"];
+  const { userId } = useRouteMatch(`${PUBLIC.USERS}/:userId`).params;
+  console.log(userId);
 
-  const userPlaylists = ["userPlaylist1", "userPlaylist1"];
-  const userAlbums = ["userAlbum1", "userAlbum1"];
-  //   const userUploadedTracks = [
-  //     "uploadedTrack",
-  //     "uploadedTrack",
-  //     "uploadedTrack",
-  //     "uploadedTrack",
-  //     "uploadedTrack",
-  //   ];
+  const loadUser = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await getUserById(userId);
+      setUser(data);
+      setIsLoading(false);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    console.log("useEffect executed");
+    loadUser();
   }, []);
+
   return (
     <Layout isNegative>
       <div className="row p-0 g-4">
@@ -39,62 +50,10 @@ export default function UserView() {
         <div className="col col-12 col-md-10 ps-0">
           {/* Username */}
           <h1 className="fnt-page-title mb-5">{"Username".toUpperCase()}</h1>
-          <div className="row mb-5">
-            {/* Playlists */}
-            {userPlaylists.length > 0 && (
-              <HomeElement label="Playlists" cols="6" isAnimationContainer>
-                {userPlaylists.map((playlist) => (
-                  <PlaylistCard
-                    key={playlist}
-                    //   playListId={playlist._id}
-                    playlistName={playlist}
-                    //   userId={playlist.userId}
-                    // classNames=""
-                  />
-                ))}
-              </HomeElement>
-            )}
-            {/* Albums */}
-            {userAlbums.length > 0 && (
-              <HomeElement label="Albums" cols="6" isAnimationContainer>
-                {userAlbums.map((album) => (
-                  <PlaylistCard
-                    key={album}
-                    //   playListId={playlist._id}
-                    playlistName={album}
-                    //   userId={playlist.userId}
-                    // classNames=""
-                  />
-                ))}
-              </HomeElement>
-            )}
-            {/* Uploaded tracks */}
-            {/* {userUploadedTracks.length > 0 && (
-              <HomeElement label="Albums" cols="6" isAnimationContainer>
-                <TrackList tracks={userUploadedTracks} />
-              </HomeElement>
-            )} */}
-            {/* Liked tracks */}
-            {/* {userLikedTracks.length > 0 && (
-              <HomeElement label="Albums" cols="6" isAnimationContainer>
-                <TrackList tracks={userLikedTracks} />
-              </HomeElement>
-            )} */}
-          </div>
+          <code>{user}</code>
         </div>
         {/* Right side */}
-        <div className="col col-12 col-md-2 pe-0">
-          {/* Genres */}
-          {userGenresList.length > 0 && (
-            <HomeElement label="My genres" isAnimationContainer>
-              {userGenresList.map((genre) => (
-                <div key={genre} className="mb-2 me-2">
-                  <GenreCard>{genre.toUpperCase()}</GenreCard>
-                </div>
-              ))}
-            </HomeElement>
-          )}
-        </div>
+        <div className="col col-12 col-md-2 pe-0">right</div>
       </div>
     </Layout>
   );

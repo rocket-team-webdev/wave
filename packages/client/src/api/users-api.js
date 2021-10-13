@@ -9,6 +9,13 @@ export function makeUsersApi() {
   });
 }
 
+export async function getUserById(id, api = makeUsersApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 // -----
 // Users
 // -----
