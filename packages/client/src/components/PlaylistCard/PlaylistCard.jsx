@@ -62,7 +62,10 @@ export default function PlaylistCard({
         // Animation settings
         variants={fromBottom}
       >
-        <div className="heart-wrapper d-flex justify-content-end fnt-primary">
+        <div
+          className="heart-wrapper d-flex justify-content-end fnt-primary"
+          data-testid="playlistCard"
+        >
           <button
             className="text-center px-0"
             type="button"

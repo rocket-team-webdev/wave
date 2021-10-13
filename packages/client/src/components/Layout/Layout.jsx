@@ -27,7 +27,7 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
   return (
     <>
       {thumbnailUrl ? (
-        <div className="d-flex flex-column layout-wrapper">
+        <div className="d-flex flex-column layout-wrapper" data-testid="layout">
           <Header />
           <main className={mainClassNames}>
             <div className="thumbnail-background" style={backgroundStyles} />

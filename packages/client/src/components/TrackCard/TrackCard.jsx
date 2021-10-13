@@ -205,6 +205,7 @@ export default function TrackCard({
               snapshot.isDragging,
               provided.draggableProps.style,
             )}
+            data-testid="trackCard"
           >
             <div className="col col-12 d-flex justify-content-between align-items-center py-2">
               <div className="col col-2 d-flex align-items-center">
