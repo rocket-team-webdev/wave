@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jest/no-disabled-tests */
-
 import React from "react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
