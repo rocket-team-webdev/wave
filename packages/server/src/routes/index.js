@@ -6,6 +6,7 @@ const { albumRouter } = require("./album-routes");
 const { searchRouter } = require("./search-routes");
 const { meRouter } = require("./me-routes");
 const { playlistsRouter } = require("./playlists-routes");
+const { usersRouter } = require("./users-routes");
 
 module.exports = {
   accountRouter,
@@ -16,4 +17,5 @@ module.exports = {
   searchRouter,
   meRouter,
   playlistsRouter,
+  usersRouter,
 };

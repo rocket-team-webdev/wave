@@ -11,7 +11,7 @@ export const PUBLIC = {
   SIGN_IN: "/sign-in",
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
-  USER_VIEW: "/user",
+  USER_VIEW: "/users",
   USERS: "/users",
   TRACK_EDIT: "/tracks/update", // TODO delete this or TRACK_UPDATE
   TRACK_UPLOAD: "/tracks/upload",

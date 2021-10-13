@@ -1,0 +1,25 @@
+const { usersController } = require("../controllers");
+const Router = require("express").Router;
+
+const {
+  authFirebaseMiddleware,
+} = require("../middlewares/auth-firebase-middleware");
+
+const usersRouter = Router();
+
+usersRouter.get(
+  "/:id/playlists/following",
+  authFirebaseMiddleware,
+  usersController.getUserFollowingPlaylists,
+);
+
+usersRouter.get(
+  "/:id/playlists",
+  authFirebaseMiddleware,
+  usersController.getUserPlaylists,
+);
+usersRouter.get("/:id", authFirebaseMiddleware, usersController.getUserById);
+
+module.exports = {
+  usersRouter,
+};
