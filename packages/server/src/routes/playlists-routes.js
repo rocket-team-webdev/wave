@@ -58,6 +58,12 @@ playlistsRouter.put(
   playlistsController.removeTrackFromPlaylist,
 );
 
+playlistsRouter.put(
+  "/reorder",
+  authFirebaseMiddleware,
+  playlistsController.reorderTracksInPlaylist,
+);
+
 module.exports = {
   playlistsRouter,
 };

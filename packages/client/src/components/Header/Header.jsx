@@ -16,6 +16,8 @@ function Header({ props }) {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
 
+  console.log(userState.token);
+
   const handleSignOut = async () => {
     await signOut();
     dispatch(logOut());
