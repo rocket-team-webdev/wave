@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion";
-
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
-import PlaylistCard from "../PlaylistCard";
-import TrackCard from "../TrackCard";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -24,8 +19,8 @@ import {
   // getTrack,
 } from "../../api/me-api";
 
-import { containerAnimation } from "../../utils/motionSettings";
 import PlaylistList from "../PlaylistList/PlaylistList";
+import TrackList from "../TrackList";
 
 export default function HomeMyWave({ artistsList = false }) {
   // const [loadStatus, setLoadStatus] = useState(false);
@@ -96,6 +91,70 @@ export default function HomeMyWave({ artistsList = false }) {
     }
   };
 
+  const handleAddFollowingPlaylists = (playlist, isFollowed) => {
+    try {
+      if (isFollowed) {
+        const updatedUserPlaylists = userPlaylists.map((byPlaylist) => {
+          if (byPlaylist._id === playlist._id)
+            return { ...byPlaylist, isFollowed: isFollowed };
+          return byPlaylist;
+        });
+        const updatedFollowedPlaylists = myFollowingPlaylists.filter(
+          (v) => v._id === playlist._id,
+        );
+
+        if (!updatedFollowedPlaylists.length)
+          setMyFollowingPlaylists((prevSongs) => [...prevSongs, playlist]);
+
+        setUserPlaylists(updatedUserPlaylists);
+      } else {
+        const updatedFollowedPlaylists = myFollowingPlaylists.filter(
+          (pl) => pl._id !== playlist._id,
+        );
+        const updatedUserPlaylists = userPlaylists.map((byPlaylist) => {
+          if (byPlaylist._id === playlist._id)
+            return { ...byPlaylist, isFollowed: isFollowed };
+          return byPlaylist;
+        });
+        setMyFollowingPlaylists(updatedFollowedPlaylists);
+        setUserPlaylists(updatedUserPlaylists);
+      }
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
+
+  const handleAddLikedSongs = (song, liked) => {
+    try {
+      if (liked) {
+        const updatedMyTracks = myTracks.map((byTrack) => {
+          if (byTrack._id === song._id) return { ...byTrack, isLiked: liked };
+          return byTrack;
+        });
+        const updatedLikedTracks = userLikedTracks.filter(
+          (v) => v._id === song._id,
+        );
+
+        if (!updatedLikedTracks.length)
+          setUserLikedTracks((prevSongs) => [...prevSongs, song]);
+
+        setMyTracks(updatedMyTracks);
+      } else {
+        const updatedLikedTracks = userLikedTracks.filter(
+          (pl) => pl._id !== song._id,
+        );
+        const updatedMyTracks = myTracks.map((byTrack) => {
+          if (byTrack._id === song._id) return { ...byTrack, isLiked: liked };
+          return byTrack;
+        });
+        setUserLikedTracks(updatedLikedTracks);
+        setMyTracks(updatedMyTracks);
+      }
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
+
   // On load
   useEffect(() => {
     // Users
@@ -159,117 +218,41 @@ export default function HomeMyWave({ artistsList = false }) {
           {userPlaylists && (
             <PlaylistList
               playlists={userPlaylists}
-              onAddFollowedColumn={() => {}}
+              onAddFollowedColumn={handleAddFollowingPlaylists}
             />
           )}
-          {/* {userPlaylists.map((playlist) => (
-            <PlaylistCard
-              key={playlist._id}
-              playListId={playlist._id}
-              playlistName={playlist.name}
-              userId={playlist.userId}
-              // classNames=""
-            />
-          ))} */}
         </HomeElement>
       )}
       {myFollowingPlaylists.length > 0 && (
         <HomeElement label="Following playlists" isAnimationContainer>
-          {myFollowingPlaylists.map((playlist) => (
-            <PlaylistCard
-              key={playlist._id}
-              playListId={playlist._id}
-              playlistName={playlist.name}
-              userId={playlist.userId}
-              // classNames=""
+          {myFollowingPlaylists && (
+            <PlaylistList
+              playlists={myFollowingPlaylists}
+              onAddFollowedColumn={handleAddFollowingPlaylists}
             />
-          ))}
+          )}
         </HomeElement>
       )}
       {myTracks.length > 0 && (
         <HomeElement label="My tracks" to={PUBLIC.MY_SONGS}>
-          <DragDropContext onDragEnd={() => {}}>
-            <Droppable droppableId="myTracks">
-              {(provided) => (
-                <motion.div
-                  className="col col-12 "
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  // Animation settings
-                  variants={containerAnimation}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {myTracks &&
-                    myTracks.map((song, index) => (
-                      <TrackCard
-                        key={song._id}
-                        trackNumber={index + 1}
-                        trackName={song.name}
-                        trackImg={song.album.thumbnail}
-                        artist={song.artist}
-                        albumName={song.album.title}
-                        time={song.duration}
-                        trackUrl={song.url}
-                        albumId={song.album._id}
-                        genreId={song.genreId}
-                        isLiked={song.isLiked}
-                        trackId={song._id}
-                        userId={song.userId}
-                        index={index}
-                        draggable={false}
-                        // updateLikedView={handleAddLikedColumn}
-                        // updateDeletedView={handleDeletedView}
-                      />
-                    ))}
-                  {provided.placeholder}
-                </motion.div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          {myTracks && (
+            <TrackList
+              tracks={myTracks}
+              setTracks={setMyTracks}
+              onAddLikedColumn={handleAddLikedSongs}
+            />
+          )}
         </HomeElement>
       )}
       {userLikedTracks.length > 0 && (
         <HomeElement label="Liked songs" to={PUBLIC.MY_SONGS}>
-          <DragDropContext onDragEnd={() => {}}>
-            <Droppable droppableId="userLikedTracks">
-              {(provided) => (
-                <motion.div
-                  className="col col-12 "
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  // Animation settings
-                  variants={containerAnimation}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {userLikedTracks &&
-                    userLikedTracks.map((song, index) => (
-                      <TrackCard
-                        key={song._id}
-                        trackNumber={index + 1}
-                        trackName={song.name}
-                        trackImg={song.album.thumbnail}
-                        artist={song.artist}
-                        albumName={song.album.title}
-                        time={song.duration}
-                        trackUrl={song.url}
-                        albumId={song.album._id}
-                        genreId={song.genreId}
-                        isLiked={song.isLiked}
-                        trackId={song._id}
-                        userId={song.userId}
-                        index={index}
-                        draggable={false}
-                        // updateLikedView={handleAddLikedColumn}
-                        // updateDeletedView={handleDeletedView}
-                      />
-                    ))}
-                  {provided.placeholder}
-                </motion.div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          {userLikedTracks && (
+            <TrackList
+              tracks={userLikedTracks}
+              setTracks={setUserLikedTracks}
+              onAddLikedColumn={handleAddLikedSongs}
+            />
+          )}
         </HomeElement>
       )}
     </div>
