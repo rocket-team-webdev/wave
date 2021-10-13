@@ -100,7 +100,7 @@ export default function SinglePlaylist() {
   }, []);
 
   return (
-    <Layout isNegative>
+    <Layout thumbnailUrl={playlist.thumbnail}>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
@@ -121,19 +121,21 @@ export default function SinglePlaylist() {
 
           {/* TODO only show creator if exists */}
           {playlist.userId && (
-            <h3 className="fnt-secondary fnt-caption mt-4 d-flex align-items-center">
+            <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
               <Link to={`${PUBLIC.USERS}/${playlist.userId._id}`}>
-                <p className="mb-0 ms-1">{playlist.userId.firstName}</p>
+                <p className="fnt-light mb-0 ms-1">
+                  {playlist.userId.firstName}
+                </p>
               </Link>
             </h3>
           )}
-          <h3 className="fnt-secondary fnt-caption d-flex align-items-center">
-            <HeartIcon isFull />{" "}
+          <h3 className="fnt-light fnt-caption d-flex align-items-center">
+            <HeartIcon isNegative isFull />
             <p className="ms-2 mb-0">{playlist.follows} followers</p>
           </h3>
           {playlist.description !== "" && (
-            <p className="fnt-secondary fnt-smallest mt-4">
+            <p className="fnt-light fnt-smallest mt-4">
               {playlist.description}
             </p>
           )}
