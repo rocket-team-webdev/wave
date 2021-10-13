@@ -44,12 +44,15 @@ const reducer = (state = initialState, action) => {
         queue: [...state.queue, action.payload],
       };
     case DELETE:
+      console.log("listPosition", action.payload.listPosition);
+      console.log("offset", action.payload.offset);
       return {
         ...state,
         willPlay: false,
+        listPosition: action.payload.listPosition - action.payload.offset,
         queue: [
-          ...state.queue.slice(0, action.payload),
-          ...state.queue.slice(action.payload + 1),
+          ...state.queue.slice(0, action.payload.index),
+          ...state.queue.slice(action.payload.index + 1),
         ],
       };
     case CLEAR:

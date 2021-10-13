@@ -11,6 +11,7 @@ import {
   setPlayState,
   setSong,
   like,
+  clearQueue,
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -116,8 +117,24 @@ export default function TrackCard({
   };
 
   const handleDeleteFromQueue = () => {
-    console.log(index);
-    dispatch(deleteSong(index));
+    console.log("Song to delete", index);
+    if (queueState.queue.length === 1) {
+      dispatch(clearQueue());
+    } else {
+      const payload = {
+        index: index,
+        listPosition: queueState.listPosition,
+        offset: 0,
+      };
+      if (
+        queueState.listPosition + 1 === queueState.queue.length ||
+        (index === queueState.listPosition && index !== 0)
+      ) {
+        console.log("Last song");
+        payload.offset = 1;
+      }
+      dispatch(deleteSong(payload));
+    }
   };
 
   const handleDeleteSong = async () => {

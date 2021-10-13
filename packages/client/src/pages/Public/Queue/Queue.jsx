@@ -43,7 +43,7 @@ export default function Queue() {
           duration: track.duration,
           userId: track.userId,
           album: {
-            _id: track.album,
+            _id: track.albumId,
             thumbnail: track.trackImg,
             title: track.album,
           },

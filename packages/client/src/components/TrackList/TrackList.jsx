@@ -205,7 +205,8 @@ function TrackList({
                 >
                   {tracks.map((song, index) => (
                     <TrackCard
-                      key={song._id}
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
                       trackNumber={index + 1}
                       trackName={song.name}
                       trackImg={song.album.thumbnail}
