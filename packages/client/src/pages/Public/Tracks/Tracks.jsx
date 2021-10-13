@@ -83,12 +83,15 @@ export default function Tracks() {
   }, [debouncedSearch]);
 
   useEffect(() => {
+    const {
+      queue: [track],
+    } = queueState;
     const newSong = {
-      ...queueState.queue[0],
-      _id: queueState.queue[0]?.trackId,
+      ...track,
+      _id: track?.trackId,
       album: {
-        title: queueState.queue[0]?.album,
-        thumbnail: queueState.queue[0]?.trackImg,
+        title: track?.album,
+        thumbnail: track?.trackImg,
       },
     };
 
