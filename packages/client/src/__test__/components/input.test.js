@@ -29,6 +29,5 @@ describe("Input Component", () => {
     render(<Input hasErrorMessage errorMessage="testError" />);
 
     expect(screen.getByText(/testError/)).toBeInTheDocument();
-    expect(1).toBe(0);
   });
 });

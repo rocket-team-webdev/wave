@@ -1,7 +1,6 @@
 /* eslint-disable jest/no-disabled-tests */
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import { act } from "react-dom/test-utils";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 
@@ -68,28 +67,55 @@ const tracksData = [
   },
 ];
 
-describe("Router app rendering", () => {
-  afterEach(cleanup);
+const playlistData = [
+  {
+    _id: "615c345b11399a28c8fb0d90",
+    name: "O-A-S-I-S!",
+    userId: "61556affd0b9691c9d0fd089",
+    thumbnail:
+      "https://images.unsplash.com/photo-1632993952737-0c2897164db3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80",
+    primaryColor: "#2c19b8",
+    follows: 3,
+    isFollowed: true,
+  },
+  {
+    _id: "615d6e26ae59c26c7027031f",
+    thumbnail:
+      "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633512996/covers-preset/akibwr7txywoegx4ofx4.jpg",
+    name: "my third playlist",
+    primaryColor: "#26c030",
+    userId: "615486c478206d637454b5b6",
+    follows: 1,
+    isFollowed: false,
+  },
+  {
+    _id: "615ea6d8615b7522fac7cc94",
+    name: "RHCP Live gigs!",
+    userId: "61556affd0b9691c9d0fd089",
+    thumbnail:
+      "https://images.unsplash.com/photo-1632993952737-0c2897164db3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80",
+    primaryColor: "#e7f8f8",
+    follows: 3,
+    isFollowed: true,
+  },
+];
+
+describe("Router App", () => {
+  const history = createMemoryHistory();
 
   test.skip("Navigating from home to tracks page", async () => {
-    const history = createMemoryHistory();
+    axios.create.mockReturnThis();
+    axios.get
+      .mockResolvedValue({ data: { data: [] } })
+      .mockResolvedValueOnce({ data: { genres: [] } })
+      .mockResolvedValueOnce({ data: { playlists: [] } })
+      .mockResolvedValueOnce({ data: { tracks: tracksData } });
 
-    act(() => {
-      axios.create.mockReturnThis();
-      axios.get
-        .mockResolvedValue({ data: { data: [] } })
-        .mockResolvedValueOnce({ data: { genres: [] } })
-        .mockResolvedValueOnce({ data: { playlists: [] } })
-        .mockResolvedValueOnce({ data: { tracks: tracksData } });
-    });
-
-    act(() => {
-      render(
-        <Router history={history}>
-          <RouterComponent />
-        </Router>,
-      );
-    });
+    render(
+      <Router history={history}>
+        <RouterComponent />
+      </Router>,
+    );
 
     // wait for App to load App router
     await waitFor(() => screen.findAllByTestId("layout"));
@@ -97,11 +123,37 @@ describe("Router app rendering", () => {
     expect(screen.getByText(/welcome to waveapp/i)).toBeInTheDocument();
 
     const leftClick = { button: 0 };
-    const see = document.querySelector('[href="/tracks"]');
-    userEvent.click(see, leftClick);
+    const seeTracks = document.querySelector('[href="/tracks"]');
+    userEvent.click(seeTracks, leftClick);
 
     await waitFor(() => screen.findAllByTestId("layout"));
     // tracks page rendered
     expect(screen.getByText(/my songs/i)).toBeInTheDocument();
+  });
+
+  test("Render playlists and navigate to playlists page", async () => {
+    axios.create.mockReturnThis();
+    axios.get
+      .mockResolvedValue({ data: { data: [] } })
+      .mockResolvedValueOnce({ data: { genres: [] } })
+      .mockResolvedValueOnce({ data: { playlists: playlistData } })
+      .mockResolvedValueOnce({ data: { tracks: [] } });
+    render(
+      <Router history={history}>
+        <RouterComponent />
+      </Router>,
+    );
+
+    const leftClick = { button: 0 };
+
+    await waitFor(() => screen.findAllByTestId("layout"));
+    await waitFor(() => screen.getAllByTestId("playlistCard"));
+
+    const seePlaylists = document.querySelector('[href="/playlists"]');
+    userEvent.click(seePlaylists, leftClick);
+
+    await waitFor(() => screen.findAllByTestId("layout"));
+    // tracks page rendered
+    expect(screen.getByText(/my playlists/i)).toBeInTheDocument();
   });
 });
