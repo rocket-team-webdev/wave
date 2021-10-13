@@ -29,17 +29,28 @@ export async function getPlaylistById(playlistId, api = makePlaylistApi()) {
   });
 }
 
-export async function updatePlaylistById(data = {}, api = makePlaylistApi()) {
+// export async function updatePlaylistById(data = {}, api = makePlaylistApi()) {
+//   const token = await getCurrentUserToken();
+//   return api.put(
+//     ``,
+//     { ...data },
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     },
+//   );
+// }
+
+export async function updatePlaylistById(file = {}, api = makePlaylistApi()) {
   const token = await getCurrentUserToken();
-  return api.put(
-    ``,
-    { ...data },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+
+  return api.put(``, file, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": `multipart/form-data"`,
     },
-  );
+  });
 }
 
 export async function addPlaylist(data = {}, api = makePlaylistApi()) {

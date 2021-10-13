@@ -50,7 +50,6 @@ export default function UpdateAlbum() {
       formik.setValues({
         title: data.data.title,
         year: data.data.year,
-        // thumbnail: data.data.album.thumbnail || "",
       });
       setAlbum(data.data);
     } catch (error) {

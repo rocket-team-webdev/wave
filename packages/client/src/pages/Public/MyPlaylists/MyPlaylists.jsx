@@ -18,7 +18,6 @@ function MyPlaylists() {
   const userState = useSelector((state) => state.user);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
-  const [loaded, setLoaded] = useState(false);
 
   const fetchCreatedPlaylists = async () => {
     try {
@@ -39,7 +38,6 @@ function MyPlaylists() {
   };
 
   const handleAddFollowedColumn = (playlist, isFollowed) => {
-    setLoaded(false);
     try {
       if (isFollowed) {
         const updatedCreatedPlaylists = createdPlaylists.map((byPlaylist) => {
@@ -55,7 +53,6 @@ function MyPlaylists() {
           setFollowedPlaylists((prevSongs) => [...prevSongs, playlist]);
 
         setCreatedPlaylists(updatedCreatedPlaylists);
-        setLoaded(true);
       } else {
         const updatedFollowedPlaylists = followedPlaylists.filter(
           (pl) => pl._id !== playlist._id,
@@ -67,11 +64,9 @@ function MyPlaylists() {
         });
         setFollowedPlaylists(updatedFollowedPlaylists);
         setCreatedPlaylists(updatedCreatedPlaylists);
-        setLoaded(true);
       }
     } catch (error) {
       toast(error.message, { type: "error" });
-      setLoaded(true);
     }
   };
 
@@ -98,7 +93,6 @@ function MyPlaylists() {
   useEffect(() => {
     fetchCreatedPlaylists();
     fetchFollowedPlaylists();
-    setLoaded(true);
   }, []);
 
   return (
@@ -120,7 +114,6 @@ function MyPlaylists() {
               type="text"
               placeholder="Search"
               handleChange={handleSearchChange}
-              // handleBlur={handleSearchChange}
               value={searchBar}
               classNames="col-12 col-md-6 col-lg-4"
               isNegative
@@ -132,7 +125,7 @@ function MyPlaylists() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {loaded && createdPlaylists && (
+          {createdPlaylists && (
             <PlaylistList
               playlists={createdPlaylists}
               onAddFollowedColumn={handleAddFollowedColumn}
@@ -141,7 +134,7 @@ function MyPlaylists() {
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {loaded && followedPlaylists && (
+          {followedPlaylists && (
             <PlaylistList
               playlists={followedPlaylists}
               onAddFollowedColumn={handleAddFollowedColumn}
