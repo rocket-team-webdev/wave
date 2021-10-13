@@ -23,10 +23,10 @@ jest.mock("firebase/compat/app", () => {
   };
 });
 
-describe("Home Page test", () => {
+describe.skip("Home Page test", () => {
   afterEach(cleanup);
 
-  test.skip("Home page rendering", async () => {
+  test("Home page rendering", async () => {
     const history = createMemoryHistory();
 
     render(
@@ -39,7 +39,7 @@ describe("Home Page test", () => {
     expect(screen.getByText(/welcome to waveapp/i)).toBeInTheDocument();
   });
 
-  test.skip("Navigating from popular to myWave", async () => {
+  test("Navigating from popular to myWave", async () => {
     const history = createMemoryHistory();
 
     const home = render(

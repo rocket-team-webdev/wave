@@ -2,6 +2,7 @@
 
 import userEvent from "@testing-library/user-event";
 import React from "react";
+import { act } from "react-dom/test-utils";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 // import { MemoryRouter } from "react-router-dom";
@@ -28,17 +29,17 @@ import Tracks from "../pages/Public/Tracks";
 import RouterComponent from "../components/Router";
 
 const userData = {
-  email: "brahimcasas@hotmail.es",
+  email: "ernest.duocastella@gmail.com",
   token:
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM1MDM0MmIwMjU1MDAyYWI3NWUwNTM0YzU4MmVjYzY2Y2YwZTE3ZDIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQnJhaGltIEJlbmFsaWEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2ozZVphQVRRQTZRYXplLVdyNnZpU3Noa3ZUUm1DLUdoU0NqZUNFPXM5Ni1jIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3dhdmUtNWNjYmEiLCJhdWQiOiJ3YXZlLTVjY2JhIiwiYXV0aF90aW1lIjoxNjMzNTk5NjkwLCJ1c2VyX2lkIjoiVk1YMThjWnpmbE1yb1dpWmhyYlY5VGZvRHZqMiIsInN1YiI6IlZNWDE4Y1p6ZmxNcm9XaVpocmJWOVRmb0R2ajIiLCJpYXQiOjE2MzM2MDM2ODYsImV4cCI6MTYzMzYwNzI4NiwiZW1haWwiOiJicmFoaW1jYXNhc0Bob3RtYWlsLmVzIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDI4ODEyNzY5ODU3NzY2ODY4OTIiXSwiZW1haWwiOlsiYnJhaGltY2FzYXNAaG90bWFpbC5lcyJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.VbRWaE9Gx-UfPIIqBKIwal6beFYhkTMn2o4jjptrpz28ypBY5UH8iJAE3PFp-S06ArE_BJEiwuUVbWsu7cmeNyQBSWQN6uFb2ZUF51EQM2G4BgV5Mo8EDfGzeUSI9eTzG4JBmEaHWogQ37BHGHfJzG5fD3eXaksSMRjfU9N6sPSG4nuQQN7lFClwdTS8eiv2RsMpCRM6hM50EzbbYph2jZhdfjPRnBFUK_4jOwWSih3c7YRyfUPsdF97qBAEfbAEXCC1irtwS0CxAyPxNqfmvL-leJdDrUxAsV5Ko86oG5dZAphtnygU7QvBsD0KJRmp6kNGKKDHOvMoVTq5FTjxvQ",
-  firstName: "Brahim",
-  lastName: "Benalia",
+    "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTM4MmFlMTgxYWJlNjFiOTYwYjA1Yzk3ZmE0MDljNDdhNDQ0ZTciLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiRXJuZXN0IER1b2Nhc3RlbGxhIFRvcnJ1ZWxsYSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQVRYQUp6WUlkVFRUN2tqaFZKT2NZNFQ2ZHRRSS1wU2VTZm9zMWt4S2h1eT1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS93YXZlLTVjY2JhIiwiYXVkIjoid2F2ZS01Y2NiYSIsImF1dGhfdGltZSI6MTYzMzk1MTI5MSwidXNlcl9pZCI6IjhvMndpc3dSaDRRcFVjS01LS2RMU2tNaG1GYjIiLCJzdWIiOiI4bzJ3aXN3Umg0UXBVY0tNS0tkTFNrTWhtRmIyIiwiaWF0IjoxNjMzOTUxMjkxLCJleHAiOjE2MzM5NTQ4OTEsImVtYWlsIjoiZXJuZXN0LmR1b2Nhc3RlbGxhQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTE3NTMxNDU0NjUzMzgzMzEzODE4Il0sImVtYWlsIjpbImVybmVzdC5kdW9jYXN0ZWxsYUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.oKV9q_k6jcp6W9G6Hr2rdHRKpekUDLJm377gva8J4dvurIhZEHnJqpmG8TMiqRyBdaQEtf1Eh6soZe4LYbuLKoZyNdsl7YoYLMIchN7V6w_RKX_2yZfXj4gPFUtDb15A4COLxYLGLKp8AKCEcnePmVeZngg7gP7SWrDyaZKSNwrjho8PNc9U-wzwe7fc5b6H8NtakXlH0Q3eEg1t2P0gK-0pDLDtqDD3Hb4eq6Zp4ALf1D0GHWG8iCDkjQnDReqaZhAtDQldhNRK536L-H7oLXH_3aRKFM5hT4vCULF465mos-ki65XqGxifRMSI5aCf85NjrZAV33CfWt1i87d_cAa",
+  firstName: "Ernest",
+  lastName: "Duocastella",
   profilePicture:
-    "https://lh3.googleusercontent.com/a-/AOh14Gj3eZaATQA6Qaze-Wr6viSshkvTRmC-GhSCjeCE=s96-c",
-  firebaseId: "VMX18cZzflMroWiZhrbV9TfoDvj2",
+    "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633334998/default-preset/default-profile-picture_vbob5l.png",
+  firebaseId: "8o2wiswRh4QpUcKMKKdLSkMhmFb2",
   isRegistering: false,
   isLogged: true,
-  mongoId: "615486c478206d637454b5b6",
+  mongoId: "615426f61755f546b465a66f",
   emailVerified: true,
 };
 
@@ -113,54 +114,58 @@ const tracksData = [
 describe("Should render", () => {
   afterEach(cleanup);
 
-  test.skip("tracks page rendering", async () => {
-    const history = createMemoryHistory();
+  // test("tracks page rendering", async () => {
+  //   const history = createMemoryHistory();
 
-    //* Esto funciona con el mock de axios.js asi { get: ...}
-    // axios.get.mockResolvedValue(tracksData);
-    // const result = await getMyTracks(0, 5, axios);
-    // expect(result).toEqual(tracksData);
+  //   //* Esto funciona con el mock de axios.js asi { get: ...}
+  //   // axios.get.mockResolvedValue(tracksData);
+  //   // const result = await getMyTracks(0, 5, axios);
+  //   // expect(result).toEqual(tracksData);
 
-    //* Esto funciona con el mock de axios.js sin parametros
-    axios.create.mockReturnThis();
-    axios.get
-      .mockResolvedValue({ data: { data: [] } })
-      .mockResolvedValueOnce({ data: { data: [] } })
-      .mockResolvedValueOnce(tracksData);
+  //   //* Esto funciona con el mock de axios.js sin parametros
+  //   axios.create.mockReturnThis();
+  //   axios.get
+  //     .mockResolvedValue({ data: { data: [] } })
+  //     .mockResolvedValueOnce({ data: { data: [] } })
+  //     .mockResolvedValueOnce(tracksData);
 
-    render(
-      <Router history={history}>
-        <Tracks />
-      </Router>,
-    );
+  //   render(
+  //     <Router history={history}>
+  //       <Tracks />
+  //     </Router>,
+  //   );
 
-    // wait for App to load tracks
-    const browserRouter = await waitFor(() =>
-      screen.findAllByTestId("trackCard"),
-    );
+  //   // wait for App to load tracks
+  //   const browserRouter = await waitFor(() =>
+  //     screen.findAllByTestId("trackCard"),
+  //   );
 
-    // expect tracks to be rendered
-    expect(browserRouter).toHaveLength(2);
+  //   // expect tracks to be rendered
+  //   expect(browserRouter).toHaveLength(2);
 
-    // tracks page rendered
-    expect(screen.getByText(/my songs/i)).toBeInTheDocument();
-  });
+  //   // tracks page rendered
+  //   expect(screen.getByText(/my songs/i)).toBeInTheDocument();
+  // });
 
   test("full app rendering/navigating", async () => {
     const history = createMemoryHistory();
 
-    axios.create.mockReturnThis();
-    axios.get
-      .mockResolvedValue({ data: { data: [] } })
-      .mockResolvedValueOnce({ data: { genres: [] } })
-      .mockResolvedValueOnce({ data: { playlists: [] } })
-      .mockResolvedValueOnce({ data: { tracks: tracksData } });
+    act(() => {
+      axios.create.mockReturnThis();
+      axios.get
+        .mockResolvedValue({ data: { data: [] } })
+        .mockResolvedValueOnce({ data: { genres: [] } })
+        .mockResolvedValueOnce({ data: { playlists: [] } })
+        .mockResolvedValueOnce({ data: { tracks: tracksData } });
+    });
 
-    render(
-      <Router history={history}>
-        <RouterComponent />
-      </Router>,
-    );
+    act(() => {
+      render(
+        <Router history={history}>
+          <RouterComponent />
+        </Router>,
+      );
+    });
 
     // wait for App to load App router
     await waitFor(() => screen.findAllByTestId("layout"));
@@ -172,6 +177,8 @@ describe("Should render", () => {
     // screen.debug(see);
 
     userEvent.click(see, leftClick);
+
+    await waitFor(() => screen.findAllByTestId("layout"));
 
     // tracks page rendered
     expect(screen.getByText(/my songs/i)).toBeInTheDocument();

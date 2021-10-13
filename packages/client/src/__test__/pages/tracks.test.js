@@ -66,10 +66,10 @@ const tracksData = {
   },
 };
 
-describe("Tracks Page test", () => {
+describe.skip("Tracks Page test", () => {
   afterEach(cleanup);
 
-  test.skip("Tracks page rendering without songs", async () => {
+  test("Tracks page rendering without songs", async () => {
     const history = createMemoryHistory();
 
     render(
@@ -82,7 +82,7 @@ describe("Tracks Page test", () => {
     expect(screen.getByText(/my songs/i)).toBeInTheDocument();
   });
 
-  test.skip("Tracks page fetch songs", async () => {
+  test("Tracks page fetch songs", async () => {
     axios.create.mockReturnThis();
     axios.get.mockResolvedValue(tracksData);
 
@@ -90,7 +90,7 @@ describe("Tracks Page test", () => {
     expect(result).toEqual(tracksData);
   });
 
-  test.skip("Tracks page rendering with songs", async () => {
+  test("Tracks page rendering with songs", async () => {
     const history = createMemoryHistory();
 
     axios.create.mockReturnThis();

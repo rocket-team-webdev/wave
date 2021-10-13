@@ -8,11 +8,11 @@ import "@testing-library/jest-dom";
 import Input from "../../components/Input";
 
 describe("Input Component", () => {
-  it("renders", () => {
+  test("renders", () => {
     render(<Input label="renderedInput" />);
-    expect(screen.getByLabelText(/renderedinput/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/renderedInput/i)).toBeInTheDocument();
   });
-  it("uploads a file and shows the name", () => {
+  test("uploads a file and shows the name", () => {
     render(<Input type="file" label="fileInput" />);
 
     const inputEl = screen.getByLabelText(/fileInput/);
@@ -25,9 +25,10 @@ describe("Input Component", () => {
 
     expect(screen.getByText(/testImg\.png/)).toBeInTheDocument();
   });
-  it("when gets an error shows the message", () => {
+  test("when gets an error shows the message", () => {
     render(<Input hasErrorMessage errorMessage="testError" />);
 
     expect(screen.getByText(/testError/)).toBeInTheDocument();
+    expect(1).toBe(0);
   });
 });
