@@ -134,7 +134,7 @@ export default function SinglePlaylist() {
           <div className="d-flex align-items-start mt-4">
             {playlistGenres.map((genre) => (
               <div key={genre._id} className="mb-2 me-2">
-                <GenreCard>{genre.name}</GenreCard>
+                <GenreCard>{genre.name.toUpperCase()}</GenreCard>
               </div>
             ))}
           </div>
