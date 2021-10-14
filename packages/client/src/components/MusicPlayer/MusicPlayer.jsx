@@ -186,7 +186,7 @@ export default function MusicPlayer() {
         <div className="rhap_main-container clr-white">
           <div className="rhap_track-info">
             <div className="rhap_album-thumb">
-              <Link to={`${PUBLIC.ALBUMS}/${trackObject.albumId}`}>
+              <Link to={`${PUBLIC.ALBUM}/${trackObject.albumId}`}>
                 <img
                   src={trackObject.trackImg}
                   alt="album-cover"
