@@ -18,3 +18,20 @@ header {
   height: 40px;
   object-fit: contain;
 }
+
+.nav-link {
+  font-weight: 300;
+  min-width: 120px;
+  text-align: center;
+  &:hover {
+    font-weight: 500;
+  }
+}
+
+.active-navlink {
+  font-weight: 700;
+}
+
+.user-link {
+  min-width: 90px;
+}
