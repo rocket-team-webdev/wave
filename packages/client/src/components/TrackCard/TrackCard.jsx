@@ -113,7 +113,14 @@ export default function TrackCard({
   };
 
   const handleAddToQueue = () => {
-    dispatch(addSong(trackObject));
+    const songRepeat = queueState.queue.find(
+      (item) => item.trackId === trackObject.trackId,
+    );
+    if (!songRepeat) {
+      dispatch(addSong(trackObject));
+    } else {
+      toast(`Song already exists on your queue`, { type: "error" });
+    }
   };
 
   const handleDeleteFromQueue = () => {
