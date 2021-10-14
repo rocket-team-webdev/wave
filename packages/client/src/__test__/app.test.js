@@ -1,11 +1,10 @@
 /* eslint-disable jest/no-disabled-tests */
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import { createMemoryHistory } from "history";
+import { createBrowserHistory } from "history";
 import { Router } from "react-router-dom";
 
 import axios from "axios";
-// import * as id3 from "id3js/lib/id3";
 
 import { render, screen, waitFor, cleanup } from "../utils/test-utils";
 import "@testing-library/jest-dom";
@@ -101,9 +100,15 @@ const playlistData = [
 ];
 
 describe("Router App", () => {
-  const history = createMemoryHistory();
+  const history = createBrowserHistory();
 
-  test.skip("Navigating from home to tracks page", async () => {
+  afterEach(() => {
+    cleanup();
+    history.push("/");
+  });
+
+  test("Navigating from home to tracks page", async () => {
+    // const history = createMemoryHistory();
     axios.create.mockReturnThis();
     axios.get
       .mockResolvedValue({ data: { data: [] } })
@@ -118,7 +123,7 @@ describe("Router App", () => {
     );
 
     // wait for App to load App router
-    await waitFor(() => screen.findAllByTestId("layout"));
+    await waitFor(() => screen.getByTestId("layout"));
     await waitFor(() => screen.findAllByTestId("trackCard"));
     expect(screen.getByText(/welcome to waveapp/i)).toBeInTheDocument();
 
@@ -132,23 +137,26 @@ describe("Router App", () => {
   });
 
   test("Render playlists and navigate to playlists page", async () => {
+    // const history = createMemoryHistory();
     axios.create.mockReturnThis();
     axios.get
       .mockResolvedValue({ data: { data: [] } })
       .mockResolvedValueOnce({ data: { genres: [] } })
       .mockResolvedValueOnce({ data: { playlists: playlistData } })
       .mockResolvedValueOnce({ data: { tracks: [] } });
+
     render(
       <Router history={history}>
         <RouterComponent />
       </Router>,
     );
 
-    const leftClick = { button: 0 };
-
     await waitFor(() => screen.findAllByTestId("layout"));
     await waitFor(() => screen.getAllByTestId("playlistCard"));
 
+    expect(screen.getByText(/welcome to waveapp/i)).toBeInTheDocument();
+
+    const leftClick = { button: 0 };
     const seePlaylists = document.querySelector('[href="/playlists"]');
     userEvent.click(seePlaylists, leftClick);
 
