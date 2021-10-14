@@ -10,7 +10,7 @@ export default function Select({
   label = "input-01",
   id = "input-01",
   classNames,
-  // value,
+  value,
   isNegative = false,
   fullWidth = false,
   handleChange = () => {},
@@ -52,7 +52,7 @@ export default function Select({
           className={
             hasAddIcon ? `${selectClassNames} col-md-10` : selectClassNames
           }
-          // value={value}
+          value={value}
           onChange={handleChange}
           onBlur={handleBlur}
           id={id}

@@ -42,6 +42,7 @@ function TrackUpdate() {
         album: track.album,
         genre: track.genre,
       };
+
       await updateTrackById(data);
       history.push(PUBLIC.MY_SONGS);
     },
@@ -57,6 +58,7 @@ function TrackUpdate() {
         album: data.data.album.title || "",
         genre: data.data.genreId.name,
       });
+
       setTrackState(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -128,8 +130,8 @@ function TrackUpdate() {
                 id="title"
                 classNames="col-12"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.title}
                 errorMessage={formik.errors.title}
                 hasErrorMessage={formik.touched.title}
@@ -140,8 +142,8 @@ function TrackUpdate() {
                 id="artist"
                 classNames="col-12"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.artist}
                 errorMessage={formik.errors.artist}
                 hasErrorMessage={formik.touched.artist}
@@ -152,8 +154,8 @@ function TrackUpdate() {
                 id="genre"
                 type="select"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
@@ -167,8 +169,8 @@ function TrackUpdate() {
                 type="select"
                 hasAddIcon
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 handleAddIcon={() => history.push(PUBLIC.ADD_ALBUM)}
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
