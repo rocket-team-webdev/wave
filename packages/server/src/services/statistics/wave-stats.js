@@ -18,15 +18,19 @@ function fetchListenedTracks(api = makePlaybackApi()) {
 }
 
 async function updateListenedTracks() {
-  const { data } = await fetchListenedTracks();
-  const tracksArray = data.data;
-  console.log(tracksArray);
-  await tracksArray.forEach(async (track) => {
-    await db.Track.findOneAndUpdate(
-      { _id: track.trackId },
-      { popularity: track.total },
-    );
-  });
+  try {
+    const { data } = await fetchListenedTracks();
+    const tracksArray = data.data;
+    console.log(tracksArray);
+    await tracksArray.forEach(async (track) => {
+      await db.Track.findOneAndUpdate(
+        { _id: track.trackId },
+        { popularity: track.total },
+      );
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 module.exports = {
