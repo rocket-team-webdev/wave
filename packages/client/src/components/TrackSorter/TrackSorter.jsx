@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import SorterElement from "../SorterElement/SorterElement";
 
 function TrackSorter({
@@ -26,7 +27,7 @@ function TrackSorter({
         break;
       case "titleDesc":
         setTitle("Title");
-        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setIcon(<FaCaretDown className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagTitle: "titleAsc",
@@ -34,7 +35,7 @@ function TrackSorter({
         break;
       case "titleAsc":
         setTitle("Title");
-        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setIcon(<FaCaretUp className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagTitle: "artistDesc",
@@ -42,7 +43,7 @@ function TrackSorter({
         break;
       case "artistDesc":
         setTitle("Artist");
-        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setIcon(<FaCaretDown className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagTitle: "artistAsc",
@@ -50,7 +51,7 @@ function TrackSorter({
         break;
       case "artistAsc":
         setTitle("Artist");
-        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setIcon(<FaCaretUp className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagTitle: "none",
@@ -69,14 +70,14 @@ function TrackSorter({
         setFlag(flagInitialState);
         break;
       case "albumDesc":
-        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setIcon(<FaCaretDown className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagAlbum: "albumAsc",
         });
         break;
       case "albumAsc":
-        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setIcon(<FaCaretUp className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagAlbum: "none",
@@ -95,14 +96,14 @@ function TrackSorter({
         setFlag(flagInitialState);
         break;
       case "popDesc":
-        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setIcon(<FaCaretDown className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagPopularity: "popAsc",
         });
         break;
       case "popAsc":
-        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setIcon(<FaCaretUp className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagPopularity: "none",
@@ -121,14 +122,14 @@ function TrackSorter({
         setFlag(flagInitialState);
         break;
       case "durDesc":
-        setIcon(<i className="fas fa-caret-down fnt-light" />);
+        setIcon(<FaCaretDown className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagDuration: "durAsc",
         });
         break;
       case "durAsc":
-        setIcon(<i className="fas fa-caret-up fnt-light" />);
+        setIcon(<FaCaretUp className="fnt-light" />);
         setFlag({
           ...flagInitialState,
           flagDuration: "none",

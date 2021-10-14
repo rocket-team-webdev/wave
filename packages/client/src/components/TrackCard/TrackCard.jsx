@@ -251,6 +251,7 @@ export default function TrackCard({
                 >
                   <img className="fx-rounded" src={trackImg} alt={trackName} />
                   <i className="fas fa-play fnt-white" />
+                  {/* <FaPlay className="play-icon fnt-white" /> */}
                 </div>
                 {/* Like */}
                 <div className="d-flex fnt-primary">

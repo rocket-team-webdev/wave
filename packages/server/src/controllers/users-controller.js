@@ -73,22 +73,22 @@ async function getUserFollowings(req, res, next) {
 async function getUserPlaylists(req, res, next) {
   try {
     const { id } = req.params;
-    const { page = 0, limit = 4 } = req.query;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { page = 0, limit = 3 } = req.query;
+
     const playlists = await db.Playlist.find(
       { userId: id, isDeleted: false },
       {
         name: 1,
-        // collaborative: 1,
-        // description: 1,
         primaryColor: 1,
         thumbnail: 1,
-        // publicAccessible: 1,
         userId: 1,
-        // tracks: 1,
-        isFollowed: { $setIsSubset: [[id], "$followedBy"] },
+        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
         follows: { $size: "$followedBy" },
       },
     )
+      .sort({ follows: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
@@ -106,22 +106,22 @@ async function getUserPlaylists(req, res, next) {
 async function getUserFollowingPlaylists(req, res, next) {
   try {
     const { id } = req.params;
-    const { page = 0, limit = 4 } = req.query;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { page = 0, limit = 3 } = req.query;
+
     const followingPlaylists = await db.Playlist.find(
       { followedBy: id, isDeleted: false },
       {
         name: 1,
-        // collaborative: 1,
-        // description: 1,
         primaryColor: 1,
         thumbnail: 1,
-        // publicAccessible: 1,
         userId: 1,
-        // tracks: 1,
-        isFollowed: { $setIsSubset: [[id], "$followedBy"] },
+        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
         follows: { $size: "$followedBy" },
       },
     )
+      .sort({ follows: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
@@ -143,7 +143,8 @@ async function getUserFollowingPlaylists(req, res, next) {
 async function getUserAlbums(req, res, next) {
   try {
     const { id } = req.params;
-    const { page = 0, limit = 4 } = req.query;
+
+    const { page = 0, limit = 5 } = req.query;
     const albums = await db.Album.find(
       { userId: id },
       {
@@ -171,6 +172,8 @@ async function getUserAlbums(req, res, next) {
 async function getUserTracks(req, res, next) {
   try {
     const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 5 } = req.query;
 
     const tracks = await db.Track.find(
@@ -179,7 +182,7 @@ async function getUserTracks(req, res, next) {
         name: 1,
         artist: 1,
         likes: { $size: "$likedBy" },
-        isLiked: { $setIsSubset: [[id], "$likedBy"] },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         popularity: 1,
         color: 1,
         // released: 1,
@@ -197,6 +200,7 @@ async function getUserTracks(req, res, next) {
           // sort: { created: -1},
         },
       })
+      .sort({ popularity: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
@@ -214,6 +218,9 @@ async function getUserTracks(req, res, next) {
 async function getUserLikedTracks(req, res, next) {
   try {
     const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
     const { page = 0, limit = 5 } = req.query;
 
     const tracks = await db.Track.find(
@@ -222,7 +229,7 @@ async function getUserLikedTracks(req, res, next) {
         name: 1,
         artist: 1,
         likes: { $size: "$likedBy" },
-        isLiked: { $setIsSubset: [[id], "$likedBy"] },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         popularity: 1,
         color: 1,
         released: 1,
@@ -240,6 +247,7 @@ async function getUserLikedTracks(req, res, next) {
           // sort: { created: -1},
         },
       })
+      .sort({ popularity: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
