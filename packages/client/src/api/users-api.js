@@ -52,7 +52,7 @@ export async function getUserFollowings(
 export async function getUserPlaylists(
   id,
   page = 0,
-  limit = 2,
+  limit = 3,
   api = makeUsersApi(),
 ) {
   const token = await getCurrentUserToken();
@@ -64,7 +64,7 @@ export async function getUserPlaylists(
 export async function getUserFollowingPlaylists(
   id,
   page = 0,
-  limit = 2,
+  limit = 3,
   api = makeUsersApi(),
 ) {
   const token = await getCurrentUserToken();
@@ -83,7 +83,7 @@ export async function getUserFollowingPlaylists(
 export async function getUserAlbums(
   id,
   page = 0,
-  limit = 2,
+  limit = 5,
   api = makeUsersApi(),
 ) {
   const token = await getCurrentUserToken();

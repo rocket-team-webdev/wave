@@ -210,7 +210,9 @@ export default function UserView() {
               variants={fromBottom}
               initial="hidden"
               animate="visible"
-            >{`${user.firstName} ${user.lastName}`}</motion.h1>
+            >
+              {`${user.firstName} ${user.lastName}`.toUpperCase()}
+            </motion.h1>
             <motion.img
               className="user-profile-picture fx-rounded"
               variants={fromBottom}
