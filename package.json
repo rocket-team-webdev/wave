@@ -32,7 +32,7 @@
     "client-test": "yarn workspace client test",
     "server": "yarn workspace server start",
     "stats-server": "yarn workspace stats-server start",
-    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\" "
+    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\""
   },
   "devDependencies": {
     "concurrently": "^6.2.1"
