@@ -45,6 +45,7 @@ export default function Account() {
         formData.append("birthDate", updateState.birthDate);
         formData.append("email", updateState.email);
         formData.append("country", updateState.country);
+
         await updateAccount(formData);
         history.go(0);
         toast("Account updated successfully!", { type: "success" });
@@ -104,8 +105,8 @@ export default function Account() {
                 errorMessage={formik.errors.firstName}
                 hasErrorMessage={formik.touched.firstName}
                 placeholder={formik.values.firstName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 disabled={loadStatus.isLoading || loadStatus.isError}
               />
               <Input
@@ -117,8 +118,8 @@ export default function Account() {
                 errorMessage={formik.errors.lastName}
                 hasErrorMessage={formik.touched.lastName}
                 placeholder={formik.values.lastName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 disabled={loadStatus.isLoading || loadStatus.isError}
               />
               <Input
@@ -130,8 +131,8 @@ export default function Account() {
                 errorMessage={formik.errors.birthDate}
                 hasErrorMessage={formik.touched.birthDate}
                 placeholder={formik.values.birthDate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 disabled={loadStatus.isLoading || loadStatus.isError}
               />
               <Input
@@ -140,9 +141,8 @@ export default function Account() {
                 id="profilePicture"
                 type="file"
                 placeholder="Choose your file"
-                onChange={profilePictureOnChange}
-                onBlur={formik.handleBlur}
-                // value={formik.values.profilePicture}
+                handleChange={profilePictureOnChange}
+                handleBlur={formik.handleBlur}
                 errorMessage={formik.errors.profilePicture}
                 hasErrorMessage={formik.touched.profilePicture}
                 disabled={loadStatus.isLoading || loadStatus.isError}
@@ -156,8 +156,8 @@ export default function Account() {
                 errorMessage={formik.errors.email}
                 hasErrorMessage={formik.touched.email}
                 placeholder={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 disabled={loadStatus.isLoading || loadStatus.isError}
               />
               <Select
@@ -183,7 +183,6 @@ export default function Account() {
               <div className="d-flex justify-content-between mt-5">
                 <div className="col-6 d-flex justify-content-start">
                   <Button
-                    // handleClick={handleDeleteAccount}
                     data-bs-toggle="modal"
                     data-bs-target="#deleteUserModal"
                     isDanger
