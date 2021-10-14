@@ -337,7 +337,12 @@ export default function UserView() {
               {/* User followers */}
               {!isLoading ? (
                 userFollowers.length > 0 && (
-                  <HomeElement label="Followers" cols="12" isAnimationContainer>
+                  <HomeElement
+                    label="Followers"
+                    sublabel={userFollowers.length}
+                    cols="12"
+                    isAnimationContainer
+                  >
                     {userFollowers.map((following) => (
                       <UserCard
                         key={following._id}
@@ -353,10 +358,14 @@ export default function UserView() {
                 </HomeElement>
               )}
               {/* User following */}
-
               {!isLoading ? (
                 userFollowings.length > 0 && (
-                  <HomeElement label="Following" cols="12" isAnimationContainer>
+                  <HomeElement
+                    label="Following"
+                    sublabel={userFollowings.length}
+                    cols="12"
+                    isAnimationContainer
+                  >
                     {userFollowings.map((following) => (
                       <UserCard
                         key={following._id}

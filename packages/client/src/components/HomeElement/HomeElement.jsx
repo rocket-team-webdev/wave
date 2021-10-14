@@ -7,6 +7,7 @@ import "./HomeElement.scss";
 
 export default function HomeElement({
   label,
+  sublabel = false,
   to = false,
   cols = "12",
   isAnimationContainer,
@@ -39,6 +40,11 @@ export default function HomeElement({
                   See all
                   <i className="ms-2 fas fa-arrow-circle-right" />
                 </Link>
+              )}
+              {sublabel && (
+                <p className="fnt-label-light mb-3 truncate home-element-title">
+                  {sublabel}
+                </p>
               )}
             </div>
             <div className={contentClasses}>{children}</div>
