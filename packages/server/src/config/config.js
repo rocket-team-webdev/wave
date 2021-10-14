@@ -14,6 +14,7 @@ const {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
   CLOUDINARY_NAME,
+  WAVE_STATS_API_KEY,
 } = process.env;
 
 const CONFIG = {
@@ -32,6 +33,9 @@ const CONFIG = {
       secret: CLOUDINARY_API_SECRET,
       name: CLOUDINARY_NAME,
     },
+    statsServer: {
+      key: WAVE_STATS_API_KEY,
+    },
   },
   development: {
     app: {
@@ -48,6 +52,9 @@ const CONFIG = {
       secret: CLOUDINARY_API_SECRET,
       name: CLOUDINARY_NAME,
     },
+    statsServer: {
+      key: WAVE_STATS_API_KEY,
+    },
   },
   test: {
     app: {
@@ -60,6 +67,9 @@ const CONFIG = {
       key: CLOUDINARY_API_KEY,
       secret: CLOUDINARY_API_SECRET,
       name: CLOUDINARY_NAME,
+    },
+    statsServer: {
+      key: WAVE_STATS_API_KEY,
     },
   },
 };

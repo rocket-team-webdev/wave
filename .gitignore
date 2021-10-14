@@ -60,3 +60,19 @@ yarn-error.log*
 
 # yarn
 yarn.lock
+
+# laravel
+mysql
+
+/public/hot
+/public/storage
+/storage/*.key
+vendor/
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+
+
+
