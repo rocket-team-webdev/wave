@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { useRouteMatch, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { fromBottom } from "../../../utils/motionSettings";
 
 import Layout from "../../../components/Layout";
 import HomeElement from "../../../components/HomeElement";
-// import GenreCard from "../../../components/GenreCard";
 import PlaylistList from "../../../components/PlaylistList";
 import TrackList from "../../../components/TrackList";
 import GenreCard from "../../../components/GenreCard";
@@ -204,9 +205,17 @@ export default function UserView() {
         <div className="col col-12 ps-0">
           <div className="user-top d-flex justify-content-between">
             {/* Username */}
-            <h1 className="fnt-page-title mb-5 truncate">{`${user.firstName} ${user.lastName}`}</h1>
-            <img
+            <motion.h1
+              className="fnt-page-title mb-5 truncate"
+              variants={fromBottom}
+              initial="hidden"
+              animate="visible"
+            >{`${user.firstName} ${user.lastName}`}</motion.h1>
+            <motion.img
               className="user-profile-picture fx-rounded"
+              variants={fromBottom}
+              initial="hidden"
+              animate="visible"
               src={user.profilePicture}
               alt={user.firstName}
             />
