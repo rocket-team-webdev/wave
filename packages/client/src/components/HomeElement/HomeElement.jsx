@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaArrowCircleRight } from "react-icons/fa";
 import { containerAnimation } from "../../utils/motionSettings";
 
 import "./HomeElement.scss";
@@ -38,7 +39,7 @@ export default function HomeElement({
               {to && (
                 <Link to={to} className="mb-2 fnt-smallest">
                   See all
-                  <i className="ms-2 fas fa-arrow-circle-right" />
+                  <FaArrowCircleRight className="ms-2" />
                 </Link>
               )}
               {sublabel && (
@@ -60,7 +61,7 @@ export default function HomeElement({
               {to && (
                 <Link to={to} className="mb-2 fnt-smallest">
                   See all
-                  <i className="ms-2 fas fa-arrow-circle-right" />
+                  <FaArrowCircleRight className="ms-2" />
                 </Link>
               )}
             </div>
