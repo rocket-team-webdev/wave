@@ -24,12 +24,15 @@ import HeartIcon from "../../../components/SVGicons/HeartIcon";
 import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 import "./SinglePlaylist.scss";
+import GenreCard from "../../../components/GenreCard";
+import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 
 export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
   const [isOwned, setIsOwned] = useState(false);
+  const [playlistGenres, setPlaylistGenres] = useState([]);
 
   const userState = useSelector((state) => state.user);
 
@@ -46,11 +49,19 @@ export default function SinglePlaylist() {
     }
   };
 
+  const getGenresFromTracks = (tracksArray) => {
+    const genres = [];
+    tracksArray.map((track) => genres.push(track.genreId));
+    const cleanedGenres = uniqueValuesArray(genres);
+    setPlaylistGenres(cleanedGenres);
+  };
+
   const loadPlaylist = async () => {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      getGenresFromTracks(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
       handleIsOwned(data.data.userId._id);
     } catch (error) {
@@ -62,6 +73,7 @@ export default function SinglePlaylist() {
       }
     }
   };
+
   const handlePlaying = () => {
     dispatch(clearQueue());
     const tracksArray = [];
@@ -84,6 +96,7 @@ export default function SinglePlaylist() {
     dispatch(setQueue(tracksArray));
     dispatch(setPlayState(true));
   };
+
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
     await followPlaylist(playlistId);
@@ -117,6 +130,13 @@ export default function SinglePlaylist() {
                 <HeartIcon isLarge isNegative />
               )}
             </button>
+          </div>
+          <div className="d-flex align-items-start mt-4">
+            {playlistGenres.map((genre) => (
+              <div key={genre._id} className="mb-2 me-2">
+                <GenreCard>{genre.name}</GenreCard>
+              </div>
+            ))}
           </div>
 
           {/* TODO only show creator if exists */}
