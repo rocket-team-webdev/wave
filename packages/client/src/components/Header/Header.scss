@@ -24,7 +24,8 @@ header {
   min-width: 120px;
   text-align: center;
   &:hover {
-    font-weight: 500;
+    font-weight: 700;
+    color: inherit !important;
   }
 }
 

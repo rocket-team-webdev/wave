@@ -19,7 +19,7 @@ function Header({ props }) {
   const history = useHistory();
 
   const navlinkClasses =
-    "fnt-caption d-flex justify-content-center align-items-center fnt-white nav-link";
+    "fnt-caption d-flex justify-content-center align-items-center fnt-secondary nav-link";
 
   const handleSignOut = async () => {
     await signOut();
@@ -88,6 +88,7 @@ function Header({ props }) {
                       alt="profilePicture"
                     />
                   </button>
+                  {/* Contextual menu */}
                   <ul
                     className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                     aria-labelledby="contextUserMenu"
@@ -124,7 +125,6 @@ function Header({ props }) {
                       </Link>
                     </li>
                     <hr className="light-hr" />
-
                     {/* Displaying at all sizes */}
                     <li>
                       <button
