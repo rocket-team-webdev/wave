@@ -58,7 +58,7 @@ export default function PlaylistCard({
       className={componentClasses}
     >
       <motion.div
-        className="d-flex flex-column justify-content-between playlist-card fx-rounded p-3"
+        className="d-flex flex-column justify-content-between playlist-card fx-rounded py-3 px-4"
         // Animation settings
         variants={fromBottom}
       >

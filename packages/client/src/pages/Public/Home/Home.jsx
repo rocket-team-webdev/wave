@@ -72,8 +72,7 @@ export default function Home() {
         </div>
         <div className="col col-12 col-md-5 container-fluid mx-0">
           {/* Popular/MyWave */}
-          <div className="d-flex justify-content-between align-items-center mb-5">
-            <p className="fnt-label-bold fnt-light">App view</p>
+          <div className="d-flex justify-content-end align-items-center mb-5">
             <RadioButtons handleChange={handleChangeView} />
           </div>
           {/* Switch view */}

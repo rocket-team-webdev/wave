@@ -22,6 +22,7 @@ export const PUBLIC = {
   ADD_PLAYLIST: "/playlists/add",
   SINGLE_PLAYLIST: "/playlist",
   PLAYLIST_UPDATE: "/playlist/update",
+  QUEUE: "/queue",
   NOT_FOUND: "/404",
 };
 

@@ -19,7 +19,7 @@ export default function AlbumCard({ albumId, albumTitle }) {
         to={`${PUBLIC.ALBUMS}/${albumId}`}
         className="d-flex align-items-center me-4 mb-2 user-card w-100"
       >
-        <FaCompactDisc className="fnt-light me-2" />
+        <FaCompactDisc className="fnt-light fnt-input-bold me-2" />
         <p className="mb-0 fnt-caption fnt-light truncate">{albumTitle}</p>
       </Link>
     </motion.div>

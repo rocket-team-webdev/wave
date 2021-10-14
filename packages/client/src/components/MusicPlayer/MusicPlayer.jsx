@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-
 import { toast } from "react-toastify";
-import { FaPlay, FaPause } from "react-icons/fa";
+import { FaEllipsisH, FaPlay, FaPause } from "react-icons/fa";
 import {
   MdRepeat,
   MdRepeatOne,
@@ -223,19 +222,19 @@ export default function MusicPlayer() {
                 aria-expanded="false"
                 onClick={handleOpenDropdown}
               >
-                <i className="fas fa-ellipsis-h" />
+                <FaEllipsisH />
               </button>
               <ul
                 className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                 aria-labelledby="contextTrackMenu"
               >
                 <>
-                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                  <Link to={`${PUBLIC.QUEUE}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
                     >
-                      Queue/Playlist
+                      Queue
                     </p>
                   </Link>
                   <hr className="dropdown-wrapper m-0" />

@@ -237,7 +237,9 @@ export default function UserView() {
               variants={fromBottom}
               initial="hidden"
               animate="visible"
-            >{`${user.firstName} ${user.lastName}`}</motion.h1>
+            >
+              {`${user.firstName} ${user.lastName}`.toUpperCase()}
+            </motion.h1>
             <motion.img
               className="user-profile-picture fx-rounded"
               variants={fromBottom}
@@ -364,7 +366,12 @@ export default function UserView() {
               {/* User followers */}
               {!isLoading ? (
                 userFollowers.length > 0 && (
-                  <HomeElement label="Followers" cols="12" isAnimationContainer>
+                  <HomeElement
+                    label="Followers"
+                    sublabel={userFollowers.length}
+                    cols="12"
+                    isAnimationContainer
+                  >
                     {userFollowers.map((following) => (
                       <UserCard
                         key={following._id}
@@ -380,10 +387,14 @@ export default function UserView() {
                 </HomeElement>
               )}
               {/* User following */}
-
               {!isLoading ? (
                 userFollowings.length > 0 && (
-                  <HomeElement label="Following" cols="12" isAnimationContainer>
+                  <HomeElement
+                    label="Following"
+                    sublabel={userFollowings.length}
+                    cols="12"
+                    isAnimationContainer
+                  >
                     {userFollowings.map((following) => (
                       <UserCard
                         key={following._id}
