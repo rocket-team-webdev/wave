@@ -20,7 +20,7 @@ function TrackList({
   onAddLikedColumn = () => {},
   hasSorter,
   isOnPlaylist = false,
-  isOnQueue = false,
+  // isOnQueue = false,
 }) {
   const flagInitialState = {
     flagTitle: "titleDesc",
@@ -182,35 +182,13 @@ function TrackList({
     return result;
   };
 
-  // const updateQueue = (tracksUpdated) => {
-  //   const tracksArray = [];
-  //   tracksUpdated.forEach((track) => {
-  //     const trackObject = {
-  //       name: track.name,
-  //       url: track.url,
-  //       duration: track.duration,
-  //       genreId: track.genreId,
-  //       artist: track.artist,
-  //       album: track.album.title,
-  //       isLiked: track.isLiked,
-  //       trackId: track._id,
-  //       albumId: track.album._id,
-  //       trackImg: track.album.thumbnail,
-  //     };
-  //     tracksArray.push(trackObject);
-  //   });
-  //   dispatch(setQueue(tracksArray));
-  // };
-
   const onDragEndUploaded = async (res) => {
     const { destination, source } = res;
 
     if (!destination) return;
 
     const items = reorder(tracks, source.index, destination.index);
-    console.log(items);
     setTracks(items);
-    // updateQueue(items);
     await updatePlaylistOrder({
       source: {
         index: source.index,
@@ -268,7 +246,7 @@ function TrackList({
                       updateDeletedView={handleDeletedView}
                       draggable={hasSorter}
                       isOnPlaylist={isOnPlaylist}
-                      isOnQueue={isOnQueue}
+                      // isOnQueue={isOnQueue}
                     />
                   ))}
                 </motion.div>
