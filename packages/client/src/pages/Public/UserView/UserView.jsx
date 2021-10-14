@@ -28,8 +28,6 @@ import {
   getUserLikedTracks,
 } from "../../../api/users-api";
 
-// TODO get user genres
-import { getAllGenres } from "../../../api/genre-api";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 
 export default function UserView() {
@@ -69,18 +67,6 @@ export default function UserView() {
     const cleanedGenres = uniqueValuesArray(genres);
     setUserGenres(cleanedGenres);
   };
-
-  // const loadUserGenres = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const { data } = await getAllGenres();
-  //     setUserGenres(data.genres);
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     toast(error.message, { type: "error" });
-  //     setIsLoading(false);
-  //   }
-  // };
 
   // Users
 
@@ -176,8 +162,6 @@ export default function UserView() {
   useEffect(() => {
     // General
     loadUser();
-    // Genres
-    // loadUserGenres();
     // Users
     loadUserFollowers();
     loadUserFollowings();
@@ -194,8 +178,6 @@ export default function UserView() {
   useEffect(() => {
     // General
     loadUser();
-    // Genres
-    // loadUserGenres();
     // Users
     loadUserFollowers();
     loadUserFollowings();
