@@ -7,9 +7,11 @@ import { FaEllipsisH } from "react-icons/fa";
 import { motion } from "framer-motion";
 import {
   addSong,
+  deleteSong,
   setPlayState,
   setSong,
   like,
+  clearQueue,
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -35,7 +37,7 @@ export default function TrackCard({
   albumId,
   time,
   userId,
-  playCounter = 0,
+  popularity = 0,
   trackUrl,
   genreId,
   isLiked,
@@ -45,6 +47,7 @@ export default function TrackCard({
   updateLikedView = () => {},
   updateDeletedView = () => {},
   isOnPlaylist,
+  isOnQueue,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
@@ -65,6 +68,7 @@ export default function TrackCard({
     trackId: trackId,
     albumId: albumId,
     trackImg: trackImg,
+    popularity: popularity,
   };
 
   const handleOnOwnedPlaylist = () => {
@@ -110,7 +114,33 @@ export default function TrackCard({
   };
 
   const handleAddToQueue = () => {
-    dispatch(addSong(trackObject));
+    const songRepeat = queueState.queue.find(
+      (item) => item.trackId === trackObject.trackId,
+    );
+    if (!songRepeat) {
+      dispatch(addSong(trackObject));
+    } else {
+      toast(`Song already exists on your queue`, { type: "error" });
+    }
+  };
+
+  const handleDeleteFromQueue = () => {
+    if (queueState.queue.length === 1) {
+      dispatch(clearQueue());
+    } else {
+      const payload = {
+        index: index,
+        listPosition: queueState.listPosition,
+        offset: 0,
+      };
+      if (
+        queueState.listPosition + 1 === queueState.queue.length ||
+        (index === queueState.listPosition && index !== 0)
+      ) {
+        payload.offset = 1;
+      }
+      dispatch(deleteSong(payload));
+    }
   };
 
   const handleDeleteSong = async () => {
@@ -260,7 +290,7 @@ export default function TrackCard({
               {/* Playcounter */}
               <div className="col col-2 d-flex justify-content-between align-items-center">
                 <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
-                  {formatPlayCounter(playCounter)}
+                  {formatPlayCounter(popularity)}
                 </h4>
               </div>
               <div className="col col-2 d-flex justify-content-between align-items-center">
@@ -284,15 +314,28 @@ export default function TrackCard({
                     className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                     aria-labelledby="contextSongMenu"
                   >
-                    <li>
-                      <button
-                        className="dropdown-item fnt-light fnt-song-regular "
-                        type="button"
-                        onClick={handleAddToQueue}
-                      >
-                        Add to queue
-                      </button>
-                    </li>
+                    {isOnQueue ? (
+                      <li>
+                        <button
+                          className="dropdown-item fnt-light fnt-song-regular "
+                          type="button"
+                          onClick={handleDeleteFromQueue}
+                        >
+                          Delete from queue
+                        </button>
+                      </li>
+                    ) : (
+                      <li>
+                        <button
+                          className="dropdown-item fnt-light fnt-song-regular "
+                          type="button"
+                          onClick={handleAddToQueue}
+                        >
+                          Add to queue
+                        </button>
+                      </li>
+                    )}
+
                     <hr className="dropdown-wrapper m-0" />
                     {onOwnedPlaylist ? (
                       <button

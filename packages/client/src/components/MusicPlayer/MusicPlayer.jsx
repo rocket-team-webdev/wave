@@ -230,12 +230,12 @@ export default function MusicPlayer() {
                 aria-labelledby="contextTrackMenu"
               >
                 <>
-                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                  <Link to={`${PUBLIC.QUEUE}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
                     >
-                      Queue/Playlist
+                      Queue
                     </p>
                   </Link>
                   <hr className="dropdown-wrapper m-0" />
