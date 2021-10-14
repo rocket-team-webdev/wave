@@ -1,13 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { FaCompactDisc } from "react-icons/fa";
 import { fromBottom } from "../../utils/motionSettings";
 
 import { PUBLIC } from "../../constants/routes";
 
-import "./UserCard.scss";
+import "./AlbumCard.scss";
 
-export default function UserCard({ userId, userName }) {
+export default function AlbumCard({ albumId, albumTitle }) {
   return (
     <motion.div
       className="w-100"
@@ -15,11 +16,11 @@ export default function UserCard({ userId, userName }) {
       variants={fromBottom}
     >
       <Link
-        to={`${PUBLIC.USER_VIEW}/${userId}`}
+        to={`${PUBLIC.ALBUMS}/${albumId}`}
         className="d-flex align-items-center me-4 mb-2 user-card w-100"
       >
-        <i className="fas fa-user-circle fnt-light me-2 fs-4" />
-        <p className="mb-0 fnt-caption fnt-light truncate">{userName}</p>
+        <FaCompactDisc className="fnt-light me-2" />
+        <p className="mb-0 fnt-caption fnt-light truncate">{albumTitle}</p>
       </Link>
     </motion.div>
   );
