@@ -12,6 +12,7 @@ import SignUp from "../../pages/Public/SignUp";
 import UpdatePassword from "../../pages/Public/UpdatePassword";
 import SignIn from "../../pages/Public/SignIn";
 import Account from "../../pages/Public/Account/Account";
+import UserView from "../../pages/Public/UserView";
 import Reauthenticate from "../../pages/Public/Reauthenticate";
 import ResetPassword from "../../pages/Public/ResetPassword";
 import TrackUpdate from "../../pages/Public/TrackUpdate";
@@ -41,6 +42,9 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
           <TrackUpdate />
+        </PrivateRoute>
+        <PrivateRoute path={PUBLIC.USER_VIEW}>
+          <UserView />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
           <Account />
