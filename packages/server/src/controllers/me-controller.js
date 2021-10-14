@@ -207,6 +207,7 @@ async function getMyLikedTracks(req, res, next) {
           // sort: { created: -1},
         },
       })
+      .sort({ popularity: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
