@@ -92,9 +92,43 @@ function Header({ props }) {
                     className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                     aria-labelledby="contextUserMenu"
                   >
+                    {/* Displaying in small sizes */}
+                    <li className="d-md-none fnt-light">
+                      <Link
+                        to={PUBLIC.MY_SONGS}
+                        className="dropdown-item fnt-link-regular"
+                        type="button"
+                        onClick={() => {}}
+                      >
+                        My songs
+                      </Link>
+                    </li>
+                    <li className="d-md-none fnt-light">
+                      <Link
+                        to={PUBLIC.MY_PLAYLISTS}
+                        className="dropdown-item fnt-link-regular"
+                        type="button"
+                        onClick={() => {}}
+                      >
+                        My playlists
+                      </Link>
+                    </li>
+                    <li className="d-md-none fnt-light">
+                      <Link
+                        to="/"
+                        className="dropdown-item fnt-link-regular"
+                        type="button"
+                        onClick={() => {}}
+                      >
+                        My albums
+                      </Link>
+                    </li>
+                    <hr className="light-hr" />
+
+                    {/* Displaying at all sizes */}
                     <li>
                       <button
-                        className="dropdown-item fnt-light fnt-song-regular "
+                        className="dropdown-item fnt-light fnt-link-regular"
                         type="button"
                         onClick={() => {}}
                       >

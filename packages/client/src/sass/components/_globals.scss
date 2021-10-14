@@ -18,7 +18,7 @@
   }
 
   // Guides
-  outline: 2px solid blue;
+  // outline: 2px solid blue;
 }
 
 body {
@@ -85,6 +85,10 @@ button:active {
   width: fit-content;
 }
 
+.light-hr {
+  border: 1px solid white !important;
+  margin: 5px 0;
+}
 /* -------------------------------------------------------------------------- */
 /*                               Global effects                               */
 /* -------------------------------------------------------------------------- */
