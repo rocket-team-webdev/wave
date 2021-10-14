@@ -17,9 +17,9 @@ function Header({ props }) {
   const userState = useSelector((state) => state.user);
 
   const handleSignOut = async () => {
-    await signOut();
     dispatch(logOut());
     dispatch(clearQueue());
+    await signOut();
   };
   return (
     <header
