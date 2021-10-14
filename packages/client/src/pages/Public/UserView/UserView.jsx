@@ -28,12 +28,15 @@ import {
   getUserLikedTracks,
 } from "../../../api/users-api";
 
+// TODO get user genres
+import { getAllGenres } from "../../../api/genre-api";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 
 export default function UserView() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
   const [userGenres, setUserGenres] = useState([]);
+  const [allGenres, setAllGenres] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
   const [userFollowings, setUserFollowings] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
@@ -47,7 +50,6 @@ export default function UserView() {
   const location = useLocation();
 
   // General
-
   const loadUser = async () => {
     setIsLoading(true);
     try {
@@ -61,11 +63,36 @@ export default function UserView() {
   };
 
   // Genres
-  const getGenresFromTracks = (tracksArray) => {
-    const genres = [];
-    tracksArray.map((track) => genres.push(track));
-    const cleanedGenres = uniqueValuesArray(genres);
+  const getUserGenresFromTracks = (tracksArray) => {
+    const genresArray = [];
+    tracksArray.map((track) => {
+      const foundUserGenre = allGenres.filter(
+        (genre) => genre._id === track.genreId,
+      );
+      genresArray.push(...foundUserGenre);
+      return genresArray;
+    });
+    const cleanedGenres = uniqueValuesArray(genresArray);
     setUserGenres(cleanedGenres);
+  };
+
+  const loadUserGenres = () => {
+    const allTracks = [];
+    userTracks.map((track) => allTracks.push(track));
+    userLikedTracks.map((track) => allTracks.push(track));
+    getUserGenresFromTracks(allTracks);
+  };
+
+  const loadAllGenres = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await getAllGenres();
+      setAllGenres(data.genres);
+      setIsLoading(false);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setIsLoading(false);
+    }
   };
 
   // Users
@@ -162,6 +189,8 @@ export default function UserView() {
   useEffect(() => {
     // General
     loadUser();
+    // Genres
+    loadAllGenres();
     // Users
     loadUserFollowers();
     loadUserFollowings();
@@ -178,6 +207,8 @@ export default function UserView() {
   useEffect(() => {
     // General
     loadUser();
+    // Genres
+    loadAllGenres();
     // Users
     loadUserFollowers();
     loadUserFollowings();
@@ -192,10 +223,7 @@ export default function UserView() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const allTracks = [];
-    userTracks.map((track) => allTracks.push(track));
-    userLikedTracks.map((track) => allTracks.push(track));
-    getGenresFromTracks(allTracks);
+    loadUserGenres();
   }, [userTracks, userLikedTracks]);
 
   return (
