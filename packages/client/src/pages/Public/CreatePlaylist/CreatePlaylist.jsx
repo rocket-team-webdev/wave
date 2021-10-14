@@ -78,7 +78,7 @@ export default function CreatePlaylist() {
         <div className="mb-5">
           <JumboText priText="New playlist" cols="12" isNegative />
         </div>
-
+        {/* //TODO THUMBNAIL */}
         <div className="col col-12 col-md-6">
           <DragAndDrop
             paddingBottom="65px"
@@ -91,7 +91,7 @@ export default function CreatePlaylist() {
 
         <div className="row col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
-            <h1 className="fnt-form-title mb-5">Playlist details</h1>
+            <h1 className="fnt-form-title mb-4">Playlist details</h1>
             <div className="row">
               <Input
                 label="name"
@@ -132,21 +132,20 @@ export default function CreatePlaylist() {
                 errorMessage={formik.errors.description}
                 hasErrorMessage={formik.touched.description}
               />
-
-              <Checkbox
-                label="Private"
-                id="publicAccessible"
-                ref={publicAccessibleCheckbox}
-                checked={publicAccessible}
-                onChange={handlePublicAccessible}
-              />
-            </div>
-            <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
-              <p className="fnt-smallest col col-12 col-md-8 p-0">
-                <strong>Note:</strong> Don&apos;t forget to upload the cover
-                file.
-              </p>
-              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
+              <div className="col col-12 col-md-8">
+                <Checkbox
+                  label="Private"
+                  id="publicAccessible"
+                  ref={publicAccessibleCheckbox}
+                  checked={publicAccessible}
+                  onChange={handlePublicAccessible}
+                />
+                <p className="fnt-smallest mt-2 m-0">
+                  <strong>Note:</strong> Don&apos;t forget to upload the cover
+                  file.
+                </p>
+              </div>
+              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4">
                 <Button
                   isNegative
                   secondaryBtn
