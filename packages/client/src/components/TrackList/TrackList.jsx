@@ -41,138 +41,6 @@ function TrackList({
     setTracks(updatedListOfTracks);
   };
 
-  const sortByTitleAndArtist = () => {
-    let sortedTracks = [];
-    switch (flag.flagTitle) {
-      case "none":
-        setTracks(tracks);
-        setFlag(flagInitialState);
-        break;
-      case "titleDesc":
-        sortedTracks = sortArrayDescendent(tracks, "name");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagTitle: "titleAsc",
-        });
-        break;
-      case "titleAsc":
-        sortedTracks = sortArrayAscendent(tracks, "name");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagTitle: "artistDesc",
-        });
-        break;
-      case "artistDesc":
-        sortedTracks = sortArrayDescendent(tracks, "artist");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagTitle: "artistAsc",
-        });
-        break;
-      case "artistAsc":
-        sortedTracks = sortArrayAscendent(tracks, "artist");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagTitle: "none",
-        });
-        break;
-      default:
-        setTracks(tracks);
-    }
-  };
-
-  const sortByAlbum = () => {
-    let sortedTracks = [];
-    switch (flag.flagAlbum) {
-      case "none":
-        setTracks(tracks);
-        setFlag(flagInitialState);
-        break;
-      case "albumDesc":
-        sortedTracks = sortArrayAscendent(tracks, "album", "title");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagAlbum: "albumAsc",
-        });
-        break;
-      case "albumAsc":
-        sortedTracks = sortArrayDescendent(tracks, "album", "title");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagAlbum: "none",
-        });
-        break;
-      default:
-        setTracks(tracks);
-    }
-  };
-
-  const sortByPopularity = () => {
-    let sortedTracks = [];
-    switch (flag.flagPopularity) {
-      case "none":
-        setTracks(tracks);
-        setFlag(flagInitialState);
-        break;
-      case "popDesc":
-        sortedTracks = sortArrayDescendent(tracks, "popularity");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagPopularity: "popAsc",
-        });
-        break;
-      case "popAsc":
-        sortedTracks = sortArrayAscendent(tracks, "popularity");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagPopularity: "none",
-        });
-        break;
-      default:
-        setTracks(tracks);
-    }
-  };
-
-  const sortByDuration = () => {
-    let sortedTracks = [];
-    switch (flag.flagDuration) {
-      case "none":
-        setTracks(tracks);
-        setFlag(flagInitialState);
-        break;
-      case "durDesc":
-        sortedTracks = sortArrayDescendent(tracks, "duration");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagDuration: "durAsc",
-        });
-        break;
-      case "durAsc":
-        sortedTracks = sortArrayAscendent(tracks, "duration");
-        setTracks(sortedTracks);
-        setFlag({
-          ...flagInitialState,
-          flagDuration: "none",
-        });
-        break;
-      default:
-        setTracks(tracks);
-    }
-  };
-
-  // useEffect(() => {
-  //   setTracks(tracks);
-  // }, [tracks]);
-
   const updateQueue = (tracksUpdated) => {
     const tracksArray = [];
     tracksUpdated.forEach((track) => {
@@ -192,6 +60,154 @@ function TrackList({
     });
     dispatch(setQueue(tracksArray));
   };
+
+  const sortByTitleAndArtist = () => {
+    let sortedTracks = [];
+    switch (flag.flagTitle) {
+      case "none":
+        setTracks(tracks);
+        updateQueue(tracks);
+        setFlag(flagInitialState);
+        break;
+      case "titleDesc":
+        sortedTracks = sortArrayDescendent(tracks, "name");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagTitle: "titleAsc",
+        });
+        break;
+      case "titleAsc":
+        sortedTracks = sortArrayAscendent(tracks, "name");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagTitle: "artistDesc",
+        });
+        break;
+      case "artistDesc":
+        sortedTracks = sortArrayDescendent(tracks, "artist");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagTitle: "artistAsc",
+        });
+        break;
+      case "artistAsc":
+        sortedTracks = sortArrayAscendent(tracks, "artist");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagTitle: "none",
+        });
+        break;
+      default:
+        setTracks(tracks);
+        updateQueue(tracks);
+    }
+  };
+
+  const sortByAlbum = () => {
+    let sortedTracks = [];
+    switch (flag.flagAlbum) {
+      case "none":
+        setTracks(tracks);
+        updateQueue(tracks);
+        setFlag(flagInitialState);
+        break;
+      case "albumDesc":
+        sortedTracks = sortArrayAscendent(tracks, "album", "title");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagAlbum: "albumAsc",
+        });
+        break;
+      case "albumAsc":
+        sortedTracks = sortArrayDescendent(tracks, "album", "title");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagAlbum: "none",
+        });
+        break;
+      default:
+        setTracks(tracks);
+        updateQueue(tracks);
+    }
+  };
+
+  const sortByPopularity = () => {
+    let sortedTracks = [];
+    switch (flag.flagPopularity) {
+      case "none":
+        setTracks(tracks);
+        updateQueue(tracks);
+        setFlag(flagInitialState);
+        break;
+      case "popDesc":
+        sortedTracks = sortArrayDescendent(tracks, "popularity");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagPopularity: "popAsc",
+        });
+        break;
+      case "popAsc":
+        sortedTracks = sortArrayAscendent(tracks, "popularity");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagPopularity: "none",
+        });
+        break;
+      default:
+        setTracks(tracks);
+    }
+  };
+
+  const sortByDuration = () => {
+    let sortedTracks = [];
+    switch (flag.flagDuration) {
+      case "none":
+        setTracks(tracks);
+        updateQueue(tracks);
+        setFlag(flagInitialState);
+        break;
+      case "durDesc":
+        sortedTracks = sortArrayDescendent(tracks, "duration");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagDuration: "durAsc",
+        });
+        break;
+      case "durAsc":
+        sortedTracks = sortArrayAscendent(tracks, "duration");
+        setTracks(sortedTracks);
+        updateQueue(sortedTracks);
+        setFlag({
+          ...flagInitialState,
+          flagDuration: "none",
+        });
+        break;
+      default:
+        setTracks(tracks);
+    }
+  };
+
+  // useEffect(() => {
+  //   setTracks(tracks);
+  // }, [tracks]);
 
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);

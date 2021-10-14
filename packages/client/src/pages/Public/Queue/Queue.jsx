@@ -100,7 +100,7 @@ export default function Queue() {
             setTracks={setTracks}
             hasSorter
             isOnQueue
-            isOnPlaylist
+            // isOnPlaylist={queueState.queue}
           />
         </div>
       </div>
