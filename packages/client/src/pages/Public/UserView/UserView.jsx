@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Layout from "../../../components/Layout";
@@ -8,8 +8,9 @@ import HomeElement from "../../../components/HomeElement";
 // import GenreCard from "../../../components/GenreCard";
 import PlaylistList from "../../../components/PlaylistList";
 import TrackList from "../../../components/TrackList";
-import UserCard from "../../../components/UserCard";
+import GenreCard from "../../../components/GenreCard";
 import AlbumCard from "../../../components/AlbumCard";
+import UserCard from "../../../components/UserCard";
 import Spinner from "../../../components/Spinner";
 
 import "./UserView.scss";
@@ -26,9 +27,13 @@ import {
   getUserLikedTracks,
 } from "../../../api/users-api";
 
+// TODO get user genres
+import { getAllGenres } from "../../../api/genre-api";
+
 export default function UserView() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
+  const [userGenres, setUserGenres] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
   const [userFollowings, setUserFollowings] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
@@ -38,6 +43,8 @@ export default function UserView() {
   const [userLikedTracks, setUserLikedTracks] = useState([]);
 
   const { userId } = useRouteMatch(`${PUBLIC.USERS}/:userId`).params;
+
+  const location = useLocation();
 
   // General
 
@@ -53,10 +60,23 @@ export default function UserView() {
     }
   };
 
+  // Genres
+  const loadUserGenres = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await getAllGenres();
+      setUserGenres(data.genres);
+      setIsLoading(false);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setIsLoading(false);
+    }
+  };
+
   // Users
 
   const loadUserFollowers = async () => {
-    setIsLoading(false);
+    setIsLoading(true);
     try {
       const { data } = await getUserFollowers(userId);
       setUserFollowers(data.data);
@@ -68,7 +88,7 @@ export default function UserView() {
   };
 
   const loadUserFollowings = async () => {
-    setIsLoading(false);
+    setIsLoading(true);
     try {
       const { data } = await getUserFollowings(userId);
       setUserFollowings(data.data);
@@ -145,6 +165,8 @@ export default function UserView() {
   useEffect(() => {
     // General
     loadUser();
+    // Genres
+    loadUserGenres();
     // Users
     loadUserFollowers();
     loadUserFollowings();
@@ -157,6 +179,24 @@ export default function UserView() {
     loadUserTracks();
     loadUserLikedTracks();
   }, []);
+
+  useEffect(() => {
+    // General
+    loadUser();
+    // Genres
+    loadUserGenres();
+    // Users
+    loadUserFollowers();
+    loadUserFollowings();
+    // Playlists
+    loadUserPlaylists();
+    loadUserFollowingPlaylists();
+    // Albums
+    loadUserAlbums();
+    // Tracks
+    loadUserTracks();
+    loadUserLikedTracks();
+  }, [location.pathname]);
 
   return (
     <Layout isNegative>
@@ -251,40 +291,75 @@ export default function UserView() {
             </div>
             {/* Bottom right */}
             <div className="bottom-right col col-12 col-md-2 row p-0 m-0 gx-4 gy-5 h-fit-content">
+              {/* TODO User genres */}
+              {!isLoading ? (
+                userGenres.length > 0 && (
+                  <HomeElement label="Genres" isAnimationContainer>
+                    {userGenres.map((genre) => (
+                      <div key={genre.name} className="mb-2 me-2">
+                        <GenreCard>{genre.name.toUpperCase()}</GenreCard>
+                      </div>
+                    ))}
+                  </HomeElement>
+                )
+              ) : (
+                <HomeElement label="Liked tracks">
+                  <Spinner isNegative />
+                </HomeElement>
+              )}
               {/* User albums */}
-              {userAlbums.length > 0 && (
-                <HomeElement label="Followers" cols="12" isAnimationContainer>
-                  {userAlbums.map((album) => (
-                    <AlbumCard
-                      key={album._id}
-                      albumId={album._id}
-                      albumTitle={album.title}
-                    />
-                  ))}
+              {!isLoading ? (
+                userAlbums.length > 0 && (
+                  <HomeElement label="Albums" cols="12" isAnimationContainer>
+                    {userAlbums.map((album) => (
+                      <AlbumCard
+                        key={album._id}
+                        albumId={album._id}
+                        albumTitle={album.title}
+                      />
+                    ))}
+                  </HomeElement>
+                )
+              ) : (
+                <HomeElement label="Liked tracks">
+                  <Spinner isNegative />
                 </HomeElement>
               )}
               {/* User followers */}
-              {userFollowers.length > 0 && (
-                <HomeElement label="Followers" cols="12" isAnimationContainer>
-                  {userFollowers.map((following) => (
-                    <UserCard
-                      key={following._id}
-                      userId={following._id}
-                      userName={following.firstName}
-                    />
-                  ))}
+              {!isLoading ? (
+                userFollowers.length > 0 && (
+                  <HomeElement label="Followers" cols="12" isAnimationContainer>
+                    {userFollowers.map((following) => (
+                      <UserCard
+                        key={following._id}
+                        userId={following._id}
+                        userName={following.firstName}
+                      />
+                    ))}
+                  </HomeElement>
+                )
+              ) : (
+                <HomeElement label="Liked tracks">
+                  <Spinner isNegative />
                 </HomeElement>
               )}
               {/* User following */}
-              {userFollowings.length > 0 && (
-                <HomeElement label="Following" cols="12" isAnimationContainer>
-                  {userFollowings.map((following) => (
-                    <UserCard
-                      key={following._id}
-                      userId={following._id}
-                      userName={following.firstName}
-                    />
-                  ))}
+
+              {!isLoading ? (
+                userFollowings.length > 0 && (
+                  <HomeElement label="Following" cols="12" isAnimationContainer>
+                    {userFollowings.map((following) => (
+                      <UserCard
+                        key={following._id}
+                        userId={following._id}
+                        userName={following.firstName}
+                      />
+                    ))}
+                  </HomeElement>
+                )
+              ) : (
+                <HomeElement label="Liked tracks">
+                  <Spinner isNegative />
                 </HomeElement>
               )}
             </div>

@@ -193,7 +193,7 @@ function TrackList({
   };
 
   return (
-    <>
+    <div className="mw-100">
       <DragDropContext onDragEnd={onDragEndUploaded}>
         <Droppable droppableId="Uploaded">
           {(provided) => (
@@ -244,7 +244,7 @@ function TrackList({
           )}
         </Droppable>
       </DragDropContext>
-    </>
+    </div>
   );
 }
 
