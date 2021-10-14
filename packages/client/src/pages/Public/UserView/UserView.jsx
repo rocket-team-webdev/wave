@@ -4,7 +4,11 @@ import { useRouteMatch } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
-import { getUserById, getUserPlaylists } from "../../../api/users-api";
+import {
+  getUserById,
+  getUserPlaylists,
+  getUserFollowingPlaylists,
+} from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
 
 import Layout from "../../../components/Layout";
@@ -18,8 +22,9 @@ export default function UserView() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
   //   const [userFollowers, setUserFollowers] = useState([]);
-  //   const [userFollowings, setUserFollowings] = useState([]);
+  const [userFollowings, setUserFollowings] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
+  const [userFollowingPlaylists, setUserFollowingPlaylists] = useState([]);
   //   const [userAlbums, setUserAlbums] = useState([]);
   //   const [userUploadedTracks, setUserUploadedTracks] = useState([]);
   //   const [userLikedTracks, setUserLikedTracks] = useState([]);
@@ -31,7 +36,6 @@ export default function UserView() {
     try {
       const { data } = await getUserById(userId);
       setUser(data.data);
-      console.log(data.data);
       setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -39,7 +43,11 @@ export default function UserView() {
     }
   };
 
-  const loadUserData = async () => {
+  // Users
+
+  // Playlists
+
+  const loadUserPlaylists = async () => {
     setIsLoading(true);
     try {
       const { data } = await getUserPlaylists(userId);
@@ -50,9 +58,22 @@ export default function UserView() {
     }
   };
 
+  const loadUserFollowingPlaylists = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await getUserFollowingPlaylists(userId);
+      setUserFollowingPlaylists(data.data);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadUser();
-    loadUserData();
+    // Playlists
+    loadUserPlaylists();
+    loadUserFollowingPlaylists();
   }, []);
 
   return (
@@ -66,6 +87,7 @@ export default function UserView() {
             {/* Bottom left */}
             <div className="col col-12 col-md-10 bottom-left">
               <code>{JSON.stringify(userPlaylists)}</code>
+              <code>{JSON.stringify(userFollowingPlaylists)}</code>
             </div>
             {/* Bottom right */}
             <div className="col col-12 col-md-2 bottom-right">right</div>
