@@ -218,7 +218,7 @@ export default function TrackCard({
       >
         {(provided, snapshot) => (
           <div
-            className="row m-0 col col-12 card-hover fx-rounded clr-primary"
+            className="row m-0 col col-12 card-hover fx-rounded fnt-light"
             onDoubleClick={handlePlay}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
@@ -227,11 +227,12 @@ export default function TrackCard({
               snapshot.isDragging,
               provided.draggableProps.style,
             )}
+            data-testid="trackCard"
           >
             <div className="col col-12 d-flex justify-content-between align-items-center py-2">
               <div className="col col-2 d-flex align-items-center">
                 {/* Number */}
-                <h3 className="m-0 ps-2 fnt-song-bold text-start song-index">
+                <h3 className="m-0 ps-2 fnt-song-bold text-start song-index fnt-light">
                   {trackNumber}
                 </h3>
                 {/* Thumbnail */}
@@ -246,11 +247,15 @@ export default function TrackCard({
                 {/* Like */}
                 <div className="d-flex fnt-primary">
                   <button
-                    className="text-center"
+                    className="text-center fnt-light"
                     type="button"
                     onClick={handleLike}
                   >
-                    {liked ? <HeartIcon isFull /> : <HeartIcon />}
+                    {liked ? (
+                      <HeartIcon isFull isNegative />
+                    ) : (
+                      <HeartIcon isNegative />
+                    )}
                   </button>
                 </div>
               </div>
@@ -268,7 +273,7 @@ export default function TrackCard({
               <div className="col col-3 d-flex justify-content-between align-items-center">
                 {/* Album */}
                 <Link
-                  className="m-0 text-start fnt-song-regular px-2 col truncate track-album"
+                  className="m-0 text-start fnt-song-regular fnt-light px-2 col truncate track-album"
                   to={`${PUBLIC.ALBUMS}/${albumId}`}
                 >
                   {albumName}
@@ -288,7 +293,7 @@ export default function TrackCard({
                 {/* Contextual menu */}
                 <div className="dropdown">
                   <button
-                    className="m-0 text-end"
+                    className="m-0 text-end fnt-light"
                     type="button"
                     id="contextSongMenu"
                     data-bs-toggle="dropdown"
@@ -406,8 +411,14 @@ export default function TrackCard({
                         <li>
                           <hr className="dropdown-wrapper m-0" />
 
-                          <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackId}`}>
-                            {/* TODO: when creating playlist adding that song */}
+                          <Link
+                            to={{
+                              pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                              state: {
+                                trackId: trackId,
+                              },
+                            }}
+                          >
                             <p
                               className="dropdown-item fnt-light fnt-song-regular m-0"
                               type="button"

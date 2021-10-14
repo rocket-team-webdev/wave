@@ -6,6 +6,7 @@ import { sortArrayAscendent, sortArrayDescendent } from "../../utils/sorters";
 import { containerAnimation } from "../../utils/motionSettings";
 import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
+import { updatePlaylistOrder } from "../../api/playlists-api";
 
 // import {
 //   setQueue,
@@ -201,7 +202,7 @@ function TrackList({
   //   dispatch(setQueue(tracksArray));
   // };
 
-  const onDragEndUploaded = (res) => {
+  const onDragEndUploaded = async (res) => {
     const { destination, source } = res;
 
     if (!destination) return;
@@ -210,6 +211,17 @@ function TrackList({
     console.log(items);
     setTracks(items);
     // updateQueue(items);
+    await updatePlaylistOrder({
+      source: {
+        index: source.index,
+        trackId: tracks[source.index]?._id,
+      },
+      destination: {
+        index: destination.index,
+        trackId: tracks[destination.index]?._id,
+      },
+      playlistId: isOnPlaylist?._id,
+    });
   };
 
   return (

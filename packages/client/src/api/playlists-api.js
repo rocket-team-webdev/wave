@@ -118,3 +118,16 @@ export async function deleteTrackFromPlaylist(
     },
   );
 }
+
+export async function updatePlaylistOrder(data = {}, api = makePlaylistApi()) {
+  const token = await getCurrentUserToken();
+  return api.put(
+    `/reorder`,
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}

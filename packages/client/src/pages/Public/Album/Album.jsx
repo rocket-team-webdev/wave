@@ -103,7 +103,7 @@ export default function SinglePlaylist() {
   }, []);
 
   return (
-    <Layout isNegative>
+    <Layout thumbnailUrl={album.thumbnail}>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
@@ -117,18 +117,18 @@ export default function SinglePlaylist() {
               )}
             </button>
           </div>
-          <h3 className="fnt-subtitle-light mt-4">{album.year}</h3>
+          <h3 className="fnt-subtitle-light fnt-light mt-2">{album.year}</h3>
           {/* TODO only show creator if exists */}
           {album.userId && (
-            <h3 className="fnt-secondary fnt-caption mt-4 d-flex align-items-center">
+            <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
               <Link to={`${PUBLIC.USERS}/${album.userId._id}`}>
                 <p className="mb-0 ms-1">{album.userId.firstName}</p>
               </Link>
             </h3>
           )}
-          <h3 className="fnt-secondary fnt-caption d-flex align-items-center">
-            <HeartIcon isFull />{" "}
+          <h3 className="fnt-light fnt-caption d-flex align-items-center">
+            <HeartIcon isFull isNegative />
             <p className="ms-2 mb-0">{album.likes} likes</p>
           </h3>
           <div className="d-flex align-items-center mt-5">

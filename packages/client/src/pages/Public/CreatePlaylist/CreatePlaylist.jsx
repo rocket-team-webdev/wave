@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
 import playlistSchema from "./playlist-schema";
@@ -11,12 +11,15 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
 import Textarea from "../../../components/Textarea";
 import Checkbox from "../../../components/Checkbox";
-import { addPlaylist } from "../../../api/playlists-api";
+import { addPlaylist, addTrackToPlaylist } from "../../../api/playlists-api";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function CreatePlaylist() {
   const history = useHistory();
   const [publicAccessible, setPublicAccessible] = useState(false);
   const publicAccessibleCheckbox = useRef();
+
+  const location = useLocation();
 
   const formik = useFormik({
     initialValues: {
@@ -36,11 +39,25 @@ export default function CreatePlaylist() {
         formData.append("publicAccessible", playlistState.publicAccessible);
         formData.append("thumbnail", playlistState.thumbnail);
 
-        await addPlaylist(formData);
+        const newPlaylist = await addPlaylist(formData);
+        if (location.state?.trackId) {
+          const { trackId } = location.state;
+          try {
+            await addTrackToPlaylist(newPlaylist.data.playlistId, trackId);
+            history.push(
+              `${PUBLIC.SINGLE_PLAYLIST}/${newPlaylist.data.playlistId}`,
+            );
+            return toast("Playlist created and track added!", {
+              type: "success",
+            });
+          } catch (e) {
+            return toast(e.response.data.msg, { type: "error" });
+          }
+        }
         history.goBack();
         return toast("Playlist created!", { type: "success" });
       } catch (error) {
-        return toast(error.response.data.msg, { type: "error" });
+        return toast(error.response?.data.msg, { type: "error" });
       }
     },
   });

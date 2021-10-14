@@ -6,8 +6,7 @@ export default function NotFound() {
   return (
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
-        {/* Left side */}
-        <div className="col col-12 col-md-6 left-side mt-4">
+        <div className="col col-12 mt-4">
           <div className="d-flex justify-content-between align-items-start">
             <JumboText
               priText="Oops, this page doesn't exist!"
