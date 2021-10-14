@@ -88,6 +88,7 @@ async function getUserPlaylists(req, res, next) {
         follows: { $size: "$followedBy" },
       },
     )
+      .sort({ follows: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
@@ -120,6 +121,7 @@ async function getUserFollowingPlaylists(req, res, next) {
         follows: { $size: "$followedBy" },
       },
     )
+      .sort({ follows: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
