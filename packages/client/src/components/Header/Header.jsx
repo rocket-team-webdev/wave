@@ -83,7 +83,7 @@ function Header({ props }) {
                     aria-expanded="false"
                   >
                     <img
-                      className="profile-picture fx-rounded"
+                      className="profile-picture"
                       src={userState.profilePicture}
                       alt="profilePicture"
                     />
@@ -98,7 +98,6 @@ function Header({ props }) {
                       <Link
                         to={PUBLIC.MY_SONGS}
                         className="dropdown-item fnt-link-regular"
-                        type="button"
                         onClick={() => {}}
                       >
                         My songs
@@ -108,7 +107,6 @@ function Header({ props }) {
                       <Link
                         to={PUBLIC.MY_PLAYLISTS}
                         className="dropdown-item fnt-link-regular"
-                        type="button"
                         onClick={() => {}}
                       >
                         My playlists
@@ -118,26 +116,53 @@ function Header({ props }) {
                       <Link
                         to="/"
                         className="dropdown-item fnt-link-regular"
-                        type="button"
                         onClick={() => {}}
                       >
                         My albums
                       </Link>
                     </li>
-                    <hr className="light-hr" />
+                    <hr className="d-md-none light-hr" />
                     {/* Displaying at all sizes */}
-                    <li>
-                      <button
-                        className="dropdown-item fnt-light fnt-link-regular"
+                    <li className="fnt-light">
+                      <Link
+                        to={PUBLIC.TRACK_UPLOAD}
+                        className="dropdown-item fnt-link-regular"
+                      >
+                        Upload song
+                      </Link>
+                    </li>
+                    <li className="fnt-light">
+                      <Link
+                        to={PUBLIC.ADD_PLAYLIST}
+                        className="dropdown-item fnt-link-regular"
                         type="button"
-                        onClick={() => {}}
+                      >
+                        Create playlist
+                      </Link>
+                    </li>
+                    <li className="fnt-light">
+                      <Link
+                        to={PUBLIC.ADD_ALBUM}
+                        className="dropdown-item fnt-link-regular"
+                        type="button"
+                      >
+                        Create album
+                      </Link>
+                    </li>
+                    <hr className="light-hr" />
+
+                    <li className="fnt-light">
+                      <Link
+                        to={PUBLIC.USER_ACCOUNT}
+                        className="dropdown-item fnt-link-regular"
+                        type="button"
                       >
                         User account
-                      </button>
+                      </Link>
                     </li>
                     <li>
                       <button
-                        className="dropdown-item fnt-light fnt-song-regular "
+                        className="dropdown-item fnt-light fnt-regular"
                         type="button"
                         onClick={handleSignOut}
                       >

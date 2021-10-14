@@ -17,6 +17,7 @@ header {
   width: 40px;
   height: 40px;
   object-fit: contain;
+  border-radius: 50%;
 }
 
 .nav-link {
@@ -35,4 +36,8 @@ header {
 
 .user-link {
   min-width: 90px;
+}
+
+.sign-out-btn {
+  font-weight: 700;
 }
