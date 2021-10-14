@@ -274,7 +274,7 @@ function TrackList({
                       trackId={song._id}
                       userId={song.userId}
                       index={index}
-                      playCounter={song.popularity}
+                      popularity={song.popularity}
                       updateLikedView={handleAddLikedColumn}
                       updateDeletedView={handleDeletedView}
                       draggable={hasSorter}

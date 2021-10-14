@@ -33,6 +33,7 @@ export default function Queue() {
   const loadQueue = async () => {
     try {
       const queue = queueState.queue;
+      console.log(queue);
       const tracksArray = [];
       queue.forEach((track) => {
         const trackObject = {
@@ -51,7 +52,7 @@ export default function Queue() {
             _id: track.genreId,
             name: "genre",
           },
-          likes: 2,
+          popularity: track.popularity,
           isLiked: track.isLiked,
         };
         tracksArray.push(trackObject);
