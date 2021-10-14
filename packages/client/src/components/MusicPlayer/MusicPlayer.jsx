@@ -48,16 +48,22 @@ export default function MusicPlayer() {
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
   const [myPlaylists, setMyPlaylists] = useState([]);
+  const [hasPlayed, setHasPlayed] = useState([false]);
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
-    saveListened(trackObject.trackId, userState.mongoId);
+    if (!hasPlayed) {
+      saveListened(trackObject.trackId, userState.mongoId);
+      setHasPlayed(true);
+    }
   };
 
   const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
       dispatch(nextSong());
-    } else if (repeatState === "queue") dispatch(setListPosition(0));
+    } else if (repeatState === "queue") {
+      dispatch(setListPosition(0));
+    }
 
     if (listPosition >= queueState.queue.length - 2 && repeatState !== "queue")
       setNextButtonDisabled(true);
@@ -183,6 +189,12 @@ export default function MusicPlayer() {
       audioPlayer.current.audio.current.play();
     }
   }, [queueState.willPlay]);
+
+  useEffect(() => {
+    if (queueState.willPlay) {
+      setHasPlayed(false);
+    }
+  }, [trackObject.url]);
 
   return (
     <>
