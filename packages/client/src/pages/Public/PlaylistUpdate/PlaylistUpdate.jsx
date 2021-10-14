@@ -50,7 +50,7 @@ export default function PlaylistUpdate() {
         formData.append("publicAccessible", playlist.publicAccessible);
         formData.append("thumbnail", playlist.thumbnail);
         formData.append("id", playlistId);
-        // console.log(playlist);
+
         await updatePlaylistById(formData);
         history.push(`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`);
         return toast("Playlist updated!", { type: "success" });
@@ -129,6 +129,7 @@ export default function PlaylistUpdate() {
                 classNames="col col-12 col-md-8"
                 placeholder="Playlist name"
                 isNegative
+                maxLength="30"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
