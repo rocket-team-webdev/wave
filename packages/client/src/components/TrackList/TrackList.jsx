@@ -1,5 +1,5 @@
 import React, { /* useEffect,  */ useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { motion } from "framer-motion";
 import { sortArrayAscendent, sortArrayDescendent } from "../../utils/sorters";
@@ -8,11 +8,11 @@ import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
 import { updatePlaylistOrder } from "../../api/playlists-api";
 
-// import {
-//   setQueue,
-//   // clearQueue,
-//   // setPlayState,
-// } from "../../redux/music-queue/actions";
+import {
+  setQueue,
+  // clearQueue,
+  // setPlayState,
+} from "../../redux/music-queue/actions";
 
 function TrackList({
   tracks,
@@ -20,7 +20,7 @@ function TrackList({
   onAddLikedColumn = () => {},
   hasSorter,
   isOnPlaylist = false,
-  // isOnQueue = false,
+  isOnQueue = false,
 }) {
   const flagInitialState = {
     flagTitle: "titleDesc",
@@ -30,7 +30,7 @@ function TrackList({
   };
   const [flag, setFlag] = useState(flagInitialState);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleAddLikedColumn = (song, isLiked) => {
     onAddLikedColumn(song, isLiked);
@@ -173,6 +173,26 @@ function TrackList({
   //   setTracks(tracks);
   // }, [tracks]);
 
+  const updateQueue = (tracksUpdated) => {
+    const tracksArray = [];
+    tracksUpdated.forEach((track) => {
+      const trackObject = {
+        name: track.name,
+        url: track.url,
+        duration: track.duration,
+        genreId: track.genreId,
+        artist: track.artist,
+        album: track.album.title,
+        isLiked: track.isLiked,
+        trackId: track._id,
+        albumId: track.album._id,
+        trackImg: track.album.thumbnail,
+      };
+      tracksArray.push(trackObject);
+    });
+    dispatch(setQueue(tracksArray));
+  };
+
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -189,6 +209,7 @@ function TrackList({
 
     const items = reorder(tracks, source.index, destination.index);
     setTracks(items);
+    updateQueue(items);
     await updatePlaylistOrder({
       source: {
         index: source.index,
@@ -227,7 +248,7 @@ function TrackList({
                   {tracks.map((song, index) => (
                     <TrackCard
                       // eslint-disable-next-line react/no-array-index-key
-                      key={index}
+                      key={song._id}
                       trackNumber={index + 1}
                       trackName={song.name}
                       trackImg={song.album.thumbnail}
@@ -246,7 +267,7 @@ function TrackList({
                       updateDeletedView={handleDeletedView}
                       draggable={hasSorter}
                       isOnPlaylist={isOnPlaylist}
-                      // isOnQueue={isOnQueue}
+                      isOnQueue={isOnQueue}
                     />
                   ))}
                 </motion.div>
