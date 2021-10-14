@@ -137,8 +137,8 @@ export default function TrackUpload() {
         </div>
         <div className="col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
-            <h1 className="mb-5 fnt-form-title">Song details</h1>
-            <div className="row">
+            <h1 className="mb-4 fnt-form-title">Song details</h1>
+            <div className="row mb-4">
               <Input
                 label="name"
                 type="name"
@@ -179,9 +179,9 @@ export default function TrackUpload() {
                 options={genresState}
               />
 
-              <div className="col-12 col-lg-6 d-flex flex-row">
+              <div className="col-12 col-lg-6 pe-0">
                 <Select
-                  classNames="me-1 w-100"
+                  classNames="me-1 w-100 "
                   label="album"
                   id="album"
                   type="select"
@@ -195,16 +195,9 @@ export default function TrackUpload() {
                   hasErrorMessage={formik.touched.album}
                   options={albumsState}
                 />
-
-                {/* <div className="ms-0 ps-0 pt-6">
-                  <Button isNegative onClick={handleCreateAlbum}>
-                    <AddIcon size={25} />
-                  </Button>
-                </div> */}
               </div>
             </div>
-
-            <div className="d-flex justify-content-end row m-0 mt-3">
+            <div className="col d-flex justify-content-end">
               <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
                 <Button
                   isNegative

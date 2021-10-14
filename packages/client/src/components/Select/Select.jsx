@@ -47,7 +47,7 @@ export default function Select({
       <label className={labelClassNames} htmlFor={id}>
         {label}
       </label>
-      <div className={hasAddIcon ? "col col-12 row" : "col col-12 p-0"}>
+      <div className={hasAddIcon ? "row pe-0" : "col col-12 p-0"}>
         <select
           className={
             hasAddIcon ? `${selectClassNames} col-md-10` : selectClassNames
