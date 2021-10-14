@@ -21,7 +21,7 @@ async function updateListenedTracks() {
   try {
     const { data } = await fetchListenedTracks();
     const tracksArray = data.data;
-    console.log(tracksArray);
+
     await tracksArray.forEach(async (track) => {
       await db.Track.findOneAndUpdate(
         { _id: track.trackId },
