@@ -43,13 +43,12 @@ export default function Router() {
         <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
           <TrackUpdate />
         </PrivateRoute>
-        <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
-          <Account />
-        </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_VIEW}>
           <UserView />
         </PrivateRoute>
-        ;
+        <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
+          <Account />
+        </PrivateRoute>
         <PrivateRoute path={PUBLIC.REAUTHENTICATE} exact>
           <Reauthenticate />
         </PrivateRoute>

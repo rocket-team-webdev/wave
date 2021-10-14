@@ -33,7 +33,9 @@ async function getUserFollowers(req, res, next) {
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
-    res.status(200).send({ data: followers });
+    const followersUserArray = followers[0].followedBy;
+
+    res.status(200).send({ data: followersUserArray });
   } catch (err) {
     res.status(500).send({ error: err });
     next(err);
@@ -45,7 +47,7 @@ async function getUserFollowings(req, res, next) {
     const { id } = req.params;
     const { page = 0, limit = 5 } = req.query;
 
-    const followers = await db.User.find({ _id: id }, { following: 1, _id: 0 })
+    const following = await db.User.find({ _id: id }, { following: 1, _id: 0 })
       .populate({
         path: "following",
         options: {
@@ -55,7 +57,9 @@ async function getUserFollowings(req, res, next) {
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
-    res.status(200).send({ data: followers });
+    const followingUserArray = following[0].following;
+
+    res.status(200).send({ data: followingUserArray });
   } catch (err) {
     res.status(500).send({ error: err });
     next(err);

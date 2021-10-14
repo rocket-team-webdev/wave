@@ -95,15 +95,6 @@ export default function HomePopular({ artistsList = [] }) {
                 onAddFollowedColumn={() => {}}
               />
             )}
-            {/* {popularPlaylists.map((playlist) => (
-              <PlaylistCard
-                key={playlist._id}
-                playListId={playlist._id}
-                playlistName={playlist.name}
-                userId={playlist.userId}
-                // classNames=""
-              />
-            ))} */}
           </HomeElement>
         )
       ) : (

@@ -18,7 +18,7 @@
   }
 
   // Guides
-  // outline: 2px solid blue;
+  outline: 2px solid blue;
 }
 
 body {
@@ -73,6 +73,16 @@ button {
 
 button:active {
   outline: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               Global classes                               */
+/* -------------------------------------------------------------------------- */
+.h-fit-content {
+  height: fit-content;
+}
+.w-fit-content {
+  width: fit-content;
 }
 
 /* -------------------------------------------------------------------------- */
