@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaGoogle } from "react-icons/fa";
 
 import signUpSchema from "./sign-up-schema";
 import {
@@ -230,7 +231,7 @@ export default function SignUp() {
                 <div className="d-flex justify-content-end col col-6 text-end p-0">
                   <div className="d-inline-flex p-2 pe-2">
                     <Button handleClick={handleGoogleSignIn}>
-                      <i className="fab fa-google" />
+                      <FaGoogle />
                     </Button>
                   </div>
                   <div className="p-2">
