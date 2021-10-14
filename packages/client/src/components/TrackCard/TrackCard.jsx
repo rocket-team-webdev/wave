@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link /* useRouteMatch,  */ } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
-import { FaEllipsisH, FaPlay } from "react-icons/fa";
+import { FaEllipsisH } from "react-icons/fa";
 import { motion } from "framer-motion";
 import {
   addSong,
@@ -220,7 +220,8 @@ export default function TrackCard({
                   aria-hidden="true"
                 >
                   <img className="fx-rounded" src={trackImg} alt={trackName} />
-                  <FaPlay className="fnt-white" />
+                  <i className="fas fa-play fnt-white" />
+                  {/* <FaPlay className="play-icon fnt-white" /> */}
                 </div>
                 {/* Like */}
                 <div className="d-flex fnt-primary">
