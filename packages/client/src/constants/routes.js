@@ -50,3 +50,10 @@ export const API = {
   ADD_TRACK: "/add-track",
   REMOVE_TRACK: "/remove-track",
 };
+
+// STATS API
+
+export const STATS_API = {
+  MAIN: "http://localhost:8100/api",
+  PLAYBACKS: "/playbacks",
+};

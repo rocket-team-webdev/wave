@@ -32,9 +32,11 @@ import { getMyPlaylists } from "../../api/me-api";
 import { addTrackToPlaylist } from "../../api/playlists-api";
 
 import HeartIcon from "../SVGicons/HeartIcon";
+import { saveListened } from "../../api/playback-api";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
+  const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const listPosition = queueState.listPosition;
   const trackObject = queueState.isShuffled
@@ -49,6 +51,7 @@ export default function MusicPlayer() {
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
+    saveListened(trackObject.trackId, userState.mongoId);
   };
 
   const nextTrack = () => {
