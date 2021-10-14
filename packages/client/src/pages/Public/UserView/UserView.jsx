@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, useLocation } from "react-router-dom";
+import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { fromBottom } from "../../../utils/motionSettings";
@@ -42,6 +42,7 @@ export default function UserView() {
   const [userAlbums, setUserAlbums] = useState([]);
   const [userTracks, setUserTracks] = useState([]);
   const [userLikedTracks, setUserLikedTracks] = useState([]);
+  const history = useHistory();
 
   const { userId } = useRouteMatch(`${PUBLIC.USERS}/:userId`).params;
 
@@ -56,8 +57,14 @@ export default function UserView() {
       setUser(data.data);
       setIsLoading(false);
     } catch (error) {
-      toast(error.message, { type: "error" });
-      setIsLoading(false);
+      if (error.response.status === 500) {
+        toast("User not found", {
+          type: "error",
+        });
+        history.push(PUBLIC.NOT_FOUND);
+      } else {
+        toast(error.message, { type: "error" });
+      }
     }
   };
 
