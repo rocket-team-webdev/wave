@@ -14,7 +14,7 @@ usersRouter.get(
 );
 
 usersRouter.get(
-  "/:id/followings",
+  "/:id/following",
   authFirebaseMiddleware,
   usersController.getUserFollowings,
 );
@@ -35,6 +35,12 @@ usersRouter.get(
   "/:id/playlists",
   authFirebaseMiddleware,
   usersController.getUserPlaylists,
+);
+
+usersRouter.get(
+  "/:id/albums",
+  authFirebaseMiddleware,
+  usersController.getUserAlbums,
 );
 
 usersRouter.get(

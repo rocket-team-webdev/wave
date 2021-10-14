@@ -3,7 +3,10 @@ const db = require("../models");
 async function getUserById(req, res, next) {
   try {
     const { id } = req.params;
-    const user = await db.User.findOne({ _id: id }, { firstName: 1 });
+    const user = await db.User.findOne(
+      { _id: id },
+      { firstName: 1, lastName: 1, profilePicture: 1 },
+    );
 
     res.status(200).send({ data: user });
   } catch (err) {
@@ -130,6 +133,34 @@ async function getUserFollowingPlaylists(req, res, next) {
 }
 
 // ------
+// Albums
+// ------
+
+async function getUserAlbums(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { page = 0, limit = 4 } = req.query;
+    const albums = await db.Album.find(
+      { userId: id },
+      {
+        title: 1,
+      },
+    )
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).send({
+      data: albums,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
+// ------
 // Tracks
 // ------
 
@@ -225,6 +256,7 @@ module.exports = {
   getUserFollowings: getUserFollowings,
   getUserPlaylists: getUserPlaylists,
   getUserFollowingPlaylists: getUserFollowingPlaylists,
+  getUserAlbums: getUserAlbums,
   getUserTracks: getUserTracks,
   getUserLikedTracks: getUserLikedTracks,
 };
