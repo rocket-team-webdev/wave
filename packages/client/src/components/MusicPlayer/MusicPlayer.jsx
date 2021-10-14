@@ -120,15 +120,6 @@ export default function MusicPlayer() {
     else dispatch(like(listPosition));
     try {
       await likeTrack(trackObject.trackId);
-      // updateLikedView(
-      //   {
-      //     ...trackObject,
-      //     album: { title: albumName, thumbnail: trackImg },
-      //     isLiked: userLike,
-      //     _id: trackId,
-      //   },
-      //   userLike,
-      // );
     } catch (error) {
       dispatch(like(listPosition));
       toast(error.message, { type: "error" });
@@ -194,7 +185,7 @@ export default function MusicPlayer() {
     if (queueState.willPlay) {
       setHasPlayed(false);
     }
-  }, [trackObject.url]);
+  }, [trackObject?.url]);
 
   return (
     <>
