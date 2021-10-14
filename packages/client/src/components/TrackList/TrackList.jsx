@@ -205,10 +205,6 @@ function TrackList({
     }
   };
 
-  // useEffect(() => {
-  //   setTracks(tracks);
-  // }, [tracks]);
-
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -240,7 +236,7 @@ function TrackList({
   };
 
   return (
-    <>
+    <div className="w-100">
       <DragDropContext onDragEnd={onDragEndUploaded}>
         <Droppable droppableId="Uploaded">
           {(provided) => (
@@ -293,7 +289,7 @@ function TrackList({
           )}
         </Droppable>
       </DragDropContext>
-    </>
+    </div>
   );
 }
 

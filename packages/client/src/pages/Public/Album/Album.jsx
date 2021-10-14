@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { FaPlay, FaEllipsisH } from "react-icons/fa";
+import { FaHeart, FaPlay, FaEllipsisH } from "react-icons/fa";
 
 import {
   setQueue,
@@ -132,7 +132,7 @@ export default function SinglePlaylist() {
             </h3>
           )}
           <h3 className="fnt-light fnt-caption d-flex align-items-center">
-            <HeartIcon isFull isNegative />
+            <FaHeart />
             <p className="ms-2 mb-0">{album.likes} likes</p>
           </h3>
           <div className="d-flex align-items-center mt-5">
