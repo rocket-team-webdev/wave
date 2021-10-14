@@ -36,7 +36,7 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
           <Footer />
         </div>
       ) : (
-        <div className="d-flex flex-column layout-wrapper clr-primary">
+        <div className="d-flex flex-column layout-wrapper">
           <Header />
           <main className={mainClassNames}>{children}</main>
           <Footer />
