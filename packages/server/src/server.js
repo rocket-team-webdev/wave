@@ -12,6 +12,7 @@ const {
   searchRouter,
   meRouter,
   playlistsRouter,
+  usersRouter,
 } = require("./routes");
 
 const app = express();
@@ -31,5 +32,6 @@ app.use("/api/albums", albumRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/me", meRouter);
 app.use("/api/playlists", playlistsRouter);
+app.use("/api/users", usersRouter);
 
 module.exports = app;

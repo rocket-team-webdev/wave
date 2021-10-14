@@ -5,6 +5,8 @@ import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
+import PlaylistList from "../PlaylistList/PlaylistList";
+import TrackList from "../TrackList";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -18,9 +20,6 @@ import {
   getLikedTracks,
   // getTrack,
 } from "../../api/me-api";
-
-import PlaylistList from "../PlaylistList/PlaylistList";
-import TrackList from "../TrackList";
 
 export default function HomeMyWave({ artistsList = false }) {
   // const [loadStatus, setLoadStatus] = useState(false);
@@ -194,7 +193,11 @@ export default function HomeMyWave({ artistsList = false }) {
           isAnimationContainer
         >
           {myFollowings.map((following) => (
-            <UserCard key={following._id} userName={following.firstName} />
+            <UserCard
+              key={following._id}
+              userId={following._id}
+              userName={following.firstName}
+            />
           ))}
         </HomeElement>
       )}
