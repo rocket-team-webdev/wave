@@ -117,7 +117,6 @@ export default function TrackCard({
   };
 
   const handleDeleteFromQueue = () => {
-    console.log("Song to delete", index);
     if (queueState.queue.length === 1) {
       dispatch(clearQueue());
     } else {
@@ -130,7 +129,6 @@ export default function TrackCard({
         queueState.listPosition + 1 === queueState.queue.length ||
         (index === queueState.listPosition && index !== 0)
       ) {
-        console.log("Last song");
         payload.offset = 1;
       }
       dispatch(deleteSong(payload));
