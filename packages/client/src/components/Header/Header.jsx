@@ -15,6 +15,7 @@ import { clearQueue } from "../../redux/music-queue/actions";
 function Header({ props }) {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
+
   const handleSignOut = async () => {
     await signOut();
     dispatch(logOut());
