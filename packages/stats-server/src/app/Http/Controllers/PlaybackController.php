@@ -50,12 +50,11 @@ class PlaybackController extends Controller
         $geoPluginData = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $request->ip()));
         $input["latitude"] = $geoPluginData["geoplugin_latitude"];
         $input["longitude"] = $geoPluginData["geoplugin_longitude"];
-        $playback = Playback::create($input);
+        Playback::create($input);
 
         return response()->json([
             "success" => true,
             "message" => "Playback stored successfully.",
-            "data" => $playback
         ]);
     }
 
