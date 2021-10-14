@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaArrowCircleRight } from "react-icons/fa";
 import { containerAnimation } from "../../utils/motionSettings";
 
 import "./HomeElement.scss";
 
 export default function HomeElement({
   label,
-  to = "/",
+  sublabel = false,
+  to = false,
   cols = "12",
   isAnimationContainer,
   children,
@@ -34,10 +36,17 @@ export default function HomeElement({
               <p className="fnt-label-bold mb-3 truncate home-element-title">
                 {label.toUpperCase()}
               </p>
-              <Link to={to} className="mb-2 fnt-smallest">
-                See all
-                <i className="ms-2 fas fa-arrow-circle-right" />
-              </Link>
+              {to && (
+                <Link to={to} className="mb-2 fnt-smallest">
+                  See all
+                  <FaArrowCircleRight className="ms-2" />
+                </Link>
+              )}
+              {sublabel && (
+                <p className="fnt-label-light mb-3 truncate home-element-title">
+                  {sublabel}
+                </p>
+              )}
             </div>
             <div className={contentClasses}>{children}</div>
           </div>
@@ -49,10 +58,12 @@ export default function HomeElement({
               <p className="fnt-label-bold mb-3 truncate home-element-title">
                 {label.toUpperCase()}
               </p>
-              <Link to={to} className="mb-2 fnt-smallest">
-                See all
-                <i className="ms-2 fas fa-arrow-circle-right" />
-              </Link>
+              {to && (
+                <Link to={to} className="mb-2 fnt-smallest">
+                  See all
+                  <FaArrowCircleRight className="ms-2" />
+                </Link>
+              )}
             </div>
             <div className={contentClasses}>{children}</div>
           </div>

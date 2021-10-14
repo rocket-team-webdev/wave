@@ -11,6 +11,7 @@ export const PUBLIC = {
   SIGN_IN: "/sign-in",
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
+  USER_VIEW: "/users",
   USERS: "/users",
   TRACK_EDIT: "/tracks/update", // TODO delete this or TRACK_UPDATE
   TRACK_UPLOAD: "/tracks/upload",
@@ -21,6 +22,7 @@ export const PUBLIC = {
   ADD_PLAYLIST: "/playlists/add",
   SINGLE_PLAYLIST: "/playlist",
   PLAYLIST_UPDATE: "/playlist/update",
+  QUEUE: "/queue",
   NOT_FOUND: "/404",
 };
 
@@ -41,6 +43,7 @@ export const API = {
   ALBUM: "/albums",
   PLAYLISTS: "/playlists",
   USER: "/user",
+  USERS: "/users",
   ME: "/me",
   TRACKS: "/tracks",
   LIKED: "/liked",

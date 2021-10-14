@@ -12,6 +12,7 @@ import SignUp from "../../pages/Public/SignUp";
 import UpdatePassword from "../../pages/Public/UpdatePassword";
 import SignIn from "../../pages/Public/SignIn";
 import Account from "../../pages/Public/Account/Account";
+import UserView from "../../pages/Public/UserView";
 import Reauthenticate from "../../pages/Public/Reauthenticate";
 import ResetPassword from "../../pages/Public/ResetPassword";
 import TrackUpdate from "../../pages/Public/TrackUpdate";
@@ -22,6 +23,7 @@ import MyPlaylists from "../../pages/Public/MyPlaylists/MyPlaylists";
 import CreatePlaylist from "../../pages/Public/CreatePlaylist";
 import SinglePlaylist from "../../pages/Public/SinglePlaylist";
 import Album from "../../pages/Public/Album";
+import Queue from "../../pages/Public/Queue";
 import UpdateAlbum from "../../pages/Public/UpdateAlbum";
 import PlaylistUpdate from "../../pages/Public/PlaylistUpdate/PlaylistUpdate";
 import NotFound from "../../pages/Public/NotFound";
@@ -41,6 +43,12 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
           <TrackUpdate />
+        </PrivateRoute>
+        <PrivateRoute path={PUBLIC.QUEUE} exact>
+          <Queue />
+        </PrivateRoute>
+        <PrivateRoute path={PUBLIC.USER_VIEW}>
+          <UserView />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
           <Account />
