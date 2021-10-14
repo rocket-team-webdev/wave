@@ -210,7 +210,7 @@ async function getUserTracks(req, res, next) {
 async function getUserLikedTracks(req, res, next) {
   try {
     const { id } = req.params;
-    const { page = 0, limit = 4 } = req.query;
+    const { page = 0, limit = 5 } = req.query;
 
     const tracks = await db.Track.find(
       { likedBy: id },

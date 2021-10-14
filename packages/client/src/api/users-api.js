@@ -77,6 +77,22 @@ export async function getUserFollowingPlaylists(
 }
 
 // ------
+// Albums
+// ------
+
+export async function getUserAlbums(
+  id,
+  page = 0,
+  limit = 2,
+  api = makeUsersApi(),
+) {
+  const token = await getCurrentUserToken();
+  return api.get(`/${id}${API.ALBUM}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ------
 // Tracks
 // ------
 
@@ -90,4 +106,19 @@ export async function getUserTracks(
   return api.get(`/${id}${API.TRACKS}?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+}
+
+export async function getUserLikedTracks(
+  id,
+  page = 0,
+  limit = 5,
+  api = makeUsersApi(),
+) {
+  const token = await getCurrentUserToken();
+  return api.get(
+    `/${id}${API.TRACKS}${API.LIKED}?page=${page}&limit=${limit}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 }
