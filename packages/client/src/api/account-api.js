@@ -42,7 +42,7 @@ export async function getAccount(api = makeAccountApi()) {
 export async function updateAccount(file = {}, api = makeAccountApi()) {
   const token = await getCurrentUserToken();
 
-  return api.post(``, file, {
+  return api.put(``, file, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": `multipart/form-data"`,

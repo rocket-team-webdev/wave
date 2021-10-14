@@ -23,6 +23,7 @@ import MyPlaylists from "../../pages/Public/MyPlaylists/MyPlaylists";
 import CreatePlaylist from "../../pages/Public/CreatePlaylist";
 import SinglePlaylist from "../../pages/Public/SinglePlaylist";
 import Album from "../../pages/Public/Album";
+import Queue from "../../pages/Public/Queue";
 import UpdateAlbum from "../../pages/Public/UpdateAlbum";
 import PlaylistUpdate from "../../pages/Public/PlaylistUpdate/PlaylistUpdate";
 import NotFound from "../../pages/Public/NotFound";
@@ -42,6 +43,9 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.TRACK_UPDATE}>
           <TrackUpdate />
+        </PrivateRoute>
+        <PrivateRoute path={PUBLIC.QUEUE} exact>
+          <Queue />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_VIEW}>
           <UserView />

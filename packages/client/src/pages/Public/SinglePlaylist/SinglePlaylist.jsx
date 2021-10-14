@@ -51,6 +51,7 @@ export default function SinglePlaylist() {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      console.log(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
       handleIsOwned(data.data.userId._id);
     } catch (error) {
@@ -63,26 +64,30 @@ export default function SinglePlaylist() {
     }
   };
   const handlePlaying = () => {
-    dispatch(clearQueue());
-    const tracksArray = [];
-    tracks.forEach((track) => {
-      const trackObject = {
-        name: track.name,
-        url: track.url,
-        duration: track.duration,
-        genreId: track.genreId,
-        userId: track.userId._id,
-        artist: track.artist,
-        album: track.album.title,
-        isLiked: track.isLiked,
-        trackId: track._id,
-        albumId: track.album._id,
-        trackImg: track.album.thumbnail,
-      };
-      tracksArray.push(trackObject);
-    });
-    dispatch(setQueue(tracksArray));
-    dispatch(setPlayState(true));
+    if (tracks.length > 0) {
+      dispatch(clearQueue());
+      const tracksArray = [];
+      tracks.forEach((track) => {
+        const trackObject = {
+          name: track.name,
+          url: track.url,
+          duration: track.duration,
+          genreId: track.genreId,
+          userId: track.userId._id,
+          artist: track.artist,
+          album: track.album.title,
+          isLiked: track.isLiked,
+          trackId: track._id,
+          albumId: track.album._id,
+          trackImg: track.album.thumbnail,
+        };
+        tracksArray.push(trackObject);
+      });
+      dispatch(setQueue(tracksArray));
+      dispatch(setPlayState(true));
+    } else {
+      toast("Playlist empty, please add a song!", { type: "error" });
+    }
   };
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
