@@ -108,7 +108,6 @@ describe("Router App", () => {
   });
 
   test("Navigating from home to tracks page", async () => {
-    // const history = createMemoryHistory();
     axios.create.mockReturnThis();
     axios.get
       .mockResolvedValue({ data: { data: [] } })
@@ -137,7 +136,6 @@ describe("Router App", () => {
   });
 
   test("Render playlists and navigate to playlists page", async () => {
-    // const history = createMemoryHistory();
     axios.create.mockReturnThis();
     axios.get
       .mockResolvedValue({ data: { data: [] } })
