@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const {
   accountRouter,
-  userRouter,
+  authRouter,
   trackRouter,
   genreRouter,
   albumRouter,
@@ -24,7 +24,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
 
-app.use("/api", userRouter);
+app.use("/api", authRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/tracks", trackRouter);
 app.use("/api/genres", genreRouter);
