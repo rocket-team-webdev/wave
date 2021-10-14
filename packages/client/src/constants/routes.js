@@ -54,6 +54,7 @@ export const API = {
 // STATS API
 
 export const STATS_API = {
-  MAIN: "http://localhost:8100/api",
+  // MAIN: "http://localhost:8100/api",
+  MAIN: "https://wave-stats-api-dev.herokuapp.com/api",
   PLAYBACKS: "/playbacks",
 };
