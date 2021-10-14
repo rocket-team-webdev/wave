@@ -1,6 +1,8 @@
 const app = require("./server");
+const cron = require("node-cron");
 const { config } = require("./config/config");
 const connect = require("./db/connect");
+const { updateListenedTracks } = require("./services/statistics/wave-stats");
 // const {
 //   seedUsers,
 //   seedGenres,
@@ -19,6 +21,10 @@ connect()
 
     app.listen(config.app.port, () => {
       console.log(`Server running at port ${config.app.port}`);
+    });
+
+    cron.schedule("0 0 * * *", () => {
+      updateListenedTracks();
     });
   })
   .catch((err) => {

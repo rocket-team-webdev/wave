@@ -53,3 +53,11 @@ export const API = {
   ADD_TRACK: "/add-track",
   REMOVE_TRACK: "/remove-track",
 };
+
+// STATS API
+
+export const STATS_API = {
+  // MAIN: "http://localhost:8100/api",
+  MAIN: "https://wave-stats-api-dev.herokuapp.com/api",
+  PLAYBACKS: "/playbacks",
+};
