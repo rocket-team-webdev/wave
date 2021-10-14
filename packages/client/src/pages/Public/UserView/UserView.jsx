@@ -233,6 +233,7 @@ export default function UserView() {
                     label="Created playlists"
                     cols="6"
                     isAnimationContainer
+                    to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.PLAYLISTS}`}
                   >
                     <PlaylistList
                       playlists={userPlaylists}
@@ -252,6 +253,7 @@ export default function UserView() {
                     label="Following playlists"
                     cols="6"
                     isAnimationContainer
+                    to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.PLAYLISTS}`}
                   >
                     <PlaylistList
                       playlists={userFollowingPlaylists}
