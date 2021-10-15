@@ -157,7 +157,7 @@ function Header({ props }) {
                         className="dropdown-item fnt-link-regular"
                         type="button"
                       >
-                        User account
+                        Account details
                       </Link>
                     </li>
                     <li>
