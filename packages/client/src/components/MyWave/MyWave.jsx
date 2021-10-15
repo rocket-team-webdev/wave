@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import HomeElement from "../HomeElement";
-import AlbumCard from "../AlbumCard";
+import AlbumLink from "../AlbumLink";
 import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
 import PlaylistList from "../PlaylistList/PlaylistList";
@@ -299,7 +299,7 @@ export default function MyWave() {
               isAnimationContainer
             >
               {myAlbums.map((album) => (
-                <AlbumCard
+                <AlbumLink
                   key={album._id}
                   albumId={album._id}
                   albumTitle={album.title}

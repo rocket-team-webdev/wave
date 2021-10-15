@@ -6,9 +6,9 @@ import { fromBottom } from "../../utils/motionSettings";
 
 import { PUBLIC } from "../../constants/routes";
 
-import "./AlbumCard.scss";
+import "./AlbumLink.scss";
 
-export default function AlbumCard({ albumId, albumTitle }) {
+export default function AlbumLink({ albumId, albumTitle }) {
   return (
     <motion.div
       className="w-100"

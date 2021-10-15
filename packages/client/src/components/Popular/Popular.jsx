@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
-import AlbumCard from "../AlbumCard";
+import AlbumLink from "../AlbumLink";
 import Spinner from "../Spinner";
 import PlaylistList from "../PlaylistList";
 import TrackList from "../TrackList";
@@ -142,7 +142,7 @@ export default function HomePopular() {
               isAnimationContainer
             >
               {popularAlbums.map((album) => (
-                <AlbumCard
+                <AlbumLink
                   key={album._id}
                   albumId={album._id}
                   albumTitle={album.title}
