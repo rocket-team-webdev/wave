@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { getAllPlaylists } from "../../../api/playlists-api";
 import { PUBLIC } from "../../../constants/routes";
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
-import PlaylistList from "../../../components/PlaylistList";
 import Button from "../../../components/Button";
+import { getAllTracks } from "../../../api/tracks-api";
+import TrackList from "../../../components/TrackList";
 
 export default function PopularTracks() {
-  const [playlists, setPlaylists] = useState();
+  const [tracks, setTracks] = useState();
 
-  const loadPopularPlaylists = async () => {
+  const loadPopularTracks = async () => {
     try {
-      const { data } = await getAllPlaylists(0, 12);
-      setPlaylists(data.playlists);
+      const { data } = await getAllTracks(0, 50);
+      setTracks(data.tracks);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
   useEffect(() => {
-    loadPopularPlaylists();
+    loadPopularTracks();
   }, []);
 
   return (
@@ -30,7 +30,7 @@ export default function PopularTracks() {
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText="Top playlists" cols="11" isNegative />
+            <JumboText priText="The top 50" cols="11" isNegative />
           </div>
           <Link className="float-start p-0 pt-4" to={PUBLIC.HOME}>
             <Button isNegative>Back</Button>
@@ -38,7 +38,7 @@ export default function PopularTracks() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          {playlists && <PlaylistList playlists={playlists} />}
+          {tracks && <TrackList tracks={tracks} />}
         </div>
       </div>
     </Layout>
