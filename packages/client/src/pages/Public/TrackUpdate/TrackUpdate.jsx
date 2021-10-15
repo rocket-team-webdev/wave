@@ -15,7 +15,12 @@ import trackUpdateSchema from "./track-update-schema";
 import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbum } from "../../../api/album-api";
 import { PUBLIC } from "../../../constants/routes";
-import { getTrackById, updateTrackById } from "../../../api/tracks-api";
+import {
+  deleteTrack,
+  getTrackById,
+  updateTrackById,
+} from "../../../api/tracks-api";
+import DeleteModal from "../../../components/DeleteModal";
 
 function TrackUpdate() {
   const { trackId } = useRouteMatch(`${PUBLIC.TRACK_UPDATE}/:trackId`).params;
@@ -90,6 +95,11 @@ function TrackUpdate() {
       toast(error.message, { type: "error" });
     }
   }
+
+  const handleDeleteSong = async () => {
+    await deleteTrack(trackId);
+    history.goBack();
+  };
 
   useEffect(() => {
     fetchTrack(trackId);
@@ -179,14 +189,32 @@ function TrackUpdate() {
               />
             </div>
 
-            <div className="d-flex justify-content-end my-5">
-              <Button isNegative submitButton>
-                Update
-              </Button>
+            <div className="d-flex justify-content-between mt-5">
+              <div className="d-flex justify-content-start my-5">
+                <Button
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteTrackModal"
+                  isDanger
+                >
+                  Delete
+                </Button>
+              </div>
+              <div className="d-flex justify-content-end my-5">
+                <Button isNegative submitButton>
+                  Update
+                </Button>
+              </div>
             </div>
           </form>
         </div>
       </div>
+
+      <DeleteModal
+        id="deleteTrackModal"
+        modalTitle="Removing track"
+        modalBody={`Are you sure you want to delete this track: ${trackState.name}?`}
+        handleSubmit={handleDeleteSong}
+      />
     </Layout>
   );
 }
