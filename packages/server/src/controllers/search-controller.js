@@ -3,6 +3,7 @@ const db = require("../models");
 async function searchTrack(req, res, next) {
   try {
     const searchText = req.query?.q;
+    const { page = 0, limit = 5 } = req.query;
 
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
@@ -34,12 +35,16 @@ async function searchTrack(req, res, next) {
         duration: 1,
         url: 1,
       },
-    ).populate({
-      path: "album",
-      options: {
-        select: "title thumbnail",
-      },
-    });
+    )
+      .populate({
+        path: "album",
+        options: {
+          select: "title thumbnail",
+        },
+      })
+      .sort({ popularity: -1 })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     return res
       .status(200)
@@ -53,24 +58,32 @@ async function searchTrack(req, res, next) {
 async function searchPlaylist(req, res, next) {
   try {
     const searchText = req.query?.q;
+    const { page = 0, limit = 5 } = req.query;
 
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const data = await db.Playlist.find(
+    const data = await db.Playlist.aggregate([
       {
-        $or: [{ name: { $regex: searchText, $options: "i" } }],
-        isDeleted: false,
+        $match: {
+          $or: [{ name: { $regex: searchText, $options: "i" } }],
+          isDeleted: false,
+        },
       },
       {
-        name: 1,
-        follows: { $size: "$followedBy" },
-        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
-        primaryColor: 1,
-        thumbnail: 1,
-        userId: 1,
+        $project: {
+          name: 1,
+          follows: { $size: "$followedBy" },
+          isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+          primaryColor: 1,
+          thumbnail: 1,
+          userId: 1,
+        },
       },
-    );
+      { $sort: { follows: -1 } },
+    ])
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     return res
       .status(200)
@@ -84,21 +97,32 @@ async function searchPlaylist(req, res, next) {
 async function searchAlbum(req, res, next) {
   try {
     const searchText = req.query?.q;
+    const { page = 0, limit = 5 } = req.query;
 
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const data = await db.Album.find(
+    const data = await db.Album.aggregate([
       {
-        $or: [{ title: { $regex: searchText, $options: "i" } }],
+        $match: {
+          $or: [{ title: { $regex: searchText, $options: "i" } }],
+        },
       },
       {
-        title: 1,
-        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
-        thumbnail: 1,
-        userId: 1,
+        $project: {
+          title: 1,
+          isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+          likes: { $size: "$likedBy" },
+          thumbnail: 1,
+          userId: 1,
+        },
       },
-    );
+      {
+        $sort: { likes: -1 },
+      },
+    ])
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     return res
       .status(200)
