@@ -79,7 +79,7 @@ export default function HomePopular() {
           popularPlaylists.length > 0 && (
             <HomeElement
               label="Playlists"
-              to={PUBLIC.MY_PLAYLISTS} // TODO add final endpoint
+              to={`${PUBLIC.POPULAR}${PUBLIC.PLAYLISTS}`}
               cols="6"
               isAnimationContainer
             >
@@ -99,7 +99,7 @@ export default function HomePopular() {
         {popularTracks.length > 0 && (
           <HomeElement
             label="Tracks"
-            to={PUBLIC.MY_SONGS} // TODO add final endpoint
+            to={`${PUBLIC.POPULAR}${PUBLIC.ALBUMS}`}
             cols="6"
           >
             <TrackList tracks={popularTracks} setTracks={setPopularTracks} />
@@ -109,7 +109,11 @@ export default function HomePopular() {
       {/* Right */}
       <div className="col col-12 col-md-2">
         {popularGenres.length > 0 && (
-          <HomeElement label="Genres" isAnimationContainer>
+          <HomeElement
+            label="Genres"
+            to={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`}
+            isAnimationContainer
+          >
             {popularGenres.map((genre) => (
               <div key={genre.name} className="mb-2 me-2">
                 <GenreCard>{genre.name.toUpperCase()}</GenreCard>
