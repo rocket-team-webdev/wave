@@ -227,7 +227,7 @@ async function getMyAlbums(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const albums = await db.Playlist.find(
+    const albums = await db.Album.find(
       { userId: userId },
       {
         title: 1,

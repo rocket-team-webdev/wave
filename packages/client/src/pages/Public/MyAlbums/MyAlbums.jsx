@@ -8,9 +8,8 @@ import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
 import useDebounce from "../../../hooks/useDebounce";
 import AlbumList from "../../../components/AlbumList/AlbumList";
-import { getUserAlbum } from "../../../api/album-api";
 import { searchAlbum } from "../../../api/search-api";
-import { getLikedAlbums } from "../../../api/me-api";
+import { getLikedAlbums, getMyAlbums } from "../../../api/me-api";
 
 function MyAlbums() {
   const [userAlbums, setUserAlbums] = useState([]);
@@ -24,9 +23,9 @@ function MyAlbums() {
   async function fetchMyAlbums() {
     try {
       const {
-        data: { albums },
-      } = await getUserAlbum();
-      const albumsArr = albums.map((album) => album);
+        data: { data },
+      } = await getMyAlbums();
+      const albumsArr = data.map((album) => album);
       setUserAlbums(albumsArr);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -106,10 +105,12 @@ function MyAlbums() {
         <div className="col col-9">
           <JumboText priText="My Albums" cols="12" isNegative />
         </div>
-        <div className="col col-3">
-          <Button isNegative handleClick={() => history.goBack()}>
-            Back
-          </Button>
+        <div className="col col-3 d-flex justify-content-end">
+          <div>
+            <Button isNegative handleClick={() => history.goBack()}>
+              Back
+            </Button>
+          </div>
         </div>
         <div className="col-12">
           <form className="">

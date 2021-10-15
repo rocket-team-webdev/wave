@@ -348,7 +348,12 @@ export default function UserView() {
               {/* User albums */}
               {!isLoading ? (
                 userAlbums.length > 0 && (
-                  <HomeElement label="Albums" cols="12" isAnimationContainer>
+                  <HomeElement
+                    label="Albums"
+                    cols="12"
+                    to={PUBLIC.ALBUMS}
+                    isAnimationContainer
+                  >
                     {userAlbums.map((album) => (
                       <AlbumCard
                         key={album._id}

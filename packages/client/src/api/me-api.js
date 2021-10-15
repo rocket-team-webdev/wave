@@ -96,6 +96,13 @@ export async function getTrack(id, api = makeMeApi()) {
   });
 }
 
+export async function getMyAlbums(api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.ALBUM}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 export async function getLikedAlbums(api = makeMeApi()) {
   const token = await getCurrentUserToken();
   return api.get(`${API.ALBUM}${API.LIKED}`, {
