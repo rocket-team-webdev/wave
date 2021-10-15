@@ -22,7 +22,7 @@ import "./Album.scss";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import GenreCard from "../../../components/GenreCard";
 
-export default function SinglePlaylist() {
+export default function Album() {
   const history = useHistory();
   const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);

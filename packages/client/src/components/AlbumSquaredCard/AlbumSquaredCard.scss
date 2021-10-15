@@ -1,0 +1,10 @@
+@use "../../sass/components/colors" as c;
+
+.playlist-card {
+  background: c.$playlistGradient;
+  min-height: 200px;
+}
+
+.card-min {
+  min-width: 150px;
+}
