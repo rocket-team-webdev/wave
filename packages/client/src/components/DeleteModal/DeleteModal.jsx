@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../Button";
 
 import "./DeleteModal.scss";
 
@@ -17,37 +18,36 @@ export default function DeleteModal({
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content fnt-danger">
-          <div className="modal-header">
-            <h5 className="modal-title" id={`${id}Label`}>
-              {modalTitle}
+        <div className="modal-content clr-danger p-4 ">
+          <div className="d-flex justify-content-between align-items-start mb-4">
+            <h5
+              className="modal-title fnt-form-title fnt-light"
+              id={`${id}Label`}
+            >
+              {modalTitle.toUpperCase()}
             </h5>
-            <button
+            {/* <Button
               type="button"
-              className="btn-close"
+              className="btn-close fnt-light"
               data-bs-dismiss="modal"
               aria-label="Close"
-            />
+            /> */}
           </div>
-          <div className="modal-body">
-            <p>{modalBody}</p>
+          <div className="mb-4 ">
+            <p className="fnt-label-light fnt-danger">{modalBody}</p>
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary "
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
+          <div className="d-flex justify-content-end gap-3">
+            <Button type="button" isSmall data-bs-dismiss="modal">
+              Cancel
+            </Button>
+            <Button
               type="submit"
-              className="btn btn-danger"
+              isDanger
               data-bs-dismiss="modal"
               onClick={handleSubmit}
             >
-              Yes!
-            </button>
+              Delete
+            </Button>
           </div>
         </div>
       </div>
