@@ -72,7 +72,7 @@ export default function TrackCard({
   };
 
   const handleOnOwnedPlaylist = () => {
-    if (isOnPlaylist && isOnPlaylist.userId === userState.mongoId)
+    if (isOnPlaylist && isOnPlaylist.userId._id === userState.mongoId)
       setOnOwnedPlaylist(true);
   };
 
@@ -342,7 +342,8 @@ export default function TrackCard({
                       <button
                         className="dropdown-item fnt-danger fnt-song-regular clr-danger"
                         data-bs-toggle="modal"
-                        data-bs-target="#deleteFromPlaylistModal"
+                        // data-bs-target="#deleteFromPlaylistModal"
+                        data-bs-target={`#deleteFromPlaylistModal${trackId}`}
                         type="button"
                       >
                         Remove from Playlist
@@ -462,7 +463,8 @@ export default function TrackCard({
         handleSubmit={handleDeleteSong}
       />
       <DeleteModal
-        id="deleteFromPlaylistModal"
+        // id="deleteFromPlaylistModal"
+        id={`deleteFromPlaylistModal${trackId}`}
         modalTitle="Removing track from playlist"
         modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}
         handleSubmit={handleRemoveFromPlaylist}
