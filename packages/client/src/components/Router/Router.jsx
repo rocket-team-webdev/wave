@@ -33,6 +33,7 @@ import UserAlbums from "../../pages/Public/UserAlbums";
 import PopularPlaylists from "../../pages/Public/PopularPlaylists";
 import PopularTracks from "../../pages/Public/PopularTracks";
 import PopularAlbums from "../../pages/Public/PopularAlbums";
+import Search from "../../pages/Public/Search";
 
 export default function Router() {
   return (
@@ -109,6 +110,9 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={`${PUBLIC.POPULAR}${PUBLIC.ALBUMS}`} exact>
           <PopularAlbums />
+        </PrivateRoute>
+        <PrivateRoute path={PUBLIC.SEARCH} exact>
+          <Search />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.HOME} exact>
           <Home />

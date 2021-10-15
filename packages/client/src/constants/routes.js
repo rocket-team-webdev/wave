@@ -27,6 +27,7 @@ export const PUBLIC = {
   QUEUE: "/queue",
   NOT_FOUND: "/404",
   POPULAR: "/popular",
+  SEARCH: "/search",
 };
 
 // PRIVATE PAGES
