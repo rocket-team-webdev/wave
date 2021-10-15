@@ -13,6 +13,7 @@ export const PUBLIC = {
   USER_ACCOUNT: "/account",
   USER_VIEW: "/users",
   USERS: "/users",
+  PLAYLISTS: "/playlists",
   TRACK_EDIT: "/tracks/update", // TODO delete this or TRACK_UPDATE
   TRACK_UPLOAD: "/tracks/upload",
   TRACK_UPDATE: "/tracks/update",
@@ -52,4 +53,12 @@ export const API = {
   SEARCH: "/search",
   ADD_TRACK: "/add-track",
   REMOVE_TRACK: "/remove-track",
+};
+
+// STATS API
+
+export const STATS_API = {
+  // MAIN: "http://localhost:8100/api",
+  MAIN: "https://wave-stats-api-dev.herokuapp.com/api",
+  PLAYBACKS: "/playbacks",
 };

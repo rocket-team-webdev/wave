@@ -15,6 +15,11 @@
       "name": "Hugo Gomez",
       "email": "victorhugogote@gmail.com",
       "url": "https://github.com/labietelabiete"
+    },
+    {
+      "name": "Mathias Fortuna",
+      "email": "mathiasfortuna@hotmail.com",
+      "url": "https://github.com/mhfortuna"
     }
   ],
   "private": true,
@@ -26,6 +31,7 @@
     "client-build": "yarn workspace client build",
     "client-test": "yarn workspace client test",
     "server": "yarn workspace server start",
+    "stats-server": "yarn workspace stats-server start",
     "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\""
   },
   "devDependencies": {

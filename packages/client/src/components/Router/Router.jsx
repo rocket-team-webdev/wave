@@ -27,6 +27,7 @@ import Queue from "../../pages/Public/Queue";
 import UpdateAlbum from "../../pages/Public/UpdateAlbum";
 import PlaylistUpdate from "../../pages/Public/PlaylistUpdate/PlaylistUpdate";
 import NotFound from "../../pages/Public/NotFound";
+import UserPlaylists from "../../pages/Public/UserPlaylists";
 
 export default function Router() {
   return (
@@ -47,8 +48,11 @@ export default function Router() {
         <PrivateRoute path={PUBLIC.QUEUE} exact>
           <Queue />
         </PrivateRoute>
-        <PrivateRoute path={PUBLIC.USER_VIEW}>
+        <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id`} exact>
           <UserView />
+        </PrivateRoute>
+        <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id${PUBLIC.PLAYLISTS}`} exact>
+          <UserPlaylists />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
           <Account />
