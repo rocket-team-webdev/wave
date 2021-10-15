@@ -69,20 +69,24 @@ async function updateTrack(req, res, next) {
   try {
     // const { id } = req.params;
     const { id, title, artist, genre, album } = req.body;
-    const foundGenre = await db.Genre.find({ name: `${genre}` });
-    const foundAlbum = await db.Album.findOne({ title: `${album}` });
+    const foundGenre = await db.Genre.findOne({ name: `${genre}` }, { _id: 1 });
+    const foundAlbum = await db.Album.findOne(
+      { title: `${album}` },
+      { _id: 1 },
+    );
     const updatedTrack = await db.Track.findByIdAndUpdate(
       { _id: id },
       {
         name: title,
         artist: artist,
-        genreId: foundGenre[0]._id,
-        album: foundAlbum[0]._id,
+        genreId: foundGenre?._id,
+        album: foundAlbum?._id,
       },
       {
         new: true,
       },
     );
+
     res.status(200).send({
       id: id,
       data: updatedTrack,

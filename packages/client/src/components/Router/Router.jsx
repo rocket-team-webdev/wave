@@ -33,6 +33,7 @@ import UserAlbums from "../../pages/Public/UserAlbums";
 import PopularPlaylists from "../../pages/Public/PopularPlaylists";
 import PopularTracks from "../../pages/Public/PopularTracks";
 import PopularAlbums from "../../pages/Public/PopularAlbums";
+import AppStats from "../../pages/Public/AppStats";
 
 export default function Router() {
   return (
@@ -64,6 +65,9 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
           <Account />
+        </PrivateRoute>
+        <PrivateRoute path={PUBLIC.APP_STATS} exact>
+          <AppStats />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.REAUTHENTICATE} exact>
           <Reauthenticate />
