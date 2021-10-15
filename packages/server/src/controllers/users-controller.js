@@ -78,7 +78,11 @@ async function getUserPlaylists(req, res, next) {
     const { page = 0, limit = 3 } = req.query;
 
     const playlists = await db.Playlist.find(
-      { userId: id, isDeleted: false },
+      {
+        userId: id,
+        isDeleted: false,
+        publicAccessible: true,
+      },
       {
         name: 1,
         primaryColor: 1,
@@ -111,7 +115,7 @@ async function getUserFollowingPlaylists(req, res, next) {
     const { page = 0, limit = 3 } = req.query;
 
     const followingPlaylists = await db.Playlist.find(
-      { followedBy: id, isDeleted: false },
+      { followedBy: id, isDeleted: false, publicAccessible: true },
       {
         name: 1,
         primaryColor: 1,
