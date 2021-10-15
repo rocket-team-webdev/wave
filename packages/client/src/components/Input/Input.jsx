@@ -84,6 +84,7 @@ export default function Input({
             onBlur={handleBlur}
             onInput={handleInput}
             accept={acceptFiles}
+            onClick={(e) => e.preventDefault()}
             {...props}
           />
         </div>

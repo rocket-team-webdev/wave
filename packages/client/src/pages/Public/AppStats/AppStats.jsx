@@ -1,87 +1,89 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useFormik } from "formik";
-import { toast } from "react-toastify";
+import React from "react";
+// import React, { useEffect, useState } from "react";
+// import { useSelector } from "react-redux";
+// import { useHistory } from "react-router-dom";
+// import { useFormik } from "formik";
+// import { toast } from "react-toastify";
 
-import updateSchema from "./update-schema";
+// import updateSchema from "./update-schema";
 
 import Layout from "../../../components/Layout";
-import Input from "../../../components/Input";
-import Button from "../../../components/Button";
-import Select from "../../../components/Select";
+// import Input from "../../../components/Input";
+// import Button from "../../../components/Button";
+// import Select from "../../../components/Select";
 
-import { PUBLIC } from "../../../constants/routes";
-import { getAccount, updateAccount } from "../../../api/account-api";
+// import { PUBLIC } from "../../../constants/routes";
+// import { getAccount, updateAccount } from "../../../api/account-api";
 import AccountSideBar from "../../../components/AccountSideBar";
 import FormWrapper from "../../../components/FormWrapper";
-import DeleteModal from "../../../components/DeleteModal";
+import Chart from "../../../components/Chart";
+// import DeleteModal from "../../../components/DeleteModal";
 
-export default function Account() {
-  const history = useHistory();
-  const [loadStatus, setLoadStatus] = useState(false);
-  const userState = useSelector((state) => state.user);
+export default function AppStats() {
+  // const history = useHistory();
+  // const [loadStatus, setLoadStatus] = useState(false);
+  // const userState = useSelector((state) => state.user);
 
-  const handleDeleteAccount = async () => {
-    history.push(PUBLIC.REAUTHENTICATE);
-  };
+  // const handleDeleteAccount = async () => {
+  //   history.push(PUBLIC.REAUTHENTICATE);
+  // };
 
-  const formik = useFormik({
-    initialValues: {
-      profilePicture: "",
-      firstName: "",
-      lastName: "",
-      birthDate: "",
-      email: "",
-      country: "",
-    },
-    validationSchema: updateSchema,
-    onSubmit: async (updateState) => {
-      try {
-        const formData = new FormData();
-        formData.append("profilePicture", updateState.profilePicture);
-        formData.append("lastName", updateState.lastName);
-        formData.append("firstName", updateState.firstName);
-        formData.append("birthDate", updateState.birthDate);
-        formData.append("email", updateState.email);
-        formData.append("country", updateState.country);
+  // const formik = useFormik({
+  //   initialValues: {
+  //     profilePicture: "",
+  //     firstName: "",
+  //     lastName: "",
+  //     birthDate: "",
+  //     email: "",
+  //     country: "",
+  //   },
+  //   validationSchema: updateSchema,
+  //   onSubmit: async (updateState) => {
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append("profilePicture", updateState.profilePicture);
+  //       formData.append("lastName", updateState.lastName);
+  //       formData.append("firstName", updateState.firstName);
+  //       formData.append("birthDate", updateState.birthDate);
+  //       formData.append("email", updateState.email);
+  //       formData.append("country", updateState.country);
 
-        await updateAccount(formData);
-        history.go(0);
-        toast("Account updated successfully!", { type: "success" });
-      } catch (error) {
-        toast(error.message, { type: "error" });
-      }
-    },
-  });
+  //       await updateAccount(formData);
+  //       history.go(0);
+  //       toast("Account updated successfully!", { type: "success" });
+  //     } catch (error) {
+  //       toast(error.message, { type: "error" });
+  //     }
+  //   },
+  // });
 
-  async function loadAccount() {
-    try {
-      setLoadStatus(true);
+  // async function loadAccount() {
+  //   try {
+  //     setLoadStatus(true);
 
-      const { data } = await getAccount();
-      formik.setValues({
-        profilePicture: data.data.profilePicture || "",
-        firstName: data.data.firstName || "",
-        lastName: data.data.lastName || "",
-        birthDate: data.data.birthDate.substr(0, 10) || "",
-        email: data.data.email || "",
-        country: data.data.country || "",
-      });
+  //     const { data } = await getAccount();
+  //     formik.setValues({
+  //       profilePicture: data.data.profilePicture || "",
+  //       firstName: data.data.firstName || "",
+  //       lastName: data.data.lastName || "",
+  //       birthDate: data.data.birthDate.substr(0, 10) || "",
+  //       email: data.data.email || "",
+  //       country: data.data.country || "",
+  //     });
 
-      setLoadStatus(false);
-    } catch (error) {
-      toast(error.message, { type: "error" });
-    }
-  }
+  //     setLoadStatus(false);
+  //   } catch (error) {
+  //     toast(error.message, { type: "error" });
+  //   }
+  // }
 
-  useEffect(() => {
-    loadAccount();
-  }, []);
+  // useEffect(() => {
+  //   await getAllTrack()
+  // }, []);
 
-  const profilePictureOnChange = async (event) => {
-    formik.setFieldValue("profilePicture", event.target.files[0]);
-  };
+  // const profilePictureOnChange = async (event) => {
+  //   formik.setFieldValue("profilePicture", event.target.files[0]);
+  // };
 
   return (
     <Layout>
@@ -91,7 +93,11 @@ export default function Account() {
         </div>
 
         <div className="col-6">
-          <FormWrapper
+          <FormWrapper formTitle="App stats">
+            <Chart />
+          </FormWrapper>
+
+          {/* <FormWrapper
             formTitle="Account details"
             img={userState.profilePicture}
           >
@@ -195,14 +201,15 @@ export default function Account() {
                 </div>
               </div>
             </form>
-          </FormWrapper>
+          </FormWrapper> */}
         </div>
+        {/* 
         <DeleteModal
           id="deleteUserModal"
           modalTitle="Removing user"
           modalBody="Are you sure you want to delete this user?"
           handleSubmit={handleDeleteAccount}
-        />
+        /> */}
       </div>
     </Layout>
   );

@@ -22,9 +22,9 @@ function Header({ props }) {
     "fnt-caption d-flex justify-content-center align-items-center fnt-secondary nav-link";
 
   const handleSignOut = async () => {
-    await signOut();
     dispatch(logOut());
     dispatch(clearQueue());
+    await signOut();
     history.push(PUBLIC.SIGN_IN);
   };
 

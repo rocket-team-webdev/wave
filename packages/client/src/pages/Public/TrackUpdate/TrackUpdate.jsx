@@ -16,7 +16,12 @@ import trackUpdateSchema from "./track-update-schema";
 import { getAllGenres } from "../../../api/genre-api";
 import { getUserAlbums } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
-import { getTrackById, updateTrackById } from "../../../api/tracks-api";
+import {
+  deleteTrack,
+  getTrackById,
+  updateTrackById,
+} from "../../../api/tracks-api";
+import DeleteModal from "../../../components/DeleteModal";
 
 function TrackUpdate() {
   const { trackId } = useRouteMatch(`${PUBLIC.TRACK_UPDATE}/:trackId`).params;
@@ -45,6 +50,7 @@ function TrackUpdate() {
         album: track.album,
         genre: track.genre,
       };
+
       await updateTrackById(data);
       history.push(PUBLIC.MY_SONGS);
     },
@@ -60,6 +66,7 @@ function TrackUpdate() {
         album: data.data.album.title || "",
         genre: data.data.genreId.name,
       });
+
       setTrackState(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -91,6 +98,11 @@ function TrackUpdate() {
       toast(error.message, { type: "error" });
     }
   }
+
+  const handleDeleteSong = async () => {
+    await deleteTrack(trackId);
+    history.goBack();
+  };
 
   useEffect(() => {
     fetchTrack(trackId);
@@ -131,8 +143,8 @@ function TrackUpdate() {
                 id="title"
                 classNames="col-12"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.title}
                 errorMessage={formik.errors.title}
                 hasErrorMessage={formik.touched.title}
@@ -143,8 +155,8 @@ function TrackUpdate() {
                 id="artist"
                 classNames="col-12"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.artist}
                 errorMessage={formik.errors.artist}
                 hasErrorMessage={formik.touched.artist}
@@ -155,8 +167,8 @@ function TrackUpdate() {
                 id="genre"
                 type="select"
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.genre}
                 errorMessage={formik.errors.genre}
                 hasErrorMessage={formik.touched.genre}
@@ -170,8 +182,8 @@ function TrackUpdate() {
                 type="select"
                 hasAddIcon
                 isNegative
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 handleAddIcon={() => history.push(PUBLIC.ADD_ALBUM)}
                 value={formik.values.album}
                 errorMessage={formik.errors.album}
@@ -180,14 +192,32 @@ function TrackUpdate() {
               />
             </div>
 
-            <div className="d-flex justify-content-end my-5">
-              <Button isNegative submitButton>
-                Update
-              </Button>
+            <div className="d-flex justify-content-between mt-5">
+              <div className="d-flex justify-content-start my-5">
+                <Button
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteTrackModal"
+                  isDanger
+                >
+                  Delete
+                </Button>
+              </div>
+              <div className="d-flex justify-content-end my-5">
+                <Button isNegative submitButton>
+                  Update
+                </Button>
+              </div>
             </div>
           </form>
         </div>
       </div>
+
+      <DeleteModal
+        id="deleteTrackModal"
+        modalTitle="Removing track"
+        modalBody={`Are you sure you want to delete this track: ${trackState.name}?`}
+        handleSubmit={handleDeleteSong}
+      />
     </Layout>
   );
 }
