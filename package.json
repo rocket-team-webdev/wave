@@ -36,7 +36,8 @@
     "client-build": "yarn workspace client build",
     "client-test": "yarn workspace client test",
     "server": "yarn workspace server start",
-    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\" "
+    "stats-server": "yarn workspace stats-server start",
+    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\""
   },
   "devDependencies": {
     "concurrently": "^6.2.1"

@@ -8,11 +8,7 @@ import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
 import { updatePlaylistOrder } from "../../api/playlists-api";
 
-import {
-  setQueue,
-  // clearQueue,
-  // setPlayState,
-} from "../../redux/music-queue/actions";
+import { setQueue } from "../../redux/music-queue/actions";
 
 function TrackList({
   tracks,
