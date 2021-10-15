@@ -56,7 +56,7 @@ select:-webkit-autofill:focus {
 a,
 a:visited {
   text-decoration: none;
-  color: black;
+  color: inherit;
   font-weight: bold;
   transition: all 0.3s;
 }
@@ -75,6 +75,20 @@ button:active {
   outline: 0;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                               Global classes                               */
+/* -------------------------------------------------------------------------- */
+.h-fit-content {
+  height: fit-content;
+}
+.w-fit-content {
+  width: fit-content;
+}
+
+.light-hr {
+  border: 1px solid white !important;
+  margin: 5px 0;
+}
 /* -------------------------------------------------------------------------- */
 /*                               Global effects                               */
 /* -------------------------------------------------------------------------- */

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
 import playlistSchema from "./playlist-schema";
@@ -11,12 +11,15 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
 import Textarea from "../../../components/Textarea";
 import Checkbox from "../../../components/Checkbox";
-import { addPlaylist } from "../../../api/playlists-api";
+import { addPlaylist, addTrackToPlaylist } from "../../../api/playlists-api";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function CreatePlaylist() {
   const history = useHistory();
   const [publicAccessible, setPublicAccessible] = useState(false);
   const publicAccessibleCheckbox = useRef();
+
+  const location = useLocation();
 
   const formik = useFormik({
     initialValues: {
@@ -36,11 +39,25 @@ export default function CreatePlaylist() {
         formData.append("publicAccessible", playlistState.publicAccessible);
         formData.append("thumbnail", playlistState.thumbnail);
 
-        await addPlaylist(formData);
+        const newPlaylist = await addPlaylist(formData);
+        if (location.state?.trackId) {
+          const { trackId } = location.state;
+          try {
+            await addTrackToPlaylist(newPlaylist.data.playlistId, trackId);
+            history.push(
+              `${PUBLIC.SINGLE_PLAYLIST}/${newPlaylist.data.playlistId}`,
+            );
+            return toast("Playlist created and track added!", {
+              type: "success",
+            });
+          } catch (e) {
+            return toast(e.response.data.msg, { type: "error" });
+          }
+        }
         history.goBack();
         return toast("Playlist created!", { type: "success" });
       } catch (error) {
-        return toast(error.response.data.msg, { type: "error" });
+        return toast(error.response?.data.msg, { type: "error" });
       }
     },
   });
@@ -61,7 +78,7 @@ export default function CreatePlaylist() {
         <div className="mb-5">
           <JumboText priText="New playlist" cols="12" isNegative />
         </div>
-
+        {/* //TODO THUMBNAIL */}
         <div className="col col-12 col-md-6">
           <DragAndDrop
             paddingBottom="65px"
@@ -74,7 +91,7 @@ export default function CreatePlaylist() {
 
         <div className="row col col-12 col-md-6">
           <form onSubmit={formik.handleSubmit}>
-            <h1 className="fnt-form-title mb-5">Playlist details</h1>
+            <h1 className="fnt-form-title mb-4">Playlist details</h1>
             <div className="row">
               <Input
                 label="name"
@@ -115,21 +132,20 @@ export default function CreatePlaylist() {
                 errorMessage={formik.errors.description}
                 hasErrorMessage={formik.touched.description}
               />
-
-              <Checkbox
-                label="Private"
-                id="publicAccessible"
-                ref={publicAccessibleCheckbox}
-                checked={publicAccessible}
-                onChange={handlePublicAccessible}
-              />
-            </div>
-            <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
-              <p className="fnt-smallest col col-12 col-md-8 p-0">
-                <strong>Note:</strong> Don&apos;t forget to upload the cover
-                file.
-              </p>
-              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
+              <div className="col col-12 col-md-8">
+                <Checkbox
+                  label="Private"
+                  id="publicAccessible"
+                  ref={publicAccessibleCheckbox}
+                  checked={publicAccessible}
+                  onChange={handlePublicAccessible}
+                />
+                <p className="fnt-smallest mt-2 m-0">
+                  <strong>Note:</strong> Don&apos;t forget to upload the cover
+                  file.
+                </p>
+              </div>
+              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4">
                 <Button
                   isNegative
                   secondaryBtn

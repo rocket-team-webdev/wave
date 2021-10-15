@@ -13,20 +13,29 @@ async function getPlaylists(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const foundPlaylists = await db.Playlist.find(
+    const foundPlaylists = await db.Playlist.aggregate([
       {
-        $or: [{ publicAccessible: true }, { userId: userId }],
-        isDeleted: false,
+        $match: {
+          $or: [{ publicAccessible: true }, { userId: userId }],
+          isDeleted: false,
+        },
       },
       {
-        name: 1,
-        follows: { $size: "$followedBy" },
-        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
-        primaryColor: 1,
-        thumbnail: 1,
-        userId: 1,
+        $project: {
+          name: 1,
+          follows: { $size: "$followedBy" },
+          isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+          primaryColor: 1,
+          thumbnail: 1,
+          userId: 1,
+        },
       },
-    )
+      {
+        $sort: {
+          follows: -1,
+        },
+      },
+    ])
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
@@ -104,9 +113,11 @@ async function addPlaylist(req, res, next) {
     playlistObj.publicAccessible = req.body.publicAccessible;
     playlistObj.userId = userId;
 
-    await db.Playlist.create(playlistObj);
+    const data = await db.Playlist.create(playlistObj);
 
-    return res.status(200).send({ message: "Playlist created successfully" });
+    return res
+      .status(200)
+      .send({ message: "Playlist created successfully", playlistId: data._id });
   } catch (err) {
     res.status(500).send({ error: err.message });
     next(err);
@@ -375,6 +386,41 @@ async function removeTrackFromPlaylist(req, res, next) {
   }
 }
 
+async function reorderTracksInPlaylist(req, res, next) {
+  try {
+    const { source, destination, playlistId } = req.body;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    await db.Playlist.findOneAndUpdate(
+      {
+        _id: playlistId,
+        userId: userId,
+        tracks: { $in: [source.trackId] },
+      },
+      {
+        $pull: { tracks: source.trackId },
+      },
+    );
+
+    await db.Playlist.updateOne(
+      { _id: playlistId, userId },
+      {
+        $push: {
+          tracks: { $each: [source.trackId], $position: destination.index },
+        },
+      },
+    );
+
+    res.status(200).send({
+      message: "Playlist updated successfully",
+    });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
 module.exports = {
   getPlaylists,
   addPlaylist,
@@ -384,4 +430,5 @@ module.exports = {
   followPlaylist,
   addTrackToPlaylist,
   removeTrackFromPlaylist,
+  reorderTracksInPlaylist,
 };

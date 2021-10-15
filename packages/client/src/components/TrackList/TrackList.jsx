@@ -1,10 +1,14 @@
 import React, { /* useEffect,  */ useState } from "react";
+import { useDispatch } from "react-redux";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { motion } from "framer-motion";
 import { sortArrayAscendent, sortArrayDescendent } from "../../utils/sorters";
 import { containerAnimation } from "../../utils/motionSettings";
 import TrackCard from "../TrackCard";
 import TrackSorter from "../TrackSorter/TrackSorter";
+import { updatePlaylistOrder } from "../../api/playlists-api";
+
+import { setQueue } from "../../redux/music-queue/actions";
 
 function TrackList({
   tracks,
@@ -12,6 +16,7 @@ function TrackList({
   onAddLikedColumn = () => {},
   hasSorter,
   isOnPlaylist = false,
+  isOnQueue = false,
 }) {
   const flagInitialState = {
     flagTitle: "titleDesc",
@@ -20,6 +25,8 @@ function TrackList({
     flagDuration: "durDesc",
   };
   const [flag, setFlag] = useState(flagInitialState);
+
+  const dispatch = useDispatch();
 
   const handleAddLikedColumn = (song, isLiked) => {
     onAddLikedColumn(song, isLiked);
@@ -30,16 +37,38 @@ function TrackList({
     setTracks(updatedListOfTracks);
   };
 
+  const updateQueue = (tracksUpdated) => {
+    const tracksArray = [];
+    tracksUpdated.forEach((track) => {
+      const trackObject = {
+        name: track.name,
+        url: track.url,
+        duration: track.duration,
+        genreId: track.genreId,
+        artist: track.artist,
+        album: track.album.title,
+        isLiked: track.isLiked,
+        trackId: track._id,
+        albumId: track.album._id,
+        trackImg: track.album.thumbnail,
+      };
+      tracksArray.push(trackObject);
+    });
+    dispatch(setQueue(tracksArray));
+  };
+
   const sortByTitleAndArtist = () => {
     let sortedTracks = [];
     switch (flag.flagTitle) {
       case "none":
         setTracks(tracks);
+        updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "titleDesc":
         sortedTracks = sortArrayDescendent(tracks, "name");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "titleAsc",
@@ -48,6 +77,7 @@ function TrackList({
       case "titleAsc":
         sortedTracks = sortArrayAscendent(tracks, "name");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "artistDesc",
@@ -56,6 +86,7 @@ function TrackList({
       case "artistDesc":
         sortedTracks = sortArrayDescendent(tracks, "artist");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "artistAsc",
@@ -64,6 +95,7 @@ function TrackList({
       case "artistAsc":
         sortedTracks = sortArrayAscendent(tracks, "artist");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "none",
@@ -71,6 +103,7 @@ function TrackList({
         break;
       default:
         setTracks(tracks);
+        updateQueue(tracks);
     }
   };
 
@@ -79,11 +112,13 @@ function TrackList({
     switch (flag.flagAlbum) {
       case "none":
         setTracks(tracks);
+        updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "albumDesc":
         sortedTracks = sortArrayAscendent(tracks, "album", "title");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagAlbum: "albumAsc",
@@ -92,6 +127,7 @@ function TrackList({
       case "albumAsc":
         sortedTracks = sortArrayDescendent(tracks, "album", "title");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagAlbum: "none",
@@ -99,6 +135,7 @@ function TrackList({
         break;
       default:
         setTracks(tracks);
+        updateQueue(tracks);
     }
   };
 
@@ -107,11 +144,13 @@ function TrackList({
     switch (flag.flagPopularity) {
       case "none":
         setTracks(tracks);
+        updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "popDesc":
         sortedTracks = sortArrayDescendent(tracks, "popularity");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagPopularity: "popAsc",
@@ -120,6 +159,7 @@ function TrackList({
       case "popAsc":
         sortedTracks = sortArrayAscendent(tracks, "popularity");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagPopularity: "none",
@@ -135,11 +175,13 @@ function TrackList({
     switch (flag.flagDuration) {
       case "none":
         setTracks(tracks);
+        updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "durDesc":
         sortedTracks = sortArrayDescendent(tracks, "duration");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagDuration: "durAsc",
@@ -148,6 +190,7 @@ function TrackList({
       case "durAsc":
         sortedTracks = sortArrayAscendent(tracks, "duration");
         setTracks(sortedTracks);
+        updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagDuration: "none",
@@ -158,10 +201,6 @@ function TrackList({
     }
   };
 
-  // useEffect(() => {
-  //   setTracks(tracks);
-  // }, [tracks]);
-
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -171,17 +210,29 @@ function TrackList({
     return result;
   };
 
-  const onDragEndUploaded = (res) => {
+  const onDragEndUploaded = async (res) => {
     const { destination, source } = res;
 
     if (!destination) return;
 
     const items = reorder(tracks, source.index, destination.index);
     setTracks(items);
+    updateQueue(items);
+    await updatePlaylistOrder({
+      source: {
+        index: source.index,
+        trackId: tracks[source.index]?._id,
+      },
+      destination: {
+        index: destination.index,
+        trackId: tracks[destination.index]?._id,
+      },
+      playlistId: isOnPlaylist?._id,
+    });
   };
 
   return (
-    <>
+    <div className="w-100">
       <DragDropContext onDragEnd={onDragEndUploaded}>
         <Droppable droppableId="Uploaded">
           {(provided) => (
@@ -204,6 +255,7 @@ function TrackList({
                 >
                   {tracks.map((song, index) => (
                     <TrackCard
+                      // eslint-disable-next-line react/no-array-index-key
                       key={song._id}
                       trackNumber={index + 1}
                       trackName={song.name}
@@ -218,11 +270,12 @@ function TrackList({
                       trackId={song._id}
                       userId={song.userId}
                       index={index}
-                      playCounter={song.popularity}
+                      popularity={song.popularity}
                       updateLikedView={handleAddLikedColumn}
                       updateDeletedView={handleDeletedView}
                       draggable={hasSorter}
                       isOnPlaylist={isOnPlaylist}
+                      isOnQueue={isOnQueue}
                     />
                   ))}
                 </motion.div>
@@ -232,7 +285,7 @@ function TrackList({
           )}
         </Droppable>
       </DragDropContext>
-    </>
+    </div>
   );
 }
 

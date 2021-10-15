@@ -6,7 +6,6 @@ import GenreCard from "../GenreCard";
 import UserCard from "../UserCard";
 import ArtistCard from "../ArtistCard";
 import PlaylistList from "../PlaylistList/PlaylistList";
-import PlaylistCard from "../PlaylistCard";
 import TrackList from "../TrackList";
 
 import { PUBLIC } from "../../constants/routes";
@@ -91,6 +90,70 @@ export default function HomeMyWave({ artistsList = false }) {
     }
   };
 
+  // const handleAddFollowingPlaylists = (playlist, isFollowed) => {
+  //   try {
+  //     if (isFollowed) {
+  //       const updatedUserPlaylists = userPlaylists.map((byPlaylist) => {
+  //         if (byPlaylist._id === playlist._id)
+  //           return { ...byPlaylist, isFollowed: isFollowed };
+  //         return byPlaylist;
+  //       });
+  //       const updatedFollowedPlaylists = myFollowingPlaylists.filter(
+  //         (v) => v._id === playlist._id,
+  //       );
+
+  //       if (!updatedFollowedPlaylists.length)
+  //         setMyFollowingPlaylists((prevSongs) => [...prevSongs, playlist]);
+
+  //       setUserPlaylists(updatedUserPlaylists);
+  //     } else {
+  //       const updatedFollowedPlaylists = myFollowingPlaylists.filter(
+  //         (pl) => pl._id !== playlist._id,
+  //       );
+  //       const updatedUserPlaylists = userPlaylists.map((byPlaylist) => {
+  //         if (byPlaylist._id === playlist._id)
+  //           return { ...byPlaylist, isFollowed: isFollowed };
+  //         return byPlaylist;
+  //       });
+  //       setMyFollowingPlaylists(updatedFollowedPlaylists);
+  //       setUserPlaylists(updatedUserPlaylists);
+  //     }
+  //   } catch (error) {
+  //     toast(error.message, { type: "error" });
+  //   }
+  // };
+
+  // const handleAddLikedSongs = (song, liked) => {
+  //   try {
+  //     if (liked) {
+  //       const updatedMyTracks = myTracks.map((byTrack) => {
+  //         if (byTrack._id === song._id) return { ...byTrack, isLiked: liked };
+  //         return byTrack;
+  //       });
+  //       const updatedLikedTracks = userLikedTracks.filter(
+  //         (v) => v._id === song._id,
+  //       );
+
+  //       if (!updatedLikedTracks.length)
+  //         setUserLikedTracks((prevSongs) => [...prevSongs, song]);
+
+  //       setMyTracks(updatedMyTracks);
+  //     } else {
+  //       const updatedLikedTracks = userLikedTracks.filter(
+  //         (pl) => pl._id !== song._id,
+  //       );
+  //       const updatedMyTracks = myTracks.map((byTrack) => {
+  //         if (byTrack._id === song._id) return { ...byTrack, isLiked: liked };
+  //         return byTrack;
+  //       });
+  //       setUserLikedTracks(updatedLikedTracks);
+  //       setMyTracks(updatedMyTracks);
+  //     }
+  //   } catch (error) {
+  //     toast(error.message, { type: "error" });
+  //   }
+  // };
+
   // On load
   useEffect(() => {
     // Users
@@ -135,7 +198,7 @@ export default function HomeMyWave({ artistsList = false }) {
             cols="6"
             isAnimationContainer
           >
-            {myFollowingPlaylists.map((playlist) => (
+            {/* {myFollowingPlaylists.map((playlist) => (
               <PlaylistCard
                 key={playlist._id}
                 playListId={playlist._id}
@@ -143,7 +206,7 @@ export default function HomeMyWave({ artistsList = false }) {
                 userId={playlist.userId}
                 // classNames=""
               />
-            ))}
+            ))} */}
           </HomeElement>
         )}
         {/* User tracks */}

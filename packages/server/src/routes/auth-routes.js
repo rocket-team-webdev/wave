@@ -8,16 +8,16 @@ const {
   authRegisterMiddleware,
 } = require("../middlewares/auth-firebase-middleware");
 
-const userRouter = Router();
+const authRouter = Router();
 const mdlUpload = upload.fields([{ name: "profilePicture" }]);
 
-userRouter.post(
+authRouter.post(
   "/register",
   [authRegisterMiddleware, mdlUpload],
   userController.signUp,
 );
-userRouter.get("/authenticate", authFirebaseMiddleware, userController.signIn);
+authRouter.get("/authenticate", authFirebaseMiddleware, userController.signIn);
 
 module.exports = {
-  userRouter,
+  authRouter,
 };

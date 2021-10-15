@@ -81,7 +81,36 @@ async function searchPlaylist(req, res, next) {
   }
 }
 
+async function searchAlbum(req, res, next) {
+  try {
+    const searchText = req.query?.q;
+
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    const data = await db.Album.find(
+      {
+        $or: [{ title: { $regex: searchText, $options: "i" } }],
+      },
+      {
+        title: 1,
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        thumbnail: 1,
+        userId: 1,
+      },
+    );
+
+    return res
+      .status(200)
+      .send({ message: "Successfully searched", album: data });
+  } catch (error) {
+    res.status(500).send({ error: error });
+    next(error);
+  }
+}
+
 module.exports = {
   searchTrack,
   searchPlaylist,
+  searchAlbum,
 };

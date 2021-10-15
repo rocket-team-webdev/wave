@@ -24,12 +24,15 @@ import HeartIcon from "../../../components/SVGicons/HeartIcon";
 import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 import "./SinglePlaylist.scss";
+import GenreCard from "../../../components/GenreCard";
+import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 
 export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
   const [isOwned, setIsOwned] = useState(false);
+  const [playlistGenres, setPlaylistGenres] = useState([]);
 
   const userState = useSelector((state) => state.user);
 
@@ -46,11 +49,19 @@ export default function SinglePlaylist() {
     }
   };
 
+  const getGenresFromTracks = (tracksArray) => {
+    const genres = [];
+    tracksArray.map((track) => genres.push(track.genreId));
+    const cleanedGenres = uniqueValuesArray(genres);
+    setPlaylistGenres(cleanedGenres);
+  };
+
   const loadPlaylist = async () => {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
       setTracks(data.data.tracks);
+      getGenresFromTracks(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
       handleIsOwned(data.data.userId._id);
     } catch (error) {
@@ -62,28 +73,34 @@ export default function SinglePlaylist() {
       }
     }
   };
+
   const handlePlaying = () => {
-    dispatch(clearQueue());
-    const tracksArray = [];
-    tracks.forEach((track) => {
-      const trackObject = {
-        name: track.name,
-        url: track.url,
-        duration: track.duration,
-        genreId: track.genreId,
-        userId: track.userId._id,
-        artist: track.artist,
-        album: track.album.title,
-        isLiked: track.isLiked,
-        trackId: track._id,
-        albumId: track.album._id,
-        trackImg: track.album.thumbnail,
-      };
-      tracksArray.push(trackObject);
-    });
-    dispatch(setQueue(tracksArray));
-    dispatch(setPlayState(true));
+    if (tracks.length > 0) {
+      dispatch(clearQueue());
+      const tracksArray = [];
+      tracks.forEach((track) => {
+        const trackObject = {
+          name: track.name,
+          url: track.url,
+          duration: track.duration,
+          genreId: track.genreId,
+          userId: track.userId._id,
+          artist: track.artist,
+          album: track.album.title,
+          isLiked: track.isLiked,
+          trackId: track._id,
+          albumId: track.album._id,
+          trackImg: track.album.thumbnail,
+        };
+        tracksArray.push(trackObject);
+      });
+      dispatch(setQueue(tracksArray));
+      dispatch(setPlayState(true));
+    } else {
+      toast("Playlist empty, please add a song!", { type: "error" });
+    }
   };
+
   const handleFollow = async () => {
     setIsFollowed(!isFollowed);
     await followPlaylist(playlistId);
@@ -100,7 +117,7 @@ export default function SinglePlaylist() {
   }, []);
 
   return (
-    <Layout isNegative>
+    <Layout thumbnailUrl={playlist.thumbnail}>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
@@ -118,22 +135,31 @@ export default function SinglePlaylist() {
               )}
             </button>
           </div>
+          <div className="d-flex align-items-start mt-4">
+            {playlistGenres.map((genre) => (
+              <div key={genre._id} className="mb-2 me-2">
+                <GenreCard>{genre.name.toUpperCase()}</GenreCard>
+              </div>
+            ))}
+          </div>
 
           {/* TODO only show creator if exists */}
           {playlist.userId && (
-            <h3 className="fnt-secondary fnt-caption mt-4 d-flex align-items-center">
+            <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
               <Link to={`${PUBLIC.USERS}/${playlist.userId._id}`}>
-                <p className="mb-0 ms-1">{playlist.userId.firstName}</p>
+                <p className="fnt-light mb-0 ms-1">
+                  {playlist.userId.firstName}
+                </p>
               </Link>
             </h3>
           )}
-          <h3 className="fnt-secondary fnt-caption d-flex align-items-center">
-            <HeartIcon isFull />{" "}
+          <h3 className="fnt-light fnt-caption d-flex align-items-center">
+            <HeartIcon isNegative isFull />
             <p className="ms-2 mb-0">{playlist.follows} followers</p>
           </h3>
           {playlist.description !== "" && (
-            <p className="fnt-secondary fnt-smallest mt-4">
+            <p className="fnt-light fnt-smallest mt-4">
               {playlist.description}
             </p>
           )}

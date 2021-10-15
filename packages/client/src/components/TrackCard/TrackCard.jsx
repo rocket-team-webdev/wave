@@ -7,9 +7,12 @@ import { FaEllipsisH } from "react-icons/fa";
 import { motion } from "framer-motion";
 import {
   addSong,
+  deleteSong,
   setPlayState,
   setSong,
   like,
+  clearQueue,
+  setListPosition,
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -35,7 +38,7 @@ export default function TrackCard({
   albumId,
   time,
   userId,
-  playCounter = 0,
+  popularity = 0,
   trackUrl,
   genreId,
   isLiked,
@@ -44,7 +47,8 @@ export default function TrackCard({
   trackId,
   updateLikedView = () => {},
   updateDeletedView = () => {},
-  isOnPlaylist,
+  isOnPlaylist = false,
+  isOnQueue = false,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
@@ -65,6 +69,7 @@ export default function TrackCard({
     trackId: trackId,
     albumId: albumId,
     trackImg: trackImg,
+    popularity: popularity,
   };
 
   const handleOnOwnedPlaylist = () => {
@@ -80,10 +85,10 @@ export default function TrackCard({
 
   const handleLike = async () => {
     const userLike = !liked;
-    setLiked(userLike);
 
     try {
       await likeTrack(trackId);
+      setLiked(userLike);
       updateLikedView(
         {
           ...trackObject,
@@ -105,12 +110,52 @@ export default function TrackCard({
   };
 
   const handlePlay = () => {
-    dispatch(setSong(trackObject));
-    dispatch(setPlayState(true));
+    if (isOnQueue) {
+      dispatch(setListPosition(index));
+      dispatch(setPlayState(true));
+    } else {
+      const songRepeat = queueState.queue.find(
+        (item) => item.trackId === trackObject.trackId,
+      );
+      if (!songRepeat) {
+        const payload = { track: trackObject, offset: 1 };
+        if (queueState.listPosition === 0) payload.offset = 0;
+        dispatch(setSong(payload));
+        dispatch(setPlayState(true));
+      } else {
+        toast(`Song already exists on your queue`, { type: "error" });
+      }
+    }
   };
 
   const handleAddToQueue = () => {
-    dispatch(addSong(trackObject));
+    const songRepeat = queueState.queue.find(
+      (item) => item.trackId === trackObject.trackId,
+    );
+    if (!songRepeat) {
+      dispatch(addSong(trackObject));
+    } else {
+      toast(`Song already exists on your queue`, { type: "error" });
+    }
+  };
+
+  const handleDeleteFromQueue = () => {
+    if (queueState.queue.length === 1) {
+      dispatch(clearQueue());
+    } else {
+      const payload = {
+        index: index,
+        listPosition: queueState.listPosition,
+        offset: 0,
+      };
+      if (
+        queueState.listPosition + 1 === queueState.queue.length ||
+        (index === queueState.listPosition && index !== 0)
+      ) {
+        payload.offset = 1;
+      }
+      dispatch(deleteSong(payload));
+    }
   };
 
   const handleDeleteSong = async () => {
@@ -196,7 +241,7 @@ export default function TrackCard({
       >
         {(provided, snapshot) => (
           <div
-            className="row m-0 col col-12 card-hover fx-rounded clr-primary"
+            className="row m-0 col col-12 card-hover fx-rounded fnt-light"
             onDoubleClick={handlePlay}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
@@ -205,11 +250,12 @@ export default function TrackCard({
               snapshot.isDragging,
               provided.draggableProps.style,
             )}
+            data-testid="trackCard"
           >
             <div className="col col-12 d-flex justify-content-between align-items-center py-2">
               <div className="col col-2 d-flex align-items-center">
                 {/* Number */}
-                <h3 className="m-0 ps-2 fnt-song-bold text-start song-index">
+                <h3 className="m-0 ps-2 fnt-song-bold text-start song-index fnt-light">
                   {trackNumber}
                 </h3>
                 {/* Thumbnail */}
@@ -220,15 +266,20 @@ export default function TrackCard({
                 >
                   <img className="fx-rounded" src={trackImg} alt={trackName} />
                   <i className="fas fa-play fnt-white" />
+                  {/* <FaPlay className="play-icon fnt-white" /> */}
                 </div>
                 {/* Like */}
                 <div className="d-flex fnt-primary">
                   <button
-                    className="text-center"
+                    className="text-center fnt-light"
                     type="button"
                     onClick={handleLike}
                   >
-                    {liked ? <HeartIcon isFull /> : <HeartIcon />}
+                    {liked ? (
+                      <HeartIcon isFull isNegative />
+                    ) : (
+                      <HeartIcon isNegative />
+                    )}
                   </button>
                 </div>
               </div>
@@ -246,8 +297,8 @@ export default function TrackCard({
               <div className="col col-3 d-flex justify-content-between align-items-center">
                 {/* Album */}
                 <Link
-                  className="m-0 text-start fnt-song-regular px-2 col truncate track-album"
-                  to={`${PUBLIC.ALBUMS}/${albumId}`}
+                  className="m-0 text-start fnt-song-regular fnt-light px-2 col truncate track-album"
+                  to={`${PUBLIC.ALBUM}/${albumId}`}
                 >
                   {albumName}
                 </Link>
@@ -255,7 +306,7 @@ export default function TrackCard({
               {/* Playcounter */}
               <div className="col col-2 d-flex justify-content-between align-items-center">
                 <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
-                  {formatPlayCounter(playCounter)}
+                  {formatPlayCounter(popularity)}
                 </h4>
               </div>
               <div className="col col-2 d-flex justify-content-between align-items-center">
@@ -266,7 +317,7 @@ export default function TrackCard({
                 {/* Contextual menu */}
                 <div className="dropdown">
                   <button
-                    className="m-0 text-end"
+                    className="m-0 text-end fnt-light"
                     type="button"
                     id="contextSongMenu"
                     data-bs-toggle="dropdown"
@@ -279,15 +330,28 @@ export default function TrackCard({
                     className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                     aria-labelledby="contextSongMenu"
                   >
-                    <li>
-                      <button
-                        className="dropdown-item fnt-light fnt-song-regular "
-                        type="button"
-                        onClick={handleAddToQueue}
-                      >
-                        Add to queue
-                      </button>
-                    </li>
+                    {isOnQueue ? (
+                      <li>
+                        <button
+                          className="dropdown-item fnt-light fnt-song-regular "
+                          type="button"
+                          onClick={handleDeleteFromQueue}
+                        >
+                          Delete from queue
+                        </button>
+                      </li>
+                    ) : (
+                      <li>
+                        <button
+                          className="dropdown-item fnt-light fnt-song-regular "
+                          type="button"
+                          onClick={handleAddToQueue}
+                        >
+                          Add to queue
+                        </button>
+                      </li>
+                    )}
+
                     <hr className="dropdown-wrapper m-0" />
                     {onOwnedPlaylist ? (
                       <button
@@ -371,8 +435,14 @@ export default function TrackCard({
                         <li>
                           <hr className="dropdown-wrapper m-0" />
 
-                          <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackId}`}>
-                            {/* TODO: when creating playlist adding that song */}
+                          <Link
+                            to={{
+                              pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                              state: {
+                                trackId: trackId,
+                              },
+                            }}
+                          >
                             <p
                               className="dropdown-item fnt-light fnt-song-regular m-0"
                               type="button"

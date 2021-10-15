@@ -28,9 +28,7 @@ export default function PlaylistCard({
 
   const handleLike = async (e) => {
     e.preventDefault();
-    // e.stopPropagation();
     const userFollows = !followed;
-    setFollowed(userFollows);
 
     try {
       await followPlaylist(playlistId);
@@ -42,6 +40,7 @@ export default function PlaylistCard({
         },
         userFollows,
       );
+      setFollowed(userFollows);
     } catch (error) {
       toast(error.message, { type: "error" });
       setFollowed(!followed);
@@ -59,11 +58,14 @@ export default function PlaylistCard({
       className={componentClasses}
     >
       <motion.div
-        className="d-flex flex-column justify-content-between playlist-card fx-rounded p-3"
+        className="d-flex flex-column justify-content-between playlist-card fx-rounded py-3 px-4"
         // Animation settings
         variants={fromBottom}
       >
-        <div className="heart-wrapper d-flex justify-content-end fnt-primary">
+        <div
+          className="heart-wrapper d-flex justify-content-end fnt-primary"
+          data-testid="playlistCard"
+        >
           <button
             className="text-center px-0"
             type="button"

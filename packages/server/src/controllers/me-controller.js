@@ -81,19 +81,9 @@ async function getMyPlaylists(req, res, next) {
         };
     const playlists = await db.Playlist.find(
       { userId: userId, isDeleted: false },
-      {
-        name: 1,
-        // collaborative: 1,
-        // description: 1,
-        primaryColor: 1,
-        thumbnail: 1,
-        // publicAccessible: 1,
-        userId: 1,
-        // tracks: 1,
-        isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
-        follows: { $size: "$followedBy" },
-      },
+      projection,
     )
+      .sort({ createdAt: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
@@ -217,11 +207,66 @@ async function getMyLikedTracks(req, res, next) {
           // sort: { created: -1},
         },
       })
+      .sort({ popularity: -1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
     res.status(200).send({
       data: tracks,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
+async function getMyAlbums(req, res, next) {
+  try {
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    const albums = await db.Album.find(
+      { userId: userId },
+      {
+        title: 1,
+        totalTracks: 1,
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        thumbnail: 1,
+        year: 1,
+      },
+    );
+
+    res.status(200).send({
+      data: albums,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
+async function getMyLikedAlbums(req, res, next) {
+  try {
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    const userLikedAlbums = await db.Album.find(
+      { likedBy: userId },
+      {
+        title: 1,
+        totalTracks: 1,
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        thumbnail: 1,
+        year: 1,
+      },
+    );
+
+    res.status(200).send({
+      data: userLikedAlbums,
     });
   } catch (err) {
     res.status(404).send({
@@ -238,4 +283,6 @@ module.exports = {
   getMyFollowingPlaylists,
   getMyTracks,
   getMyLikedTracks,
+  getMyAlbums,
+  getMyLikedAlbums,
 };

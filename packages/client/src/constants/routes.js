@@ -11,17 +11,21 @@ export const PUBLIC = {
   SIGN_IN: "/sign-in",
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
+  USER_VIEW: "/users",
   USERS: "/users",
+  PLAYLISTS: "/playlists",
   TRACK_EDIT: "/tracks/update", // TODO delete this or TRACK_UPDATE
   TRACK_UPLOAD: "/tracks/upload",
   TRACK_UPDATE: "/tracks/update",
   ADD_ALBUM: "/albums/add",
-  ALBUM: "/albums",
+  ALBUM: "/album",
   UPDATE_ALBUM: "/albums/update",
   ADD_PLAYLIST: "/playlists/add",
   SINGLE_PLAYLIST: "/playlist",
   PLAYLIST_UPDATE: "/playlist/update",
+  QUEUE: "/queue",
   NOT_FOUND: "/404",
+  POPULAR: "/popular",
 };
 
 // PRIVATE PAGES
@@ -41,6 +45,7 @@ export const API = {
   ALBUM: "/albums",
   PLAYLISTS: "/playlists",
   USER: "/user",
+  USERS: "/users",
   ME: "/me",
   TRACKS: "/tracks",
   LIKED: "/liked",
@@ -49,4 +54,12 @@ export const API = {
   SEARCH: "/search",
   ADD_TRACK: "/add-track",
   REMOVE_TRACK: "/remove-track",
+};
+
+// STATS API
+
+export const STATS_API = {
+  // MAIN: "http://localhost:8100/api",
+  MAIN: "https://wave-stats-api-dev.herokuapp.com/api",
+  PLAYBACKS: "/playbacks",
 };

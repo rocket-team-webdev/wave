@@ -5,12 +5,12 @@ import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
 import ArtistCard from "../ArtistCard";
 import Spinner from "../Spinner";
-import { getAllTracks } from "../../api/tracks-api";
 import PlaylistList from "../PlaylistList";
 import TrackList from "../TrackList";
 
 import { getAllGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
+import { getAllTracks } from "../../api/tracks-api";
 import { PUBLIC } from "../../constants/routes";
 
 export default function HomePopular({ artistsList = [] }) {

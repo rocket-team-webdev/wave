@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-
 import { toast } from "react-toastify";
-import { FaPlay, FaPause } from "react-icons/fa";
+import { FaEllipsisH, FaPlay, FaPause } from "react-icons/fa";
 import {
   MdRepeat,
   MdRepeatOne,
@@ -32,9 +31,11 @@ import { getMyPlaylists } from "../../api/me-api";
 import { addTrackToPlaylist } from "../../api/playlists-api";
 
 import HeartIcon from "../SVGicons/HeartIcon";
+import { saveListened } from "../../api/playback-api";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
+  const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const listPosition = queueState.listPosition;
   const trackObject = queueState.isShuffled
@@ -46,15 +47,22 @@ export default function MusicPlayer() {
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
   const [myPlaylists, setMyPlaylists] = useState([]);
+  const [hasPlayed, setHasPlayed] = useState([false]);
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
+    if (!hasPlayed) {
+      saveListened(trackObject.trackId, userState.mongoId);
+      setHasPlayed(true);
+    }
   };
 
   const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
       dispatch(nextSong());
-    } else if (repeatState === "queue") dispatch(setListPosition(0));
+    } else if (repeatState === "queue") {
+      dispatch(setListPosition(0));
+    }
 
     if (listPosition >= queueState.queue.length - 2 && repeatState !== "queue")
       setNextButtonDisabled(true);
@@ -111,15 +119,6 @@ export default function MusicPlayer() {
     else dispatch(like(listPosition));
     try {
       await likeTrack(trackObject.trackId);
-      // updateLikedView(
-      //   {
-      //     ...trackObject,
-      //     album: { title: albumName, thumbnail: trackImg },
-      //     isLiked: userLike,
-      //     _id: trackId,
-      //   },
-      //   userLike,
-      // );
     } catch (error) {
       dispatch(like(listPosition));
       toast(error.message, { type: "error" });
@@ -181,13 +180,19 @@ export default function MusicPlayer() {
     }
   }, [queueState.willPlay]);
 
+  useEffect(() => {
+    if (queueState.willPlay) {
+      setHasPlayed(false);
+    }
+  }, [trackObject?.url]);
+
   return (
     <>
       {queueState.queue.length > 0 && (
         <div className="rhap_main-container clr-white">
           <div className="rhap_track-info">
             <div className="rhap_album-thumb">
-              <Link to={`${PUBLIC.ALBUMS}/${trackObject.albumId}`}>
+              <Link to={`${PUBLIC.ALBUM}/${trackObject.albumId}`}>
                 <img
                   src={trackObject.trackImg}
                   alt="album-cover"
@@ -223,19 +228,19 @@ export default function MusicPlayer() {
                 aria-expanded="false"
                 onClick={handleOpenDropdown}
               >
-                <i className="fas fa-ellipsis-h" />
+                <FaEllipsisH />
               </button>
               <ul
                 className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                 aria-labelledby="contextTrackMenu"
               >
                 <>
-                  <Link to={`${PUBLIC.TRACK_EDIT}`}>
+                  <Link to={`${PUBLIC.QUEUE}`}>
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
                     >
-                      Queue/Playlist
+                      Queue
                     </p>
                   </Link>
                   <hr className="dropdown-wrapper m-0" />

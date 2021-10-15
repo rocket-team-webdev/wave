@@ -25,6 +25,12 @@ meRouter.get(
   authFirebaseMiddleware,
   meController.getMyLikedTracks,
 );
+meRouter.get("/albums", authFirebaseMiddleware, meController.getMyAlbums);
+meRouter.get(
+  "/albums/liked",
+  authFirebaseMiddleware,
+  meController.getMyLikedAlbums,
+);
 
 module.exports = {
   meRouter,

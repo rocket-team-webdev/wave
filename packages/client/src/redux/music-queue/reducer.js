@@ -2,6 +2,7 @@ import {
   SET_SONG,
   SET_QUEUE,
   ADD,
+  DELETE,
   CLEAR,
   SET_SHUFFLE,
   CLEAR_SHUFFLE,
@@ -21,9 +22,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         willPlay: false,
+        listPosition: state.listPosition - action.payload.offset,
         queue: [
-          ...state.queue.slice(0, state.listPosition),
-          action.payload,
+          // ...state.queue.slice(0, state.listPosition),
+          action.payload.track,
           ...state.queue.slice(state.listPosition + 1),
         ],
       };
@@ -41,6 +43,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         queue: [...state.queue, action.payload],
+      };
+    case DELETE:
+      return {
+        ...state,
+        willPlay: false,
+        listPosition: action.payload.listPosition - action.payload.offset,
+        queue: [
+          ...state.queue.slice(0, action.payload.index),
+          ...state.queue.slice(action.payload.index + 1),
+        ],
       };
     case CLEAR:
       return initialState;
