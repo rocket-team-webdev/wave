@@ -365,7 +365,8 @@ export default function TrackCard({
                           <button
                             className="dropdown-item fnt-light fnt-song-regular"
                             data-bs-toggle="modal"
-                            data-bs-target="#deleteTrackModal"
+                            // data-bs-target="#deleteTrackModal"
+                            data-bs-target={`#deleteTrackModal${trackId}`}
                             type="button"
                             // onClick={handleDeleteSong}
                           >
@@ -452,8 +453,10 @@ export default function TrackCard({
           </div>
         )}
       </Draggable>
+
       <DeleteModal
-        id="deleteTrackModal"
+        // id="deleteTrackModal"
+        id={`deleteTrackModal${trackId}`}
         modalTitle="Removing track"
         modalBody={`Are you sure you want to delete ${trackName}?`}
         handleSubmit={handleDeleteSong}
