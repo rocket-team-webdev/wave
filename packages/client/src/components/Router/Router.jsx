@@ -30,6 +30,7 @@ import NotFound from "../../pages/Public/NotFound";
 import MyAlbums from "../../pages/Public/MyAlbums/MyAlbums";
 import UserPlaylists from "../../pages/Public/UserPlaylists";
 import PopularPlaylists from "../../pages/Public/PopularPlaylists/PopularPlaylists";
+import UserAlbums from "../../pages/Public/UserAlbums";
 
 export default function Router() {
   return (
@@ -55,6 +56,9 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id${PUBLIC.PLAYLISTS}`} exact>
           <UserPlaylists />
+        </PrivateRoute>
+        <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id${PUBLIC.ALBUMS}`} exact>
+          <UserAlbums />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
           <Account />

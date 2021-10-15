@@ -153,13 +153,49 @@ async function getUserAlbums(req, res, next) {
       { userId: id },
       {
         title: 1,
+        totalTracks: 1,
+        isLiked: { $setIsSubset: [[id], "$likedBy"] },
+        thumbnail: 1,
+        year: 1,
       },
     )
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
     res.status(200).send({
-      data: albums,
+      albums,
+    });
+  } catch (err) {
+    res.status(404).send({
+      error: err.message,
+    });
+    next(err);
+  }
+}
+
+async function getUserLikedAlbums(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    const { page = 0, limit = 5 } = req.query;
+
+    const likedAlbums = await db.Album.find(
+      { likedBy: id },
+      {
+        title: 1,
+        totalTracks: 1,
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        thumbnail: 1,
+        year: 1,
+      },
+    )
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).send({
+      likedAlbums,
     });
   } catch (err) {
     res.status(404).send({
@@ -275,4 +311,5 @@ module.exports = {
   getUserAlbums: getUserAlbums,
   getUserTracks: getUserTracks,
   getUserLikedTracks: getUserLikedTracks,
+  getUserLikedAlbums: getUserLikedAlbums,
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -13,7 +14,7 @@ import BigThumbnail from "../../../components/BigThumbnail";
 
 import trackUpdateSchema from "./track-update-schema";
 import { getAllGenres } from "../../../api/genre-api";
-import { getUserAlbum } from "../../../api/album-api";
+import { getUserAlbums } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
 import { getTrackById, updateTrackById } from "../../../api/tracks-api";
 
@@ -23,6 +24,8 @@ function TrackUpdate() {
   const [albumsState, setAlbums] = useState([]);
   const [trackState, setTrackState] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const userState = useSelector((state) => state.user);
+  const userId = userState.mongoId;
 
   const history = useHistory();
 
@@ -80,7 +83,7 @@ function TrackUpdate() {
     try {
       const {
         data: { albums },
-      } = await getUserAlbum();
+      } = await getUserAlbums(userId);
       const albumsArr = albums.map((album) => album.title);
       albumsArr.unshift("Select album");
       setAlbums(albumsArr);

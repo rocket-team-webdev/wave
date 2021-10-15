@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as id3 from "id3js/lib/id3";
@@ -15,7 +16,7 @@ import Spinner from "../../../components/Spinner";
 
 import { uploadTrack } from "../../../api/tracks-api";
 import { getAllGenres } from "../../../api/genre-api";
-import { getUserAlbum } from "../../../api/album-api";
+import { getUserAlbums } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
 import { TRACK_UPLOAD_INFO } from "../../../constants/local-storage";
 import {
@@ -28,23 +29,21 @@ export default function TrackUpload() {
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
   const history = useHistory();
+  const userState = useSelector((state) => state.user);
+  const userId = userState.mongoId;
 
   useEffect(async () => {
     const { data } = await getAllGenres();
+    const genresArr = data.genres.map((genre) => genre.name);
+    genresArr.unshift("Select genre");
+    setGenres(genresArr);
+
     const {
       data: { albums },
-    } = await getUserAlbum();
-
-    if (data.genres) {
-      const genresArr = data.genres.map((genre) => genre.name);
-      genresArr.unshift("Select genre");
-      setGenres(genresArr);
-    }
-    if (albums) {
-      const albumsArr = albums.map((album) => album.title);
-      albumsArr.unshift("Select album");
-      setAlbums(albumsArr);
-    }
+    } = await getUserAlbums(userId);
+    const albumsArr = albums.map((album) => album.title);
+    albumsArr.unshift("Select album");
+    setAlbums(albumsArr);
   }, []);
 
   const lsInitialValue = loadLocalStorageItems(TRACK_UPLOAD_INFO, {});
