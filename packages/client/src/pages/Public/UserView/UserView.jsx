@@ -159,8 +159,10 @@ export default function UserView() {
   const loadUserAlbums = async () => {
     setIsLoading(true);
     try {
-      const { data } = await getUserAlbums(userId);
-      setUserAlbums(data.data);
+      const {
+        data: { albums },
+      } = await getUserAlbums(userId);
+      setUserAlbums(albums);
       setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -360,7 +362,8 @@ export default function UserView() {
                   <HomeElement
                     label="Albums"
                     cols="12"
-                    to={PUBLIC.ALBUMS}
+                    // to={PUBLIC.ALBUMS}
+                    to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.ALBUMS}`}
                     isAnimationContainer
                   >
                     {userAlbums.map((album) => (

@@ -16,13 +16,6 @@ export async function getAllAlbums(page = 0, limit = 5, api = makeAlbumApi()) {
   });
 }
 
-export async function getUserAlbum(api = makeAlbumApi()) {
-  const token = await getCurrentUserToken();
-  return api.get(``, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
 export async function addAlbum(file = {}, api = makeAlbumApi()) {
   const token = await getCurrentUserToken();
 

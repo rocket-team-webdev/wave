@@ -83,11 +83,23 @@ export async function getUserFollowingPlaylists(
 export async function getUserAlbums(
   id,
   page = 0,
-  limit = 5,
+  limit = 9,
   api = makeUsersApi(),
 ) {
   const token = await getCurrentUserToken();
   return api.get(`/${id}${API.ALBUM}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function getUserLikedAlbums(
+  id,
+  page = 0,
+  limit = 9,
+  api = makeUsersApi(),
+) {
+  const token = await getCurrentUserToken();
+  return api.get(`/${id}${API.ALBUM}${API.LIKED}?page=${page}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
