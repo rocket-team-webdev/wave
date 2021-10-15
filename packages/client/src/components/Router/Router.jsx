@@ -33,7 +33,6 @@ import PopularPlaylists from "../../pages/Public/PopularPlaylists";
 import PopularTracks from "../../pages/Public/PopularTracks";
 import PopularAlbums from "../../pages/Public/PopularAlbums";
 
-
 export default function Router() {
   return (
     <BrowserRouter>
