@@ -298,7 +298,7 @@ export default function TrackCard({
                 {/* Album */}
                 <Link
                   className="m-0 text-start fnt-song-regular fnt-light px-2 col truncate track-album"
-                  to={`${PUBLIC.ALBUMS}/${albumId}`}
+                  to={`${PUBLIC.ALBUM}/${albumId}`}
                 >
                   {albumName}
                 </Link>

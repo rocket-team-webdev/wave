@@ -19,6 +19,12 @@ searchRouter.get(
   searchController.searchPlaylist,
 );
 
+searchRouter.get(
+  "/albums",
+  authFirebaseMiddleware,
+  searchController.searchAlbum,
+);
+
 module.exports = {
   searchRouter,
 };

@@ -62,7 +62,7 @@ function Header({ props }) {
                 <NavLink
                   className={navlinkClasses}
                   activeClassName="active-navlink"
-                  to="/"
+                  to={`${PUBLIC.ALBUMS}`}
                 >
                   My albums
                 </NavLink>

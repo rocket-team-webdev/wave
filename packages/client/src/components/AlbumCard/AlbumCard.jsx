@@ -16,7 +16,7 @@ export default function AlbumCard({ albumId, albumTitle }) {
       variants={fromBottom}
     >
       <Link
-        to={`${PUBLIC.ALBUMS}/${albumId}`}
+        to={`${PUBLIC.ALBUM}/${albumId}`}
         className="d-flex align-items-center me-4 mb-2 user-card w-100"
       >
         <FaCompactDisc className="fnt-light fnt-input-bold me-2" />
