@@ -18,6 +18,29 @@ async function getUserById(req, res, next) {
 // -----
 // Users
 // -----
+async function getAllUsers(req, res, next) {
+  try {
+    const { page = 0, limit = 5 } = req.query;
+    const topUsers = await db.User.find(
+      {},
+      {
+        firstName: 1,
+        follows: { $size: "$followedBy" },
+      },
+    )
+      .sort({ follows: -1 })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    console.log("----------> ", topUsers);
+
+    res.status(200).send({ users: topUsers });
+  } catch (err) {
+    res.status(500).send({ error: err });
+    next(err);
+  }
+}
+
 async function getUserFollowers(req, res, next) {
   try {
     const { id } = req.params;
@@ -304,6 +327,7 @@ async function getUserLikedTracks(req, res, next) {
 
 module.exports = {
   getUserById: getUserById,
+  getAllUsers: getAllUsers,
   getUserFollowers: getUserFollowers,
   getUserFollowings: getUserFollowings,
   getUserPlaylists: getUserPlaylists,

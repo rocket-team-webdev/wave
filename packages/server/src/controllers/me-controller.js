@@ -192,7 +192,7 @@ async function getMyLikedTracks(req, res, next) {
   try {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-    const { page = 0, limit = 4 } = req.query;
+    const { page = 0, limit = 5 } = req.query;
 
     const tracks = await db.Track.find(
       { likedBy: userId },
@@ -236,6 +236,8 @@ async function getMyLikedTracks(req, res, next) {
 async function getMyAlbums(req, res, next) {
   try {
     const { email } = req.user;
+    const { page = 0, limit = 5 } = req.query;
+
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const albums = await db.Album.find(
@@ -246,8 +248,12 @@ async function getMyAlbums(req, res, next) {
         isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         thumbnail: 1,
         year: 1,
+        likes: { $size: "$likedBy" },
       },
-    );
+    )
+      .sort({ likes: -1 })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     res.status(200).send({
       data: albums,
@@ -263,6 +269,8 @@ async function getMyAlbums(req, res, next) {
 async function getMyLikedAlbums(req, res, next) {
   try {
     const { email } = req.user;
+    const { page = 0, limit = 5 } = req.query;
+
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const userLikedAlbums = await db.Album.find(
@@ -273,8 +281,12 @@ async function getMyLikedAlbums(req, res, next) {
         isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         thumbnail: 1,
         year: 1,
+        likes: { $size: "$likedBy" },
       },
-    );
+    )
+      .sort({ likes: -1 })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     res.status(200).send({
       data: userLikedAlbums,

@@ -3,7 +3,8 @@ import { toast } from "react-toastify";
 
 import HomeElement from "../HomeElement";
 import GenreCard from "../GenreCard";
-import ArtistCard from "../ArtistCard";
+// import ArtistCard from "../ArtistCard";
+import UserCard from "../UserCard";
 import Spinner from "../Spinner";
 import PlaylistList from "../PlaylistList";
 import TrackList from "../TrackList";
@@ -11,11 +12,13 @@ import TrackList from "../TrackList";
 import { getAllGenres } from "../../api/genre-api";
 import { getAllPlaylists } from "../../api/playlists-api";
 import { getAllTracks } from "../../api/tracks-api";
+import { getAllUsers } from "../../api/users-api";
 import { PUBLIC } from "../../constants/routes";
 
-export default function HomePopular({ artistsList = [] }) {
+export default function HomePopular() {
   const [loadStatus, setLoadStatus] = useState(false);
   const [popularGenres, setPopularGenres] = useState([]);
+  const [popularUsers, setPopularUsers] = useState([]);
   const [popularPlaylists, setPopularPlaylists] = useState([]);
   const [popularTracks, setPopularTracks] = useState([]);
 
@@ -24,6 +27,16 @@ export default function HomePopular({ artistsList = [] }) {
     try {
       const { data } = await getAllGenres();
       setPopularGenres(data.genres);
+    } catch (err) {
+      toast(err.message, { type: "error" });
+    }
+  };
+
+  // Users
+  const loadUsers = async () => {
+    try {
+      const { data } = await getAllUsers();
+      setPopularUsers(data.users);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
@@ -53,6 +66,7 @@ export default function HomePopular({ artistsList = [] }) {
 
   useEffect(() => {
     loadGenres();
+    loadUsers();
     loadPlaylists();
     loadTracks();
   }, []);
@@ -65,7 +79,7 @@ export default function HomePopular({ artistsList = [] }) {
           popularPlaylists.length > 0 && (
             <HomeElement
               label="Playlists"
-              to={PUBLIC.MY_PLAYLISTS}
+              to={PUBLIC.MY_PLAYLISTS} // TODO add final endpoint
               cols="6"
               isAnimationContainer
             >
@@ -83,7 +97,11 @@ export default function HomePopular({ artistsList = [] }) {
           </HomeElement>
         )}
         {popularTracks.length > 0 && (
-          <HomeElement label="Tracks" to={PUBLIC.MY_SONGS} cols="6">
+          <HomeElement
+            label="Tracks"
+            to={PUBLIC.MY_SONGS} // TODO add final endpoint
+            cols="6"
+          >
             <TrackList tracks={popularTracks} setTracks={setPopularTracks} />
           </HomeElement>
         )}
@@ -99,13 +117,13 @@ export default function HomePopular({ artistsList = [] }) {
             ))}
           </HomeElement>
         )}
-        {artistsList.length > 0 && (
-          <HomeElement label="Artists" isAnimationContainer>
-            {artistsList.map((artistName) => (
-              <ArtistCard
-                key={artistName}
-                artistName={artistName}
-                classNames="mb-3"
+        {popularUsers.length > 0 && (
+          <HomeElement label="Users" isAnimationContainer>
+            {popularUsers.map((popular) => (
+              <UserCard
+                key={popular._id}
+                userId={popular._id}
+                userName={popular.firstName}
               />
             ))}
           </HomeElement>

@@ -79,7 +79,6 @@ export default function MyWave() {
     setIsLoading(true);
     try {
       const { data } = await getMyFollowers();
-      console.log("data: ", data);
       setMyFollowers(data.data);
       setIsLoading(false);
     } catch (error) {

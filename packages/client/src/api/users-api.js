@@ -20,6 +20,18 @@ export async function getUserById(id, api = makeUsersApi()) {
 // Users
 // -----
 
+export async function getAllUsers(
+  id,
+  page = 0,
+  limit = 5,
+  api = makeUsersApi(),
+) {
+  const token = await getCurrentUserToken();
+  return api.get(`/popular?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 export async function getUserFollowers(
   id,
   page = 0,
