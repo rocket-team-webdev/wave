@@ -30,6 +30,16 @@ function AccountSideBar() {
           PASSWORD UPDATE
         </NavLink>
       </div>
+      <div>
+        <NavLink
+          exact
+          to="/stats"
+          className="fnt-subtitle-light  col-12"
+          activeClassName="fnt-subtitle-bold"
+        >
+          APP STATS
+        </NavLink>
+      </div>
     </div>
   );
 }
