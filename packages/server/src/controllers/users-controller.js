@@ -32,8 +32,6 @@ async function getAllUsers(req, res, next) {
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
-    console.log("----------> ", topUsers);
-
     res.status(200).send({ users: topUsers });
   } catch (err) {
     res.status(500).send({ error: err });
