@@ -86,7 +86,7 @@ export default function HomePopular({ artistsList = [] }) {
         popularPlaylists.length > 0 && (
           <HomeElement
             label="Playlists"
-            to={PUBLIC.MY_PLAYLISTS}
+            to={`${PUBLIC.POPULAR}${PUBLIC.MY_PLAYLISTS}`}
             isAnimationContainer
           >
             {popularPlaylists && (

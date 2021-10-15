@@ -25,6 +25,7 @@ export const PUBLIC = {
   PLAYLIST_UPDATE: "/playlist/update",
   QUEUE: "/queue",
   NOT_FOUND: "/404",
+  POPULAR: "/popular",
 };
 
 // PRIVATE PAGES
