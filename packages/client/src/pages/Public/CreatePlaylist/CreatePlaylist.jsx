@@ -100,6 +100,7 @@ export default function CreatePlaylist() {
                 classNames="col col-12 col-md-8"
                 placeholder="Playlist name"
                 isNegative
+                maxLength="30"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}

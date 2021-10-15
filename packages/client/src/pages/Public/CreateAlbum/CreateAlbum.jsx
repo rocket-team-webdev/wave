@@ -66,6 +66,7 @@ export default function CreateAlbum() {
                 classNames="col col-12 col-md-7"
                 placeholder="Album title"
                 isNegative
+                maxLength="30"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.title}

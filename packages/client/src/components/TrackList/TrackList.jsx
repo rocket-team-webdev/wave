@@ -14,6 +14,7 @@ function TrackList({
   tracks,
   setTracks,
   onAddLikedColumn = () => {},
+  setColumnsOnDeleteTrack = () => {},
   hasSorter,
   isOnPlaylist = false,
   isOnQueue = false,
@@ -35,6 +36,9 @@ function TrackList({
   const handleDeletedView = (trackId) => {
     const updatedListOfTracks = tracks.filter((v) => v._id !== trackId);
     setTracks(updatedListOfTracks);
+
+    // update liked and uploaded columns
+    setColumnsOnDeleteTrack(trackId);
   };
 
   const updateQueue = (tracksUpdated) => {
