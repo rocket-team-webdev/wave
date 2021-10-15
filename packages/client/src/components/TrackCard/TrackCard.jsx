@@ -12,6 +12,7 @@ import {
   setSong,
   like,
   clearQueue,
+  setListPosition,
 } from "../../redux/music-queue/actions";
 import { deleteTrack, likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -46,8 +47,8 @@ export default function TrackCard({
   trackId,
   updateLikedView = () => {},
   updateDeletedView = () => {},
-  isOnPlaylist,
-  isOnQueue,
+  isOnPlaylist = false,
+  isOnQueue = false,
 }) {
   const [liked, setLiked] = useState(isLiked);
   const [isOwned, setIsOwned] = useState(false);
@@ -109,8 +110,22 @@ export default function TrackCard({
   };
 
   const handlePlay = () => {
-    dispatch(setSong(trackObject));
-    dispatch(setPlayState(true));
+    if (isOnQueue) {
+      dispatch(setListPosition(index));
+      dispatch(setPlayState(true));
+    } else {
+      const songRepeat = queueState.queue.find(
+        (item) => item.trackId === trackObject.trackId,
+      );
+      if (!songRepeat) {
+        const payload = { track: trackObject, offset: 1 };
+        if (queueState.listPosition === 0) payload.offset = 0;
+        dispatch(setSong(payload));
+        dispatch(setPlayState(true));
+      } else {
+        toast(`Song already exists on your queue`, { type: "error" });
+      }
+    }
   };
 
   const handleAddToQueue = () => {
