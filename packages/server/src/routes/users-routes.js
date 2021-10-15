@@ -38,6 +38,12 @@ usersRouter.get(
 );
 
 usersRouter.get(
+  "/:id/albums/liked",
+  authFirebaseMiddleware,
+  usersController.getUserLikedAlbums,
+);
+
+usersRouter.get(
   "/:id/albums",
   authFirebaseMiddleware,
   usersController.getUserAlbums,
