@@ -16,6 +16,7 @@ import Layout from "../../../components/Layout";
 // import { getAccount, updateAccount } from "../../../api/account-api";
 import AccountSideBar from "../../../components/AccountSideBar";
 import FormWrapper from "../../../components/FormWrapper";
+import Chart from "../../../components/Chart";
 // import DeleteModal from "../../../components/DeleteModal";
 
 export default function AppStats() {
@@ -77,7 +78,7 @@ export default function AppStats() {
   // }
 
   // useEffect(() => {
-  //   loadAccount();
+  //   await getAllTrack()
   // }, []);
 
   // const profilePictureOnChange = async (event) => {
@@ -92,7 +93,9 @@ export default function AppStats() {
         </div>
 
         <div className="col-6">
-          <FormWrapper formTitle="App stats">hola</FormWrapper>
+          <FormWrapper formTitle="App stats">
+            <Chart />
+          </FormWrapper>
 
           {/* <FormWrapper
             formTitle="Account details"
