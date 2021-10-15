@@ -7,10 +7,10 @@ import { fromBottom } from "../../utils/motionSettings";
 import HeartIcon from "../SVGicons/HeartIcon";
 import { PUBLIC } from "../../constants/routes";
 
-import "./AlbumSquaredCard.scss";
+import "./AlbumCard.scss";
 import { likeAlbum } from "../../api/album-api";
 
-export default function AlbumSquaredCard({
+export default function AlbumCard({
   albumId,
   albumTitle,
   userId,
