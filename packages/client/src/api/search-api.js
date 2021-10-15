@@ -26,3 +26,12 @@ export async function searchPlaylists(search, api = makeSearchApi()) {
     },
   });
 }
+
+export async function searchAlbum(search, api = makeSearchApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.ALBUM}/?q=${search}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

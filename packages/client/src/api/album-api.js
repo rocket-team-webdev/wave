@@ -9,6 +9,13 @@ export function makeAlbumApi() {
   });
 }
 
+export async function getAllAlbums(page = 0, limit = 5, api = makeAlbumApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 export async function getUserAlbum(api = makeAlbumApi()) {
   const token = await getCurrentUserToken();
   return api.get(``, {
