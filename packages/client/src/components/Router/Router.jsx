@@ -25,11 +25,14 @@ import SinglePlaylist from "../../pages/Public/SinglePlaylist";
 import Album from "../../pages/Public/Album";
 import Queue from "../../pages/Public/Queue";
 import UpdateAlbum from "../../pages/Public/UpdateAlbum";
-import PlaylistUpdate from "../../pages/Public/PlaylistUpdate/PlaylistUpdate";
+import PlaylistUpdate from "../../pages/Public/PlaylistUpdate";
 import NotFound from "../../pages/Public/NotFound";
 import MyAlbums from "../../pages/Public/MyAlbums/MyAlbums";
 import UserPlaylists from "../../pages/Public/UserPlaylists";
-import PopularPlaylists from "../../pages/Public/PopularPlaylists/PopularPlaylists";
+import UserAlbums from "../../pages/Public/UserAlbums";
+import PopularPlaylists from "../../pages/Public/PopularPlaylists";
+import PopularTracks from "../../pages/Public/PopularTracks";
+import PopularAlbums from "../../pages/Public/PopularAlbums";
 
 export default function Router() {
   return (
@@ -55,6 +58,9 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id${PUBLIC.PLAYLISTS}`} exact>
           <UserPlaylists />
+        </PrivateRoute>
+        <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id${PUBLIC.ALBUMS}`} exact>
+          <UserAlbums />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
           <Account />
@@ -97,6 +103,12 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={`${PUBLIC.POPULAR}${PUBLIC.PLAYLISTS}`} exact>
           <PopularPlaylists />
+        </PrivateRoute>
+        <PrivateRoute path={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`} exact>
+          <PopularTracks />
+        </PrivateRoute>
+        <PrivateRoute path={`${PUBLIC.POPULAR}${PUBLIC.ALBUMS}`} exact>
+          <PopularAlbums />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.HOME} exact>
           <Home />
