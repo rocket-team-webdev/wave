@@ -103,7 +103,7 @@ export default function HomePopular({ artistsList = [] }) {
         </HomeElement>
       )}
       {popularTracks.length > 0 && (
-        <HomeElement label="Tracks">
+        <HomeElement label="Tracks" to={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`}>
           <TrackList tracks={popularTracks} />
         </HomeElement>
       )}

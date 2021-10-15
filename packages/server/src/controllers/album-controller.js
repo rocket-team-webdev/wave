@@ -11,6 +11,7 @@ const { DEFAULT_ALBUM_THUMBNAIL } = require("../utils/default-presets");
 async function getAlbums(req, res, next) {
   try {
     const { email } = req.user;
+    const { page = 0, limit = 5 } = req.query;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const albums = await db.Album.aggregate([
@@ -30,6 +31,8 @@ async function getAlbums(req, res, next) {
           likes: -1,
         },
       },
+      { $limit: parseInt(limit) },
+      { $skip: parseInt(page) * parseInt(limit) },
     ]);
 
     res.status(200).send({ albums });
