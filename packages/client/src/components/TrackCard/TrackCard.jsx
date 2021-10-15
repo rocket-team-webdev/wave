@@ -112,6 +112,7 @@ export default function TrackCard({
   const handlePlay = () => {
     if (isOnQueue) {
       dispatch(setListPosition(index));
+      dispatch(setPlayState(true));
     } else {
       const songRepeat = queueState.queue.find(
         (item) => item.trackId === trackObject.trackId,
