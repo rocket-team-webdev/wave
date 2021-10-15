@@ -3,6 +3,7 @@
 export const PUBLIC = {
   HOME: "/",
   MY_SONGS: "/tracks",
+  TRACKS: "/tracks",
   MY_PLAYLISTS: "/playlists",
   ALBUMS: "/albums",
   UPDATE_PASSWORD: "/account/settings/update-password",
