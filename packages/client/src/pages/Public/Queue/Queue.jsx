@@ -12,19 +12,13 @@ import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
 import Button from "../../../components/Button";
 
-import {
-  // setQueue,
-  clearQueue,
-  // setPlayState,
-} from "../../../redux/music-queue/actions";
+import { clearQueue } from "../../../redux/music-queue/actions";
 
 import "./Queue.scss";
 
 export default function Queue() {
-  // const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
 
-  // const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
 
   const dispatch = useDispatch();
@@ -33,7 +27,6 @@ export default function Queue() {
   const loadQueue = async () => {
     try {
       const queue = queueState.queue;
-      console.log(queue);
       const tracksArray = [];
       queue.forEach((track) => {
         const trackObject = {
@@ -101,7 +94,6 @@ export default function Queue() {
             setTracks={setTracks}
             hasSorter
             isOnQueue
-            // isOnPlaylist={queueState.queue}
           />
         </div>
       </div>

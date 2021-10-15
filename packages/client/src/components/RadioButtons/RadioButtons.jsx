@@ -17,7 +17,7 @@ export default function RadioButtons({ handleChange = () => {} }) {
         defaultChecked
       />
       <label
-        className="btn btn-outline-light fnt-caption"
+        className="btn btn-outline-light fnt-caption custom-radio"
         htmlFor="popularRadio"
       >
         Popular
@@ -32,7 +32,7 @@ export default function RadioButtons({ handleChange = () => {} }) {
         onChange={handleChange}
       />
       <label
-        className="btn btn-outline-light fnt-caption"
+        className="btn btn-outline-light fnt-caption custom-radio"
         htmlFor="myWaveRadio"
       >
         MyWave
