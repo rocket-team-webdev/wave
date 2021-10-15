@@ -163,7 +163,7 @@ async function getUserAlbums(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({
-      albums,
+      data: albums,
     });
   } catch (err) {
     res.status(404).send({
@@ -195,7 +195,7 @@ async function getUserLikedAlbums(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({
-      likedAlbums,
+      data: likedAlbums,
     });
   } catch (err) {
     res.status(404).send({
