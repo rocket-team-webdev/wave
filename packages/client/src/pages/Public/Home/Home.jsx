@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import homeSearchSchema from "./home-search-schema";
 
 import Layout from "../../../components/Layout";
-import HomePopular from "../../../components/HomePopular";
-import HomeMyWave from "../../../components/HomeMyWave";
+import Popular from "../../../components/Popular";
+import MyWave from "../../../components/MyWave";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 import Spinner from "../../../components/Spinner";
@@ -94,11 +94,7 @@ export default function Home() {
         {/* Bottom part */}
         <div className="row p-0 m-0">
           {/* Switch view */}
-          {popularView ? (
-            <HomePopular artistsList={artistsList} />
-          ) : (
-            <HomeMyWave artistsList={artistsList} />
-          )}
+          {popularView ? <Popular artistsList={artistsList} /> : <MyWave />}
         </div>
       </div>
     </Layout>

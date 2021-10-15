@@ -3,17 +3,28 @@ const db = require("../models");
 async function getMyFollowers(req, res, next) {
   try {
     const { email } = req.user;
-    // const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const tracks = await db.User.find(
-      { email },
-      {
-        followedBy: 1,
-      },
-    ).populate("followedBy");
+    const { page = 0, limit = 5 } = req.query;
 
+    const followers = await db.User.find(
+      { _id: userId },
+      { followedBy: 1, _id: 0 },
+    )
+      .populate({
+        path: "followedBy",
+        options: {
+          select: "_id firstName",
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    const followersArray = followers[0].followedBy;
+
+    console.log("Followers ------>", followersArray);
     res.status(200).send({
-      data: tracks,
+      data: followersArray,
     });
   } catch (err) {
     res.status(404).send({
