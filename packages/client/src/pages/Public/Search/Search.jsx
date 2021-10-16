@@ -35,7 +35,7 @@ function Search() {
 
   const trackSearchAndSet = async (searchParam) => {
     try {
-      const { data } = await searchTrack(searchParam, 0, 5);
+      const { data } = await searchTrack(searchParam, 0, 7);
       setFoundTracks({ data: data.tracks, loaded: true });
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -45,7 +45,7 @@ function Search() {
 
   const playlistSearchAndSet = async (searchParam) => {
     try {
-      const { data } = await searchPlaylists(searchParam, 0, 3);
+      const { data } = await searchPlaylists(searchParam, 0, 4);
       setFoundPlaylists({ data: data.playlist, loaded: true });
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -55,7 +55,7 @@ function Search() {
 
   const albumSearchAndSet = async (searchParam) => {
     try {
-      const { data } = await searchAlbum(searchParam, 0, 3);
+      const { data } = await searchAlbum(searchParam, 0, 2);
       setFoundAlbums({ data: data.album, loaded: true });
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -65,7 +65,7 @@ function Search() {
 
   const userSearchAndSet = async (searchParam) => {
     try {
-      const { data } = await searchUser(searchParam, 0, 5);
+      const { data } = await searchUser(searchParam, 0, 6);
       setFoundUsers({ data: data.users, loaded: true });
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -102,7 +102,7 @@ function Search() {
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
-        <div className="col col-12 col-md-5 left-side mt-4">
+        <div className="col col-12 col-md-4 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Search" cols="11" isNegative />
           </div>
@@ -142,59 +142,71 @@ function Search() {
         </div>
 
         {/* Right side */}
-        <div className="col col-12 col-md-7 right-side pe-0 row gy-4">
-          {foundTracks.loaded ? (
-            <HomeElement label="found tracks" cols="12" isAnimationContainer>
-              {foundTracks.data.length > 0 ? (
-                <TrackList tracks={foundTracks.data} />
-              ) : (
-                <p>Nothing found</p>
-              )}
-            </HomeElement>
-          ) : (
-            <HomeElement label="loading">
-              <Spinner isNegative />
-            </HomeElement>
-          )}
-          {foundPlaylists.loaded ? (
-            <HomeElement label="found playlists" cols="12" isAnimationContainer>
-              {foundPlaylists.data.length > 0 ? (
-                <PlaylistList playlists={foundPlaylists.data} />
-              ) : (
-                <p>Nothing found</p>
-              )}
-            </HomeElement>
-          ) : (
-            <HomeElement label="loading">
-              <Spinner isNegative />
-            </HomeElement>
-          )}
-          {foundAlbums.loaded ? (
-            <HomeElement label="found albums" cols="12" isAnimationContainer>
-              {foundAlbums.data.length > 0 ? (
-                <AlbumList albums={foundAlbums.data} />
-              ) : (
-                <p>Nothing found</p>
-              )}
-            </HomeElement>
-          ) : (
-            <HomeElement label="loading">
-              <Spinner isNegative />
-            </HomeElement>
-          )}
-          {foundUsers.loaded ? (
-            <HomeElement label="found users" cols="12" isAnimationContainer>
-              {foundUsers.data.length > 0 ? (
-                <UserList users={foundUsers.data} />
-              ) : (
-                <p>Nothing found</p>
-              )}
-            </HomeElement>
-          ) : (
-            <HomeElement label="loading">
-              <Spinner isNegative />
-            </HomeElement>
-          )}
+        <div className="col col-12 col-md-8 right-side pe-0 row gy-4">
+          <div className="col-6">
+            {foundTracks.loaded ? (
+              <HomeElement label="found tracks" cols="12" isAnimationContainer>
+                {foundTracks.data.length > 0 ? (
+                  <TrackList tracks={foundTracks.data} />
+                ) : (
+                  <p>Nothing found</p>
+                )}
+              </HomeElement>
+            ) : (
+              <HomeElement label="loading">
+                <Spinner isNegative />
+              </HomeElement>
+            )}
+          </div>
+          <div className="col-6">
+            {foundPlaylists.loaded ? (
+              <HomeElement
+                label="found playlists"
+                cols="12"
+                isAnimationContainer
+              >
+                {foundPlaylists.data.length > 0 ? (
+                  <PlaylistList playlists={foundPlaylists.data} />
+                ) : (
+                  <p>Nothing found</p>
+                )}
+              </HomeElement>
+            ) : (
+              <HomeElement label="loading">
+                <Spinner isNegative />
+              </HomeElement>
+            )}
+          </div>
+          <div className="col-6">
+            {foundUsers.loaded ? (
+              <HomeElement label="found users" cols="12" isAnimationContainer>
+                {foundUsers.data.length > 0 ? (
+                  <UserList users={foundUsers.data} />
+                ) : (
+                  <p>Nothing found</p>
+                )}
+              </HomeElement>
+            ) : (
+              <HomeElement label="loading">
+                <Spinner isNegative />
+              </HomeElement>
+            )}
+          </div>
+          <div className="col-6">
+            {foundAlbums.loaded ? (
+              <HomeElement label="found albums" cols="12" isAnimationContainer>
+                {foundAlbums.data.length > 0 ? (
+                  <AlbumList albums={foundAlbums.data} />
+                ) : (
+                  <p>Nothing found</p>
+                )}
+              </HomeElement>
+            ) : (
+              <HomeElement label="loading">
+                <Spinner isNegative />
+              </HomeElement>
+            )}
+          </div>
         </div>
       </div>
       {/* <div className="row mb-5">
