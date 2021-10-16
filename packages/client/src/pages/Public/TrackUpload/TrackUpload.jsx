@@ -196,19 +196,18 @@ export default function TrackUpload() {
                 />
               </div>
             </div>
-            <div className="col d-flex justify-content-end">
-              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
-                <Button
-                  isNegative
-                  secondaryBtn
-                  handleClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
-                <Button isNegative submitButton>
-                  Upload
-                </Button>
-              </div>
+            <div className="d-flex justify-content-end buttons-wrapper col col-12 p-0">
+              <Button
+                classNames="me-3"
+                isNegative
+                secondaryBtn
+                handleClick={() => history.goBack()}
+              >
+                Back
+              </Button>
+              <Button isNegative submitButton>
+                Upload
+              </Button>
             </div>
           </form>
         </div>

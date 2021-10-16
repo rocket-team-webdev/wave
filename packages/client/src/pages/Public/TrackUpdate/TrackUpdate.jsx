@@ -190,10 +190,7 @@ function TrackUpdate() {
                 hasErrorMessage={formik.touched.album}
                 options={albumsState}
               />
-            </div>
-
-            <div className="d-flex justify-content-between mt-5">
-              <div className="d-flex justify-content-start my-5">
+              <div className="d-flex justify-content-between align-items-center mt-3">
                 <Button
                   data-bs-toggle="modal"
                   data-bs-target="#deleteTrackModal"
@@ -201,8 +198,6 @@ function TrackUpdate() {
                 >
                   Delete
                 </Button>
-              </div>
-              <div className="d-flex justify-content-end my-5">
                 <Button isNegative submitButton>
                   Update
                 </Button>

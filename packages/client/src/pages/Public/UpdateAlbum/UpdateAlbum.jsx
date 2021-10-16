@@ -119,13 +119,16 @@ export default function UpdateAlbum() {
                 hasErrorMessage={formik.touched.year}
               />
             </div>
-            <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
-              <p className="fnt-smallest col col-12 col-md-8 p-0">
-                <strong>Note:</strong> Drop the new cover if you want to update
-                it.
-              </p>
-              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
+            <div className="footer-wrapper d-flex justify-content-between align-items-center row p-0 m-0">
+              <div className="footer-left col-12 col-md-6 ps-0">
+                <p className="fnt-smallest col col-12 col-md-11 p-0 mt-2 truncate ">
+                  <strong>Note:</strong> Drop the new cover if you want to
+                  update it.
+                </p>
+              </div>
+              <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
                 <Button
+                  classNames="me-3"
                   isNegative
                   secondaryBtn
                   handleClick={() => history.goBack()}

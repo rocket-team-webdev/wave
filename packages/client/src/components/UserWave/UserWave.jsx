@@ -132,8 +132,7 @@ export default function UserWave() {
     setIsLoading(true);
     try {
       const { data } = await getUserAlbums(userId);
-      setUserAlbums(data.data);
-      console.log("Album: ", data.data);
+      setUserAlbums(data.albums);
       setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
