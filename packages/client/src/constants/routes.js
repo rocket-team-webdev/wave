@@ -12,6 +12,7 @@ export const PUBLIC = {
   SIGN_IN: "/sign-in",
   REAUTHENTICATE: "/reauthenticate",
   USER_ACCOUNT: "/account",
+  APP_STATS: "/stats",
   USER_VIEW: "/users",
   USERS: "/users",
   PLAYLISTS: "/playlists",

@@ -65,7 +65,7 @@ export default function DragAndDrop({
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ onDrop, accept: acceptFiles, maFiles: 1 });
+  } = useDropzone({ onDrop, accept: acceptFiles, maxFiles: 1 });
 
   const style = useMemo(
     () => ({
@@ -85,7 +85,6 @@ export default function DragAndDrop({
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"
-            // label=""
             id="thumbnail"
             type="file"
             placeholder="Upload file"
@@ -98,7 +97,6 @@ export default function DragAndDrop({
           <AddIcon color="white" size={150} />
           <Input
             classNames="col-12 col-md-6"
-            // label=""
             id="thumbnail"
             type="file"
             placeholder="Upload file"

@@ -8,6 +8,12 @@ const {
 const usersRouter = Router();
 
 usersRouter.get(
+  "/popular",
+  authFirebaseMiddleware,
+  usersController.getAllUsers,
+);
+
+usersRouter.get(
   "/:id/followers",
   authFirebaseMiddleware,
   usersController.getUserFollowers,

@@ -65,6 +65,20 @@ export default function Tracks() {
     }
   };
 
+  const handleUpdateColumnsOnDeleteTrack = (trackId) => {
+    try {
+      const updatedLikedSongs = likedSongs.filter((v) => v._id !== trackId);
+      const updatedUploadedSongs = uploadedSongs.filter(
+        (v) => v._id !== trackId,
+      );
+
+      setLikedSongs(updatedLikedSongs);
+      setUploadedSongs(updatedUploadedSongs);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+  };
+
   const handleSearchChange = async (e) => {
     setSearchBar(e.target.value);
   };
@@ -139,6 +153,7 @@ export default function Tracks() {
               tracks={uploadedSongs}
               setTracks={setUploadedSongs}
               onAddLikedColumn={handleAddLikedColumn}
+              setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
               hasSorter
             />
           )}
@@ -150,6 +165,7 @@ export default function Tracks() {
               tracks={likedSongs}
               setTracks={setLikedSongs}
               onAddLikedColumn={handleAddLikedColumn}
+              setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
               hasSorter
             />
           )}

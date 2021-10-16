@@ -25,7 +25,7 @@ async function getAccount(req, res, next) {
   }
 }
 
-async function updateAccount(req, res) {
+async function updateAccount(req, res, next) {
   try {
     const { firebaseId } = req.user;
     const { firstName, lastName, birthDate, country, email } = req.body;
@@ -71,10 +71,14 @@ async function updateAccount(req, res) {
       );
       profilePictureUrl = cldProfilePictureRes.secure_url;
 
-      // delete old picture on cloudinary
+      // delete old picture on cloudinary if found
       if (!isProfilePictureDefault) {
         const publicId = getPublicId(profilePicture);
-        await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+        await cloudinary.uploader
+          .destroy(publicId, {
+            resource_type: "image",
+          })
+          .catch(() => undefined);
       }
 
       // delete uploaded file
@@ -107,6 +111,7 @@ async function updateAccount(req, res) {
     res.status(404).send({
       error: error,
     });
+    next(error);
   }
 }
 

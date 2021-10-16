@@ -34,6 +34,7 @@ export default function UpdateAlbum() {
         formData.append("year", albumState.year);
         formData.append("thumbnail", albumState.thumbnail);
         formData.append("id", albumId);
+
         await updateAlbum(formData);
         history.push(`${PUBLIC.ALBUM}/${album._id}`);
         return toast("Album updated!", { type: "success" });
@@ -97,6 +98,7 @@ export default function UpdateAlbum() {
                 classNames="col col-12 col-md-7"
                 placeholder="Album title"
                 isNegative
+                maxLength="30"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.title}
