@@ -50,3 +50,17 @@ export async function searchAlbum(
     },
   });
 }
+
+export async function searchUser(
+  search,
+  page = 0,
+  limit = 4,
+  api = makeSearchApi(),
+) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.USERS}/?q=${search}&page=${page}&limit=${limit}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
