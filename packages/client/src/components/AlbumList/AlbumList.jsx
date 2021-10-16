@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { containerAnimation } from "../../utils/motionSettings";
-import AlbumSquaredCard from "../AlbumSquaredCard/AlbumSquaredCard";
+import AlbumCard from "../AlbumCard";
 
 function AlbumList({ albums, onAddLikedColumn = () => {} }) {
   const [listOfAlbums, setListOfAlbums] = useState(albums);
@@ -22,7 +22,7 @@ function AlbumList({ albums, onAddLikedColumn = () => {} }) {
       animate="visible"
     >
       {listOfAlbums.map((album) => (
-        <AlbumSquaredCard
+        <AlbumCard
           key={album._id}
           albumId={album._id}
           albumTitle={album.title}

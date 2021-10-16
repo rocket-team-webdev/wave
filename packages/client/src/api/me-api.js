@@ -71,6 +71,24 @@ export async function getPlaylist(id, api = makeMeApi()) {
 }
 
 // ------
+// Albums
+// ------
+
+export async function getMyAlbums(page = 0, limit = 5, api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.ALBUM}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function getLikedAlbums(page = 0, limit = 5, api = makeMeApi()) {
+  const token = await getCurrentUserToken();
+  return api.get(`${API.ALBUM}${API.LIKED}?page=${page}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ------
 // Tracks
 // ------
 
@@ -92,20 +110,6 @@ export async function getTrack(id, api = makeMeApi()) {
   const token = await getCurrentUserToken();
 
   return api.get(`${API.TRACKS}/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
-export async function getMyAlbums(api = makeMeApi()) {
-  const token = await getCurrentUserToken();
-  return api.get(`${API.ALBUM}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
-export async function getLikedAlbums(api = makeMeApi()) {
-  const token = await getCurrentUserToken();
-  return api.get(`${API.ALBUM}${API.LIKED}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }

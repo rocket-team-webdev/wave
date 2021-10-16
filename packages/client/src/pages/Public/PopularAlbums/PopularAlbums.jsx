@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { getAllAlbums } from "../../../api/album-api";
+
 import { PUBLIC } from "../../../constants/routes";
+
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import Button from "../../../components/Button";
-import { getAllAlbums } from "../../../api/album-api";
 import AlbumList from "../../../components/AlbumList/AlbumList";
 
 export default function PopularAlbums() {

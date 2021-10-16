@@ -1,27 +1,98 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { FaCompactDisc } from "react-icons/fa";
+import { motion } from "framer-motion";
 import { fromBottom } from "../../utils/motionSettings";
 
+import HeartIcon from "../SVGicons/HeartIcon";
 import { PUBLIC } from "../../constants/routes";
 
 import "./AlbumCard.scss";
+import { likeAlbum } from "../../api/album-api";
 
-export default function AlbumCard({ albumId, albumTitle }) {
+export default function AlbumCard({
+  albumId,
+  albumTitle,
+  userId,
+  isLiked,
+  isPlaceholder = false,
+  colsMd = "6",
+  updateLikedView = () => {},
+}) {
+  const [liked, setLiked] = useState(isLiked);
+  const albumObject = {
+    title: albumTitle,
+    albumId: albumId,
+    isLiked: isLiked,
+    userId: userId,
+  };
+
+  const handleLike = async (e) => {
+    e.preventDefault();
+    const userLikes = !liked;
+
+    try {
+      await likeAlbum(albumId);
+      updateLikedView(
+        {
+          ...albumObject,
+          isLiked: userLikes,
+          _id: albumId,
+        },
+        userLikes,
+      );
+      setLiked(userLikes);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setLiked(!liked);
+    }
+  };
+
+  useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
+
+  const componentClasses = `col col-12 col-lg-${colsMd} col-xxl-4 p-2`;
   return (
-    <motion.div
-      className="w-100"
-      // Animation settings
-      variants={fromBottom}
-    >
-      <Link
-        to={`${PUBLIC.ALBUM}/${albumId}`}
-        className="d-flex align-items-center me-4 mb-2 user-card w-100"
-      >
-        <FaCompactDisc className="fnt-light fnt-input-bold me-2" />
-        <p className="mb-0 fnt-caption fnt-light truncate">{albumTitle}</p>
-      </Link>
-    </motion.div>
+    <>
+      {isPlaceholder ? (
+        <Link to={PUBLIC.ADD_ALBUM} className={componentClasses}>
+          <motion.div
+            className="d-flex flex-column justify-content-center album-card album-placeholder fx-rounded clr-light-20 py-3 px-4"
+            // Animation settings
+            variants={fromBottom}
+          >
+            <p className="fnt-input-bold fnt-light mb-0 truncate text-center">
+              New album
+            </p>
+          </motion.div>
+        </Link>
+      ) : (
+        <Link to={`${PUBLIC.ALBUM}/${albumId}`} className={componentClasses}>
+          <motion.div
+            className="d-flex flex-column justify-content-between album-card album-gradient fx-rounded py-3 px-4"
+            // Animation settings
+            variants={fromBottom}
+          >
+            <div
+              className="heart-wrapper d-flex justify-content-end fnt-primary"
+              data-testid="playlistCard"
+            >
+              <button
+                className="text-center px-0"
+                type="button"
+                onClick={handleLike}
+              >
+                {liked ? <HeartIcon isFull /> : <HeartIcon />}
+              </button>
+            </div>
+
+            <p className="fnt-input-bold fnt-light mb-0 truncate">
+              {albumTitle.toUpperCase()}
+            </p>
+          </motion.div>
+        </Link>
+      )}
+    </>
   );
 }

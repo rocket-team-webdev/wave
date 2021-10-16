@@ -139,7 +139,9 @@ export default function Album() {
               </div>
             ))}
           </div>
-          <h3 className="fnt-subtitle-light fnt-light mt-2">{album.year}</h3>
+          <h3 className="fnt-subtitle-light fnt-light mt-2 w-fit-content">
+            {album.year}
+          </h3>
           {/* TODO only show creator if exists */}
           {album.userId && (
             <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
