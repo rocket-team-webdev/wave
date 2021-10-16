@@ -139,7 +139,7 @@ export default function SignIn() {
                 classNames="mb-4"
               />
               <div className="form-footer-wrapper">
-                <div className="fnt-caption mt-4 row">
+                <div className="fnt-caption mt-4 row d-flex justify-content-between">
                   <Checkbox
                     label="Remember account"
                     id="testCheckbox"

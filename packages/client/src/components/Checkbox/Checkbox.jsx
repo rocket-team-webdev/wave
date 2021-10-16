@@ -4,7 +4,7 @@ import "./Checkbox.scss";
 
 const Checkbox = React.forwardRef((props, ref) => {
   return (
-    <div className="col col-12  checkbox-wrapper d-flex align-items-center">
+    <div className="col col-12 w-fit-content checkbox-wrapper d-flex align-items-center">
       <div className="d-flex me-2 custom-input-wrapper">
         <input
           type="checkbox"
