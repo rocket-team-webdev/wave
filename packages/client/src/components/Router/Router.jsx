@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -36,6 +37,11 @@ import PopularAlbums from "../../pages/Public/PopularAlbums";
 import AppStats from "../../pages/Public/AppStats";
 
 export default function Router() {
+  const queueState = useSelector((state) => state.queue);
+  const userState = useSelector((state) => state.user);
+
+  console.log(queueState.queue.length);
+
   return (
     <BrowserRouter>
       <Switch>
@@ -121,7 +127,7 @@ export default function Router() {
           <NotFound />
         </PrivateRoute>
       </Switch>
-      <MusicPlayer />
+      {queueState.queue.length > 0 && userState.isLogged && <MusicPlayer />}
     </BrowserRouter>
   );
 }

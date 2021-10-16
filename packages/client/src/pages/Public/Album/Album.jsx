@@ -71,6 +71,8 @@ export default function Album() {
 
   const handlePlaying = () => {
     if (tracks.length > 0) {
+      // eslint-disable-next-line no-debugger
+      // debugger;
       dispatch(clearQueue());
       const tracksArray = [];
 

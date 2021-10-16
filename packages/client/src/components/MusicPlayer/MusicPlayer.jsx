@@ -41,6 +41,11 @@ export default function MusicPlayer() {
   const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
+  // const [trackObject, setTrackObject] = useState(
+  //   queueState.isShuffled
+  //     ? queueState.queue[queueState.shuffleOrder[listPosition]]
+  //     : queueState.queue[listPosition],
+  // );
   const [isShuffle, setIsShuffle] = useState(queueState.isShuffled);
   const [repeatState, setRepeatState] = useState("false");
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
@@ -50,6 +55,13 @@ export default function MusicPlayer() {
   const [hasPlayed, setHasPlayed] = useState([false]);
 
   const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   return function cleanUp() {
+  //     console.log("unmounted");
+  //     setTrackObject(null);
+  //   };
+  // });
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
@@ -194,199 +206,204 @@ export default function MusicPlayer() {
 
   return (
     <>
-      {queueState.queue.length > 0 && userState.isLogged && (
-        <div className="rhap_main-container clr-white">
-          <div className="rhap_track-info">
-            <div className="rhap_album-thumb">
-              <Link to={`${PUBLIC.ALBUM}/${trackObject.albumId}`}>
-                <img
-                  src={trackObject.trackImg}
-                  alt="album-cover"
-                  className="rhap_thumb-album-img"
-                />
-              </Link>
-            </div>
-            <button
-              type="button"
-              className="rhap_like-button"
-              onClick={handleLike}
-            >
-              {trackObject.isLiked ? (
-                <HeartIcon classNames="rhap_like-icon" isFull />
-              ) : (
-                <HeartIcon classNames="rhap_like-icon" />
-              )}
-            </button>
-            <div className="rhap_track-text">
-              <p className="rhap_track-title fnt-song-bold lh-1">
-                {trackObject.name}
-              </p>
-              <p className="rhap_track-artist mb-0 fnt-song-light lh-1">
-                {trackObject.artist}
-              </p>
-            </div>
-            <div className="dropdown">
+      {queueState.queue.length > 0 &&
+        userState.isLogged &&
+        trackObject !== null && (
+          <div className="rhap_main-container clr-white">
+            <div className="rhap_track-info">
+              <div className="rhap_album-thumb">
+                <Link to={`${PUBLIC.ALBUM}/${trackObject.albumId}`}>
+                  <img
+                    src={trackObject.trackImg}
+                    alt="album-cover"
+                    className="rhap_thumb-album-img"
+                  />
+                </Link>
+              </div>
               <button
-                className="m-0 text-end"
                 type="button"
-                id="contextTrackMenu"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                onClick={handleOpenDropdown}
+                className="rhap_like-button"
+                onClick={handleLike}
               >
-                <FaEllipsisH />
+                {trackObject.isLiked ? (
+                  <HeartIcon classNames="rhap_like-icon" isFull />
+                ) : (
+                  <HeartIcon classNames="rhap_like-icon" />
+                )}
               </button>
-              <ul
-                className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-                aria-labelledby="contextTrackMenu"
-              >
-                <>
-                  <Link to={`${PUBLIC.QUEUE}`}>
-                    <p
-                      className="dropdown-item fnt-light fnt-song-regular m-0"
-                      type="button"
-                    >
-                      Queue
-                    </p>
-                  </Link>
-                  <hr className="dropdown-wrapper m-0" />
-                  <li className="">
-                    <a
-                      className="dropdown-item fnt-light fnt-song-regular"
-                      // data-toggle="dropdown"
-                      href="#clearQueue"
-                      onClick={handleClearQueue}
-                    >
-                      <span className="fnt-light fnt-song-regular">
-                        Clear queue
-                      </span>
-                    </a>
-                  </li>
-                  <hr className="dropdown-wrapper m-0" />
-                  <li className="">
-                    <a
-                      className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
-                      // type="button"
-                      data-toggle="dropdown"
-                      href="#addToPlaylist"
-                    >
-                      <span className="fnt-light fnt-song-regular">
-                        Add to playlist
-                      </span>
-                    </a>
-                    <ul
-                      className="dropdown-menu dropdown-submenu dropdown-submenu-left-top clr-secondary p-1"
-                      id="addToPlaylist"
-                    >
-                      {myPlaylists.length > 0 &&
-                        myPlaylists.map((playlistElement, playlistIndex) => (
-                          <li key={playlistElement._id}>
-                            {playlistIndex > 0 && (
-                              <hr className="dropdown-wrapper m-0" />
-                            )}
-                            <button
-                              className="dropdown-item fnt-light fnt-song-regular"
-                              type="button"
-                              onClick={handleAddToPlaylist}
-                              playlistid={playlistElement._id}
-                            >
-                              {playlistElement.name}
-                            </button>
-                          </li>
-                        ))}
-                      <li>
-                        <hr className="dropdown-wrapper m-0" />
+              <div className="rhap_track-text">
+                <p className="rhap_track-title fnt-song-bold lh-1">
+                  {trackObject.name}
+                </p>
+                <p className="rhap_track-artist mb-0 fnt-song-light lh-1">
+                  {trackObject.artist}
+                </p>
+              </div>
+              <div className="dropdown">
+                <button
+                  className="m-0 text-end"
+                  type="button"
+                  id="contextTrackMenu"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  onClick={handleOpenDropdown}
+                >
+                  <FaEllipsisH />
+                </button>
+                <ul
+                  className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+                  aria-labelledby="contextTrackMenu"
+                >
+                  <>
+                    <Link to={`${PUBLIC.QUEUE}`}>
+                      <p
+                        className="dropdown-item fnt-light fnt-song-regular m-0"
+                        type="button"
+                      >
+                        Queue
+                      </p>
+                    </Link>
+                    <hr className="dropdown-wrapper m-0" />
+                    <li className="">
+                      <a
+                        className="dropdown-item fnt-light fnt-song-regular"
+                        // data-toggle="dropdown"
+                        href="#clearQueue"
+                        onClick={handleClearQueue}
+                      >
+                        <span className="fnt-light fnt-song-regular">
+                          Clear queue
+                        </span>
+                      </a>
+                    </li>
+                    <hr className="dropdown-wrapper m-0" />
+                    <li className="">
+                      <a
+                        className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
+                        // type="button"
+                        data-toggle="dropdown"
+                        href="#addToPlaylist"
+                      >
+                        <span className="fnt-light fnt-song-regular">
+                          Add to playlist
+                        </span>
+                      </a>
+                      <ul
+                        className="dropdown-menu dropdown-submenu dropdown-submenu-left-top clr-secondary p-1"
+                        id="addToPlaylist"
+                      >
+                        {myPlaylists.length > 0 &&
+                          myPlaylists.map((playlistElement, playlistIndex) => (
+                            <li key={playlistElement._id}>
+                              {playlistIndex > 0 && (
+                                <hr className="dropdown-wrapper m-0" />
+                              )}
+                              <button
+                                className="dropdown-item fnt-light fnt-song-regular"
+                                type="button"
+                                onClick={handleAddToPlaylist}
+                                playlistid={playlistElement._id}
+                              >
+                                {playlistElement.name}
+                              </button>
+                            </li>
+                          ))}
+                        <li>
+                          <hr className="dropdown-wrapper m-0" />
 
-                        <Link
-                          to={{
-                            pathname: `${PUBLIC.ADD_PLAYLIST}`,
-                            state: {
-                              trackId: trackObject._id,
-                            },
-                          }}
-                        >
-                          <p
-                            className="dropdown-item fnt-light fnt-song-regular m-0"
-                            type="button"
+                          <Link
+                            to={{
+                              pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                              state: {
+                                trackId: trackObject._id,
+                              },
+                            }}
                           >
-                            New Playlist
-                          </p>
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
-                </>
-              </ul>
+                            <p
+                              className="dropdown-item fnt-light fnt-song-regular m-0"
+                              type="button"
+                            >
+                              New Playlist
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </>
+                </ul>
+              </div>
             </div>
+            <AudioPlayer
+              autoPlayAfterSrcChange={false}
+              volume={0.1}
+              showSkipControls
+              showJumpControls={false}
+              src={trackObject.url}
+              onPlay={handlePlay}
+              onClickNext={nextTrack}
+              onClickPrevious={previousTrack}
+              onEnded={nextTrack}
+              ref={audioPlayer}
+              layout="horizontal-reverse"
+              customIcons={{
+                play: <FaPlay />,
+                pause: <FaPause />,
+                loop: <IoMdRepeat />,
+                loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
+                previous: (
+                  <MdSkipPrevious
+                    className={`${
+                      prevButtonDisabled ? "next-prev-off" : "next-prev-on"
+                    }`}
+                  />
+                ),
+                next: (
+                  <MdSkipNext
+                    className={`${
+                      nextButtonDisabled ? "next-prev-off" : "next-prev-on"
+                    }`}
+                  />
+                ),
+              }}
+              customControlsSection={[
+                <div
+                  className="rhap_repeat-controls"
+                  key={trackObject.duration}
+                >
+                  <button
+                    onClick={repeatToggle}
+                    type="button"
+                    className={`${
+                      repeatState === "false" ? "button-off" : "button-on"
+                    } rhap_button-repeat`}
+                  >
+                    {repeatState === "track" ? <MdRepeatOne /> : <MdRepeat />}
+                  </button>
+                </div>,
+                RHAP_UI.MAIN_CONTROLS,
+                <div className="rhap_shuffle-controls" key={trackObject.url}>
+                  <button
+                    onClick={shuffleToggle}
+                    type="button"
+                    className={`${
+                      isShuffle ? "button-on" : "button-off"
+                    } rhap_button-shuffle `}
+                  >
+                    <ImShuffle />
+                  </button>
+                </div>,
+              ]}
+              customProgressBarSection={[
+                RHAP_UI.CURRENT_TIME,
+                RHAP_UI.PROGRESS_BAR,
+                RHAP_UI.DURATION,
+                RHAP_UI.VOLUME,
+              ]}
+              onPlayError={handleError}
+              onChangeCurrentTimeError={handleError}
+            />
           </div>
-          <AudioPlayer
-            autoPlayAfterSrcChange={false}
-            volume={0.1}
-            showSkipControls
-            showJumpControls={false}
-            src={trackObject.url}
-            onPlay={handlePlay}
-            onClickNext={nextTrack}
-            onClickPrevious={previousTrack}
-            onEnded={nextTrack}
-            ref={audioPlayer}
-            layout="horizontal-reverse"
-            customIcons={{
-              play: <FaPlay />,
-              pause: <FaPause />,
-              loop: <IoMdRepeat />,
-              loopOff: <IoMdRepeat style={{ color: "#B8BDAE" }} />,
-              previous: (
-                <MdSkipPrevious
-                  className={`${
-                    prevButtonDisabled ? "next-prev-off" : "next-prev-on"
-                  }`}
-                />
-              ),
-              next: (
-                <MdSkipNext
-                  className={`${
-                    nextButtonDisabled ? "next-prev-off" : "next-prev-on"
-                  }`}
-                />
-              ),
-            }}
-            customControlsSection={[
-              <div className="rhap_repeat-controls" key={trackObject.duration}>
-                <button
-                  onClick={repeatToggle}
-                  type="button"
-                  className={`${
-                    repeatState === "false" ? "button-off" : "button-on"
-                  } rhap_button-repeat`}
-                >
-                  {repeatState === "track" ? <MdRepeatOne /> : <MdRepeat />}
-                </button>
-              </div>,
-              RHAP_UI.MAIN_CONTROLS,
-              <div className="rhap_shuffle-controls" key={trackObject.url}>
-                <button
-                  onClick={shuffleToggle}
-                  type="button"
-                  className={`${
-                    isShuffle ? "button-on" : "button-off"
-                  } rhap_button-shuffle `}
-                >
-                  <ImShuffle />
-                </button>
-              </div>,
-            ]}
-            customProgressBarSection={[
-              RHAP_UI.CURRENT_TIME,
-              RHAP_UI.PROGRESS_BAR,
-              RHAP_UI.DURATION,
-              RHAP_UI.VOLUME,
-            ]}
-            onPlayError={handleError}
-            onChangeCurrentTimeError={handleError}
-          />
-        </div>
-      )}
+        )}
     </>
   );
 }
