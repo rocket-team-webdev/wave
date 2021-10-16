@@ -63,7 +63,7 @@ export default function UserView() {
             <div className="user-top d-flex justify-content-between">
               {/* Username */}
               <motion.h1
-                className="fnt-page-title mb-5 truncate"
+                className="fnt-page-title text-break truncate"
                 variants={fromBottom}
                 initial="hidden"
                 animate="visible"

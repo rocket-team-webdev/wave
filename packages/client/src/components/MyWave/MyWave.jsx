@@ -104,7 +104,7 @@ export default function MyWave() {
   const loadMyPlaylists = async () => {
     setIsLoading(true);
     try {
-      const { data } = await getMyPlaylists();
+      const { data } = await getMyPlaylists(0, 2);
       setMyPlaylists(data.data);
       setIsLoading(false);
     } catch (error) {
@@ -116,7 +116,7 @@ export default function MyWave() {
   const loadMyFollowingPlaylists = async () => {
     setIsLoading(true);
     try {
-      const { data } = await getFollowingPlaylists();
+      const { data } = await getFollowingPlaylists(0, 2);
       setMyFollowingPlaylists(data.data);
       setIsLoading(false);
     } catch (error) {
@@ -196,7 +196,7 @@ export default function MyWave() {
   return (
     <div className="user-bottom row p-0 mt-4">
       {/* Bottom left */}
-      <div className="col col-12 col-md-10 bottom-left row p-0 m-0 gx-4 gy-5">
+      <div className="col col-12 col-md-10 bottom-left row p-0 m-0 g-4">
         {/* User playlists */}
         {!isLoading ? (
           myPlaylists.length > 0 && (
@@ -272,7 +272,7 @@ export default function MyWave() {
         )}
       </div>
       {/* Bottom right */}
-      <div className="bottom-right col col-12 col-md-2 row p-0 m-0 gx-4 gy-5 h-fit-content">
+      <div className="bottom-right col col-12 col-md-2 row p-0 m-0 g-4 h-fit-content">
         {/* TODO User genres */}
         {!isLoading ? (
           myGenres.length > 0 && (

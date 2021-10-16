@@ -58,7 +58,7 @@ export default function HomePopular() {
   const loadPlaylists = async () => {
     try {
       setLoadStatus(true);
-      const { data } = await getAllPlaylists();
+      const { data } = await getAllPlaylists(0, 6);
       setPopularPlaylists(data.playlists);
       setLoadStatus(false);
     } catch (err) {
@@ -69,7 +69,7 @@ export default function HomePopular() {
   // Tracks
   const loadTracks = async () => {
     try {
-      const { data } = await getAllTracks();
+      const { data } = await getAllTracks(0, 10);
       setPopularTracks(data.tracks);
     } catch (err) {
       toast(err.message, { type: "error" });
@@ -87,7 +87,7 @@ export default function HomePopular() {
   return (
     <>
       {/* Left */}
-      <div className="col col-12 col-md-10 row p-0 m-0">
+      <div className="col col-12 col-md-10 row p-0 m-0 g-4">
         {!loadStatus ? (
           popularPlaylists.length > 0 && (
             <HomeElement
@@ -120,7 +120,7 @@ export default function HomePopular() {
         )}
       </div>
       {/* Right */}
-      <div className="col col-12 col-md-2">
+      <div className="col col-12 col-md-2 row p-0 m-0 g-4">
         {popularGenres.length > 0 && (
           <HomeElement
             label="Genres"

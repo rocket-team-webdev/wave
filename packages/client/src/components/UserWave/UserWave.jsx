@@ -105,7 +105,7 @@ export default function UserWave() {
   const loadUserPlaylists = async () => {
     setIsLoading(true);
     try {
-      const { data } = await getUserPlaylists(userId);
+      const { data } = await getUserPlaylists(userId, 0, 2);
       setUserPlaylists(data.data);
       setIsLoading(false);
     } catch (error) {
@@ -117,7 +117,7 @@ export default function UserWave() {
   const loadUserFollowingPlaylists = async () => {
     setIsLoading(true);
     try {
-      const { data } = await getUserFollowingPlaylists(userId);
+      const { data } = await getUserFollowingPlaylists(userId, 0, 2);
       setUserFollowingPlaylists(data.data);
       setIsLoading(false);
     } catch (error) {

@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
+
+import { fromBottom } from "../../../utils/motionSettings";
 
 import homeSearchSchema from "./home-search-schema";
 
@@ -11,8 +14,6 @@ import MyWave from "../../../components/MyWave";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 import Spinner from "../../../components/Spinner";
-
-// import MusicPlayer from "../../../components/MusicPlayer";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -49,15 +50,26 @@ export default function Home() {
           {loading ? (
             <Spinner isNegative />
           ) : (
-            <h1 className="fnt-light fnt-page-title text-break col col-12 col-md-9 pt-3">
+            <motion.h1
+              className="fnt-light fnt-page-title text-break col col-12 col-md-9 pt-3 truncate"
+              variants={fromBottom}
+              initial="hidden"
+              animate="visible"
+            >
               {popularView ? (
                 "GENERAL DASHBOARD"
               ) : (
                 <div className="d-inline">
-                  <p>{`Your dashboard, ${userFirstName}`.toUpperCase()}</p>
+                  <motion.p
+                    variants={fromBottom}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    {`Your dashboard, ${userFirstName}`.toUpperCase()}
+                  </motion.p>
                 </div>
               )}
-            </h1>
+            </motion.h1>
           )}
 
           <div className="col col-12 col-md-3">
