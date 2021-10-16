@@ -47,6 +47,7 @@ function UserAlbums() {
       const {
         data: { albums },
       } = await getUserAlbums(userId);
+      console.log(albums);
       setUserCreatedAlbums(albums);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -58,6 +59,7 @@ function UserAlbums() {
       const {
         data: { likedAlbums },
       } = await getUserLikedAlbums(userId);
+      console.log(likedAlbums);
       setUserLikedAlbums(likedAlbums);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -98,7 +100,7 @@ function UserAlbums() {
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
-          <div className="fnt-page-title mb-4">Followed</div>
+          <div className="fnt-page-title mb-4">Liked</div>
           {userLikedAlbums && (
             <AlbumList
               albums={userLikedAlbums}

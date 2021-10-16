@@ -168,6 +168,8 @@ async function getUserFollowingPlaylists(req, res, next) {
 async function getUserAlbums(req, res, next) {
   try {
     const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const { page = 0, limit = 5 } = req.query;
     const albums = await db.Album.find(
@@ -175,7 +177,7 @@ async function getUserAlbums(req, res, next) {
       {
         title: 1,
         totalTracks: 1,
-        isLiked: { $setIsSubset: [[id], "$likedBy"] },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         thumbnail: 1,
         year: 1,
       },
@@ -216,7 +218,7 @@ async function getUserLikedAlbums(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({
-      data: likedAlbums,
+      likedAlbums,
     });
   } catch (err) {
     res.status(404).send({
