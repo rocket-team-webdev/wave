@@ -21,6 +21,7 @@ import HeartIcon from "../../../components/SVGicons/HeartIcon";
 import "./Album.scss";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import GenreCard from "../../../components/GenreCard";
+import DeleteModal from "../../../components/DeleteModal";
 
 export default function Album() {
   const history = useHistory();
@@ -106,7 +107,7 @@ export default function Album() {
   const handleDeleteAlbum = async () => {
     try {
       await deleteAlbum(albumId);
-      history.push(PUBLIC.HOME);
+      history.push(PUBLIC.ALBUMS);
       return toast("Album deleted!", { type: "success" });
     } catch (error) {
       return toast("Error deleting album", { type: "error" });
@@ -190,8 +191,10 @@ export default function Album() {
                   <hr className="dropdown-wrapper m-0" />
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteAlbumModal"
                     type="button"
-                    onClick={handleDeleteAlbum}
+                    // onClick={handleDeleteAlbum}
                   >
                     Delete
                   </button>
@@ -204,6 +207,12 @@ export default function Album() {
         <div className="col col-12 col-md-6 right-side pe-0">
           <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
         </div>
+        <DeleteModal
+          id="deleteAlbumModal"
+          modalTitle="Removing Album"
+          modalBody={`Are you sure you want to delete ${album.title}?`}
+          handleSubmit={handleDeleteAlbum}
+        />
       </div>
     </Layout>
   );

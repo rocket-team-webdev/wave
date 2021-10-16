@@ -107,8 +107,13 @@ export default function SinglePlaylist() {
   };
 
   const handleDeletePlaylist = async () => {
-    await deletePlaylist(playlistId);
-    history.push(PUBLIC.MY_PLAYLISTS);
+    try {
+      await deletePlaylist(playlistId);
+      history.push(PUBLIC.MY_PLAYLISTS);
+      return toast("Playlist deleted!", { type: "success" });
+    } catch (error) {
+      return toast("Error deleting playlist", { type: "error" });
+    }
   };
 
   useEffect(() => {
