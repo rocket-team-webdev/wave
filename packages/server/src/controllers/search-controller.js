@@ -177,7 +177,7 @@ async function searchUser(req, res, next) {
 
     return res
       .status(200)
-      .send({ message: "Successfully searched", tracks: data });
+      .send({ message: "Successfully searched", users: data });
   } catch (error) {
     res.status(500).send({ error: error });
     next(error);

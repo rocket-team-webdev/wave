@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { IconContext } from "react-icons";
+import { FaSearch } from "react-icons/fa";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   searchPlaylists,
   searchTrack,
   searchAlbum,
+  searchUser,
 } from "../../../api/search-api";
 import AlbumList from "../../../components/AlbumList/AlbumList";
 import Button from "../../../components/Button";
@@ -15,6 +18,7 @@ import Layout from "../../../components/Layout";
 import PlaylistList from "../../../components/PlaylistList";
 import Spinner from "../../../components/Spinner";
 import TrackList from "../../../components/TrackList";
+import UserList from "../../../components/UserList/UserList";
 import { PUBLIC } from "../../../constants/routes";
 
 function Search() {
@@ -26,11 +30,12 @@ function Search() {
     loaded: false,
   });
   const [foundAlbums, setFoundAlbums] = useState({ data: [], loaded: false });
+  const [foundUsers, setFoundUsers] = useState({ data: [], loaded: false });
   const history = useHistory();
 
   const trackSearchAndSet = async (searchParam) => {
     try {
-      const { data } = await searchTrack(searchParam);
+      const { data } = await searchTrack(searchParam, 0, 5);
       setFoundTracks({ data: data.tracks, loaded: true });
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -40,7 +45,7 @@ function Search() {
 
   const playlistSearchAndSet = async (searchParam) => {
     try {
-      const { data } = await searchPlaylists(searchParam);
+      const { data } = await searchPlaylists(searchParam, 0, 3);
       setFoundPlaylists({ data: data.playlist, loaded: true });
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -50,7 +55,7 @@ function Search() {
 
   const albumSearchAndSet = async (searchParam) => {
     try {
-      const { data } = await searchAlbum(searchParam);
+      const { data } = await searchAlbum(searchParam, 0, 3);
       setFoundAlbums({ data: data.album, loaded: true });
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -58,10 +63,21 @@ function Search() {
     }
   };
 
+  const userSearchAndSet = async (searchParam) => {
+    try {
+      const { data } = await searchUser(searchParam, 0, 5);
+      setFoundUsers({ data: data.users, loaded: true });
+    } catch (error) {
+      toast(error.message, { type: "error" });
+      setFoundUsers({ ...foundUsers, loaded: true });
+    }
+  };
+
   const fullSearch = (searchParam) => {
     trackSearchAndSet(searchParam);
     playlistSearchAndSet(searchParam);
     albumSearchAndSet(searchParam);
+    userSearchAndSet(searchParam);
   };
 
   const handleSearchChange = async (e) => {
@@ -86,7 +102,7 @@ function Search() {
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
-        <div className="col col-12 col-md-6 left-side mt-4">
+        <div className="col col-12 col-md-5 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Search" cols="11" isNegative />
           </div>
@@ -105,8 +121,18 @@ function Search() {
                 classNames="col-10 col-md-9 col-lg-7"
                 isNegative
               />
-              <div className="col-2 px-auto">
-                <Button isNegative>Go!</Button>
+              <div className="col-2 mb-2">
+                <div className="mb-1">
+                  <Button submitButton isNegative>
+                    <IconContext.Provider
+                      value={{
+                        style: { fontSize: 18, margin: 4 },
+                      }}
+                    >
+                      <FaSearch />
+                    </IconContext.Provider>
+                  </Button>
+                </div>
               </div>
             </form>
           </div>
@@ -116,10 +142,14 @@ function Search() {
         </div>
 
         {/* Right side */}
-        <div className="col col-12 col-md-6 right-side pe-0 row gy-4">
+        <div className="col col-12 col-md-7 right-side pe-0 row gy-4">
           {foundTracks.loaded ? (
             <HomeElement label="found tracks" cols="12" isAnimationContainer>
-              <TrackList tracks={foundTracks.data} />
+              {foundTracks.data.length > 0 ? (
+                <TrackList tracks={foundTracks.data} />
+              ) : (
+                <p>Nothing found</p>
+              )}
             </HomeElement>
           ) : (
             <HomeElement label="loading">
@@ -143,6 +173,19 @@ function Search() {
             <HomeElement label="found albums" cols="12" isAnimationContainer>
               {foundAlbums.data.length > 0 ? (
                 <AlbumList albums={foundAlbums.data} />
+              ) : (
+                <p>Nothing found</p>
+              )}
+            </HomeElement>
+          ) : (
+            <HomeElement label="loading">
+              <Spinner isNegative />
+            </HomeElement>
+          )}
+          {foundUsers.loaded ? (
+            <HomeElement label="found users" cols="12" isAnimationContainer>
+              {foundUsers.data.length > 0 ? (
+                <UserList users={foundUsers.data} />
               ) : (
                 <p>Nothing found</p>
               )}
