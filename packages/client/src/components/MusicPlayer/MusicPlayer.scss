@@ -17,10 +17,6 @@
   padding-right: 3rem;
 }
 
-.rhap_controls-section {
-  // margin-right: 32px !important;
-}
-
 .rhap_main-controls-button,
 .rhap_repeat-button,
 .rhap_volume-button {
@@ -140,8 +136,11 @@
   align-items: center;
   justify-content: space-around;
   padding-left: 3rem;
-  // padding-right: 1.5rem;
   width: 50%;
+}
+.rhap_track-title {
+  padding-right: 1.5rem;
+  margin-bottom: 0px;
 }
 .rhap_thumb-album-img {
   height: 35px;
@@ -151,7 +150,6 @@
   background-color: transparent;
   border: none;
   padding: 0;
-  // overflow: hidden;
   cursor: pointer;
   font-size: 15px;
 }
@@ -173,6 +171,7 @@
     padding: 0px 20px;
     margin-top: 12px;
     width: 100%;
+    text-align: center;
   }
   .rhap_album-thumb {
     display: none;
@@ -180,8 +179,13 @@
 
   .rhap_track-text {
     display: block;
-    margin-left: 24px;
   }
+
+  .rhap_track-title {
+    padding-right: 0px !important;
+    margin-bottom: 5px;
+  }
+
   .rhap_container {
     padding-right: 1.5rem;
   }
@@ -207,5 +211,9 @@
   }
   .rhap_volume-container {
     display: none;
+  }
+
+  .dropdown{
+    margin-bottom: 1rem;
   }
 }

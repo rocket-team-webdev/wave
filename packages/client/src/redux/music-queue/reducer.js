@@ -22,7 +22,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         willPlay: false,
-        listPosition: state.listPosition - action.payload.offset,
+        listPosition: action.payload.listPosition,
         queue: [
           // ...state.queue.slice(0, state.listPosition),
           action.payload.track,

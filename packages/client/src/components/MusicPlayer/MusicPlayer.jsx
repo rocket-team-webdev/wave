@@ -25,6 +25,7 @@ import {
   prevSong,
   setListPosition,
   setPlayState,
+  clearQueue,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -36,7 +37,6 @@ import { saveListened } from "../../api/playback-api";
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
   const userState = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const listPosition = queueState.listPosition;
   const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
@@ -48,6 +48,8 @@ export default function MusicPlayer() {
   const audioPlayer = useRef(null);
   const [myPlaylists, setMyPlaylists] = useState([]);
   const [hasPlayed, setHasPlayed] = useState([false]);
+
+  const dispatch = useDispatch();
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
@@ -146,6 +148,10 @@ export default function MusicPlayer() {
     }
   };
 
+  const handleClearQueue = () => {
+    dispatch(clearQueue());
+  };
+
   const handleError = (error) => {
     toast(error, { type: "error" });
   };
@@ -188,7 +194,7 @@ export default function MusicPlayer() {
 
   return (
     <>
-      {queueState.queue.length > 0 && (
+      {queueState.queue.length > 0 && userState.isLogged && (
         <div className="rhap_main-container clr-white">
           <div className="rhap_track-info">
             <div className="rhap_album-thumb">
@@ -212,7 +218,7 @@ export default function MusicPlayer() {
               )}
             </button>
             <div className="rhap_track-text">
-              <p className="rhap_track-tittle mb-0 fnt-song-bold lh-1 pe-4">
+              <p className="rhap_track-title fnt-song-bold lh-1">
                 {trackObject.name}
               </p>
               <p className="rhap_track-artist mb-0 fnt-song-light lh-1">
@@ -243,6 +249,19 @@ export default function MusicPlayer() {
                       Queue
                     </p>
                   </Link>
+                  <hr className="dropdown-wrapper m-0" />
+                  <li className="">
+                    <a
+                      className="dropdown-item fnt-light fnt-song-regular"
+                      // data-toggle="dropdown"
+                      href="#clearQueue"
+                      onClick={handleClearQueue}
+                    >
+                      <span className="fnt-light fnt-song-regular">
+                        Clear queue
+                      </span>
+                    </a>
+                  </li>
                   <hr className="dropdown-wrapper m-0" />
                   <li className="">
                     <a

@@ -118,12 +118,20 @@ export default function TrackCard({
         (item) => item.trackId === trackObject.trackId,
       );
       if (!songRepeat) {
-        const payload = { track: trackObject, offset: 1 };
-        if (queueState.listPosition === 0) payload.offset = 0;
+        const payload = {
+          track: trackObject,
+          listPosition: queueState.listPosition,
+        };
+        if (queueState.listPosition === queueState.queue.length - 1)
+          payload.listPosition = 0;
         dispatch(setSong(payload));
         dispatch(setPlayState(true));
       } else {
-        toast(`Song already exists on your queue`, { type: "error" });
+        const songRepeatIndex = queueState.queue.findIndex(
+          (item) => item.trackId === trackObject.trackId,
+        );
+        dispatch(setListPosition(songRepeatIndex));
+        dispatch(setPlayState(true));
       }
     }
   };
