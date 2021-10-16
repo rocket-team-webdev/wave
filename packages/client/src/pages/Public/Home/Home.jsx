@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { useHistory } from "react-router-dom";
 
 import { fromBottom } from "../../../utils/motionSettings";
 
@@ -14,22 +15,23 @@ import MyWave from "../../../components/MyWave";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 import Spinner from "../../../components/Spinner";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [popularView, setpopularView] = useState(true);
-
   const userState = useSelector((state) => state.user);
   const userFirstName = userState.firstName;
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
       searchBar: "",
     },
     validationSchema: homeSearchSchema,
-    onSubmit: () => {
-      setLoading(true);
-      setLoading(false);
+    onSubmit: (formikState) => {
+      console.log(formikState);
+      history.push(`${PUBLIC.SEARCH}?q=${formikState.searchBar}`);
     },
   });
 
@@ -76,14 +78,14 @@ export default function Home() {
             {/* Search bar */}
             <form className=" p-0" onSubmit={formik.handleSubmit}>
               <Input
-                id="searchbar"
-                name="searchbar"
+                id="searchBar"
+                name="searchBar"
                 placeholder="Search in WaveApp"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.searchbar}
-                errorMessage={formik.errors.searchbar}
-                hasErrorMessage={formik.touched.searchbar}
+                value={formik.values.searchBar}
+                errorMessage={formik.errors.searchBar}
+                hasErrorMessage={formik.touched.searchBar}
                 isNegative
               />
             </form>

@@ -8,7 +8,7 @@ function UserList({ users }) {
 
   return (
     <motion.div
-      className="content d-flex flex-wrap container-fluid row p-0 m-0"
+      className="content d-flex flex-wrap container-fluid row row-cols-1 row-cols-md-2 p-0 m-0"
       variants={containerAnimation}
       initial="hidden"
       animate="visible"
