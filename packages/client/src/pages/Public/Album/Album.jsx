@@ -28,6 +28,7 @@ export default function Album() {
   const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [likesCounter, setLikesCounter] = useState(0);
   const [isOwned, setIsOwned] = useState(false);
   const [albumGenres, setAlbumGenres] = useState([]);
 
@@ -57,6 +58,7 @@ export default function Album() {
       setTracks(data.data.tracks);
       getGenresFromTracks(data.data.tracks);
       setIsLiked(data.data.isLiked);
+      setLikesCounter(data.data.likes);
       handleIsOwned(data.data.userId._id);
     } catch (error) {
       if (error.response.status === 500) {
@@ -100,6 +102,8 @@ export default function Album() {
   };
 
   const handleLike = async () => {
+    if (!isLiked) setLikesCounter(likesCounter + 1);
+    if (isLiked) setLikesCounter(likesCounter - 1);
     setIsLiked(!isLiked);
     await likeAlbum(albumId);
   };
@@ -154,7 +158,7 @@ export default function Album() {
           )}
           <h3 className="fnt-light fnt-caption d-flex align-items-center">
             <FaHeart />
-            <p className="ms-2 mb-0">{album.likes} likes</p>
+            <p className="ms-2 mb-0">{likesCounter} likes</p>
           </h3>
           <div className="d-flex align-items-center mt-5">
             <button
