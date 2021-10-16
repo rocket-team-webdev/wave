@@ -138,7 +138,7 @@ export default function HomePopular() {
           popularAlbums.length > 0 && (
             <HomeElement
               label="Albums"
-              to={`${PUBLIC.POPULAR}${PUBLIC.ALUBMS}`}
+              to={`${PUBLIC.POPULAR}${PUBLIC.ALBUMS}`}
               isAnimationContainer
             >
               {popularAlbums.map((album) => (

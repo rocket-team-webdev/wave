@@ -45,6 +45,7 @@ export default function TrackCard({
   index,
   draggable = false,
   trackId,
+  isPlaceholder = false,
   updateLikedView = () => {},
   updateDeletedView = () => {},
   isOnPlaylist = false,
@@ -229,261 +230,319 @@ export default function TrackCard({
   }, []);
 
   return (
-    <motion.div
-      // Animation settings
-      variants={fromBottom}
-      // whileTap={pressedElement}
-    >
-      <Draggable
-        draggableId={trackId}
-        index={index}
-        isDragDisabled={!draggable}
-      >
-        {(provided, snapshot) => (
-          <div
-            className="row m-0 col col-12 card-hover fx-rounded fnt-light"
-            onDoubleClick={handlePlay}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-            style={getItemStyle(
-              snapshot.isDragging,
-              provided.draggableProps.style,
-            )}
-            data-testid="trackCard"
+    <>
+      {isPlaceholder ? (
+        <motion.div
+          // Animation settings
+          variants={fromBottom}
+          // whileTap={pressedElement}
+        >
+          <Draggable
+            draggableId={trackId}
+            index={index}
+            isDragDisabled={!draggable}
           >
-            <div className="col col-12 d-flex justify-content-between align-items-center py-2">
-              <div className="col col-2 d-flex align-items-center">
-                {/* Number */}
-                <h3 className="m-0 ps-2 fnt-song-bold text-start song-index fnt-light">
-                  {trackNumber}
-                </h3>
-                {/* Thumbnail */}
-                <div
-                  className="d-none d-xl-inline play-hover p-1 d-flex align-items-center"
-                  onClick={handlePlay}
-                  aria-hidden="true"
-                >
-                  <img className="fx-rounded" src={trackImg} alt={trackName} />
-                  <i className="fas fa-play fnt-white" />
-                  {/* <FaPlay className="play-icon fnt-white" /> */}
-                </div>
-                {/* Like */}
-                <div className="d-flex fnt-primary">
-                  <button
-                    className="text-center fnt-light"
-                    type="button"
-                    onClick={handleLike}
-                  >
-                    {liked ? (
-                      <HeartIcon isFull isNegative />
-                    ) : (
-                      <HeartIcon isNegative />
-                    )}
-                  </button>
-                </div>
-              </div>
-              <div className="col col-3 d-flex justify-content-between align-items-center">
-                {/* Title/Artist */}
-                <div className=" px-2 col title-and-artist">
-                  <h3 className="m-0 text-start fnt-song-bold truncate">
-                    {trackName}
+            {(provided, snapshot) => (
+              <div
+                className="row m-0 col card-hover col-12 mb-1"
+                // onDoubleClick={handlePlay}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style,
+                )}
+                data-testid="trackCard"
+              >
+                <div className="col col-12 d-flex justify-content-center fx-rounded card-placeholder card-inside align-items-center py-2">
+                  <h3 className="m-0 ps-2 fnt-song-bold text-start song-index fnt-light">
+                    New song
                   </h3>
-                  <h4 className="m-0 text-start fnt-artist truncate">
-                    {artist}
-                  </h4>
                 </div>
               </div>
-              <div className="col col-3 d-flex justify-content-between align-items-center">
-                {/* Album */}
-                <Link
-                  className="m-0 text-start fnt-song-regular fnt-light px-2 col truncate track-album"
-                  to={`${PUBLIC.ALBUM}/${albumId}`}
-                >
-                  {albumName}
-                </Link>
-              </div>
-              {/* Playcounter */}
-              <div className="col col-2 d-flex justify-content-between align-items-center">
-                <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
-                  {formatPlayCounter(popularity)}
-                </h4>
-              </div>
-              <div className="col col-2 d-flex justify-content-between align-items-center">
-                {/* Time */}
-                <h4 className="m-0 text-start fnt-song-regular px-2 track-time">
-                  {timeIntoString(time)}
-                </h4>
-                {/* Contextual menu */}
-                <div className="dropdown">
-                  <button
-                    className="m-0 text-end fnt-light"
-                    type="button"
-                    id="contextSongMenu"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    onClick={handleOpenDropdown}
-                  >
-                    <FaEllipsisH />
-                  </button>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end clr-secondary p-1"
-                    aria-labelledby="contextSongMenu"
-                  >
-                    {isOnQueue ? (
-                      <li>
-                        <button
-                          className="dropdown-item fnt-light fnt-song-regular "
-                          type="button"
-                          onClick={handleDeleteFromQueue}
-                        >
-                          Delete from queue
-                        </button>
-                      </li>
-                    ) : (
-                      <li>
-                        <button
-                          className="dropdown-item fnt-light fnt-song-regular "
-                          type="button"
-                          onClick={handleAddToQueue}
-                        >
-                          Add to queue
-                        </button>
-                      </li>
-                    )}
+            )}
+          </Draggable>
 
-                    <hr className="dropdown-wrapper m-0" />
-                    {onOwnedPlaylist ? (
+          <DeleteModal
+            // id="deleteTrackModal"
+            id={`deleteTrackModal${trackId}`}
+            modalTitle="Removing track"
+            modalBody={`Are you sure you want to delete ${trackName}?`}
+            handleSubmit={handleDeleteSong}
+          />
+          <DeleteModal
+            // id="deleteFromPlaylistModal"
+            id={`deleteFromPlaylistModal${trackId}`}
+            modalTitle="Removing track from playlist"
+            modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}
+            handleSubmit={handleRemoveFromPlaylist}
+          />
+        </motion.div>
+      ) : (
+        <motion.div
+          // Animation settings
+          variants={fromBottom}
+          // whileTap={pressedElement}
+        >
+          <Draggable
+            draggableId={trackId}
+            index={index}
+            isDragDisabled={!draggable}
+          >
+            {(provided, snapshot) => (
+              <div
+                className="row m-0 col col-12 card-hover fx-rounded fnt-light mb-1"
+                onDoubleClick={handlePlay}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style,
+                )}
+                data-testid="trackCard"
+              >
+                <div className="col col-12 d-flex justify-content-between card-inside align-items-center py-2">
+                  <div className="col col-2 d-flex align-items-center">
+                    {/* Number */}
+                    <h3 className="m-0 ps-2 fnt-song-bold text-start song-index fnt-light">
+                      {trackNumber}
+                    </h3>
+                    {/* Thumbnail */}
+                    <div
+                      className="d-none d-xl-inline play-hover p-1 d-flex align-items-center"
+                      onClick={handlePlay}
+                      aria-hidden="true"
+                    >
+                      <img
+                        className="fx-rounded"
+                        src={trackImg}
+                        alt={trackName}
+                      />
+                      <i className="fas fa-play fnt-white" />
+                      {/* <FaPlay className="play-icon fnt-white" /> */}
+                    </div>
+                    {/* Like */}
+                    <div className="d-flex fnt-primary">
                       <button
-                        className="dropdown-item fnt-danger fnt-song-regular clr-danger"
-                        data-bs-toggle="modal"
-                        // data-bs-target="#deleteFromPlaylistModal"
-                        data-bs-target={`#deleteFromPlaylistModal${trackId}`}
+                        className="text-center fnt-light"
                         type="button"
+                        onClick={handleLike}
                       >
-                        Remove from Playlist
+                        {liked ? (
+                          <HeartIcon isFull isNegative />
+                        ) : (
+                          <HeartIcon isNegative />
+                        )}
                       </button>
-                    ) : null}
-                    {isOwned ? (
-                      <>
-                        <li>
-                          <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
-                            <p
-                              className="dropdown-item fnt-light fnt-song-regular m-0"
-                              type="button"
-                            >
-                              Edit
-                            </p>
-                          </Link>
-                          <hr className="dropdown-wrapper m-0" />
-                        </li>
-                        <li>
-                          <button
-                            className="dropdown-item fnt-light fnt-song-regular"
-                            data-bs-toggle="modal"
-                            // data-bs-target="#deleteTrackModal"
-                            data-bs-target={`#deleteTrackModal${trackId}`}
-                            type="button"
-                            // onClick={handleDeleteSong}
-                          >
-                            Delete
-                          </button>
-                        </li>
-                      </>
-                    ) : (
-                      <li>
-                        <Link to={`${PUBLIC.USERS}/${userId}`}>
-                          <p
-                            className="dropdown-item fnt-light fnt-song-regular m-0"
-                            type="button"
-                          >
-                            Go to user
-                          </p>
-                        </Link>
-                      </li>
-                    )}
-                    <hr className="dropdown-wrapper m-0" />
-                    <li className="">
-                      <a
-                        className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
-                        // type="button"
-                        data-toggle="dropdown"
-                        href="#addToPlaylist"
+                    </div>
+                  </div>
+                  <div className="col col-3 d-flex justify-content-between align-items-center">
+                    {/* Title/Artist */}
+                    <div className=" px-2 col title-and-artist">
+                      <h3 className="m-0 text-start fnt-song-bold truncate">
+                        {trackName}
+                      </h3>
+                      <h4 className="m-0 text-start fnt-artist truncate">
+                        {artist}
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="col col-3 d-flex justify-content-between align-items-center">
+                    {/* Album */}
+                    <Link
+                      className="m-0 text-start fnt-song-regular fnt-light px-2 col truncate track-album"
+                      to={`${PUBLIC.ALBUM}/${albumId}`}
+                    >
+                      {albumName}
+                    </Link>
+                  </div>
+                  {/* Playcounter */}
+                  <div className="col col-2 d-flex justify-content-between align-items-center">
+                    <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
+                      {formatPlayCounter(popularity)}
+                    </h4>
+                  </div>
+                  <div className="col col-2 d-flex justify-content-between align-items-center">
+                    {/* Time */}
+                    <h4 className="m-0 text-start fnt-song-regular px-2 track-time">
+                      {timeIntoString(time)}
+                    </h4>
+                    {/* Contextual menu */}
+                    <div className="dropdown">
+                      <button
+                        className="m-0 text-end fnt-light"
+                        type="button"
+                        id="contextSongMenu"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        onClick={handleOpenDropdown}
                       >
-                        <span className="fnt-light fnt-song-regular">
-                          Add to playlist
-                        </span>
-                      </a>
+                        <FaEllipsisH />
+                      </button>
                       <ul
-                        className="dropdown-menu dropdown-submenu dropdown-submenu-left-bottom clr-secondary p-1"
-                        id="addToPlaylist"
+                        className="dropdown-menu dropdown-menu-end clr-secondary p-1"
+                        aria-labelledby="contextSongMenu"
                       >
-                        {myPlaylists.length > 0 &&
-                          myPlaylists.map((playlistElement, playlistIndex) => (
-                            <li key={playlistElement._id}>
-                              {playlistIndex > 0 && (
-                                <hr className="dropdown-wrapper m-0" />
-                              )}
+                        {isOnQueue ? (
+                          <li>
+                            <button
+                              className="dropdown-item fnt-light fnt-song-regular "
+                              type="button"
+                              onClick={handleDeleteFromQueue}
+                            >
+                              Delete from queue
+                            </button>
+                          </li>
+                        ) : (
+                          <li>
+                            <button
+                              className="dropdown-item fnt-light fnt-song-regular "
+                              type="button"
+                              onClick={handleAddToQueue}
+                            >
+                              Add to queue
+                            </button>
+                          </li>
+                        )}
+
+                        <hr className="dropdown-wrapper m-0" />
+                        {onOwnedPlaylist ? (
+                          <button
+                            className="dropdown-item fnt-danger fnt-song-regular clr-danger"
+                            data-bs-toggle="modal"
+                            // data-bs-target="#deleteFromPlaylistModal"
+                            data-bs-target={`#deleteFromPlaylistModal${trackId}`}
+                            type="button"
+                          >
+                            Remove from Playlist
+                          </button>
+                        ) : null}
+                        {isOwned ? (
+                          <>
+                            <li>
+                              <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                                <p
+                                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                                  type="button"
+                                >
+                                  Edit
+                                </p>
+                              </Link>
+                              <hr className="dropdown-wrapper m-0" />
+                            </li>
+                            <li>
                               <button
                                 className="dropdown-item fnt-light fnt-song-regular"
+                                data-bs-toggle="modal"
+                                // data-bs-target="#deleteTrackModal"
+                                data-bs-target={`#deleteTrackModal${trackId}`}
                                 type="button"
-                                onClick={handleAddToPlaylist}
-                                playlistid={playlistElement._id}
+                                // onClick={handleDeleteSong}
                               >
-                                {playlistElement.name}
+                                Delete
                               </button>
                             </li>
-                          ))}
-                        <li>
-                          <hr className="dropdown-wrapper m-0" />
-
-                          <Link
-                            to={{
-                              pathname: `${PUBLIC.ADD_PLAYLIST}`,
-                              state: {
-                                trackId: trackId,
-                              },
-                            }}
+                          </>
+                        ) : (
+                          <li>
+                            <Link to={`${PUBLIC.USERS}/${userId}`}>
+                              <p
+                                className="dropdown-item fnt-light fnt-song-regular m-0"
+                                type="button"
+                              >
+                                Go to user
+                              </p>
+                            </Link>
+                          </li>
+                        )}
+                        <hr className="dropdown-wrapper m-0" />
+                        <li className="">
+                          <a
+                            className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
+                            // type="button"
+                            data-toggle="dropdown"
+                            href="#addToPlaylist"
                           >
-                            <p
-                              className="dropdown-item fnt-light fnt-song-regular m-0"
-                              type="button"
-                            >
-                              New Playlist
-                            </p>
-                          </Link>
+                            <span className="fnt-light fnt-song-regular">
+                              Add to playlist
+                            </span>
+                          </a>
+                          <ul
+                            className="dropdown-menu dropdown-submenu dropdown-submenu-left-bottom clr-secondary p-1"
+                            id="addToPlaylist"
+                          >
+                            {myPlaylists.length > 0 &&
+                              myPlaylists.map(
+                                (playlistElement, playlistIndex) => (
+                                  <li key={playlistElement._id}>
+                                    {playlistIndex > 0 && (
+                                      <hr className="dropdown-wrapper m-0" />
+                                    )}
+                                    <button
+                                      className="dropdown-item fnt-light fnt-song-regular"
+                                      type="button"
+                                      onClick={handleAddToPlaylist}
+                                      playlistid={playlistElement._id}
+                                    >
+                                      {playlistElement.name}
+                                    </button>
+                                  </li>
+                                ),
+                              )}
+                            <li>
+                              <hr className="dropdown-wrapper m-0" />
+
+                              <Link
+                                to={{
+                                  pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                                  state: {
+                                    trackId: trackId,
+                                  },
+                                }}
+                              >
+                                <p
+                                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                                  type="button"
+                                >
+                                  New Playlist
+                                </p>
+                              </Link>
+                            </li>
+                          </ul>
                         </li>
-                      </ul>
-                    </li>
-                    {/* <button
+                        {/* <button
                       className="dropdown-item fnt-light fnt-song-regular "
                       type="button"
                       onClick={handleAddToQueue}
                     >
                       Add to playlist
                     </button> */}
-                  </ul>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        )}
-      </Draggable>
+            )}
+          </Draggable>
 
-      <DeleteModal
-        // id="deleteTrackModal"
-        id={`deleteTrackModal${trackId}`}
-        modalTitle="Removing track"
-        modalBody={`Are you sure you want to delete ${trackName}?`}
-        handleSubmit={handleDeleteSong}
-      />
-      <DeleteModal
-        // id="deleteFromPlaylistModal"
-        id={`deleteFromPlaylistModal${trackId}`}
-        modalTitle="Removing track from playlist"
-        modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}
-        handleSubmit={handleRemoveFromPlaylist}
-      />
-    </motion.div>
+          <DeleteModal
+            // id="deleteTrackModal"
+            id={`deleteTrackModal${trackId}`}
+            modalTitle="Removing track"
+            modalBody={`Are you sure you want to delete ${trackName}?`}
+            handleSubmit={handleDeleteSong}
+          />
+          <DeleteModal
+            // id="deleteFromPlaylistModal"
+            id={`deleteFromPlaylistModal${trackId}`}
+            modalTitle="Removing track from playlist"
+            modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}
+            handleSubmit={handleRemoveFromPlaylist}
+          />
+        </motion.div>
+      )}
+    </>
   );
 }

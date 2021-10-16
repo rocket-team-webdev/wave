@@ -15,6 +15,7 @@ export default function PlaylistCard({
   playlistName,
   userId,
   isFollowed,
+  isPlaceholder = false,
   colsMd = "6",
   updateFollowedView = () => {},
 }) {
@@ -53,32 +54,48 @@ export default function PlaylistCard({
 
   const componentClasses = `col col-12 col-lg-${colsMd} col-xxl-4 p-2`;
   return (
-    <Link
-      to={`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`}
-      className={componentClasses}
-    >
-      <motion.div
-        className="d-flex flex-column justify-content-between playlist-card fx-rounded py-3 px-4"
-        // Animation settings
-        variants={fromBottom}
-      >
-        <div
-          className="heart-wrapper d-flex justify-content-end fnt-primary"
-          data-testid="playlistCard"
-        >
-          <button
-            className="text-center px-0"
-            type="button"
-            onClick={handleLike}
+    <>
+      {isPlaceholder ? (
+        <Link to={PUBLIC.ADD_PLAYLIST} className={componentClasses}>
+          <motion.div
+            className="d-flex flex-column justify-content-center playlist-card playlist-placeholder fx-rounded clr-light-20 py-3 px-4"
+            // Animation settings
+            variants={fromBottom}
           >
-            {followed ? <HeartIcon isFull /> : <HeartIcon />}
-          </button>
-        </div>
+            <p className="fnt-input-bold fnt-light mb-0 truncate text-center">
+              New playlist
+            </p>
+          </motion.div>
+        </Link>
+      ) : (
+        <Link
+          to={`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`}
+          className={componentClasses}
+        >
+          <motion.div
+            className="d-flex flex-column justify-content-between playlist-card playlist-gradient fx-rounded py-3 px-4"
+            // Animation settings
+            variants={fromBottom}
+          >
+            <div
+              className="heart-wrapper d-flex justify-content-end fnt-primary"
+              data-testid="playlistCard"
+            >
+              <button
+                className="text-center px-0"
+                type="button"
+                onClick={handleLike}
+              >
+                {followed ? <HeartIcon isFull /> : <HeartIcon />}
+              </button>
+            </div>
 
-        <p className="fnt-input-bold fnt-light mb-0 truncate">
-          {playlistName.toUpperCase()}
-        </p>
-      </motion.div>
-    </Link>
+            <p className="fnt-input-bold fnt-light mb-0 truncate">
+              {playlistName.toUpperCase()}
+            </p>
+          </motion.div>
+        </Link>
+      )}
+    </>
   );
 }

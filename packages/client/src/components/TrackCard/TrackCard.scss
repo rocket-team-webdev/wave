@@ -1,4 +1,11 @@
+@use "../../sass/components/colors" as c;
+
+.card-inside {
+  min-height: 40px;
+}
+
 .card-hover {
+  transition: 0.3s;
   .song-index {
     min-width: 35px;
   }
@@ -11,6 +18,13 @@
   .track-playcounter,
   .track-time {
     width: 75px;
+  }
+}
+
+.card-placeholder {
+  background: c.$lightColor20;
+  &:hover {
+    background: c.$lightColor60;
   }
 }
 

@@ -12,8 +12,9 @@
 }
 
 .content {
+  .album-card,
   .playlist-card {
-    background: c.$playlistGradient;
+    transition: 0.3s;
     min-height: 200px;
 
     .heart-wrapper {

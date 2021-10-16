@@ -21,14 +21,6 @@ export default function Home() {
   const userState = useSelector((state) => state.user);
   const userFirstName = userState.firstName;
 
-  const artistsList = [
-    "Chet Baker",
-    "Red Hot Chili Peppers",
-    "Fatboy Slim",
-    "Arctic Monkeys",
-    "Last Shadow Puppets",
-  ];
-
   const formik = useFormik({
     initialValues: {
       searchBar: "",
@@ -59,7 +51,7 @@ export default function Home() {
           ) : (
             <h1 className="fnt-light fnt-page-title text-break col col-12 col-md-9 pt-3">
               {popularView ? (
-                "WAVEAPP GENERAL DASHBOARD"
+                "GENERAL DASHBOARD"
               ) : (
                 <div className="d-inline">
                   <p>{`Your dashboard, ${userFirstName}`.toUpperCase()}</p>
@@ -94,7 +86,7 @@ export default function Home() {
         {/* Bottom part */}
         <div className="row p-0 m-0">
           {/* Switch view */}
-          {popularView ? <Popular artistsList={artistsList} /> : <MyWave />}
+          {popularView ? <Popular /> : <MyWave />}
         </div>
       </div>
     </Layout>
