@@ -11,11 +11,14 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
 import Textarea from "../../../components/Textarea";
 import Checkbox from "../../../components/Checkbox";
+import Spinner from "../../../components/Spinner";
+
 import { addPlaylist, addTrackToPlaylist } from "../../../api/playlists-api";
 import { PUBLIC } from "../../../constants/routes";
 
 export default function CreatePlaylist() {
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
   const [publicAccessible, setPublicAccessible] = useState(false);
   const publicAccessibleCheckbox = useRef();
 
@@ -31,6 +34,7 @@ export default function CreatePlaylist() {
     },
     validationSchema: playlistSchema,
     onSubmit: async (playlistState) => {
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append("name", playlistState.name);
@@ -75,10 +79,14 @@ export default function CreatePlaylist() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText="New playlist" cols="12" isNegative />
+          {isLoading && (
+            <div className="col d-flex justify-content-end">
+              <Spinner isNegative />
+            </div>
+          )}
         </div>
-        {/* //TODO THUMBNAIL */}
         <div className="col col-12 col-md-6">
           <DragAndDrop
             paddingBottom="65px"

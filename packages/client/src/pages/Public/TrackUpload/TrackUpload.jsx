@@ -58,6 +58,7 @@ export default function TrackUpload() {
     },
     validationSchema: uploadSchema,
     onSubmit: async (uploadState) => {
+      setLoading(true);
       try {
         if (!uploadState.track)
           return toast("Choose a track!", { type: "error" });
@@ -69,7 +70,6 @@ export default function TrackUpload() {
         formData.append("genre", uploadState.genre);
         formData.append("track", uploadState.track);
 
-        setLoading(true);
         await uploadTrack(formData);
         setLoading(false);
 
@@ -119,7 +119,7 @@ export default function TrackUpload() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText="Song upload" cols="11" isNegative />
           {loading && (
             <div className="col d-flex justify-content-end">

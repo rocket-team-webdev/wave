@@ -70,7 +70,7 @@ export default function UpdateAlbum() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText={album.title} cols="12" isNegative />
           {isLoading && (
             <div className="col d-flex justify-content-end">

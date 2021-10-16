@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -14,7 +14,7 @@ import Spinner from "../../../components/Spinner";
 import { addAlbum } from "../../../api/album-api";
 
 export default function CreateAlbum() {
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
@@ -26,6 +26,7 @@ export default function CreateAlbum() {
     },
     validationSchema: albumSchema,
     onSubmit: async (albumState) => {
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append("title", albumState.title);

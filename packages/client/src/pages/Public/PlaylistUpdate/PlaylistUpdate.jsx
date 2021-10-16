@@ -42,6 +42,7 @@ export default function PlaylistUpdate() {
     },
     validationSchema: playlistUpdateSchema,
     onSubmit: async (playlist) => {
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append("name", playlist.name);
@@ -102,7 +103,7 @@ export default function PlaylistUpdate() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText={playlistState.name} cols="12" isNegative />
           {isLoading && (
             <div className="col d-flex justify-content-end">

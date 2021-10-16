@@ -13,7 +13,7 @@ export default function PopularPlaylists() {
 
   const loadPopularPlaylists = async () => {
     try {
-      const { data } = await getAllPlaylists(0, 12);
+      const { data } = await getAllPlaylists(0, 10);
       setPlaylists(data.playlists);
     } catch (error) {
       toast(error.message, { type: "error" });
