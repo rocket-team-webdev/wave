@@ -9,7 +9,7 @@ import { fromBottom } from "../../../utils/motionSettings";
 import homeSearchSchema from "./home-search-schema";
 
 import Layout from "../../../components/Layout";
-import Popular from "../../../components/Popular";
+import PopularWave from "../../../components/PopularWave";
 import MyWave from "../../../components/MyWave";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
@@ -98,7 +98,7 @@ export default function Home() {
         {/* Bottom part */}
         <div className="row p-0 m-0">
           {/* Switch view */}
-          {popularView ? <Popular /> : <MyWave />}
+          {popularView ? <PopularWave /> : <MyWave />}
         </div>
       </div>
     </Layout>

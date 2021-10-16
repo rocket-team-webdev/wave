@@ -16,7 +16,7 @@ import { getAllUsers } from "../../api/users-api";
 import { getAllAlbums } from "../../api/album-api";
 import { PUBLIC } from "../../constants/routes";
 
-export default function HomePopular() {
+export default function PopularWave() {
   const [loadStatus, setLoadStatus] = useState(false);
   const [popularGenres, setPopularGenres] = useState([]);
   const [popularUsers, setPopularUsers] = useState([]);
@@ -122,11 +122,7 @@ export default function HomePopular() {
       {/* Right */}
       <div className="col col-12 col-md-2 row p-0 m-0 g-4">
         {popularGenres.length > 0 && (
-          <HomeElement
-            label="Genres"
-            to={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`}
-            isAnimationContainer
-          >
+          <HomeElement label="Genres" isAnimationContainer>
             {popularGenres.map((genre) => (
               <div key={genre.name} className="mb-2 me-2">
                 <GenreCard>{genre.name.toUpperCase()}</GenreCard>
