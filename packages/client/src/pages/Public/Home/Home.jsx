@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
+import { IconContext } from "react-icons";
+import { FaSearch } from "react-icons/fa";
 
 import { fromBottom } from "../../../utils/motionSettings";
 
@@ -12,6 +14,7 @@ import homeSearchSchema from "./home-search-schema";
 import Layout from "../../../components/Layout";
 import PopularWave from "../../../components/PopularWave";
 import MyWave from "../../../components/MyWave";
+import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 import Spinner from "../../../components/Spinner";
@@ -76,7 +79,10 @@ export default function Home() {
 
           <div className="col col-12 col-md-3">
             {/* Search bar */}
-            <form className=" p-0" onSubmit={formik.handleSubmit}>
+            <form
+              className="row d-flex align-items-center justify-content-end"
+              onSubmit={formik.handleSubmit}
+            >
               <Input
                 id="searchBar"
                 name="searchBar"
@@ -86,8 +92,22 @@ export default function Home() {
                 value={formik.values.searchBar}
                 errorMessage={formik.errors.searchBar}
                 hasErrorMessage={formik.touched.searchBar}
+                classNames="col-8 col-md-9"
                 isNegative
               />
+              <div className="col-4 col-md-3 mb-2">
+                <div className="mb-1 w-100">
+                  <Button submitButton isNegative>
+                    <IconContext.Provider
+                      value={{
+                        style: { fontSize: 18, margin: 4 },
+                      }}
+                    >
+                      <FaSearch />
+                    </IconContext.Provider>
+                  </Button>
+                </div>
+              </div>
             </form>
 
             {/* Popular/MyWave button */}
