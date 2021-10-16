@@ -9,9 +9,13 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
+import Spinner from "../../../components/Spinner";
+
 import { addAlbum } from "../../../api/album-api";
 
 export default function CreateAlbum() {
+  // const [isLoading, setIsLoading] = useState(true);
+
   const history = useHistory();
 
   const formik = useFormik({
@@ -43,8 +47,13 @@ export default function CreateAlbum() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText="New album" cols="12" isNegative />
+          {isLoading && (
+            <div className="col d-flex justify-content-end">
+              <Spinner isNegative />
+            </div>
+          )}
         </div>
 
         <div className="col col-12 col-md-6">

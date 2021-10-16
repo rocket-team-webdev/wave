@@ -43,6 +43,7 @@ function TrackUpdate() {
     },
     validationSchema: trackUpdateSchema,
     onSubmit: async (track) => {
+      setIsLoading(true);
       const data = {
         id: trackId,
         title: track.title,
@@ -114,7 +115,7 @@ function TrackUpdate() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText="Edit song" cols="11" isNegative />
           {isLoading && (
             <div className="col d-flex justify-content-end">
@@ -124,14 +125,10 @@ function TrackUpdate() {
         </div>
       </div>
       <div className="row">
-        {isLoading ? (
-          <Spinner isNegative />
-        ) : (
-          <BigThumbnail
-            image={trackState.album?.thumbnail}
-            altText={trackState.album?.title}
-          />
-        )}
+        <BigThumbnail
+          image={trackState.album?.thumbnail}
+          altText={trackState.album?.title}
+        />
 
         <div className="col col-12 col-md-6 px-4 ">
           <form onSubmit={formik.handleSubmit}>
