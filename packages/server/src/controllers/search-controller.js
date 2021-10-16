@@ -105,7 +105,7 @@ async function searchAlbum(req, res, next) {
     const data = await db.Album.aggregate([
       {
         $match: {
-          $or: [{ title: { $regex: searchText, $options: "i" } }],
+          title: { $regex: searchText, $options: "i" },
         },
       },
       {

@@ -40,7 +40,7 @@ export async function searchPlaylists(
 export async function searchAlbum(
   search,
   page = 0,
-  limit = 4,
+  limit = 5,
   api = makeSearchApi(),
 ) {
   const token = await getCurrentUserToken();
