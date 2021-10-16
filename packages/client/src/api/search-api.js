@@ -37,9 +37,14 @@ export async function searchPlaylists(
   });
 }
 
-export async function searchAlbum(search, api = makeSearchApi()) {
+export async function searchAlbum(
+  search,
+  page = 0,
+  limit = 5,
+  api = makeSearchApi(),
+) {
   const token = await getCurrentUserToken();
-  return api.get(`${API.ALBUM}/?q=${search}`, {
+  return api.get(`${API.ALBUM}/?q=${search}&page=${page}&limit=${limit}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

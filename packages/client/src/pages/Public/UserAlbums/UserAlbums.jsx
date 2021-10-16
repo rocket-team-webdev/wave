@@ -43,10 +43,12 @@ function UserAlbums() {
   };
 
   const fetchCreatedAlbums = async () => {
+    const init = 0;
+    const limit = 12;
     try {
       const {
         data: { albums },
-      } = await getUserAlbums(userId);
+      } = await getUserAlbums(userId, init, limit);
       console.log(albums);
       setUserCreatedAlbums(albums);
     } catch (error) {
@@ -55,10 +57,12 @@ function UserAlbums() {
   };
 
   const fetchLikedAlbums = async () => {
+    const init = 0;
+    const limit = 12;
     try {
       const {
         data: { likedAlbums },
-      } = await getUserLikedAlbums(userId);
+      } = await getUserLikedAlbums(userId, init, limit);
       console.log(likedAlbums);
       setUserLikedAlbums(likedAlbums);
     } catch (error) {

@@ -171,7 +171,7 @@ async function getUserAlbums(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const { page = 0, limit = 5 } = req.query;
+    const { page, limit } = req.query;
     const albums = await db.Album.find(
       { userId: id },
       {
@@ -202,7 +202,7 @@ async function getUserLikedAlbums(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const { page = 0, limit = 5 } = req.query;
+    const { page, limit } = req.query;
 
     const likedAlbums = await db.Album.find(
       { likedBy: id },

@@ -21,10 +21,12 @@ function MyAlbums() {
   const history = useHistory();
 
   async function fetchMyAlbums() {
+    const init = 0;
+    const limit = 12;
     try {
       const {
         data: { data },
-      } = await getMyAlbums();
+      } = await getMyAlbums(init, limit);
       const albumsArr = data.map((album) => album);
       setUserAlbums(albumsArr);
     } catch (error) {
@@ -33,10 +35,12 @@ function MyAlbums() {
   }
 
   async function fetchLikedAlbums() {
+    const init = 0;
+    const limit = 12;
     try {
       const {
         data: { data },
-      } = await getLikedAlbums();
+      } = await getLikedAlbums(init, limit);
       const albumsArr = data.map((album) => album);
       setLikedAlbums(albumsArr);
     } catch (error) {
@@ -80,8 +84,10 @@ function MyAlbums() {
   };
 
   useEffect(async () => {
+    const init = 0;
+    const limit = 12;
     try {
-      const { data } = await searchAlbum(debouncedSearch);
+      const { data } = await searchAlbum(debouncedSearch, init, limit);
       const currentUserId = userState.mongoId;
       const liked = data.album.filter((album) => album.isLiked);
       const created = data.album.filter(

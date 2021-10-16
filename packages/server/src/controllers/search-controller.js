@@ -97,7 +97,7 @@ async function searchPlaylist(req, res, next) {
 async function searchAlbum(req, res, next) {
   try {
     const searchText = req.query?.q;
-    // const { page = 0, limit = 5 } = req.query;
+    const { page = 0, limit = 5 } = req.query;
 
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
@@ -120,9 +120,9 @@ async function searchAlbum(req, res, next) {
       {
         $sort: { likes: -1 },
       },
-    ]);
-    // .skip(parseInt(page) * parseInt(limit))
-    // .limit(parseInt(limit));
+    ])
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     return res
       .status(200)
