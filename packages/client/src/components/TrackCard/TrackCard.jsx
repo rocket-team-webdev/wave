@@ -340,7 +340,7 @@ export default function TrackCard({
                   </div>
                   <div className="col col-3 d-flex justify-content-between align-items-center">
                     {/* Title/Artist */}
-                    <div className=" px-2 col title-and-artist">
+                    <div className=" ps-md-3 pe-md-2 px-2 col title-and-artist">
                       <h3 className="m-0 text-start fnt-song-bold truncate">
                         {trackName}
                       </h3>
@@ -366,7 +366,7 @@ export default function TrackCard({
                   </div>
                   <div className="col col-2 d-flex justify-content-between align-items-center">
                     {/* Time */}
-                    <h4 className="m-0 text-start fnt-song-regular px-2 track-time">
+                    <h4 className="m-0 text-start fnt-song-regular px-2 track-time truncate">
                       {timeIntoString(time)}
                     </h4>
                     {/* Contextual menu */}
