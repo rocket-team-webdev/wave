@@ -290,7 +290,7 @@ export default function UserWave() {
             <HomeElement
               label="Albums"
               cols="12"
-              to={PUBLIC.ALBUMS}
+              to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.ALBUMS}`}
               isAnimationContainer
             >
               {userAlbums.map((album) => (

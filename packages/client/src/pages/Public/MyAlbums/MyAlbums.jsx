@@ -87,6 +87,9 @@ function MyAlbums() {
       const created = data.album.filter(
         (album) => album.userId === currentUserId,
       );
+      console.log(data);
+      console.log(liked);
+      console.log(created);
       setUserAlbums(created);
       setLikedAlbums(liked);
     } catch (error) {
