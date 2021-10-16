@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { useHistory } from "react-router-dom";
+import { IconContext } from "react-icons";
+import { FaSearch } from "react-icons/fa";
 
 import { fromBottom } from "../../../utils/motionSettings";
 
@@ -11,25 +14,27 @@ import homeSearchSchema from "./home-search-schema";
 import Layout from "../../../components/Layout";
 import PopularWave from "../../../components/PopularWave";
 import MyWave from "../../../components/MyWave";
+import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 import Spinner from "../../../components/Spinner";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [popularView, setpopularView] = useState(true);
-
   const userState = useSelector((state) => state.user);
   const userFirstName = userState.firstName;
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
       searchBar: "",
     },
     validationSchema: homeSearchSchema,
-    onSubmit: () => {
-      setLoading(true);
-      setLoading(false);
+    onSubmit: (formikState) => {
+      console.log(formikState);
+      history.push(`${PUBLIC.SEARCH}?q=${formikState.searchBar}`);
     },
   });
 
@@ -74,18 +79,35 @@ export default function Home() {
 
           <div className="col col-12 col-md-3">
             {/* Search bar */}
-            <form className=" p-0" onSubmit={formik.handleSubmit}>
+            <form
+              className="row d-flex align-items-center justify-content-end"
+              onSubmit={formik.handleSubmit}
+            >
               <Input
-                id="searchbar"
-                name="searchbar"
+                id="searchBar"
+                name="searchBar"
                 placeholder="Search in WaveApp"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.searchbar}
-                errorMessage={formik.errors.searchbar}
-                hasErrorMessage={formik.touched.searchbar}
+                value={formik.values.searchBar}
+                errorMessage={formik.errors.searchBar}
+                hasErrorMessage={formik.touched.searchBar}
+                classNames="col-8 col-md-9"
                 isNegative
               />
+              <div className="col-4 col-md-3 mb-2">
+                <div className="mb-1 w-100">
+                  <Button submitButton isNegative>
+                    <IconContext.Provider
+                      value={{
+                        style: { fontSize: 18, margin: 4 },
+                      }}
+                    >
+                      <FaSearch />
+                    </IconContext.Provider>
+                  </Button>
+                </div>
+              </div>
             </form>
 
             {/* Popular/MyWave button */}
