@@ -111,7 +111,7 @@ export default function PlaylistUpdate() {
             </div>
           )}
         </div>
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             acceptFiles="image/*"
             handleChange={thumbnailOnChange}

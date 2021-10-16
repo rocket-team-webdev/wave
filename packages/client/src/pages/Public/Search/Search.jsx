@@ -102,7 +102,7 @@ function Search() {
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
-        <div className="col col-12 col-md-4 left-side mt-4">
+        <div className="col col-12 col-lg-4 left-side mt-4">
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Search" cols="11" isNegative />
           </div>
@@ -142,8 +142,8 @@ function Search() {
         </div>
 
         {/* Right side */}
-        <div className="col col-12 col-md-8 right-side pe-0 row gy-4">
-          <div className="col-6">
+        <div className="col col-12 col-lg-8 right-side pe-0 row gy-4">
+          <div className="col col-12 col-xl-6">
             {foundTracks.loaded ? (
               <HomeElement label="found tracks" cols="12" isAnimationContainer>
                 {foundTracks.data.length > 0 ? (
@@ -158,7 +158,7 @@ function Search() {
               </HomeElement>
             )}
           </div>
-          <div className="col-6">
+          <div className="col col-12 col-xl-6">
             {foundPlaylists.loaded ? (
               <HomeElement
                 label="found playlists"
@@ -177,7 +177,7 @@ function Search() {
               </HomeElement>
             )}
           </div>
-          <div className="col-6">
+          <div className="col col-12 col-xl-6">
             {foundUsers.loaded ? (
               <HomeElement label="found users" cols="12" isAnimationContainer>
                 {foundUsers.data.length > 0 ? (
@@ -192,7 +192,7 @@ function Search() {
               </HomeElement>
             )}
           </div>
-          <div className="col-6">
+          <div className="col col-12 col-xl-6">
             {foundAlbums.loaded ? (
               <HomeElement label="found albums" cols="12" isAnimationContainer>
                 {foundAlbums.data.length > 0 ? (
