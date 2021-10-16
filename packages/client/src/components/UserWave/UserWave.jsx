@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useRouteMatch, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -36,6 +37,9 @@ export default function UserWave() {
   const [userAlbums, setUserAlbums] = useState([]);
   const [userTracks, setUserTracks] = useState([]);
   const [userLikedTracks, setUserLikedTracks] = useState([]);
+
+  const userState = useSelector((state) => state.user);
+  const currentUserId = userState.mongoId;
 
   const { userId } = useRouteMatch(`${PUBLIC.USERS}/:userId`).params;
 
@@ -290,7 +294,11 @@ export default function UserWave() {
             <HomeElement
               label="Albums"
               cols="12"
-              to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.ALBUMS}`}
+              to={
+                userId === currentUserId
+                  ? `${PUBLIC.ALBUMS}`
+                  : `${PUBLIC.USER_VIEW}/${userId}${PUBLIC.ALBUMS}`
+              }
               isAnimationContainer
             >
               {userAlbums.map((album) => (
