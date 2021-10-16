@@ -84,7 +84,9 @@ export default function UserView() {
           )}
 
           {/* Bottom */}
-          <UserWave />
+          <div className="row">
+            <UserWave />
+          </div>
         </div>
       </div>
     </Layout>
