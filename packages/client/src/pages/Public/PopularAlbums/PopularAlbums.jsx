@@ -15,7 +15,7 @@ export default function PopularAlbums() {
 
   const loadPopularAlbums = async () => {
     try {
-      const { data } = await getAllAlbums(0, 12);
+      const { data } = await getAllAlbums(0, 10);
       setAlbums(data.albums);
     } catch (error) {
       toast(error.message, { type: "error" });

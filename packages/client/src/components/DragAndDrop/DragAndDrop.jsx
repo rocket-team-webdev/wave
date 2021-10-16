@@ -18,6 +18,7 @@ export default function DragAndDrop({
 
   const baseStyle = {
     flex: 1,
+    height: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

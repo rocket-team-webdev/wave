@@ -184,7 +184,7 @@ async function getUserAlbums(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({
-      data: albums,
+      albums,
     });
   } catch (err) {
     res.status(404).send({

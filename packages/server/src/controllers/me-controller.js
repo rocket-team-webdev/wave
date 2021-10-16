@@ -22,7 +22,6 @@ async function getMyFollowers(req, res, next) {
 
     const followersArray = followers[0].followedBy;
 
-    console.log("Followers ------>", followersArray);
     res.status(200).send({
       data: followersArray,
     });
