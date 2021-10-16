@@ -209,7 +209,11 @@ export default function UserWave() {
               label="Created playlists"
               cols="6"
               isAnimationContainer
-              to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.PLAYLISTS}`}
+              to={
+                userId === currentUserId
+                  ? `${PUBLIC.PLAYLISTS}`
+                  : `${PUBLIC.USER_VIEW}/${userId}${PUBLIC.PLAYLISTS}`
+              }
             >
               <PlaylistList
                 playlists={userPlaylists}
@@ -229,7 +233,11 @@ export default function UserWave() {
               label="Following playlists"
               cols="6"
               isAnimationContainer
-              to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.PLAYLISTS}`}
+              to={
+                userId === currentUserId
+                  ? `${PUBLIC.PLAYLISTS}`
+                  : `${PUBLIC.USER_VIEW}/${userId}${PUBLIC.PLAYLISTS}`
+              }
             >
               <PlaylistList
                 playlists={userFollowingPlaylists}
