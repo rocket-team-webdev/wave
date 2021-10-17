@@ -6,7 +6,7 @@ import Footer from "../Footer";
 import "./Layout.scss";
 
 function Layout({ children, isNegative = false, thumbnailUrl }) {
-  let mainClassNames = "flex-grow-1 px-5 pt-5 ";
+  let mainClassNames = "flex-grow-1 p-3 p-sm-5 ";
 
   // Thumbnail background settings
   let backgroundStyles = {};
