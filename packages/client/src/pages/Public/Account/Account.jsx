@@ -75,6 +75,7 @@ export default function Account() {
       setLoadStatus(false);
     } catch (error) {
       toast(error.message, { type: "error" });
+      setLoadStatus(false);
     }
   }
 

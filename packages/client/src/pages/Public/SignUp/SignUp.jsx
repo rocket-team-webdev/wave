@@ -62,7 +62,7 @@ export default function SignUp() {
         await createClient(formData);
         await signOut();
         toast(
-          " Signed up! Check your email, we&aposve sent you a verification message. We&aposll redirect you to the sign in page in no time...",
+          " Signed up! Check your email, we have sent you a verification message. We will redirect you to the sign in page in no time...",
           { type: "warning" },
         );
 
@@ -123,22 +123,26 @@ export default function SignUp() {
                 label="First Name"
                 id="firstName"
                 type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                placeholder="First name"
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.firstName}
                 errorMessage={formik.errors.firstName}
                 hasErrorMessage={formik.touched.firstName}
+                disabled={loading}
               />
               <Input
                 classNames="col-12 col-md-6"
                 label="Last Name"
                 id="lastName"
                 type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                placeholder="Last name"
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.lastName}
                 errorMessage={formik.errors.lastName}
                 hasErrorMessage={formik.touched.lastName}
+                disabled={loading.isLoading || loading.isError}
               />
 
               <Input
@@ -146,11 +150,12 @@ export default function SignUp() {
                 label="Birth Date"
                 id="birthDate"
                 type="date"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.birthDate}
                 errorMessage={formik.errors.birthDate}
                 hasErrorMessage={formik.touched.birthDate}
+                disabled={loading.isLoading || loading.isError}
               />
 
               <Select
@@ -158,8 +163,8 @@ export default function SignUp() {
                 label="Country"
                 id="country"
                 type="select"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.country}
                 errorMessage={formik.errors.country}
                 hasErrorMessage={formik.touched.country}
@@ -174,6 +179,7 @@ export default function SignUp() {
                   "Mexico",
                   "Catalonia",
                 ]}
+                disabled={loading.isLoading || loading.isError}
               />
 
               <Input
@@ -182,22 +188,24 @@ export default function SignUp() {
                 id="profilePicture"
                 type="file"
                 placeholder="Choose your file"
-                onChange={profilePictureOnChange}
-                onBlur={formik.handleBlur}
-                // value={formik.values.profilePicture}
+                handleChange={profilePictureOnChange}
+                handleBlur={formik.handleBlur}
                 errorMessage={formik.errors.profilePicture}
                 hasErrorMessage={formik.touched.profilePicture}
+                disabled={loading.isLoading || loading.isError}
               />
               <Input
                 classNames="col-12 col-md-6"
                 label="Email"
                 id="email"
                 type="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                placeholder="name@example.com"
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.email}
                 errorMessage={formik.errors.email}
                 hasErrorMessage={formik.touched.email}
+                disabled={loading.isLoading || loading.isError}
               />
 
               <Input
@@ -205,11 +213,13 @@ export default function SignUp() {
                 label="Password"
                 id="password"
                 type="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                placeholder="Password"
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.password}
                 errorMessage={formik.errors.password}
                 hasErrorMessage={formik.touched.password}
+                disabled={loading.isLoading || loading.isError}
               />
 
               <Input
@@ -217,11 +227,13 @@ export default function SignUp() {
                 label="Confirm Password"
                 id="confirmPassword"
                 type="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                placeholder="Confirm password"
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.confirmPassword}
                 errorMessage={formik.errors.confirmPassword}
                 hasErrorMessage={formik.touched.confirmPassword}
+                disabled={loading.isLoading || loading.isError}
               />
               <div className="form-footer-wrapper d-flex row mt-3">
                 <div className="fnt-caption col col-6">
