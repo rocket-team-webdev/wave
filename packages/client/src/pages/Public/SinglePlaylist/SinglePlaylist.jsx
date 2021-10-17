@@ -32,6 +32,7 @@ export default function SinglePlaylist() {
   const [tracks, setTracks] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
   const [isOwned, setIsOwned] = useState(false);
+  const [followersCounter, setFollowersCounter] = useState(0);
   const [playlistGenres, setPlaylistGenres] = useState([]);
 
   const userState = useSelector((state) => state.user);
@@ -63,6 +64,7 @@ export default function SinglePlaylist() {
       setTracks(data.data.tracks);
       getGenresFromTracks(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
+      setFollowersCounter(data.data.follows);
       handleIsOwned(data.data.userId._id);
     } catch (error) {
       if (error.response.status === 500) {
@@ -102,13 +104,20 @@ export default function SinglePlaylist() {
   };
 
   const handleFollow = async () => {
+    if (!isFollowed) setFollowersCounter(followersCounter + 1);
+    if (isFollowed) setFollowersCounter(followersCounter - 1);
     setIsFollowed(!isFollowed);
     await followPlaylist(playlistId);
   };
 
   const handleDeletePlaylist = async () => {
-    await deletePlaylist(playlistId);
-    history.push(PUBLIC.MY_PLAYLISTS);
+    try {
+      await deletePlaylist(playlistId);
+      history.push(PUBLIC.MY_PLAYLISTS);
+      return toast("Playlist deleted!", { type: "success" });
+    } catch (error) {
+      return toast("Error deleting playlist", { type: "error" });
+    }
   };
 
   useEffect(() => {
@@ -156,7 +165,7 @@ export default function SinglePlaylist() {
           )}
           <h3 className="fnt-light fnt-caption d-flex align-items-center">
             <HeartIcon isNegative isFull />
-            <p className="ms-2 mb-0">{playlist.follows} followers</p>
+            <p className="ms-2 mb-0">{followersCounter} followers</p>
           </h3>
           {playlist.description !== "" && (
             <p className="fnt-light fnt-smallest mt-4">

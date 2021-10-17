@@ -21,7 +21,7 @@ export default function Textarea({
   const errorClassNames = "col col-12 error-msg fnt-smallest mt-2 mb-0 ps-3 ";
 
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
-  let areaClassNames = "fnt-input-light fx-rounded ps-3 ";
+  let areaClassNames = "fnt-input-light fx-rounded ps-3 pt-2 ";
 
   if (isNegative) {
     labelClassNames += "negative-label";

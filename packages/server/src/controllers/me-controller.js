@@ -3,17 +3,27 @@ const db = require("../models");
 async function getMyFollowers(req, res, next) {
   try {
     const { email } = req.user;
-    // const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const tracks = await db.User.find(
-      { email },
-      {
-        followedBy: 1,
-      },
-    ).populate("followedBy");
+    const { page = 0, limit = 5 } = req.query;
+
+    const followers = await db.User.find(
+      { _id: userId },
+      { followedBy: 1, _id: 0 },
+    )
+      .populate({
+        path: "followedBy",
+        options: {
+          select: "_id firstName",
+        },
+      })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    const followersArray = followers[0].followedBy;
 
     res.status(200).send({
-      data: tracks,
+      data: followersArray,
     });
   } catch (err) {
     res.status(404).send({
@@ -78,6 +88,7 @@ async function getMyPlaylists(req, res, next) {
         }
       : {
           name: 1,
+          isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
         };
     const playlists = await db.Playlist.find(
       { userId: userId, isDeleted: false },
@@ -181,7 +192,7 @@ async function getMyLikedTracks(req, res, next) {
   try {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-    const { page = 0, limit = 4 } = req.query;
+    const { page = 0, limit = 5 } = req.query;
 
     const tracks = await db.Track.find(
       { likedBy: userId },
@@ -225,6 +236,8 @@ async function getMyLikedTracks(req, res, next) {
 async function getMyAlbums(req, res, next) {
   try {
     const { email } = req.user;
+    const { page = 0, limit = 5 } = req.query;
+
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const albums = await db.Album.find(
@@ -235,8 +248,12 @@ async function getMyAlbums(req, res, next) {
         isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         thumbnail: 1,
         year: 1,
+        likes: { $size: "$likedBy" },
       },
-    );
+    )
+      .sort({ likes: -1 })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     res.status(200).send({
       data: albums,
@@ -252,6 +269,8 @@ async function getMyAlbums(req, res, next) {
 async function getMyLikedAlbums(req, res, next) {
   try {
     const { email } = req.user;
+    const { page = 0, limit = 5 } = req.query;
+
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const userLikedAlbums = await db.Album.find(
@@ -262,8 +281,12 @@ async function getMyLikedAlbums(req, res, next) {
         isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         thumbnail: 1,
         year: 1,
+        likes: { $size: "$likedBy" },
       },
-    );
+    )
+      .sort({ likes: -1 })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
 
     res.status(200).send({
       data: userLikedAlbums,

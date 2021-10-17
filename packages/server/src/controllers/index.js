@@ -1,5 +1,5 @@
 const accountController = require("./account-controller");
-const userController = require("./user-controller");
+const authController = require("./auth-controller");
 const trackController = require("./track-controller");
 const genreController = require("./genre-controller");
 const albumController = require("./album-controller");
@@ -10,7 +10,7 @@ const usersController = require("./users-controller");
 
 module.exports = {
   accountController: accountController,
-  userController: userController,
+  authController: authController,
   trackController: trackController,
   genreController: genreController,
   albumController: albumController,

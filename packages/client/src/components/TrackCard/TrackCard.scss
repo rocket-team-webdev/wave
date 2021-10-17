@@ -1,6 +1,13 @@
+@use "../../sass/components/colors" as c;
+
+.card-inside {
+  min-height: 40px;
+}
+
 .card-hover {
+  transition: 0.3s;
   .song-index {
-    min-width: 35px;
+    min-width: 30px;
   }
 
   .title-and-artist,
@@ -14,11 +21,19 @@
   }
 }
 
+.card-placeholder {
+  background: c.$lightColor20;
+  &:hover {
+    background: c.$lightColor60;
+  }
+}
+
 .play-hover {
   position: relative;
   display: inline-block;
   overflow: hidden;
   object-fit: content;
+  min-width: 30px;
 
   img {
     aspect-ratio: 1 / 1;

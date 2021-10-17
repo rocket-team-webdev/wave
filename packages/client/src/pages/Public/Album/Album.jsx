@@ -21,12 +21,14 @@ import HeartIcon from "../../../components/SVGicons/HeartIcon";
 import "./Album.scss";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import GenreCard from "../../../components/GenreCard";
+import DeleteModal from "../../../components/DeleteModal";
 
 export default function Album() {
   const history = useHistory();
   const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [likesCounter, setLikesCounter] = useState(0);
   const [isOwned, setIsOwned] = useState(false);
   const [albumGenres, setAlbumGenres] = useState([]);
 
@@ -56,6 +58,7 @@ export default function Album() {
       setTracks(data.data.tracks);
       getGenresFromTracks(data.data.tracks);
       setIsLiked(data.data.isLiked);
+      setLikesCounter(data.data.likes);
       handleIsOwned(data.data.userId._id);
     } catch (error) {
       if (error.response.status === 500) {
@@ -101,6 +104,8 @@ export default function Album() {
   };
 
   const handleLike = async () => {
+    if (!isLiked) setLikesCounter(likesCounter + 1);
+    if (isLiked) setLikesCounter(likesCounter - 1);
     setIsLiked(!isLiked);
     await likeAlbum(albumId);
   };
@@ -108,7 +113,7 @@ export default function Album() {
   const handleDeleteAlbum = async () => {
     try {
       await deleteAlbum(albumId);
-      history.push(PUBLIC.HOME);
+      history.push(PUBLIC.ALBUMS);
       return toast("Album deleted!", { type: "success" });
     } catch (error) {
       return toast("Error deleting album", { type: "error" });
@@ -141,7 +146,9 @@ export default function Album() {
               </div>
             ))}
           </div>
-          <h3 className="fnt-subtitle-light fnt-light mt-2">{album.year}</h3>
+          <h3 className="fnt-subtitle-light fnt-light mt-2 w-fit-content">
+            {album.year}
+          </h3>
           {/* TODO only show creator if exists */}
           {album.userId && (
             <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
@@ -153,7 +160,7 @@ export default function Album() {
           )}
           <h3 className="fnt-light fnt-caption d-flex align-items-center">
             <FaHeart />
-            <p className="ms-2 mb-0">{album.likes} likes</p>
+            <p className="ms-2 mb-0">{likesCounter} likes</p>
           </h3>
           <div className="d-flex align-items-center mt-5">
             <button
@@ -190,8 +197,10 @@ export default function Album() {
                   <hr className="dropdown-wrapper m-0" />
                   <button
                     className="dropdown-item fnt-light fnt-song-regular"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteAlbumModal"
                     type="button"
-                    onClick={handleDeleteAlbum}
+                    // onClick={handleDeleteAlbum}
                   >
                     Delete
                   </button>
@@ -204,6 +213,12 @@ export default function Album() {
         <div className="col col-12 col-md-6 right-side pe-0">
           <TrackList tracks={tracks} setTracks={setTracks} hasSorter />
         </div>
+        <DeleteModal
+          id="deleteAlbumModal"
+          modalTitle="Removing Album"
+          modalBody={`Are you sure you want to delete ${album.title}?`}
+          handleSubmit={handleDeleteAlbum}
+        />
       </div>
     </Layout>
   );

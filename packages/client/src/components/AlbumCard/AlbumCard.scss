@@ -1,3 +1,15 @@
-.user-card {
-  width: 100px;
+@use "../../sass/components/colors" as c;
+
+.album-placeholder {
+  &:hover {
+    background: c.$lightColor60;
+  }
+}
+
+.album-gradient {
+  background: c.$playlistGradient;
+}
+
+.card-min {
+  min-width: 150px;
 }
