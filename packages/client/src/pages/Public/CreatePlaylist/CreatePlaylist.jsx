@@ -168,7 +168,7 @@ export default function CreatePlaylist() {
                     Back
                   </Button>
                   <Button isNegative submitButton>
-                    Update
+                    Create
                   </Button>
                 </div>
               </div>
