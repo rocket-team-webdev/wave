@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import ReauthenticateSchema from "./reauthenticate-schema";
 
+import Layout from "../../../components/Layout";
+import FormWrapper from "../../../components/FormWrapper";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import {
@@ -42,33 +44,38 @@ function Reauthenticate() {
     },
   });
 
-  return (
-    <div className="row">
-      <div className="col col-6 m-auto">
-        <form
-          onSubmit={formik.handleSubmit}
-          className="clr-light fx-rounded p-5 "
-        >
-          <h1 className="fnt-subtitle-bold mb-4">Enter your credentials</h1>
-          <Input
-            label="user password"
-            id="userPassword"
-            type="password"
-            placeholder="User password"
-            onChange={formik.handleChange}
-            value={formik.values.currentPassword}
-            errorMessage={formik.errors.currentPassword}
-            hasErrorMessage={formik.touched.currentPassword}
-          />
+  useEffect(() => {
+    if (history.location.state?.referrer !== PUBLIC.USER_ACCOUNT)
+      history.push(PUBLIC.HOME);
+  }, []);
 
-          <div className="row">
-            <div className="mt-5 col-auto ms-auto">
-              <Button type="submit">Authenticate</Button>
+  return (
+    <Layout>
+      <div className="row">
+        <div className="col col-6 m-auto">
+          <FormWrapper formTitle="Enter your credentials">
+            <Input
+              label="user password"
+              id="userPassword"
+              type="password"
+              placeholder="User password"
+              onChange={formik.handleChange}
+              value={formik.values.currentPassword}
+              errorMessage={formik.errors.currentPassword}
+              hasErrorMessage={formik.touched.currentPassword}
+            />
+
+            <div className="row">
+              <div className="mt-5 col-auto ms-auto">
+                <Button type="submit" isDanger>
+                  Delete account
+                </Button>
+              </div>
             </div>
-          </div>
-        </form>
+          </FormWrapper>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

@@ -99,16 +99,18 @@ export default function SignIn() {
 
   return (
     <Layout>
-      <div className="row">
+      <div className="row p-0 m-0 col col-12 pb-5 pb-sm-0">
         {loading ? (
-          <div className="col col-12 col-md-6">
+          <div className="col col-12 col-lg-6">
             <Spinner />
           </div>
         ) : (
-          <JumboText secText="Sign in." />
+          <div className="col col-12 col-lg-6">
+            <JumboText cols="12" secText="Sign in." />
+          </div>
         )}
 
-        <div className="col-6">
+        <div className="col col-12 col-lg-6">
           <FormWrapper formTitle="Log in">
             <form onSubmit={formik.handleSubmit} className="row">
               <Input
@@ -141,7 +143,7 @@ export default function SignIn() {
               <div className="form-footer-wrapper">
                 <div className="fnt-caption mt-4 row d-flex justify-content-between">
                   <Checkbox
-                    label="Remember account"
+                    label="Stay logged in"
                     id="testCheckbox"
                     ref={credentialsCheckbox}
                     checked={saveCredentials}

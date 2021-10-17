@@ -23,16 +23,18 @@ function AccountSideBar() {
             ACCOUNT DETAILS
           </NavLink>
         </div>
-        <div>
-          <NavLink
-            exact
-            to="/account/settings/update-password"
-            className="fnt-subtitle-light col-12"
-            activeClassName="fnt-subtitle-bold"
-          >
-            PASSWORD UPDATE
-          </NavLink>
-        </div>
+        {!userState.googleProvider && (
+          <div>
+            <NavLink
+              exact
+              to="/account/settings/update-password"
+              className="fnt-subtitle-light col-12"
+              activeClassName="fnt-subtitle-bold"
+            >
+              PASSWORD UPDATE
+            </NavLink>
+          </div>
+        )}
         <div>
           <NavLink
             exact

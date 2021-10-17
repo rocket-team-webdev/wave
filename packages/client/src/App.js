@@ -27,6 +27,9 @@ function App() {
         firebaseId: firebaseUser.uid,
         isLogged: true,
         mongoId: dbUser._id,
+        googleProvider:
+          firebaseUser.multiFactor.user.providerData[0].providerId ===
+          "google.com",
       }),
     );
     setLoading(false);
@@ -36,6 +39,7 @@ function App() {
     onAuthStateChanged((user) => {
       if (user && user.emailVerified && !userState.isRegistering) {
         handleExistingUser(user);
+        console.log("firebaseUser", user.multiFactor.user.providerData);
       } else {
         setLoading(false);
       }

@@ -90,6 +90,7 @@ export default function DragAndDrop({
             type="file"
             placeholder="Upload file"
             isNegative
+            onClick={(e) => e.preventDefault()}
           /> */}
           <p className="fnt-white">{files}</p>
         </div>
@@ -102,6 +103,7 @@ export default function DragAndDrop({
             type="file"
             placeholder="Upload file"
             isNegative
+            onClick={(e) => e.preventDefault()}
           /> */}
           <p className="fnt-white">{files}</p>
         </div>
