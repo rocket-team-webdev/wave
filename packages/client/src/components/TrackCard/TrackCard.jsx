@@ -406,58 +406,6 @@ export default function TrackCard({
                             </button>
                           </li>
                         )}
-
-                        <hr className="dropdown-wrapper m-0" />
-                        {onOwnedPlaylist ? (
-                          <button
-                            className="dropdown-item fnt-danger fnt-song-regular clr-danger"
-                            data-bs-toggle="modal"
-                            // data-bs-target="#deleteFromPlaylistModal"
-                            data-bs-target={`#deleteFromPlaylistModal${trackId}`}
-                            type="button"
-                          >
-                            Remove from Playlist
-                          </button>
-                        ) : null}
-                        {isOwned ? (
-                          <>
-                            <li>
-                              <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
-                                <p
-                                  className="dropdown-item fnt-light fnt-song-regular m-0"
-                                  type="button"
-                                >
-                                  Edit
-                                </p>
-                              </Link>
-                              <hr className="dropdown-wrapper m-0" />
-                            </li>
-                            <li>
-                              <button
-                                className="dropdown-item fnt-light fnt-song-regular"
-                                data-bs-toggle="modal"
-                                // data-bs-target="#deleteTrackModal"
-                                data-bs-target={`#deleteTrackModal${trackId}`}
-                                type="button"
-                                // onClick={handleDeleteSong}
-                              >
-                                Delete
-                              </button>
-                            </li>
-                          </>
-                        ) : (
-                          <li>
-                            <Link to={`${PUBLIC.USERS}/${userId}`}>
-                              <p
-                                className="dropdown-item fnt-light fnt-song-regular m-0"
-                                type="button"
-                              >
-                                Go to user
-                              </p>
-                            </Link>
-                          </li>
-                        )}
-                        <hr className="dropdown-wrapper m-0" />
                         <li className="">
                           <a
                             className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
@@ -512,13 +460,59 @@ export default function TrackCard({
                             </li>
                           </ul>
                         </li>
-                        {/* <button
-                      className="dropdown-item fnt-light fnt-song-regular "
-                      type="button"
-                      onClick={handleAddToQueue}
-                    >
-                      Add to playlist
-                    </button> */}
+
+                        {isOwned ? (
+                          <>
+                            <hr className="dropdown-wrapper m-0" />
+                            <li>
+                              <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                                <p
+                                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                                  type="button"
+                                >
+                                  Edit song
+                                </p>
+                              </Link>
+                            </li>
+                            <li>
+                              <button
+                                className="dropdown-item fnt-light fnt-song-regular"
+                                data-bs-toggle="modal"
+                                // data-bs-target="#deleteTrackModal"
+                                data-bs-target={`#deleteTrackModal${trackId}`}
+                                type="button"
+                                // onClick={handleDeleteSong}
+                              >
+                                Delete song
+                              </button>
+                            </li>
+                          </>
+                        ) : (
+                          <li>
+                            <Link to={`${PUBLIC.USERS}/${userId}`}>
+                              <p
+                                className="dropdown-item fnt-light fnt-song-regular m-0"
+                                type="button"
+                              >
+                                Go to user
+                              </p>
+                            </Link>
+                          </li>
+                        )}
+                        {!isOwned && onOwnedPlaylist ? (
+                          <hr className="dropdown-wrapper m-0" />
+                        ) : null}
+                        {onOwnedPlaylist ? (
+                          <button
+                            className="dropdown-item fnt-song-regular fnt-light"
+                            data-bs-toggle="modal"
+                            // data-bs-target="#deleteFromPlaylistModal"
+                            data-bs-target={`#deleteFromPlaylistModal${trackId}`}
+                            type="button"
+                          >
+                            Remove from Playlist
+                          </button>
+                        ) : null}
                       </ul>
                     </div>
                   </div>
