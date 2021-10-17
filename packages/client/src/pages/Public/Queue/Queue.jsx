@@ -82,7 +82,16 @@ export default function Queue() {
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Queue" cols="11" isNegative />
           </div>
-          <div className="mt-5" />
+          <div className="col-12 p-0 mt-5">
+            <Button
+              classNames="me-3"
+              isNegative
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
+          <div className="mt-4" />
           <Button handleClick={handleClearQueue} isDanger>
             Clear queue
           </Button>

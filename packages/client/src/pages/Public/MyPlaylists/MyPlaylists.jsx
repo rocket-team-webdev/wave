@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Button";
@@ -18,6 +18,8 @@ function MyPlaylists() {
   const userState = useSelector((state) => state.user);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
+
+  const history = useHistory();
 
   const fetchCreatedPlaylists = async () => {
     const init = 0;
@@ -105,8 +107,18 @@ function MyPlaylists() {
         <div className="col col-9">
           <JumboText priText="My Playlists" cols="12" isNegative />
         </div>
-        <div className="col col-3">
-          <Link className="float-end p-3" to={PUBLIC.ADD_PLAYLIST}>
+        <div className="d-flex justify-content-end col col-3">
+          <div className="p-0 mt-3">
+            <Button
+              classNames="me-3"
+              isNegative
+              secondaryBtn
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
+          <Link className="float-end py-3" to={PUBLIC.ADD_PLAYLIST}>
             <Button isNegative>New Playlist</Button>
           </Link>
         </div>

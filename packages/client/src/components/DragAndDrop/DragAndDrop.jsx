@@ -51,13 +51,11 @@ export default function DragAndDrop({
   };
 
   const onDrop = useCallback((acceptedFiles) => {
-    if (acceptedFiles.length) {
-      handleChange(acceptedFiles);
-      setFiles(acceptedFiles[0].name);
-      return toast("File uploaded!", { type: "success" });
+    if (!acceptedFiles.length) {
+      return toast("File format not supported", { type: "error" });
     }
-
-    return toast("File format not supported", { type: "error" });
+    handleChange(acceptedFiles);
+    return setFiles(acceptedFiles[0].name);
   }, []);
 
   const {
