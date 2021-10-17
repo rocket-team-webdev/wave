@@ -295,7 +295,7 @@ export default function MyWave() {
             <HomeElement
               label="Albums"
               cols="12"
-              // to={PUBLIC.ALBUMS}
+              to={PUBLIC.ALBUMS}
               isAnimationContainer
             >
               {myAlbums.map((album) => (
