@@ -63,10 +63,15 @@
   font-size: 120px;
 }
 
+.fnt-sidebar,
+.fnt-label-bold {
+  line-height: 1;
+}
+
 .fnt-subtitle-light,
 .fnt-subtitle-bold {
   font-size: 93px;
-  line-height: 1;
+  line-height: 0.8;
 }
 
 .fnt-label-light,
@@ -142,7 +147,6 @@
 .fnt-subtitle-bold,
 .fnt-label-bold {
   font-weight: 800;
-  line-height: 1;
 }
 
 .fnt-input-light,

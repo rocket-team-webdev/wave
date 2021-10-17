@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <Layout isNegative>
-      <div className="d-flex justify-content-between align-items-start row p-0 g-4">
+      <div className="d-flex justify-content-between align-items-start row p-0 g-4 pb-4 pb-sm-0">
         {/* Top part */}
         <div className="d-flex top-part row p-0 m-0 mb-5">
           {loading ? (

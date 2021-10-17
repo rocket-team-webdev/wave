@@ -48,11 +48,11 @@ function UpdatePassword() {
 
   return (
     <Layout>
-      <div className="row">
-        <div className="col-6 pt-2">
+      <div className="row p-0 m-0 col col-12 pb-5 pb-sm-0">
+        <div className="col col-12 col-lg-6 pt-2">
           <AccountSideBar />
         </div>
-        <div className="col-6">
+        <div className="col col-12 col-lg-6 pt-2">
           <FormWrapper formTitle="Change your password">
             <form onSubmit={formik.handleSubmit} className="row">
               <Input
