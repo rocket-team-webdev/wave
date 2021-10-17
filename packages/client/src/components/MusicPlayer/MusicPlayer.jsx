@@ -133,7 +133,7 @@ export default function MusicPlayer() {
   const handleAddToPlaylist = async (event) => {
     const playlistId = event.target.getAttribute("playlistid");
     try {
-      await addTrackToPlaylist(playlistId, trackObject._id);
+      await addTrackToPlaylist(playlistId, trackObject.trackId);
       toast(`Song successfully added to playlist`, { type: "success" });
     } catch (error) {
       if (error.message === "Request failed with status code 400") {
