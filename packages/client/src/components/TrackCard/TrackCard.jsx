@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link /* useRouteMatch,  */ } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { FaEllipsisH } from "react-icons/fa";
 import { motion } from "framer-motion";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import {
   addSong,
   deleteSong,
@@ -58,6 +59,7 @@ export default function TrackCard({
   const queueState = useSelector((state) => state.queue);
   const [myPlaylists, setMyPlaylists] = useState([]);
   const dispatch = useDispatch();
+  const contextualDropDownRef = useRef([]);
   const trackObject = {
     name: trackName,
     url: trackUrl,
@@ -71,6 +73,13 @@ export default function TrackCard({
     albumId: albumId,
     trackImg: trackImg,
     popularity: popularity,
+  };
+
+  const handleCloseContextual = () => {
+    const contextualDropDown = new bootstrap.Dropdown(
+      contextualDropDownRef.current,
+    );
+    contextualDropDown.hide();
   };
 
   const handleOnOwnedPlaylist = () => {
@@ -130,6 +139,13 @@ export default function TrackCard({
   };
 
   const handleAddToQueue = () => {
+    // const dropdownElementList = [].slice.call(
+    //   document.querySelectorAll(".dropdown-toggle"),
+    // );
+    // const dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+    //   return new bootstrap.Dropdown(dropdownToggleEl);
+    // });
+    handleCloseContextual();
     const songRepeat = queueState.queue.find(
       (item) => item.trackId === trackObject.trackId,
     );
@@ -141,6 +157,7 @@ export default function TrackCard({
   };
 
   const handleDeleteFromQueue = () => {
+    handleCloseContextual();
     if (queueState.queue.length === 1) {
       dispatch(clearQueue());
     } else {
@@ -160,11 +177,13 @@ export default function TrackCard({
   };
 
   const handleDeleteSong = async () => {
+    handleCloseContextual();
     await deleteTrack(trackId);
     updateDeletedView(trackId);
   };
 
   const handleRemoveFromPlaylist = async () => {
+    handleCloseContextual();
     try {
       const playlistId = isOnPlaylist._id;
       await deleteTrackFromPlaylist(playlistId, trackId);
@@ -205,6 +224,7 @@ export default function TrackCard({
   };
 
   const handleAddToPlaylist = async (event) => {
+    handleCloseContextual();
     const playlistId = event.target.getAttribute("playlistid");
     try {
       await addTrackToPlaylist(playlistId, trackId);
@@ -376,8 +396,10 @@ export default function TrackCard({
                         type="button"
                         id="contextSongMenu"
                         data-bs-toggle="dropdown"
-                        aria-expanded="false"
+                        // aria-expanded="false"
                         onClick={handleOpenDropdown}
+                        data-bs-auto-close="outside"
+                        ref={contextualDropDownRef}
                       >
                         <FaEllipsisH />
                       </button>
@@ -400,6 +422,7 @@ export default function TrackCard({
                             <button
                               className="dropdown-item fnt-light fnt-song-regular "
                               type="button"
+                              // data-bs-toggle="dropdown"
                               onClick={handleAddToQueue}
                             >
                               Add to queue
@@ -458,20 +481,22 @@ export default function TrackCard({
                           </li>
                         )}
                         <hr className="dropdown-wrapper m-0" />
-                        <li className="">
+                        <li className="dropstart">
                           <a
-                            className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
+                            className="dropdown-item fnt-light fnt-song-regular"
                             // type="button"
-                            data-toggle="dropdown"
+                            data-bs-toggle="dropdown"
+                            id="contextAddToPlaylist"
                             href="#addToPlaylist"
+                            data-bs-offset="-60,5"
                           >
                             <span className="fnt-light fnt-song-regular">
                               Add to playlist
                             </span>
                           </a>
                           <ul
-                            className="dropdown-menu dropdown-submenu dropdown-submenu-left-bottom clr-secondary p-1"
-                            id="addToPlaylist"
+                            className="dropdown-menu dropdown-menu-start clr-secondary p-1"
+                            aria-labelledby="addToPlaylist"
                           >
                             {myPlaylists.length > 0 &&
                               myPlaylists.map(
