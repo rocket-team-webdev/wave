@@ -178,9 +178,14 @@ export default function TrackCard({
   };
 
   const handleDeleteSong = async () => {
-    handleCloseContextual();
-    await deleteTrack(trackId);
-    updateDeletedView(trackId);
+    try {
+      handleCloseContextual();
+      await deleteTrack(trackId);
+      handleDeleteFromQueue();
+      updateDeletedView(trackId);
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
   };
 
   const handleRemoveFromPlaylist = async () => {
