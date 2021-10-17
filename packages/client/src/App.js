@@ -39,7 +39,6 @@ function App() {
     onAuthStateChanged((user) => {
       if (user && user.emailVerified && !userState.isRegistering) {
         handleExistingUser(user);
-        console.log("firebaseUser", user.multiFactor.user.providerData);
       } else {
         setLoading(false);
       }
