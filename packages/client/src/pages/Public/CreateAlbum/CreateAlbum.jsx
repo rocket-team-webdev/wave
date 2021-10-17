@@ -114,7 +114,7 @@ export default function CreateAlbum() {
                   Back
                 </Button>
                 <Button isNegative submitButton>
-                  Update
+                  Create
                 </Button>
               </div>
             </div>
