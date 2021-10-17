@@ -21,14 +21,16 @@ async function getUserById(req, res, next) {
 async function getAllUsers(req, res, next) {
   try {
     const { page = 0, limit = 5 } = req.query;
-    const topUsers = await db.User.find(
-      {},
+    const topUsers = await db.User.aggregate([
+      { $match: {} },
       {
-        firstName: 1,
-        follows: { $size: "$followedBy" },
+        $project: {
+          firstName: 1,
+          follows: { $size: "$followedBy" },
+        },
       },
-    )
-      .sort({ follows: -1 })
+      { $sort: { follows: -1 } },
+    ])
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
