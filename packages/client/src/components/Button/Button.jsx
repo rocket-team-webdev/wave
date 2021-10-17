@@ -11,36 +11,37 @@ export default function Button({
   fullWidth = false,
   submitButton = false,
   disabled = false,
+  classNames = "",
   children,
   handleClick = () => {},
   ...props
 }) {
-  let classNames = "custom-btn fx-rounded d-flex align-items-center ";
+  let btnclassNames = `${classNames} custom-btn fx-rounded d-flex align-items-center `;
 
   if (isSmall) {
-    classNames += "fnt-caption small-btn px-2 ";
+    btnclassNames += "fnt-caption small-btn px-2 ";
   } else {
-    classNames += "fnt-label-bold large-btn p-2 px-3 ";
+    btnclassNames += "fnt-label-bold large-btn p-2 px-3 ";
     if (isDanger) {
-      classNames += " danger-btn ";
+      btnclassNames += " danger-btn ";
     } else if (primaryBtn && !isNegative && !secondaryBtn) {
-      classNames += "positive-primary-btn ";
+      btnclassNames += "positive-primary-btn ";
     } else if (primaryBtn && isNegative && !secondaryBtn) {
-      classNames += "negative-primary-btn ";
+      btnclassNames += "negative-primary-btn ";
     } else if (secondaryBtn && !isNegative) {
-      classNames += "positive-secondary-btn ";
+      btnclassNames += "positive-secondary-btn ";
     } else {
-      classNames += "negative-secondary-btn ";
+      btnclassNames += "negative-secondary-btn ";
     }
   }
 
   if (fullWidth) {
-    classNames += " w-100";
+    btnclassNames += " w-100";
   }
 
   return (
     <button
-      className={classNames}
+      className={btnclassNames}
       type={submitButton ? "submit" : "button"}
       disabled={disabled}
       onClick={handleClick}

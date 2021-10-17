@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { getAllAlbums } from "../../../api/album-api";
+
 import { PUBLIC } from "../../../constants/routes";
+
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import Button from "../../../components/Button";
-import { getAllAlbums } from "../../../api/album-api";
 import AlbumList from "../../../components/AlbumList/AlbumList";
 
 export default function PopularAlbums() {
@@ -13,7 +15,7 @@ export default function PopularAlbums() {
 
   const loadPopularAlbums = async () => {
     try {
-      const { data } = await getAllAlbums(0, 12);
+      const { data } = await getAllAlbums(0, 10);
       setAlbums(data.albums);
     } catch (error) {
       toast(error.message, { type: "error" });

@@ -25,6 +25,8 @@ searchRouter.get(
   searchController.searchAlbum,
 );
 
+searchRouter.get("/users", authFirebaseMiddleware, searchController.searchUser);
+
 module.exports = {
   searchRouter,
 };

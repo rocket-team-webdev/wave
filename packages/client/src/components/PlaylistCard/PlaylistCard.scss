@@ -1,8 +1,13 @@
 @use "../../sass/components/colors" as c;
 
-.playlist-card {
+.playlist-placeholder {
+  &:hover {
+    background: c.$lightColor60;
+  }
+}
+
+.playlist-gradient {
   background: c.$playlistGradient;
-  min-height: 200px;
 }
 
 .card-min {

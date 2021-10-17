@@ -21,17 +21,17 @@ header {
 }
 
 .nav-link {
-  font-weight: 300;
+  font-weight: 700;
   min-width: 120px;
   text-align: center;
   &:hover {
-    font-weight: 700;
+    font-weight: 300;
     color: inherit !important;
   }
 }
 
 .active-navlink {
-  font-weight: 700;
+  font-weight: 300;
 }
 
 .user-link {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -9,9 +9,13 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
+import Spinner from "../../../components/Spinner";
+
 import { addAlbum } from "../../../api/album-api";
 
 export default function CreateAlbum() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const history = useHistory();
 
   const formik = useFormik({
@@ -22,6 +26,7 @@ export default function CreateAlbum() {
     },
     validationSchema: albumSchema,
     onSubmit: async (albumState) => {
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append("title", albumState.title);
@@ -43,8 +48,13 @@ export default function CreateAlbum() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText="New album" cols="12" isNegative />
+          {isLoading && (
+            <div className="col d-flex justify-content-end">
+              <Spinner isNegative />
+            </div>
+          )}
         </div>
 
         <div className="col col-12 col-md-6">
@@ -87,13 +97,16 @@ export default function CreateAlbum() {
                 hasErrorMessage={formik.touched.year}
               />
             </div>
-            <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
-              <p className="fnt-smallest col col-12 col-md-8 p-0">
-                <strong>Note:</strong> Don&apos;t forget to upload the cover
-                file.
-              </p>
-              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
+            <div className="footer-wrapper d-flex justify-content-between align-items-center row p-0 m-0">
+              <div className="footer-left col-12 col-md-6 ps-0">
+                <p className="fnt-smallest col col-12 col-md-11 p-0 mt-2 truncate ">
+                  <strong>Note:</strong> Don&apos;t forget to upload the cover
+                  file.
+                </p>
+              </div>
+              <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
                 <Button
+                  classNames="me-3"
                   isNegative
                   secondaryBtn
                   handleClick={() => history.goBack()}
@@ -101,7 +114,7 @@ export default function CreateAlbum() {
                   Back
                 </Button>
                 <Button isNegative submitButton>
-                  Add
+                  Create
                 </Button>
               </div>
             </div>

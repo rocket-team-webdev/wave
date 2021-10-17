@@ -18,6 +18,27 @@ async function getUserById(req, res, next) {
 // -----
 // Users
 // -----
+async function getAllUsers(req, res, next) {
+  try {
+    const { page = 0, limit = 5 } = req.query;
+    const topUsers = await db.User.find(
+      {},
+      {
+        firstName: 1,
+        follows: { $size: "$followedBy" },
+      },
+    )
+      .sort({ follows: -1 })
+      .skip(parseInt(page) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).send({ users: topUsers });
+  } catch (err) {
+    res.status(500).send({ error: err });
+    next(err);
+  }
+}
+
 async function getUserFollowers(req, res, next) {
   try {
     const { id } = req.params;
@@ -147,14 +168,16 @@ async function getUserFollowingPlaylists(req, res, next) {
 async function getUserAlbums(req, res, next) {
   try {
     const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const { page = 0, limit = 5 } = req.query;
+    const { page, limit } = req.query;
     const albums = await db.Album.find(
       { userId: id },
       {
         title: 1,
         totalTracks: 1,
-        isLiked: { $setIsSubset: [[id], "$likedBy"] },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         thumbnail: 1,
         year: 1,
       },
@@ -179,7 +202,7 @@ async function getUserLikedAlbums(req, res, next) {
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    const { page = 0, limit = 5 } = req.query;
+    const { page, limit } = req.query;
 
     const likedAlbums = await db.Album.find(
       { likedBy: id },
@@ -304,6 +327,7 @@ async function getUserLikedTracks(req, res, next) {
 
 module.exports = {
   getUserById: getUserById,
+  getAllUsers: getAllUsers,
   getUserFollowers: getUserFollowers,
   getUserFollowings: getUserFollowings,
   getUserPlaylists: getUserPlaylists,

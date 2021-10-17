@@ -11,11 +11,14 @@ import DragAndDrop from "../../../components/DragAndDrop";
 import JumboText from "../../../components/JumboText";
 import Textarea from "../../../components/Textarea";
 import Checkbox from "../../../components/Checkbox";
+import Spinner from "../../../components/Spinner";
+
 import { addPlaylist, addTrackToPlaylist } from "../../../api/playlists-api";
 import { PUBLIC } from "../../../constants/routes";
 
 export default function CreatePlaylist() {
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
   const [publicAccessible, setPublicAccessible] = useState(false);
   const publicAccessibleCheckbox = useRef();
 
@@ -31,6 +34,7 @@ export default function CreatePlaylist() {
     },
     validationSchema: playlistSchema,
     onSubmit: async (playlistState) => {
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append("name", playlistState.name);
@@ -75,10 +79,14 @@ export default function CreatePlaylist() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText="New playlist" cols="12" isNegative />
+          {isLoading && (
+            <div className="col d-flex justify-content-end">
+              <Spinner isNegative />
+            </div>
+          )}
         </div>
-        {/* //TODO THUMBNAIL */}
         <div className="col col-12 col-md-6">
           <DragAndDrop
             paddingBottom="65px"
@@ -133,30 +141,33 @@ export default function CreatePlaylist() {
                 errorMessage={formik.errors.description}
                 hasErrorMessage={formik.touched.description}
               />
-              <div className="col col-12 col-md-8">
-                <Checkbox
-                  label="Private"
-                  id="publicAccessible"
-                  ref={publicAccessibleCheckbox}
-                  checked={publicAccessible}
-                  onChange={handlePublicAccessible}
-                />
-                <p className="fnt-smallest mt-2 m-0">
-                  <strong>Note:</strong> Don&apos;t forget to upload the cover
-                  file.
-                </p>
-              </div>
-              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4">
-                <Button
-                  isNegative
-                  secondaryBtn
-                  handleClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
-                <Button isNegative submitButton>
-                  Add
-                </Button>
+              <div className="footer-wrapper d-flex justify-content-between align-items-center row p-0 m-0">
+                <div className="footer-left col-12 col-md-6">
+                  <Checkbox
+                    label="Private"
+                    id="publicAccessible"
+                    ref={publicAccessibleCheckbox}
+                    checked={publicAccessible}
+                    onChange={handlePublicAccessible}
+                  />
+                  <p className="fnt-smallest col col-12 col-md-11 p-0 mt-2 truncate">
+                    <strong>Note:</strong> Don&apos;t forget to upload the cover
+                    file.
+                  </p>
+                </div>
+                <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
+                  <Button
+                    classNames="me-3"
+                    isNegative
+                    secondaryBtn
+                    handleClick={() => history.goBack()}
+                  >
+                    Back
+                  </Button>
+                  <Button isNegative submitButton>
+                    Update
+                  </Button>
+                </div>
               </div>
             </div>
           </form>

@@ -42,6 +42,7 @@ export default function PlaylistUpdate() {
     },
     validationSchema: playlistUpdateSchema,
     onSubmit: async (playlist) => {
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append("name", playlist.name);
@@ -102,7 +103,7 @@ export default function PlaylistUpdate() {
   return (
     <Layout isNegative>
       <div className="row">
-        <div className="mb-5">
+        <div className="mb-5 d-flex">
           <JumboText priText={playlistState.name} cols="12" isNegative />
           {isLoading && (
             <div className="col d-flex justify-content-end">
@@ -162,31 +163,33 @@ export default function PlaylistUpdate() {
                 errorMessage={formik.errors.description}
                 hasErrorMessage={formik.touched.description}
               />
-
-              <Checkbox
-                label="Private"
-                id="publicAccessible"
-                ref={publicAccessibleCheckbox}
-                checked={publicAccessible}
-                onChange={handlePublicAccessible}
-              />
-            </div>
-            <div className="d-flex justify-content-between col col-12 row m-0 mt-3">
-              <p className="fnt-smallest col col-12 col-md-8 p-0">
-                <strong>Note:</strong> Don&apos;t forget to upload the cover
-                file.
-              </p>
-              <div className="d-flex justify-content-between buttons-wrapper col col-12 col-md-4 p-0">
-                <Button
-                  isNegative
-                  secondaryBtn
-                  handleClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
-                <Button isNegative submitButton>
-                  Update
-                </Button>
+              <div className="footer-wrapper d-flex justify-content-between align-items-center row p-0 m-0">
+                <div className="footer-left col-12 col-md-6">
+                  <Checkbox
+                    label="Private"
+                    id="publicAccessible"
+                    ref={publicAccessibleCheckbox}
+                    checked={publicAccessible}
+                    onChange={handlePublicAccessible}
+                  />
+                  <p className="fnt-smallest col col-12 col-md-11 p-0 mt-2 truncate">
+                    <strong>Note:</strong> Don&apos;t forget to upload the cover
+                    file.
+                  </p>
+                </div>
+                <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
+                  <Button
+                    classNames="me-3"
+                    isNegative
+                    secondaryBtn
+                    handleClick={() => history.goBack()}
+                  >
+                    Back
+                  </Button>
+                  <Button isNegative submitButton>
+                    Update
+                  </Button>
+                </div>
               </div>
             </div>
           </form>
