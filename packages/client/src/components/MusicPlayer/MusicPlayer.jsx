@@ -293,9 +293,14 @@ export default function MusicPlayer() {
                         ))}
                       <li>
                         <hr className="dropdown-wrapper m-0" />
-
-                        <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
-                          {/* TODO: when creating playlist adding that song */}
+                        <Link
+                          to={{
+                            pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                            state: {
+                              trackId: trackObject.trackId,
+                            },
+                          }}
+                        >
                           <p
                             className="dropdown-item fnt-light fnt-song-regular m-0"
                             type="button"
@@ -303,6 +308,14 @@ export default function MusicPlayer() {
                             New Playlist
                           </p>
                         </Link>
+                        {/* <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
+                          <p
+                            className="dropdown-item fnt-light fnt-song-regular m-0"
+                            type="button"
+                          >
+                            New Playlist
+                          </p>
+                        </Link> */}
                       </li>
                     </ul>
                   </li>
