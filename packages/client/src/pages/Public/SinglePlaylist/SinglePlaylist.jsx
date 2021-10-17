@@ -26,6 +26,7 @@ import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import "./SinglePlaylist.scss";
 import GenreCard from "../../../components/GenreCard";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
+import Button from "../../../components/Button";
 
 export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
@@ -172,6 +173,15 @@ export default function SinglePlaylist() {
               {playlist.description}
             </p>
           )}
+          <div className="col-12 p-0 mt-4">
+            <Button
+              classNames="me-3"
+              isNegative
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"
