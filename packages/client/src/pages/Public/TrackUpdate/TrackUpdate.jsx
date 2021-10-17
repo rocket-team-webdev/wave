@@ -189,15 +189,25 @@ function TrackUpdate() {
               />
               <div className="d-flex justify-content-between align-items-center mt-3">
                 <Button
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteTrackModal"
-                  isDanger
+                  classNames="me-3"
+                  isNegative
+                  secondaryBtn
+                  handleClick={() => history.goBack()}
                 >
-                  Delete
+                  Back
                 </Button>
-                <Button isNegative submitButton>
-                  Update
-                </Button>
+                <div className="d-flex gap-4">
+                  <Button
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteTrackModal"
+                    isDanger
+                  >
+                    Delete
+                  </Button>
+                  <Button isNegative submitButton>
+                    Update
+                  </Button>
+                </div>
               </div>
             </div>
           </form>

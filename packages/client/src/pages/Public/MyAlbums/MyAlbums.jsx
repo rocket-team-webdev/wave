@@ -111,9 +111,13 @@ function MyAlbums() {
         <div className="col col-9">
           <JumboText priText="My Albums" cols="12" isNegative />
         </div>
-        <div className="col col-3 d-flex justify-content-end">
+        <div className="col col-3 d-flex justify-content-end py-3">
           <div>
-            <Button isNegative handleClick={() => history.goBack()}>
+            <Button
+              isNegative
+              secondaryBtn
+              handleClick={() => history.goBack()}
+            >
               Back
             </Button>
           </div>

@@ -22,6 +22,7 @@ import "./Album.scss";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import GenreCard from "../../../components/GenreCard";
 import DeleteModal from "../../../components/DeleteModal";
+import Button from "../../../components/Button";
 
 export default function Album() {
   const history = useHistory();
@@ -160,6 +161,15 @@ export default function Album() {
             <FaHeart />
             <p className="ms-2 mb-0">{likesCounter} likes</p>
           </h3>
+          <div className="col-12 p-0 mt-4">
+            <Button
+              classNames="me-3"
+              isNegative
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"
