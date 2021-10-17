@@ -23,7 +23,6 @@ export default function Account() {
   const userState = useSelector((state) => state.user);
 
   const handleDeleteAccount = async () => {
-    // history.push(PUBLIC.REAUTHENTICATE);
     history.push({
       pathname: PUBLIC.REAUTHENTICATE,
       state: { referrer: history.location.pathname },
@@ -201,6 +200,7 @@ export default function Account() {
             </form>
           </FormWrapper>
         </div>
+
         <DeleteModal
           id="deleteUserModal"
           modalTitle="Removing user"
