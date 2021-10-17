@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -16,6 +16,7 @@ import Layout from "../../../components/Layout";
 import FormWrapper from "../../../components/FormWrapper";
 
 function UpdatePassword() {
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const formik = useFormik({
@@ -26,6 +27,7 @@ function UpdatePassword() {
     },
     validationSchema: updatePasswordSchema,
     onSubmit: async (updatePasswordState) => {
+      setLoading(true);
       const currentPassword = updatePasswordState.currentPassword;
       const newPassword = updatePasswordState.newPassword;
       try {
@@ -43,6 +45,7 @@ function UpdatePassword() {
           type: "error",
         });
       }
+      setLoading(false);
     },
   });
 
@@ -60,30 +63,36 @@ function UpdatePassword() {
                 id="currentPassword"
                 type="password"
                 placeholder="Current password"
-                onChange={formik.handleChange}
                 value={formik.values.currentPassword}
                 errorMessage={formik.errors.currentPassword}
                 hasErrorMessage={formik.touched.currentPassword}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                disabled={loading}
               />
               <Input
                 label="new password"
                 id="newPassword"
                 type="password"
                 placeholder="New password"
-                onChange={formik.handleChange}
+                handleChange={formik.handleChange}
                 value={formik.values.newPassword}
                 errorMessage={formik.errors.newPassword}
                 hasErrorMessage={formik.touched.newPassword}
+                handleBlur={formik.handleBlur}
+                disabled={loading}
               />
               <Input
                 label="confirm password"
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your new password"
-                onChange={formik.handleChange}
+                handleChange={formik.handleChange}
                 value={formik.values.confirmPassword}
                 errorMessage={formik.errors.confirmPassword}
                 hasErrorMessage={formik.touched.confirmPassword}
+                handleBlur={formik.handleBlur}
+                disabled={loading}
               />
               <div className="row pe-0">
                 <div className="mt-5 col-auto ms-auto pe-0">

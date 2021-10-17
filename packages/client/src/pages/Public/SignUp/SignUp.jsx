@@ -44,7 +44,6 @@ export default function SignUp() {
     validationSchema: signUpSchema,
     onSubmit: async (signUpState) => {
       setLoading(true);
-
       try {
         const formData = new FormData();
         formData.append("profilePicture", signUpState.profilePicture);
@@ -71,9 +70,8 @@ export default function SignUp() {
         }, 5000);
       } catch (error) {
         toast(error.message, { type: "error" });
-      } finally {
-        setLoading(false);
       }
+      setLoading(false);
     },
   });
 
@@ -82,6 +80,7 @@ export default function SignUp() {
   };
 
   const handleGoogleSignIn = async () => {
+    setLoading(true);
     try {
       const googleResult = await signInWithGoogle();
       const {
@@ -103,6 +102,7 @@ export default function SignUp() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoading(false);
   };
 
   return (

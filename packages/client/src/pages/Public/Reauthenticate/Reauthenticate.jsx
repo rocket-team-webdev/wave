@@ -17,6 +17,7 @@ import {
 import { logOut } from "../../../redux/user/actions";
 import { deleteAccount } from "../../../api/account-api";
 import { PUBLIC } from "../../../constants/routes";
+import Spinner from "../../../components/Spinner";
 
 function Reauthenticate() {
   const [loading, setLoading] = useState(false);
@@ -59,18 +60,24 @@ function Reauthenticate() {
         <div className="col col-6 m-auto">
           <FormWrapper formTitle="Enter your credentials">
             <form onSubmit={formik.handleSubmit}>
-              <Input
-                label="user password"
-                id="userPassword"
-                type="password"
-                placeholder="User password"
-                handleChange={formik.handleChange}
-                handleBlur={formik.handleBlur}
-                value={formik.values.userPassword}
-                errorMessage={formik.errors.userPassword}
-                hasErrorMessage={formik.touched.userPassword}
-                disabled={loading}
-              />
+              {loading ? (
+                <div className="col col-12 col-md-6">
+                  <Spinner />
+                </div>
+              ) : (
+                <Input
+                  label="user password"
+                  id="userPassword"
+                  type="password"
+                  placeholder="User password"
+                  handleChange={formik.handleChange}
+                  handleBlur={formik.handleBlur}
+                  value={formik.values.userPassword}
+                  errorMessage={formik.errors.userPassword}
+                  hasErrorMessage={formik.touched.userPassword}
+                  disabled={loading}
+                />
+              )}
               <div className="row">
                 <div className="mt-5 col-auto ms-auto">
                   <Button type="submit" isDanger submitButton>
