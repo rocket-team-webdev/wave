@@ -8,7 +8,6 @@ import Chart from "../../../components/Chart";
 import { getAllTracks } from "../../../api/tracks-api";
 
 export default function AppStats() {
-  // const history = useHistory();
   const [loadStatus, setLoadStatus] = useState(false);
   const [topSongs, setTopSongs] = useState([]);
 
@@ -22,11 +21,6 @@ export default function AppStats() {
           label: "Popularity",
           data: data.tracks.map((song) => song.popularity),
           backgroundColor: [
-            // "#ffbb11",
-            // "#ecf0f1",
-            // "#50AF95",
-            // "#f3ba2f",
-            // "#2a71d0",
             "rgba(255, 99, 132, 0.2)",
             "rgba(255, 159, 64, 0.2)",
             "rgba(255, 205, 86, 0.2)",
@@ -64,7 +58,18 @@ export default function AppStats() {
             )}
 
             {loadStatus && (
-              <Chart chartData={topSongs} title="Top reproduced songs" />
+              <>
+                <Chart
+                  chartData={topSongs}
+                  title="Top reproduced songs"
+                  // horizontal
+                />
+                <Chart
+                  chartData={topSongs}
+                  title="Top reproduced genres"
+                  type="pie"
+                />
+              </>
             )}
           </FormWrapper>
         </div>
