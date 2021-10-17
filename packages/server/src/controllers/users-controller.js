@@ -327,6 +327,51 @@ async function getUserLikedTracks(req, res, next) {
   }
 }
 
+async function followUser(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+
+    // add as following
+    await db.User.findOneAndUpdate({ _id: userId }, [
+      {
+        $set: {
+          following: {
+            $cond: {
+              if: { $in: [id, "$following"] },
+              then: { $setDifference: ["$following", [id]] },
+              else: { $concatArrays: ["$following", [id]] },
+            },
+          },
+        },
+      },
+    ]);
+
+    // add as follower
+    await db.User.findOneAndUpdate({ _id: id }, [
+      {
+        $set: {
+          followedBy: {
+            $cond: {
+              if: { $in: [userId, "$followedBy"] },
+              then: { $setDifference: ["$followedBy", [userId]] },
+              else: { $concatArrays: ["$followedBy", [userId]] },
+            },
+          },
+        },
+      },
+    ]);
+
+    res.status(200).send({
+      message: "User followed or unfollowed successfully",
+    });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+    next(err);
+  }
+}
+
 module.exports = {
   getUserById: getUserById,
   getAllUsers: getAllUsers,
@@ -338,4 +383,5 @@ module.exports = {
   getUserTracks: getUserTracks,
   getUserLikedTracks: getUserLikedTracks,
   getUserLikedAlbums: getUserLikedAlbums,
+  followUser: followUser,
 };
