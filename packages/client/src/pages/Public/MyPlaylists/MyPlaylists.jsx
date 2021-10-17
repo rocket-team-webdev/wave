@@ -20,8 +20,10 @@ function MyPlaylists() {
   const debouncedSearch = useDebounce(searchBar, 500);
 
   const fetchCreatedPlaylists = async () => {
+    const init = 0;
+    const limit = 150;
     try {
-      const { data } = await getMyPlaylists();
+      const { data } = await getMyPlaylists(init, limit);
       setCreatedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -29,8 +31,10 @@ function MyPlaylists() {
   };
 
   const fetchFollowedPlaylists = async () => {
+    const init = 0;
+    const limit = 150;
     try {
-      const { data } = await getFollowingPlaylists();
+      const { data } = await getFollowingPlaylists(init, limit);
       setFollowedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
