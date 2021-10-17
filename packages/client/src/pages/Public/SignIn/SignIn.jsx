@@ -141,7 +141,7 @@ export default function SignIn() {
               <div className="form-footer-wrapper">
                 <div className="fnt-caption mt-4 row d-flex justify-content-between">
                   <Checkbox
-                    label="Remember account"
+                    label="Stay logged in"
                     id="testCheckbox"
                     ref={credentialsCheckbox}
                     checked={saveCredentials}
