@@ -4,6 +4,7 @@ import { Link /* useRouteMatch,  */ } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { FaEllipsisH } from "react-icons/fa";
+import { VscTriangleDown } from "react-icons/vsc";
 import { motion } from "framer-motion";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import {
@@ -430,7 +431,7 @@ export default function TrackCard({
                           </li>
                         )}
 
-                        <hr className="dropdown-wrapper m-0" />
+                        {/* <hr className="dropdown-wrapper m-0" /> */}
                         {onOwnedPlaylist ? (
                           <button
                             className="dropdown-item fnt-danger fnt-song-regular clr-danger"
@@ -442,7 +443,7 @@ export default function TrackCard({
                             Remove from Playlist
                           </button>
                         ) : null}
-                        {isOwned ? (
+                        {/* {isOwned ? (
                           <>
                             <li>
                               <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
@@ -479,8 +480,8 @@ export default function TrackCard({
                               </p>
                             </Link>
                           </li>
-                        )}
-                        <hr className="dropdown-wrapper m-0" />
+                        )} */}
+                        {/* <hr className="dropdown-wrapper m-0" /> */}
                         <li className="dropstart">
                           <a
                             className="dropdown-item fnt-light fnt-song-regular"
@@ -491,7 +492,7 @@ export default function TrackCard({
                             data-bs-offset="-60,5"
                           >
                             <span className="fnt-light fnt-song-regular">
-                              Add to playlist
+                              Add to playlist <VscTriangleDown />
                             </span>
                           </a>
                           <ul
@@ -499,23 +500,18 @@ export default function TrackCard({
                             aria-labelledby="addToPlaylist"
                           >
                             {myPlaylists.length > 0 &&
-                              myPlaylists.map(
-                                (playlistElement, playlistIndex) => (
-                                  <li key={playlistElement._id}>
-                                    {playlistIndex > 0 && (
-                                      <hr className="dropdown-wrapper m-0" />
-                                    )}
-                                    <button
-                                      className="dropdown-item fnt-light fnt-song-regular"
-                                      type="button"
-                                      onClick={handleAddToPlaylist}
-                                      playlistid={playlistElement._id}
-                                    >
-                                      {playlistElement.name}
-                                    </button>
-                                  </li>
-                                ),
-                              )}
+                              myPlaylists.map((playlistElement) => (
+                                <li key={playlistElement._id}>
+                                  <button
+                                    className="dropdown-item fnt-light fnt-song-regular"
+                                    type="button"
+                                    onClick={handleAddToPlaylist}
+                                    playlistid={playlistElement._id}
+                                  >
+                                    {playlistElement.name}
+                                  </button>
+                                </li>
+                              ))}
                             <li>
                               <hr className="dropdown-wrapper m-0" />
 
@@ -565,16 +561,19 @@ export default function TrackCard({
                             </li>
                           </>
                         ) : (
-                          <li>
-                            <Link to={`${PUBLIC.USERS}/${userId}`}>
-                              <p
-                                className="dropdown-item fnt-light fnt-song-regular m-0"
-                                type="button"
-                              >
-                                Go to user
-                              </p>
-                            </Link>
-                          </li>
+                          <>
+                            <hr className="dropdown-wrapper m-0" />
+                            <li>
+                              <Link to={`${PUBLIC.USERS}/${userId}`}>
+                                <p
+                                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                                  type="button"
+                                >
+                                  Go to user
+                                </p>
+                              </Link>
+                            </li>
+                          </>
                         )}
                         {!isOwned && onOwnedPlaylist ? (
                           <hr className="dropdown-wrapper m-0" />

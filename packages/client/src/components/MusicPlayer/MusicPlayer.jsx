@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaEllipsisH, FaPlay, FaPause } from "react-icons/fa";
+import { VscTriangleDown } from "react-icons/vsc";
 import {
   MdRepeat,
   MdRepeatOne,
@@ -270,7 +271,7 @@ export default function MusicPlayer() {
                       href="#contextAddToPlaylistMusic"
                     >
                       <span className="fnt-light fnt-song-regular">
-                        Add to playlist
+                        Add to playlist <VscTriangleDown />
                       </span>
                     </a>
                     <ul
@@ -278,11 +279,8 @@ export default function MusicPlayer() {
                       aria-labelledby="contextAddToPlaylistMusic"
                     >
                       {myPlaylists.length > 0 &&
-                        myPlaylists.map((playlistElement, playlistIndex) => (
+                        myPlaylists.map((playlistElement) => (
                           <li key={playlistElement._id}>
-                            {playlistIndex > 0 && (
-                              <hr className="dropdown-wrapper m-0" />
-                            )}
                             <button
                               className="dropdown-item fnt-light fnt-song-regular"
                               type="button"
