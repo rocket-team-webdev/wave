@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaEllipsisH, FaPlay, FaPause } from "react-icons/fa";
+import { VscTriangleDown } from "react-icons/vsc";
 import {
   MdRepeat,
   MdRepeatOne,
@@ -12,6 +13,7 @@ import {
 } from "react-icons/md";
 import { IoMdRepeat } from "react-icons/io";
 import { ImShuffle } from "react-icons/im";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { PUBLIC } from "../../constants/routes";
 
 import "react-h5-audio-player/lib/styles.css";
@@ -32,6 +34,7 @@ import { addTrackToPlaylist } from "../../api/playlists-api";
 
 import HeartIcon from "../SVGicons/HeartIcon";
 import { saveListened } from "../../api/playback-api";
+import Button from "../Button";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
@@ -48,6 +51,20 @@ export default function MusicPlayer() {
   const audioPlayer = useRef(null);
   const [myPlaylists, setMyPlaylists] = useState([]);
   const [hasPlayed, setHasPlayed] = useState([false]);
+  const contextualDropDownMusicRef = useRef([]);
+  const history = useHistory();
+
+  const handleCloseContextual = () => {
+    const contextualDropDown = new bootstrap.Dropdown(
+      contextualDropDownMusicRef.current,
+    );
+    contextualDropDown.hide();
+  };
+
+  const handleGoToQueue = () => {
+    handleCloseContextual();
+    history.push(PUBLIC.QUEUE);
+  };
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
@@ -131,9 +148,10 @@ export default function MusicPlayer() {
   };
 
   const handleAddToPlaylist = async (event) => {
+    handleCloseContextual();
     const playlistId = event.target.getAttribute("playlistid");
     try {
-      await addTrackToPlaylist(playlistId, trackObject._id);
+      await addTrackToPlaylist(playlistId, trackObject.trackId);
       toast(`Song successfully added to playlist`, { type: "success" });
     } catch (error) {
       if (error.message === "Request failed with status code 400") {
@@ -227,6 +245,8 @@ export default function MusicPlayer() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 onClick={handleOpenDropdown}
+                data-bs-auto-close="outside"
+                ref={contextualDropDownMusicRef}
               >
                 <FaEllipsisH />
               </button>
@@ -235,36 +255,32 @@ export default function MusicPlayer() {
                 aria-labelledby="contextTrackMenu"
               >
                 <>
-                  <Link to={`${PUBLIC.QUEUE}`}>
-                    <p
-                      className="dropdown-item fnt-light fnt-song-regular m-0"
-                      type="button"
-                    >
-                      Queue
-                    </p>
-                  </Link>
+                  <Button
+                    className="dropdown-item fnt-light fnt-song-regular m-0"
+                    onClick={handleGoToQueue}
+                  >
+                    Queue
+                  </Button>
                   <hr className="dropdown-wrapper m-0" />
-                  <li className="">
+                  <li className="dropend">
                     <a
-                      className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
+                      className="dropdown-item fnt-light fnt-song-regular"
                       // type="button"
-                      data-toggle="dropdown"
-                      href="#addToPlaylist"
+                      data-bs-toggle="dropdown"
+                      id="contextAddToPlaylistMusic"
+                      href="#contextAddToPlaylistMusic"
                     >
                       <span className="fnt-light fnt-song-regular">
-                        Add to playlist
+                        Add to playlist <VscTriangleDown />
                       </span>
                     </a>
                     <ul
-                      className="dropdown-menu dropdown-submenu dropdown-submenu-left-top clr-secondary p-1"
-                      id="addToPlaylist"
+                      className="dropdown-menu clr-secondary p-1"
+                      aria-labelledby="contextAddToPlaylistMusic"
                     >
                       {myPlaylists.length > 0 &&
-                        myPlaylists.map((playlistElement, playlistIndex) => (
+                        myPlaylists.map((playlistElement) => (
                           <li key={playlistElement._id}>
-                            {playlistIndex > 0 && (
-                              <hr className="dropdown-wrapper m-0" />
-                            )}
                             <button
                               className="dropdown-item fnt-light fnt-song-regular"
                               type="button"

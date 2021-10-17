@@ -19,7 +19,7 @@ import { PUBLIC } from "../../../constants/routes";
 export default function CreatePlaylist() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
-  const [publicAccessible, setPublicAccessible] = useState(false);
+  const [publicAccessible, setPublicAccessible] = useState(true);
   const publicAccessibleCheckbox = useRef();
 
   const location = useLocation();
@@ -30,9 +30,10 @@ export default function CreatePlaylist() {
       description: "",
       thumbnail: "",
       primaryColor: "#000000",
-      publicAccessible: false,
+      publicAccessible: true,
     },
     validationSchema: playlistSchema,
+    enableReinitialize: true,
     onSubmit: async (playlistState) => {
       setIsLoading(true);
       try {
@@ -40,7 +41,7 @@ export default function CreatePlaylist() {
         formData.append("name", playlistState.name);
         formData.append("primaryColor", playlistState.primaryColor);
         formData.append("description", playlistState.description);
-        formData.append("publicAccessible", playlistState.publicAccessible);
+        formData.append("publicAccessible", publicAccessible);
         formData.append("thumbnail", playlistState.thumbnail);
 
         const newPlaylist = await addPlaylist(formData);
@@ -72,8 +73,9 @@ export default function CreatePlaylist() {
 
   const handlePublicAccessible = () => {
     const { checked } = publicAccessibleCheckbox.current;
-    setPublicAccessible(checked);
-    formik.setFieldValue("publicAccessible", checked);
+    setPublicAccessible(!checked);
+    // formik.setFieldValue("publicAccessible", !publicAccessible);
+    formik.values.publicAccessible = !checked;
   };
 
   return (
@@ -146,8 +148,9 @@ export default function CreatePlaylist() {
                   <Checkbox
                     label="Private"
                     id="publicAccessible"
+                    name="publicAccessible"
                     ref={publicAccessibleCheckbox}
-                    checked={publicAccessible}
+                    checked={!publicAccessible}
                     onChange={handlePublicAccessible}
                   />
                   <p className="fnt-smallest col col-12 col-md-11 p-0 mt-2 truncate">
