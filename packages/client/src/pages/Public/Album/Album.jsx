@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { FaHeart, FaPlay, FaEllipsisH } from "react-icons/fa";
+import { FaHeart, FaPlay, FaEllipsisH, FaMusic } from "react-icons/fa";
 
 import {
   setQueue,
@@ -31,8 +31,10 @@ export default function Album() {
   const [likesCounter, setLikesCounter] = useState(0);
   const [isOwned, setIsOwned] = useState(false);
   const [albumGenres, setAlbumGenres] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const userState = useSelector((state) => state.user);
+  const queueState = useSelector((state) => state.queue);
 
   const dispatch = useDispatch();
 
@@ -76,6 +78,7 @@ export default function Album() {
     if (tracks.length > 0) {
       // eslint-disable-next-line no-debugger
       // debugger;
+      setIsPlaying(true);
       dispatch(clearQueue());
       const tracksArray = [];
 
@@ -122,7 +125,12 @@ export default function Album() {
 
   useEffect(() => {
     loadAlbum();
+    setIsPlaying(false);
   }, []);
+
+  useEffect(() => {
+    if (queueState.queue.length === 0) setIsPlaying(false);
+  }, [queueState]);
 
   return (
     <Layout thumbnailUrl={album.thumbnail}>
@@ -166,9 +174,10 @@ export default function Album() {
             <button
               type="button"
               onClick={handlePlaying}
+              disabled={isPlaying}
               className="play-button clr-light fnt-secondary d-flex justify-content-center align-items-center"
             >
-              <FaPlay />
+              {isPlaying ? <FaMusic /> : <FaPlay />}
             </button>
             {/* Dropdown menu if user is owner */}
             {isOwned && (
