@@ -1,12 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { fromBottom } from "../../utils/motionSettings";
 
 import { PUBLIC } from "../../constants/routes";
 
 export default function BigUserCard({ user, classNames = "" }) {
   const componentClasses = `${classNames} d-flex align-items-center artist-card w-100`;
+  const location = useLocation();
 
   return (
     <motion.div
@@ -17,7 +18,12 @@ export default function BigUserCard({ user, classNames = "" }) {
       // variants={fromRight}
     >
       <Link
-        to={`${PUBLIC.USER_VIEW}/${user._id}`}
+        to={{
+          pathname: `${PUBLIC.USER_VIEW}/${user._id}`,
+          state: {
+            referrer: location.pathname,
+          },
+        }}
         className="d-flex align-items-center me-4 mb-2 user-card w-100"
       >
         <div className={componentClasses}>

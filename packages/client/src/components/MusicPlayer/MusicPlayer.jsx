@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaEllipsisH, FaPlay, FaPause } from "react-icons/fa";
 import { VscTriangleDown } from "react-icons/vsc";
@@ -40,6 +40,7 @@ import { saveListened } from "../../api/playback-api";
 import Button from "../Button";
 
 export default function MusicPlayer() {
+  const location = useLocation();
   const queueState = useSelector((state) => state.queue);
   const userState = useSelector((state) => state.user);
   const listPosition = queueState.listPosition;
@@ -267,7 +268,14 @@ export default function MusicPlayer() {
           <div className="rhap_main-container clr-white">
             <div className="rhap_track-info">
               <div className="rhap_album-thumb">
-                <Link to={`${PUBLIC.ALBUM}/${trackObject.albumId}`}>
+                <Link
+                  to={{
+                    pathname: `${PUBLIC.ALBUM}/${trackObject.albumId}`,
+                    state: {
+                      referrer: location.pathname,
+                    },
+                  }}
+                >
                   <img
                     src={trackObject.trackImg}
                     alt="album-cover"

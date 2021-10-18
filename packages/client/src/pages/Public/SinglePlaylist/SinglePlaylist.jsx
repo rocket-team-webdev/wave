@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link, useHistory } from "react-router-dom";
+import { useRouteMatch, Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaPlay, FaEllipsisH, FaMusic } from "react-icons/fa";
@@ -26,9 +26,10 @@ import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import "./SinglePlaylist.scss";
 import GenreCard from "../../../components/GenreCard";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
-import Button from "../../../components/Button";
+import BackButton from "../../../components/BackButton";
 
 export default function SinglePlaylist() {
+  const location = useLocation();
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
@@ -165,7 +166,14 @@ export default function SinglePlaylist() {
           {playlist.userId && (
             <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
-              <Link to={`${PUBLIC.USERS}/${playlist.userId._id}`}>
+              <Link
+                to={{
+                  pathname: `${PUBLIC.USERS}/${playlist.userId._id}`,
+                  state: {
+                    referrer: location.pathname,
+                  },
+                }}
+              >
                 <p className="fnt-light mb-0 ms-1">
                   {playlist.userId.firstName}
                 </p>
@@ -182,13 +190,7 @@ export default function SinglePlaylist() {
             </p>
           )}
           <div className="col-12 p-0 mt-4">
-            <Button
-              classNames="me-3"
-              isNegative
-              handleClick={() => history.goBack()}
-            >
-              Back
-            </Button>
+            <BackButton classNames="me-3" isNegative />
           </div>
           <div className="d-flex align-items-center mt-5">
             <button
@@ -215,7 +217,14 @@ export default function SinglePlaylist() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`}>
+                  <Link
+                    to={{
+                      pathname: `${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`,
+                      state: {
+                        referrer: location.pathname,
+                      },
+                    }}
+                  >
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
