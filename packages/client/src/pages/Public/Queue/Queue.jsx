@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -15,6 +15,7 @@ import Button from "../../../components/Button";
 import { clearQueue } from "../../../redux/music-queue/actions";
 
 import "./Queue.scss";
+import BackButton from "../../../components/BackButton";
 
 export default function Queue() {
   const [tracks, setTracks] = useState([]);
@@ -23,6 +24,7 @@ export default function Queue() {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   const loadQueue = async () => {
     try {
@@ -62,12 +64,15 @@ export default function Queue() {
   };
 
   const handleCloseQueue = () => {
-    history.goBack();
+    if (location.state) {
+      history.push(location.state.referrer);
+    } else {
+      history.push(`${PUBLIC.HOME}`);
+    }
   };
 
   const handleClearQueue = () => {
     dispatch(clearQueue());
-    // history.goBack();
   };
 
   useEffect(() => {
@@ -83,13 +88,7 @@ export default function Queue() {
             <JumboText priText="Queue" cols="11" isNegative />
           </div>
           <div className="col-12 p-0 mt-5">
-            <Button
-              classNames="me-3"
-              isNegative
-              handleClick={() => history.goBack()}
-            >
-              Back
-            </Button>
+            <BackButton classNames="me-3" isNegative />
           </div>
           <div className="mt-4" />
           <Button handleClick={handleClearQueue} isDanger>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BiUserCircle, BiUserCheck, BiUserPlus } from "react-icons/bi";
 import { toast } from "react-toastify";
 
@@ -20,6 +20,8 @@ export default function UserCard({ userId, userName, isPopularView }) {
   const [popularUserIcon, setPopularUserIcon] = useState(false);
 
   const userState = useSelector((state) => state.user);
+
+  const location = useLocation();
 
   if (isPopularView) {
     // Follow user
@@ -87,7 +89,14 @@ export default function UserCard({ userId, userName, isPopularView }) {
         ) : (
           <BiUserCircle className="fnt-light me-3 fs-4" />
         )}
-        <Link to={`${PUBLIC.USER_VIEW}/${userId}`}>
+        <Link
+          to={{
+            pathname: `${PUBLIC.USER_VIEW}/${userId}`,
+            state: {
+              referrer: location.pathname,
+            },
+          }}
+        >
           <p className="mb-0 fnt-caption fnt-light truncate">{userName}</p>
         </Link>
       </div>

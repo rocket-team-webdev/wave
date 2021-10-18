@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link, useHistory } from "react-router-dom";
+import { useRouteMatch, Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { FaHeart, FaPlay, FaEllipsisH } from "react-icons/fa";
+import { FaHeart, FaPlay, FaEllipsisH, FaMusic } from "react-icons/fa";
 
 import {
   setQueue,
@@ -22,18 +22,22 @@ import "./Album.scss";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import GenreCard from "../../../components/GenreCard";
 import DeleteModal from "../../../components/DeleteModal";
-import Button from "../../../components/Button";
+import BackButton from "../../../components/BackButton";
 
 export default function Album() {
   const history = useHistory();
+  const location = useLocation();
+
   const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [likesCounter, setLikesCounter] = useState(0);
   const [isOwned, setIsOwned] = useState(false);
   const [albumGenres, setAlbumGenres] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const userState = useSelector((state) => state.user);
+  const queueState = useSelector((state) => state.queue);
 
   const dispatch = useDispatch();
 
@@ -75,6 +79,9 @@ export default function Album() {
 
   const handlePlaying = () => {
     if (tracks.length > 0) {
+      // eslint-disable-next-line no-debugger
+      // debugger;
+      setIsPlaying(true);
       dispatch(clearQueue());
       const tracksArray = [];
 
@@ -121,7 +128,12 @@ export default function Album() {
 
   useEffect(() => {
     loadAlbum();
+    setIsPlaying(false);
   }, []);
+
+  useEffect(() => {
+    if (queueState.queue.length === 0) setIsPlaying(false);
+  }, [queueState]);
 
   return (
     <Layout thumbnailUrl={album.thumbnail}>
@@ -160,7 +172,14 @@ export default function Album() {
           {album.userId && (
             <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
-              <Link to={`${PUBLIC.USERS}/${album.userId._id}`}>
+              <Link
+                to={{
+                  pathname: `${PUBLIC.USERS}/${album.userId._id}`,
+                  state: {
+                    referrer: location.pathname,
+                  },
+                }}
+              >
                 <p className="mb-0 ms-1">{album.userId.firstName}</p>
               </Link>
             </h3>
@@ -170,21 +189,16 @@ export default function Album() {
             <p className="ms-2 mb-0">{likesCounter} likes</p>
           </h3>
           <div className="col-12 p-0 mt-4">
-            <Button
-              classNames="me-3"
-              isNegative
-              handleClick={() => history.goBack()}
-            >
-              Back
-            </Button>
+            <BackButton classNames="me-3" isNegative />
           </div>
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"
               onClick={handlePlaying}
+              disabled={isPlaying}
               className="play-button clr-light fnt-secondary d-flex justify-content-center align-items-center"
             >
-              <FaPlay />
+              {isPlaying ? <FaMusic /> : <FaPlay />}
             </button>
             {/* Dropdown menu if user is owner */}
             {isOwned && (
@@ -202,7 +216,14 @@ export default function Album() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.UPDATE_ALBUM}/${album._id}`}>
+                  <Link
+                    to={{
+                      pathname: `${PUBLIC.UPDATE_ALBUM}/${album._id}`,
+                      state: {
+                        referrer: location.pathname,
+                      },
+                    }}
+                  >
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"

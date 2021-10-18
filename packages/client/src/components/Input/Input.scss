@@ -90,6 +90,10 @@ input[type="color"]::-webkit-color-swatch {
   padding: 0px;
 }
 
+.no-overflow {
+  max-width: calc(100% - 2rem);
+}
+
 .flex-search {
   width: 30px;
 }

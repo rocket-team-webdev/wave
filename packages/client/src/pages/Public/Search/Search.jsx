@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   searchPlaylists,
@@ -8,7 +8,7 @@ import {
   searchUser,
 } from "../../../api/search-api";
 import AlbumList from "../../../components/AlbumList/AlbumList";
-import Button from "../../../components/Button";
+import BackButton from "../../../components/BackButton";
 import HomeElement from "../../../components/HomeElement";
 import Input from "../../../components/Input";
 import JumboText from "../../../components/JumboText";
@@ -17,7 +17,6 @@ import PlaylistList from "../../../components/PlaylistList";
 import Spinner from "../../../components/Spinner";
 import TrackList from "../../../components/TrackList";
 import UserList from "../../../components/UserList/UserList";
-import { PUBLIC } from "../../../constants/routes";
 
 function Search() {
   const urlQuery = new URLSearchParams(useLocation().search).get("q");
@@ -122,9 +121,7 @@ function Search() {
               />
             </form>
           </div>
-          <Link className="float-start p-0 pt-4" to={PUBLIC.HOME}>
-            <Button isNegative>Back</Button>
-          </Link>
+          <BackButton isNegative classNames="ms-3" />
         </div>
 
         {/* Right side */}

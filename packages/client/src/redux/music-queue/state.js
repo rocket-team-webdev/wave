@@ -4,6 +4,7 @@ const initialState = {
   shuffleOrder: null,
   listPosition: 0,
   willPlay: false,
+  repeatState: "false",
   volume: 1,
 };
 
