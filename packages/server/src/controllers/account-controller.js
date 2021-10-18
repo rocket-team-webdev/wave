@@ -158,7 +158,7 @@ async function deleteAccount(req, res, next) {
 }
 
 module.exports = {
-  deleteAccount: deleteAccount,
-  getAccount: getAccount,
-  updateAccount: updateAccount,
+  deleteAccount,
+  getAccount,
+  updateAccount,
 };
