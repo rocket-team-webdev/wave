@@ -37,7 +37,7 @@ async function getAlbums(req, res, next) {
 
     res.status(200).send({ albums });
   } catch (err) {
-    res.status(404).send({
+    res.status(500).send({
       error: err.message,
     });
     next(err);
@@ -51,17 +51,17 @@ async function addAlbum(req, res, next) {
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
 
-    // Checking if title album already exists
-    const isAlbum = await db.Album.findOne(
-      {
-        title: req.body.title,
-        userId: userId,
-      },
-      { _id: 1 },
-    );
-    if (isAlbum) {
-      return res.status(409).send({ msg: "Error: Album already exists" });
-    }
+    // Checking if title album already exists (No need)
+    // const isAlbum = await db.Album.findOne(
+    //   {
+    //     title: req.body.title,
+    //     userId: userId,
+    //   },
+    //   { _id: 1 },
+    // );
+    // if (isAlbum) {
+    //   return res.status(409).send({ msg: "Error: Album already exists" });
+    // }
 
     // Album cover by default
     albumObj.thumbnail = DEFAULT_ALBUM_THUMBNAIL;
@@ -117,12 +117,12 @@ async function addAlbum(req, res, next) {
 
 async function getAlbumById(req, res, next) {
   try {
-    const { id } = req.params;
+    const { id: albumId } = req.params;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const album = await db.Album.findOne(
-      { _id: id },
+      { _id: albumId },
       {
         title: 1,
         year: 1,
@@ -140,7 +140,7 @@ async function getAlbumById(req, res, next) {
       .lean();
 
     const tracks = await db.Track.find(
-      { album: id },
+      { album: albumId },
       {
         name: 1,
         artist: 1,
@@ -177,10 +177,10 @@ async function getAlbumById(req, res, next) {
 async function updateAlbum(req, res, next) {
   try {
     const { email } = req.user;
-    const { id } = req.body;
+    const { id: albumId } = req.body;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { thumbnail: oldThumbnail } = await db.Album.findOne(
-      { _id: id, userId: userId },
+      { _id: albumId, userId: userId },
       {
         thumbnail: 1,
         _id: 0,
@@ -236,26 +236,26 @@ async function updateAlbum(req, res, next) {
     const { title, year } = req.body;
 
     await db.Album.findOneAndUpdate(
-      { _id: id },
+      { _id: albumId },
       { title: title, year: year, thumbnail: thumbnailUrl },
-    ).lean();
+    );
 
     res.status(200).send({
       message: "Album updated successfully",
     });
   } catch (error) {
-    res.status(400).send({ error: error });
+    res.status(500).send({ error: error });
     next();
   }
 }
 
 async function deleteAlbum(req, res, next) {
   try {
-    const { id } = req.params;
+    const { id: albumId } = req.params;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { thumbnail: thumbnail } = await db.Album.findOne(
-      { _id: id, userId: userId },
+      { _id: albumId, userId: userId },
       {
         thumbnail: 1,
         _id: 0,
@@ -263,10 +263,10 @@ async function deleteAlbum(req, res, next) {
     );
 
     // deleting tracks from album
-    await db.Track.deleteMany({ album: id, userId: userId });
+    await db.Track.deleteMany({ album: albumId, userId: userId });
 
     // deleting albums
-    await db.Album.findOneAndDelete({ _id: id, userId: userId });
+    await db.Album.findOneAndDelete({ _id: albumId, userId: userId });
 
     // deleting cover from cloudinary
     if (thumbnail !== DEFAULT_ALBUM_THUMBNAIL) {
@@ -283,11 +283,11 @@ async function deleteAlbum(req, res, next) {
 
 async function likeAlbum(req, res, next) {
   try {
-    const { id } = req.params;
+    const { id: albumId } = req.params;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    await db.Album.findOneAndUpdate({ _id: id }, [
+    await db.Album.findOneAndUpdate({ _id: albumId }, [
       {
         $set: {
           likedBy: {
@@ -302,7 +302,7 @@ async function likeAlbum(req, res, next) {
     ]);
 
     res.status(200).send({
-      message: "Album liked successfully",
+      message: "Album liked/disliked successfully",
     });
   } catch (err) {
     res.status(500).send({ error: err.message });
