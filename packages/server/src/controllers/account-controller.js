@@ -12,7 +12,10 @@ const { DEFAULT_PROFILE_PICTURE } = require("../utils/default-presets");
 async function getAccount(req, res, next) {
   try {
     const { email } = req.user;
-    const user = await db.User.findOne({ email });
+    const user = await db.User.findOne(
+      { email },
+      { email: 1, firstName: 1, lastName: 1, birthDate: 1, country: 1, _id: 0 },
+    );
 
     res.status(200).send({
       data: user,
@@ -29,21 +32,21 @@ async function updateAccount(req, res, next) {
   try {
     const { firebaseId } = req.user;
     const { firstName, lastName, birthDate, country, email } = req.body;
-    const { profilePicture } = await db.User.findOne({
-      firebaseId: firebaseId,
-    });
-
-    let isProfilePictureDefault = false;
-
-    // checking if old profile picture is the default one
-    if (profilePicture === DEFAULT_PROFILE_PICTURE)
-      isProfilePictureDefault = true;
-
+    const { profilePicture } = await db.User.findOne(
+      {
+        firebaseId: firebaseId,
+      },
+      { profilePicture: 1, _id: 0 },
+    );
     let profilePictureFile = req.files["profilePicture"];
-
+    let isProfilePictureDefault = false;
     let profilePictureUrl = profilePicture;
 
     if (profilePictureFile) {
+      // checking if old profile picture is the default one
+      if (profilePicture === DEFAULT_PROFILE_PICTURE)
+        isProfilePictureDefault = true;
+
       profilePictureFile = profilePictureFile[0];
       const profilePictureLocation = path.join(
         __dirname,
@@ -99,6 +102,14 @@ async function updateAccount(req, res, next) {
       },
       {
         new: true,
+        projection: {
+          firstName: 1,
+          lastName: 1,
+          birthDate: 1,
+          email: 1,
+          country: 1,
+          profilePicture: 1,
+        },
       },
     );
 
@@ -119,7 +130,10 @@ async function deleteAccount(req, res, next) {
   try {
     const { email } = req.user;
 
-    const { profilePicture } = await db.User.findOne({ email: email });
+    const { profilePicture } = await db.User.findOne(
+      { email: email },
+      { profilePicture: 1, _id: 0 },
+    );
 
     // checking if old profile picture is the default one
     if (profilePicture !== DEFAULT_PROFILE_PICTURE) {
@@ -128,6 +142,8 @@ async function deleteAccount(req, res, next) {
     }
 
     const deletedAccount = await db.User.findOneAndDelete({ email });
+
+    // TODO: delete all account data
 
     if (!deletedAccount) res.status(404).send({ message: "User not found!" });
 
