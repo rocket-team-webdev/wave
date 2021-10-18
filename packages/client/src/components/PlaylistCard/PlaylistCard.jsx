@@ -53,7 +53,7 @@ export default function PlaylistCard({
     setFollowed(isFollowed);
   }, [isFollowed]);
 
-  const componentClasses = `col col-12 col-lg-${colsMd}  p-2`;
+  const componentClasses = `col col-12 col-md-${colsMd} p-2`;
   return (
     <>
       {isPlaceholder ? (

@@ -140,7 +140,7 @@ export default function TrackUpload() {
           )}
         </div>
 
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             handleChange={trackOnChange}
             dropText="Drop the song here..."
@@ -190,7 +190,7 @@ export default function TrackUpload() {
                 options={genresState}
               />
 
-              <div className="col-12 col-lg-6 pe-0">
+              <div className="col-12 col-lg-6">
                 <Select
                   classNames="me-1 w-100 "
                   label="album"
@@ -209,14 +209,6 @@ export default function TrackUpload() {
               </div>
             </div>
             <div className="d-flex justify-content-end buttons-wrapper col col-12 p-0">
-              {/* <Button
-                classNames="me-3"
-                isNegative
-                secondaryBtn
-                handleClick={() => history.goBack()}
-              >
-                Back
-              </Button> */}
               <BackButton classNames="me-3" isNegative secondaryBtn />
               <Button isNegative submitButton>
                 Upload

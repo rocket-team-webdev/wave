@@ -165,7 +165,7 @@ function TrackUpdate() {
                 hasErrorMessage={formik.touched.artist}
               />
               <Select
-                classNames="col-12 col-md-6"
+                classNames="col-12 col-lg-6"
                 label="genre"
                 id="genre"
                 type="select"

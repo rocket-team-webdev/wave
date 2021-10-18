@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useRouteMatch, useHistory, useLocation } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
 import {
@@ -11,9 +10,9 @@ import {
 } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
 import AlbumList from "../../../components/AlbumList/AlbumList";
+import BackButton from "../../../components/BackButton";
 
 function UserAlbums() {
-  const location = useLocation();
   const [userCreatedAlbums, setUserCreatedAlbums] = useState([]);
   const [userLikedAlbums, setUserLikedAlbums] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
@@ -77,47 +76,29 @@ function UserAlbums() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText
             priText={`${userPossessive} Albums`}
             cols="12"
             isNegative
           />
         </div>
-        <div className="col col-3">
-          <Link
-            className="float-end p-3"
-            to={{
-              pathname: `${PUBLIC.USERS}/${userId}`,
-              state: {
-                referrer: location.pathname,
-              },
-            }}
-          >
-            <Button isNegative>Back</Button>
-          </Link>
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
+            <BackButton isNegative />
+          </div>
         </div>
       </div>
 
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {userCreatedAlbums && (
-            <AlbumList
-              albums={userCreatedAlbums}
-              // onAddLikedColumn={handleAddLikedColumn}
-            />
-          )}
+          {userCreatedAlbums && <AlbumList albums={userCreatedAlbums} />}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Liked</div>
-          {userLikedAlbums && (
-            <AlbumList
-              albums={userLikedAlbums}
-              // onAddLikedColumn={handleAddLikedColumn}
-            />
-          )}
+          {userLikedAlbums && <AlbumList albums={userLikedAlbums} />}
         </div>
       </div>
     </Layout>

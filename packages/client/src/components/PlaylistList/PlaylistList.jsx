@@ -3,7 +3,11 @@ import { motion } from "framer-motion";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import { containerAnimation } from "../../utils/motionSettings";
 
-function PlaylistList({ playlists, onAddFollowedColumn = () => {} }) {
+function PlaylistList({
+  playlists,
+  onAddFollowedColumn = () => {},
+  colsMd = "6",
+}) {
   const [listOfPlaylists, setListOfPlaylists] = useState(playlists);
 
   const handleAddFollowedColumn = (playlist, isFollowed) => {
@@ -28,7 +32,7 @@ function PlaylistList({ playlists, onAddFollowedColumn = () => {} }) {
           playlistName={playlist.name}
           userId={playlist.userId}
           isFollowed={playlist.isFollowed}
-          colsMd="6"
+          colsMd={colsMd}
           updateFollowedView={handleAddFollowedColumn}
         />
       ))}

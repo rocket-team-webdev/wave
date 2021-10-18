@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
-import Input from "../Input";
+// import Input from "../Input";
 import AddIcon from "../SVGicons/AddIcon";
 
 import "./DragAndDrop.scss";
@@ -82,27 +82,27 @@ export default function DragAndDrop({
       {isDragActive ? (
         <div className="d-flex flex-column align-items-center pt-2 m-auto fx-rounded">
           <AddIcon color="white" size={150} />
-          <Input
+          {/* <Input
             classNames="col-12 col-md-6"
             id="thumbnail"
             type="file"
             placeholder="Upload file"
             isNegative
             onClick={(e) => e.preventDefault()}
-          />
+          /> */}
           <p className="fnt-white">{files}</p>
         </div>
       ) : (
         <div className="d-flex flex-column align-items-center pt-2 m-auto fx-rounded">
           <AddIcon color="white" size={150} />
-          <Input
+          {/* <Input
             classNames="col-12 col-md-6"
             id="thumbnail"
             type="file"
             placeholder="Upload file"
             isNegative
             onClick={(e) => e.preventDefault()}
-          />
+          /> */}
           <p className="fnt-white">{files}</p>
         </div>
       )}

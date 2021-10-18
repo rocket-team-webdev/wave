@@ -23,7 +23,7 @@ export default function Select({
   // ...props
 }) {
   let selectClassNames =
-    "form-input fnt-input-light fx-rounded positive-input px-3 col col-12 custom-select ";
+    "fnt-input-light fx-rounded positive-input px-3 col custom-select ";
   let labelClassNames = "label-select fnt-label-bold mb-2 col col-12 p-0 ";
   const errorClassNames = "error-msg fnt-smallest mt-2 mb-0 ps-1 col col-12 ";
 
@@ -47,10 +47,16 @@ export default function Select({
       <label className={labelClassNames} htmlFor={id}>
         {label}
       </label>
-      <div className={hasAddIcon ? "row pe-0" : "col col-12 p-0"}>
+      <div
+        className={
+          hasAddIcon ? "d-flex justify-content-between px-0" : "col col-12 p-0"
+        }
+      >
         <select
           className={
-            hasAddIcon ? `${selectClassNames} col-md-10` : selectClassNames
+            hasAddIcon
+              ? `${selectClassNames} flex-select flex-grow-1`
+              : `${selectClassNames} form-input col-12`
           }
           value={value}
           onChange={handleChange}
@@ -66,7 +72,7 @@ export default function Select({
           ))}
         </select>
         {hasAddIcon && (
-          <div className="ps-2 h-100 col col-12 col-md-2">
+          <div className="ps-2 h-100 custom-add-icon">
             <Button isNegative onClick={handleAddIcon}>
               <AddIcon size={25} />
             </Button>

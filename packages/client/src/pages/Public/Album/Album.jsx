@@ -130,15 +130,23 @@ export default function Album() {
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
-          <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText={album.title} cols="11" isNegative />
-            <button className="text-center" type="button" onClick={handleLike}>
-              {isLiked ? (
-                <HeartIcon isFull isLarge isNegative />
-              ) : (
-                <HeartIcon isLarge isNegative />
-              )}
-            </button>
+          <div className="d-flex justify-content-between align-items-start row">
+            <div className="col col-10">
+              <JumboText priText={album.title} cols="12" isNegative />
+            </div>
+            <div className="d-flex justify-content-end col col-1">
+              <button
+                className="text-center"
+                type="button"
+                onClick={handleLike}
+              >
+                {isLiked ? (
+                  <HeartIcon isFull isLarge isNegative />
+                ) : (
+                  <HeartIcon isLarge isNegative />
+                )}
+              </button>
+            </div>
           </div>
           <div className="d-flex align-items-start mt-4">
             {albumGenres.map((genre) => (

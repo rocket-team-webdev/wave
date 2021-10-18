@@ -4,15 +4,8 @@ async function searchTrack(req, res, next) {
   try {
     const searchText = req.query?.q;
     const { page = 0, limit = 5 } = req.query;
-
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-
-    // const data = await db.Track.find(
-    //   { userId: user._id, $text: { $search: searchText } },
-    //   { score: { $meta: "textScore" } },
-    // ).sort({ score: { $meta: "textScore" } });
-    // .explain(true);
 
     const data = await db.Track.find(
       {
@@ -50,7 +43,9 @@ async function searchTrack(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", tracks: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -59,7 +54,6 @@ async function searchPlaylist(req, res, next) {
   try {
     const searchText = req.query?.q;
     const { page = 0, limit = 5 } = req.query;
-
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
@@ -89,7 +83,9 @@ async function searchPlaylist(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", playlist: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -98,7 +94,6 @@ async function searchAlbum(req, res, next) {
   try {
     const searchText = req.query?.q;
     const { page = 0, limit = 5 } = req.query;
-
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
@@ -128,7 +123,9 @@ async function searchAlbum(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", album: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -137,15 +134,8 @@ async function searchUser(req, res, next) {
   try {
     const searchText = req.query?.q;
     const { page = 0, limit = 5 } = req.query;
-
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-
-    // const data = await db.Track.find(
-    //   { userId: user._id, $text: { $search: searchText } },
-    //   { score: { $meta: "textScore" } },
-    // ).sort({ score: { $meta: "textScore" } });
-    // .explain(true);
 
     const data = await db.User.aggregate([
       {
@@ -179,7 +169,9 @@ async function searchUser(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", users: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
