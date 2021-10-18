@@ -28,10 +28,13 @@ export default function Tracks() {
   const [page, setPage] = useState(0);
   const loader = useRef();
 
-  const fetchUploadedSongs = async () => {
+  const fetchUploadedSongs = async (uploadPage) => {
     try {
-      const { data } = await getMyTracks();
-      setUploadedSongs(data.data);
+      const { data } = await getMyTracks(uploadPage, 8);
+      setUploadedSongs((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
+      // setUploadedSongs(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -94,7 +97,7 @@ export default function Tracks() {
   };
 
   const fetchTracksData = (fetchPage = 0) => {
-    fetchUploadedSongs();
+    fetchUploadedSongs(fetchPage);
     fetchLikedSongs(fetchPage);
   };
 
@@ -189,6 +192,7 @@ export default function Tracks() {
                 setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
                 hasSorter
               />
+              <div ref={loader} />
             </>
           )}
         </div>
