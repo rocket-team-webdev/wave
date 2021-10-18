@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -13,12 +14,19 @@ import Input from "../../../components/Input";
 import { searchTrack } from "../../../api/search-api";
 import useDebounce from "../../../hooks/useDebounce";
 
+function getUniqueListBy(arr, key) {
+  return [...new Map(arr.map((item) => [item[key], item])).values()];
+}
+
 export default function Tracks() {
   const [uploadedSongs, setUploadedSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const queueState = useSelector((state) => state.queue);
+
+  const [page, setPage] = useState(0);
+  const loader = useRef();
 
   const fetchUploadedSongs = async () => {
     try {
@@ -29,10 +37,11 @@ export default function Tracks() {
     }
   };
 
-  const fetchLikedSongs = async () => {
+  const fetchLikedSongs = async (likePage) => {
     try {
-      const { data } = await getLikedTracks();
-      setLikedSongs(data.data);
+      const { data } = await getLikedTracks(likePage, 8);
+      // setLikedSongs((prev) => [...new Set([...prev, ...data.data])]);
+      setLikedSongs((prev) => getUniqueListBy([...prev, ...data.data], "_id"));
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -57,6 +66,7 @@ export default function Tracks() {
           if (bySong._id === song._id) return { ...bySong, isLiked: liked };
           return bySong;
         });
+
         setLikedSongs(updatedLikedSongs);
         setUploadedSongs(updatedUploadedSongs);
       }
@@ -83,14 +93,24 @@ export default function Tracks() {
     setSearchBar(e.target.value);
   };
 
+  const fetchTracksData = (fetchPage = 0) => {
+    fetchUploadedSongs();
+    fetchLikedSongs(fetchPage);
+  };
+
   useEffect(async () => {
     try {
-      const { data } = await searchTrack(debouncedSearch);
-      const liked = data.tracks.filter((track) => track.isLiked);
-      const uploaded = data.tracks.filter((track) => track.isOwner);
+      if (debouncedSearch !== "") {
+        const { data } = await searchTrack(debouncedSearch);
+        const liked = data.tracks.filter((track) => track.isLiked);
+        const uploaded = data.tracks.filter((track) => track.isOwner);
 
-      setUploadedSongs(uploaded);
-      setLikedSongs(liked);
+        setUploadedSongs(uploaded);
+        setLikedSongs(liked);
+      } else {
+        setPage(0);
+        fetchTracksData();
+      }
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -111,11 +131,6 @@ export default function Tracks() {
 
     handleAddLikedColumn(newSong, newSong.isLiked);
   }, [queueState.queue]);
-
-  useEffect(() => {
-    fetchUploadedSongs();
-    fetchLikedSongs();
-  }, []);
 
   return (
     <Layout isNegative>
@@ -149,25 +164,31 @@ export default function Tracks() {
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Uploaded</div>
           {uploadedSongs && (
-            <TrackList
-              tracks={uploadedSongs}
-              setTracks={setUploadedSongs}
-              onAddLikedColumn={handleAddLikedColumn}
-              setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
-              hasSorter
-            />
+            <>
+              <TrackList
+                tracks={uploadedSongs}
+                setTracks={setUploadedSongs}
+                onAddLikedColumn={handleAddLikedColumn}
+                setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
+                hasSorter
+              />
+            </>
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Liked</div>
           {likedSongs && (
-            <TrackList
-              tracks={likedSongs}
-              setTracks={setLikedSongs}
-              onAddLikedColumn={handleAddLikedColumn}
-              setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
-              hasSorter
-            />
+            <>
+              <TrackList
+                tracks={likedSongs}
+                setTracks={setLikedSongs}
+                onAddLikedColumn={handleAddLikedColumn}
+                setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
+                hasSorter
+                loadMoreTracks={fetchTracksData}
+              />
+              <div ref={loader} />
+            </>
           )}
         </div>
       </div>
