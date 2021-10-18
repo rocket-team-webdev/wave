@@ -101,7 +101,7 @@ export default function Input({
         <div
           className={
             hasSubmitIcon
-              ? "d-flex justify-content-between px-3 px-md-0"
+              ? "d-flex justify-content-between px-3"
               : "col col-12 p-0"
           }
         >

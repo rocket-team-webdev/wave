@@ -53,7 +53,7 @@ export default function Home() {
             <Spinner isNegative />
           ) : (
             <motion.h1
-              className="fnt-light fnt-page-title text-break col col-12 col-md-9 pt-3 truncate"
+              className="fnt-light fnt-page-title text-break col col-12 col-md-8 pt-3 truncate"
               variants={fromBottom}
               initial="hidden"
               animate="visible"
@@ -74,7 +74,7 @@ export default function Home() {
             </motion.h1>
           )}
 
-          <div className="col col-12 col-md-3">
+          <div className="col col-12 col-md-4">
             {/* Search bar */}
             <form
               className="row d-flex align-items-center justify-content-end"
