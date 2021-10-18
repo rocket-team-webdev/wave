@@ -510,7 +510,6 @@ export default function TrackCard({
                                 Delete song
                               </button>
                             </li>
-                            <hr className="dropdown-wrapper m-0" />
                           </>
                         ) : (
                           <>
