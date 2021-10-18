@@ -40,7 +40,7 @@ export default function TrackUpload() {
 
     const {
       data: { albums },
-    } = await getUserAlbums(userId);
+    } = await getUserAlbums(userId, 0, 100);
     const albumsArr = albums.map((album) => album.title);
     albumsArr.unshift("Select album");
     setAlbums(albumsArr);
