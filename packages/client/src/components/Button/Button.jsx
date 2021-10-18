@@ -16,10 +16,10 @@ export default function Button({
   handleClick = () => {},
   ...props
 }) {
-  let btnclassNames = `${classNames} custom-btn fx-rounded d-flex align-items-center `;
+  let btnclassNames = `${classNames} custom-btn fx-rounded d-flex align-items-center justify-content-center `;
 
   if (isSmall) {
-    btnclassNames += "fnt-caption px-2 ";
+    btnclassNames += "fnt-caption px-2 text-center follow-btn ";
     if (isNegative) {
       btnclassNames += "small-btn-negative";
     } else {

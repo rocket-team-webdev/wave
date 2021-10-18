@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
@@ -14,22 +16,35 @@ import "./UserView.scss";
 
 import { PUBLIC } from "../../../constants/routes";
 
-import { getUserById } from "../../../api/users-api";
+import { getUserById, followUser } from "../../../api/users-api";
+import { getMyFollowings } from "../../../api/me-api";
 
 export default function UserView() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isAppUser, setIsAppUser] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
   const [user, setUser] = useState({});
+
   const history = useHistory();
+
+  const userState = useSelector((state) => state.user);
 
   const { userId } = useRouteMatch(`${PUBLIC.USERS}/:userId`).params;
 
   const location = useLocation();
 
   // General
+
+  const handleIsAppUser = () => {
+    if (userId === userState.mongoId) {
+      setIsAppUser(true);
+    }
+  };
   const loadUser = async () => {
     setIsLoading(true);
     try {
       const { data } = await getUserById(userId);
+      handleIsAppUser();
       setUser(data.data);
       setIsLoading(false);
     } catch (error) {
@@ -46,35 +61,52 @@ export default function UserView() {
     }
   };
 
-  // Follow user
-  const handleFollow = () => {
-    setIsLoading(true);
+  const loadIsFollowing = async () => {
+    const { data } = await getMyFollowings();
+    data.data.forEach((following) => {
+      if (following._id === userId) {
+        setIsFollowing(true);
+      }
+    });
+  };
 
+  // Follow user
+  const handleFollow = async () => {
     try {
-      setIsLoading(false);
+      await followUser(userId);
+      setIsFollowing(!isFollowing);
     } catch (error) {
-      setIsLoading(false);
+      toast(error.message, { type: "error" });
     }
   };
 
   useEffect(() => {
     // General
     loadUser();
+    loadIsFollowing();
   }, []);
 
   useEffect(() => {
+    setIsAppUser(false);
+
     // General
     loadUser();
+    loadIsFollowing();
   }, [location.pathname]);
+
+  useEffect(() => {
+    loadIsFollowing();
+  }, [isFollowing]);
 
   return (
     <Layout isNegative>
       <div className="row p-0 g-4 pt-4 pt-md-0 ">
         <div className="col col-12 ps-0">
           {!isLoading ? (
-            <>
-              <div className="user-top d-flex justify-content-between p-0 m-0 mb-3 mb-md-5">
+            <div className="mb-3 mb-md-4">
+              <div className="user-top d-flex justify-content-between p-0 m-0 mb-3">
                 {/* Username */}
+
                 <motion.h1
                   className="fnt-page-title text-break truncate"
                   variants={fromBottom}
@@ -92,9 +124,20 @@ export default function UserView() {
                   alt={user.firstName}
                 />
               </div>
-              {}
-              <Button isSmall>Follow</Button>
-            </>
+              {!isAppUser && (
+                <>
+                  {isFollowing ? (
+                    <Button isSmall isNegative handleClick={handleFollow}>
+                      Following
+                    </Button>
+                  ) : (
+                    <Button isSmall handleClick={handleFollow}>
+                      Follow
+                    </Button>
+                  )}
+                </>
+              )}
+            </div>
           ) : (
             <Spinner isNegative />
           )}
