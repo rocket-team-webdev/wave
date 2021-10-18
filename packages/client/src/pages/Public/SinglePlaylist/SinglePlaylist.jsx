@@ -123,7 +123,6 @@ export default function SinglePlaylist() {
 
   useEffect(() => {
     loadPlaylist();
-    setIsFollowed(playlist.isFollowed);
   }, []);
 
   return (
