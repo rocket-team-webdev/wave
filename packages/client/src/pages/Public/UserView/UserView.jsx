@@ -33,7 +33,6 @@ export default function UserView() {
   const location = useLocation();
 
   // General
-
   const handleIsAppUser = () => {
     if (userId === userState.mongoId) {
       setIsAppUser(true);
@@ -87,6 +86,7 @@ export default function UserView() {
 
   useEffect(() => {
     setIsAppUser(false);
+    setIsFollowing(false);
 
     // General
     loadUser();
@@ -102,7 +102,7 @@ export default function UserView() {
       <div className="row p-0 g-4 pt-4 pt-md-0 ">
         <div className="col col-12 ps-0">
           {!isLoading ? (
-            <div className="mb-3 mb-md-4">
+            <div className="mb-3 ps-2 ps-md-0 mb-md-4">
               <div className="user-top d-flex justify-content-between p-0 m-0 mb-3">
                 {/* Username */}
 

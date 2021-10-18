@@ -161,6 +161,7 @@ export default function PopularWave() {
                 key={popular._id}
                 userId={popular._id}
                 userName={popular.firstName}
+                isPopularView
               />
             ))}
           </HomeElement>

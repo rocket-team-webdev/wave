@@ -53,7 +53,7 @@ export default function Home() {
             <Spinner isNegative />
           ) : (
             <motion.h1
-              className="fnt-light fnt-page-title text-break col col-12 col-md-8 px-3 px-sm-0 pt-3"
+              className="fnt-light fnt-page-title text-break col col-12 col-md-8 px-3 px-md-0 pt-3"
               variants={fromBottom}
               initial="hidden"
               animate="visible"
