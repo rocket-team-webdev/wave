@@ -1,7 +1,7 @@
-const db = require("../models");
-const { cloudinary } = require("../services/cloudinary");
 const fs = require("fs");
 const path = require("path");
+const db = require("../models");
+const { cloudinary } = require("../services/cloudinary");
 const { promisify } = require("util");
 const { getPublicId } = require("../utils/cloudinaryUtils");
 const { DEFAULT_PLAYLIST_THUMBNAIL } = require("../utils/default-presets");
@@ -9,8 +9,8 @@ const writeFileAsync = promisify(fs.writeFile);
 
 async function getPlaylists(req, res, next) {
   try {
-    const { page = 0, limit = 4 } = req.query;
     const { email } = req.user;
+    const { page = 0, limit = 4 } = req.query;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const foundPlaylists = await db.Playlist.aggregate([
@@ -52,19 +52,6 @@ async function addPlaylist(req, res, next) {
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const playlistObj = {};
     let thumbnail = req.files["thumbnail"];
-
-    // Checking if playlist name already exists
-    const playlistExists = await db.Album.findOne(
-      {
-        title: req.body.title,
-        userId: userId,
-        isDeleted: false,
-      },
-      { _id: 1 },
-    );
-    if (playlistExists) {
-      return res.status(409).send({ msg: "Error: Playlist already exists" });
-    }
 
     // Playlist cover by default
     playlistObj.thumbnail = DEFAULT_PLAYLIST_THUMBNAIL;
@@ -127,16 +114,15 @@ async function addPlaylist(req, res, next) {
 async function updatePlaylist(req, res, next) {
   try {
     const { email } = req.user;
-    const { id } = req.body;
+    const { id: playlistId } = req.body;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { thumbnail: oldThumbnail } = await db.Playlist.findOne(
-      { _id: id, userId: userId },
+      { _id: playlistId, userId: userId },
       {
         thumbnail: 1,
         _id: 0,
       },
     );
-    console.log(req.body);
 
     let thumbnailUrl = oldThumbnail;
     let thumbnailFile = req.files["thumbnail"];
@@ -186,7 +172,7 @@ async function updatePlaylist(req, res, next) {
 
     const { name, description, primaryColor, publicAccessible } = req.body;
     await db.Playlist.findOneAndUpdate(
-      { _id: id },
+      { _id: playlistId },
       {
         name: name,
         description: description,
@@ -207,13 +193,18 @@ async function updatePlaylist(req, res, next) {
 
 async function getPlaylistById(req, res, next) {
   try {
-    const { id } = req.params;
+    const { id: playlistId } = req.params;
     const { email } = req.user;
-    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 5 } = req.query;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const playlist = await db.Playlist.findOne(
-      { _id: id, isDeleted: false },
+      //TODO: playlist owned or public
+      {
+        _id: playlistId,
+        isDeleted: false,
+        $or: [{ publicAccessible: true }, { userId: userId }],
+      },
       {
         name: 1,
         collaborative: 1,
@@ -226,47 +217,48 @@ async function getPlaylistById(req, res, next) {
         userId: 1,
         tracks: 1,
       },
-    ).populate([
-      {
-        path: "tracks",
-        select: {
-          name: 1,
-          artist: 1,
-          likes: { $size: "$likedBy" },
-          isLiked: { $setIsSubset: [[userId], "$likedBy"] },
-          popularity: 1,
-          color: 1,
-          genreId: 1,
-          userId: 1,
-          album: 1,
-          duration: 1,
-          url: 1,
-        },
-        options: {
-          skip: parseInt(page) * parseInt(limit),
-          limit: parseInt(limit),
-        },
-        populate: [
-          {
-            path: "album",
-            options: {
-              select: "title thumbnail",
-            },
+    )
+      .populate([
+        {
+          path: "tracks",
+          select: {
+            name: 1,
+            artist: 1,
+            likes: { $size: "$likedBy" },
+            isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+            popularity: 1,
+            color: 1,
+            genreId: 1,
+            userId: 1,
+            album: 1,
+            duration: 1,
+            url: 1,
           },
-          {
-            path: "genreId",
-            options: {
-              select: "name",
-            },
+          options: {
+            skip: parseInt(page) * parseInt(limit),
+            limit: parseInt(limit),
           },
-        ],
-      },
-      {
-        path: "userId",
-        options: { select: "firstName" },
-      },
-    ]);
-
+          populate: [
+            {
+              path: "album",
+              options: {
+                select: "title thumbnail",
+              },
+            },
+            {
+              path: "genreId",
+              options: {
+                select: "name",
+              },
+            },
+          ],
+        },
+        {
+          path: "userId",
+          options: { select: "firstName" },
+        },
+      ])
+      .orFail();
     res.status(200).send({ data: playlist });
   } catch (err) {
     res.status(500).send({ error: err.message });
@@ -276,12 +268,12 @@ async function getPlaylistById(req, res, next) {
 
 async function deletePlaylist(req, res, next) {
   try {
-    const { id } = req.params;
+    const { id: playlistId } = req.params;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     await db.Playlist.findOneAndUpdate(
-      { _id: id, userId: userId },
+      { _id: playlistId, userId: userId },
       { isDeleted: true },
     );
 
@@ -296,11 +288,11 @@ async function deletePlaylist(req, res, next) {
 
 async function followPlaylist(req, res, next) {
   try {
-    const { id } = req.params;
+    const { id: playlistId } = req.params;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    await db.Playlist.findOneAndUpdate({ _id: id, isDeleted: false }, [
+    await db.Playlist.findOneAndUpdate({ _id: playlistId, isDeleted: false }, [
       {
         $set: {
           followedBy: {
@@ -359,8 +351,6 @@ async function addTrackToPlaylist(req, res, next) {
 
 async function removeTrackFromPlaylist(req, res, next) {
   try {
-    console.log(req);
-    console.log("on back remove track from playlist");
     const { playlistId, trackId } = req.body;
     const { email } = req.user;
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
