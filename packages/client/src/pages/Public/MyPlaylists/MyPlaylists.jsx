@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import { PUBLIC } from "../../../constants/routes";
 import useDebounce from "../../../hooks/useDebounce";
 import { searchPlaylists } from "../../../api/search-api";
 import BackButton from "../../../components/BackButton";
+import { getUniqueListBy } from "../../../utils/lists";
 
 function MyPlaylists() {
   const location = useLocation();
@@ -21,26 +22,36 @@ function MyPlaylists() {
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
 
-  const fetchCreatedPlaylists = async () => {
-    const init = 0;
-    const limit = 150;
+  const [page, setPage] = useState(0);
+  const loader = useRef();
+
+  const fetchCreatedPlaylists = async (createdPage) => {
     try {
-      const { data } = await getMyPlaylists(init, limit);
-      setCreatedPlaylists(data.data);
+      const { data } = await getMyPlaylists(createdPage, 5);
+      setCreatedPlaylists((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
+      // setCreatedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
-  const fetchFollowedPlaylists = async () => {
-    const init = 0;
-    const limit = 150;
+  const fetchFollowedPlaylists = async (followedPage) => {
     try {
-      const { data } = await getFollowingPlaylists(init, limit);
-      setFollowedPlaylists(data.data);
+      const { data } = await getFollowingPlaylists(followedPage, 5);
+      setFollowedPlaylists((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
+      // setFollowedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+  };
+
+  const fetchPlaylistsData = (fetchPage = 0) => {
+    fetchCreatedPlaylists(fetchPage);
+    fetchFollowedPlaylists(fetchPage);
   };
 
   const handleAddFollowedColumn = (playlist, isFollowed) => {
@@ -96,10 +107,28 @@ function MyPlaylists() {
     }
   }, [debouncedSearch]);
 
-  useEffect(() => {
-    fetchCreatedPlaylists();
-    fetchFollowedPlaylists();
+  // useEffect(() => {
+  //   fetchCreatedPlaylists();
+  //   fetchFollowedPlaylists();
+  // }, []);
+
+  const lastBookElementRef = useCallback((entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
+    }
   }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(lastBookElementRef);
+    if (loader.current) observer.observe(loader.current);
+  }, [lastBookElementRef]);
+
+  useEffect(() => {
+    // console.log("pageNum", page);
+    const pageNum = page - 1;
+    if (pageNum >= 0) fetchPlaylistsData(pageNum);
+  }, [page]);
 
   return (
     <Layout isNegative>
@@ -143,19 +172,29 @@ function MyPlaylists() {
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
           {createdPlaylists && (
-            <PlaylistList
-              playlists={createdPlaylists}
-              onAddFollowedColumn={handleAddFollowedColumn}
-            />
+            <>
+              <PlaylistList
+                playlists={createdPlaylists}
+                onAddFollowedColumn={handleAddFollowedColumn}
+              />
+              {createdPlaylists.length >= followedPlaylists.length && (
+                <div ref={loader}>Observer</div>
+              )}
+            </>
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
           {followedPlaylists && (
-            <PlaylistList
-              playlists={followedPlaylists}
-              onAddFollowedColumn={handleAddFollowedColumn}
-            />
+            <>
+              <PlaylistList
+                playlists={followedPlaylists}
+                onAddFollowedColumn={handleAddFollowedColumn}
+              />
+              {createdPlaylists.length < followedPlaylists.length && (
+                <div ref={loader}>Observer</div>
+              )}
+            </>
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -13,10 +13,7 @@ import Input from "../../../components/Input";
 import { searchTrack } from "../../../api/search-api";
 import useDebounce from "../../../hooks/useDebounce";
 import BackButton from "../../../components/BackButton";
-
-function getUniqueListBy(arr, key) {
-  return [...new Map(arr.map((item) => [item[key], item])).values()];
-}
+import { getUniqueListBy } from "../../../utils/lists";
 
 export default function Tracks() {
   const location = useLocation();
@@ -27,11 +24,12 @@ export default function Tracks() {
   const queueState = useSelector((state) => state.queue);
 
   const [page, setPage] = useState(0);
-  const loader = useRef();
+  const [pageLiked, setPageLiked] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
 
   const fetchUploadedSongs = async (uploadPage) => {
     try {
-      const { data } = await getMyTracks(uploadPage, 8);
+      const { data } = await getMyTracks(uploadPage, 10);
       setUploadedSongs((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );
@@ -43,12 +41,21 @@ export default function Tracks() {
 
   const fetchLikedSongs = async (likePage) => {
     try {
-      const { data } = await getLikedTracks(likePage, 8);
+      const { data } = await getLikedTracks(likePage, 10);
       // setLikedSongs((prev) => [...new Set([...prev, ...data.data])]);
       setLikedSongs((prev) => getUniqueListBy([...prev, ...data.data], "_id"));
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+  };
+
+  const fetchTracksData = (fetchPage = 0) => {
+    setPage(fetchPage);
+    fetchUploadedSongs(fetchPage);
+  };
+  const fetchTracksDataLiked = (fetchPage = 0) => {
+    setPageLiked(fetchPage);
+    fetchLikedSongs(fetchPage);
   };
 
   const handleAddLikedColumn = (song, liked) => {
@@ -97,29 +104,6 @@ export default function Tracks() {
     setSearchBar(e.target.value);
   };
 
-  const fetchTracksData = (fetchPage = 0) => {
-    fetchUploadedSongs(fetchPage);
-    fetchLikedSongs(fetchPage);
-  };
-
-  useEffect(async () => {
-    try {
-      if (debouncedSearch !== "") {
-        const { data } = await searchTrack(debouncedSearch);
-        const liked = data.tracks.filter((track) => track.isLiked);
-        const uploaded = data.tracks.filter((track) => track.isOwner);
-
-        setUploadedSongs(uploaded);
-        setLikedSongs(liked);
-      } else {
-        setPage(0);
-        fetchTracksData();
-      }
-    } catch (error) {
-      toast(error.message, { type: "error" });
-    }
-  }, [debouncedSearch]);
-
   useEffect(() => {
     const {
       queue: [track],
@@ -136,22 +120,27 @@ export default function Tracks() {
     handleAddLikedColumn(newSong, newSong.isLiked);
   }, [queueState.queue]);
 
-  const lastBookElementRef = useCallback((entries) => {
-    const target = entries[0];
-    if (target.isIntersecting) {
-      setPage((prev) => prev + 1);
+  useEffect(async () => {
+    try {
+      if (debouncedSearch !== "") {
+        setIsSearching(true);
+        const { data } = await searchTrack(debouncedSearch);
+        const liked = data.tracks.filter((track) => track.isLiked);
+        const uploaded = data.tracks.filter((track) => track.isOwner);
+
+        setUploadedSongs(uploaded);
+        setLikedSongs(liked);
+      } else {
+        setPage(0);
+        setPageLiked(0);
+        setIsSearching(false);
+        fetchTracksData();
+        fetchTracksDataLiked();
+      }
+    } catch (error) {
+      toast(error.message, { type: "error" });
     }
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(lastBookElementRef);
-    if (loader.current) observer.observe(loader.current);
-  }, [lastBookElementRef]);
-
-  useEffect(() => {
-    const pageNum = page - 1;
-    if (pageNum >= 0) fetchTracksData(pageNum);
-  }, [page]);
+  }, [debouncedSearch]);
 
   return (
     <Layout isNegative>
@@ -203,8 +192,10 @@ export default function Tracks() {
                 onAddLikedColumn={handleAddLikedColumn}
                 setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
                 hasSorter
+                isSearching={isSearching}
+                loadMoreTracks={fetchTracksData}
+                propPage={page}
               />
-              <div ref={loader} />
             </>
           )}
         </div>
@@ -218,9 +209,10 @@ export default function Tracks() {
                 onAddLikedColumn={handleAddLikedColumn}
                 setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
                 hasSorter
-                loadMoreTracks={fetchTracksData}
+                isSearching={isSearching}
+                loadMoreTracks={fetchTracksDataLiked}
+                propPage={pageLiked}
               />
-              <div ref={loader} />
             </>
           )}
         </div>

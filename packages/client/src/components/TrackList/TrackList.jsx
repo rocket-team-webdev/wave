@@ -1,4 +1,4 @@
-import React, { /* useEffect,  */ useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { motion } from "framer-motion";
@@ -15,6 +15,9 @@ function TrackList({
   setTracks,
   onAddLikedColumn = () => {},
   setColumnsOnDeleteTrack = () => {},
+  loadMoreTracks = () => {},
+  propPage = 0,
+  isSearching,
   hasSorter,
   isOnPlaylist = false,
   isOnQueue = false,
@@ -28,6 +31,8 @@ function TrackList({
   const [flag, setFlag] = useState(flagInitialState);
 
   const dispatch = useDispatch();
+  const [page, setPage] = useState(0);
+  const observer = useRef();
 
   const handleAddLikedColumn = (song, isLiked) => {
     onAddLikedColumn(song, isLiked);
@@ -235,6 +240,26 @@ function TrackList({
     });
   };
 
+  const lastBookElementRef = useCallback((node) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, []);
+
+  useEffect(() => {
+    if (!isSearching) {
+      loadMoreTracks(page);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (propPage === 0) setPage(propPage);
+  }, [propPage]);
+
   return (
     <div className="w-100">
       <DragDropContext onDragEnd={onDragEndUploaded}>
@@ -258,29 +283,38 @@ function TrackList({
                   animate="visible"
                 >
                   {tracks.map((song, index) => (
-                    <TrackCard
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={song._id}
-                      trackNumber={index + 1}
-                      trackName={song.name}
-                      trackImg={song.album.thumbnail}
-                      artist={song.artist}
-                      albumName={song.album.title}
-                      time={song.duration}
-                      trackUrl={song.url}
-                      albumId={song.album._id}
-                      genreId={song.genreId}
-                      isLiked={song.isLiked}
-                      trackId={song._id}
-                      userId={song.userId}
-                      index={index}
-                      popularity={song.popularity}
-                      updateLikedView={handleAddLikedColumn}
-                      updateDeletedView={handleDeletedView}
-                      draggable={hasSorter}
-                      isOnPlaylist={isOnPlaylist}
-                      isOnQueue={isOnQueue}
-                    />
+                    <div
+                      key={`${
+                        song.isLiked ? `${song._id}DivLike` : `${song._id}Div`
+                      }`}
+                    >
+                      <TrackCard
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={song._id}
+                        trackNumber={index + 1}
+                        trackName={song.name}
+                        trackImg={song.album.thumbnail}
+                        artist={song.artist}
+                        albumName={song.album.title}
+                        time={song.duration}
+                        trackUrl={song.url}
+                        albumId={song.album._id}
+                        genreId={song.genreId}
+                        isLiked={song.isLiked}
+                        trackId={song._id}
+                        userId={song.userId}
+                        index={index}
+                        popularity={song.popularity}
+                        updateLikedView={handleAddLikedColumn}
+                        updateDeletedView={handleDeletedView}
+                        draggable={hasSorter}
+                        isOnPlaylist={isOnPlaylist}
+                        isOnQueue={isOnQueue}
+                      />
+                      {tracks.length === index + 1 && (
+                        <div ref={lastBookElementRef} />
+                      )}
+                    </div>
                   ))}
                 </motion.div>
               )}
