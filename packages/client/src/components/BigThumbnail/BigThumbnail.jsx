@@ -4,7 +4,7 @@ import "./BigThumbnail.scss";
 
 function BigThumbnail({ image, altText }) {
   return (
-    <div className="col col-12 col-md-6 p-4 pb-0">
+    <div className="col col-12 col-md-6 px-3 py-4 pb-0">
       <img
         src={image}
         alt={altText}

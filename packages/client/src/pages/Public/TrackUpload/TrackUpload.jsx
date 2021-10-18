@@ -178,7 +178,7 @@ export default function TrackUpload() {
                 options={genresState}
               />
 
-              <div className="col-12 col-lg-6 pe-0">
+              <div className="col-12 col-lg-6">
                 <Select
                   classNames="me-1 w-100 "
                   label="album"
