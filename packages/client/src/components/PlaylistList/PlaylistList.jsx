@@ -12,7 +12,6 @@ function PlaylistList({
   isSearching,
 }) {
   const [listOfPlaylists, setListOfPlaylists] = useState(playlists);
-
   const [page, setPage] = useState(0);
   const observer = useRef();
 
