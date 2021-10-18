@@ -40,9 +40,6 @@ import AppStats from "../../pages/Public/AppStats";
 export default function Router() {
   const queueState = useSelector((state) => state.queue);
   const userState = useSelector((state) => state.user);
-
-  console.log(queueState.queue.length);
-
   return (
     <BrowserRouter>
       <Switch>

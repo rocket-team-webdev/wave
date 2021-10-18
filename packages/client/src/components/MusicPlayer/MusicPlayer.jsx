@@ -48,7 +48,7 @@ export default function MusicPlayer() {
   //     : queueState.queue[listPosition],
   // );
   const [isShuffle, setIsShuffle] = useState(queueState.isShuffled);
-  const [repeatState, setRepeatState] = useState(queueState.repeatState);
+  // const [repeatState, setRepeatState] = useState(queueState.repeatState);
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
@@ -75,15 +75,19 @@ export default function MusicPlayer() {
   const nextTrack = () => {
     if (queueState.queue.length > listPosition + 1) {
       dispatch(nextSong());
-    } else if (repeatState === "queue") {
+    } else if (queueState.repeatState === "queue") {
       dispatch(setListPosition(0));
     }
 
-    if (listPosition >= queueState.queue.length - 2 && repeatState !== "queue")
+    if (
+      listPosition >= queueState.queue.length - 2 &&
+      queueState.repeatState !== "queue"
+    )
       setNextButtonDisabled(true);
     else setNextButtonDisabled(false);
     if (listPosition <= 1) setPrevButtonDisabled(false);
   };
+
   const previousTrack = () => {
     if (listPosition > 0) {
       dispatch(prevSong());
@@ -114,11 +118,18 @@ export default function MusicPlayer() {
     setIsShuffle(!isShuffle);
   };
 
+  const setRepeatToggle = () => {
+    if (queueState.repeatState === "track")
+      audioPlayer.current.audio.current.loop = true;
+    else audioPlayer.current.audio.current.loop = false;
+  };
+
   const repeatToggle = () => {
     const toggleStates = ["false", "track", "queue"];
     const statePosition = toggleStates.findIndex(
-      (element) => element === repeatState,
+      (element) => element === queueState.repeatState,
     );
+    console.log(statePosition);
     if (statePosition === 0) audioPlayer.current.audio.current.loop = true;
     else audioPlayer.current.audio.current.loop = false;
     if (statePosition === 1) setNextButtonDisabled(false);
@@ -129,11 +140,11 @@ export default function MusicPlayer() {
         ],
       ),
     );
-    setRepeatState(
-      toggleStates[
-        statePosition === toggleStates.length - 1 ? 0 : statePosition + 1
-      ],
-    );
+    // setRepeatState(
+    //   toggleStates[
+    //     statePosition === toggleStates.length - 1 ? 0 : statePosition + 1
+    //   ],
+    // );
   };
 
   const handleLike = async () => {
@@ -198,6 +209,7 @@ export default function MusicPlayer() {
     if (queueState.willPlay) {
       audioPlayer.current.audio.current.play();
     }
+    setRepeatToggle();
   }, []);
 
   useEffect(() => {
@@ -382,10 +394,16 @@ export default function MusicPlayer() {
                     onClick={repeatToggle}
                     type="button"
                     className={`${
-                      repeatState === "false" ? "button-off" : "button-on"
+                      queueState.repeatState === "false"
+                        ? "button-off"
+                        : "button-on"
                     } rhap_button-repeat`}
                   >
-                    {repeatState === "track" ? <MdRepeatOne /> : <MdRepeat />}
+                    {queueState.repeatState === "track" ? (
+                      <MdRepeatOne />
+                    ) : (
+                      <MdRepeat />
+                    )}
                   </button>
                 </div>,
                 RHAP_UI.MAIN_CONTROLS,
