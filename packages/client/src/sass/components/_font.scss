@@ -50,8 +50,8 @@
 
 // Sizes & styles
 .fnt-jumbo {
-  // font-size: 15vw;
-  font-size: 205px;
+  font-size: calc(48px + 10vw);
+  // font-size: 205px;
   text-transform: uppercase;
   hyphens: auto;
 }
@@ -61,7 +61,8 @@
 }
 
 .fnt-page-title {
-  font-size: 120px;
+  font-size: calc(62px + 5vw);
+  // font-size: 120px;
 }
 
 .fnt-sidebar,
@@ -71,7 +72,8 @@
 
 .fnt-subtitle-light,
 .fnt-subtitle-bold {
-  font-size: 93px;
+  font-size: calc(48px + 3vw);
+  // font-size: 93px;
   line-height: 0.8;
 }
 
