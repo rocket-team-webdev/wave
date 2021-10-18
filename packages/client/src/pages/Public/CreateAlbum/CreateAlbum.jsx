@@ -57,7 +57,7 @@ export default function CreateAlbum() {
           )}
         </div>
 
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             acceptFiles="image/*"
             handleChange={thumbnailOnChange}
@@ -114,7 +114,7 @@ export default function CreateAlbum() {
                   Back
                 </Button>
                 <Button isNegative submitButton>
-                  Update
+                  Create
                 </Button>
               </div>
             </div>

@@ -22,6 +22,7 @@ import "./Album.scss";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import GenreCard from "../../../components/GenreCard";
 import DeleteModal from "../../../components/DeleteModal";
+import Button from "../../../components/Button";
 
 export default function Album() {
   const history = useHistory();
@@ -137,15 +138,23 @@ export default function Album() {
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
-          <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText={album.title} cols="11" isNegative />
-            <button className="text-center" type="button" onClick={handleLike}>
-              {isLiked ? (
-                <HeartIcon isFull isLarge isNegative />
-              ) : (
-                <HeartIcon isLarge isNegative />
-              )}
-            </button>
+          <div className="d-flex justify-content-between align-items-start row">
+            <div className="col col-10">
+              <JumboText priText={album.title} cols="12" isNegative />
+            </div>
+            <div className="d-flex justify-content-end col col-1">
+              <button
+                className="text-center"
+                type="button"
+                onClick={handleLike}
+              >
+                {isLiked ? (
+                  <HeartIcon isFull isLarge isNegative />
+                ) : (
+                  <HeartIcon isLarge isNegative />
+                )}
+              </button>
+            </div>
           </div>
           <div className="d-flex align-items-start mt-4">
             {albumGenres.map((genre) => (
@@ -170,6 +179,15 @@ export default function Album() {
             <FaHeart />
             <p className="ms-2 mb-0">{likesCounter} likes</p>
           </h3>
+          <div className="col-12 p-0 mt-4">
+            <Button
+              classNames="me-3"
+              isNegative
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"

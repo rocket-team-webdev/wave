@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaEllipsisH, FaPlay, FaPause } from "react-icons/fa";
+import { VscTriangleDown } from "react-icons/vsc";
 import {
   MdRepeat,
   MdRepeatOne,
@@ -12,6 +13,7 @@ import {
 } from "react-icons/md";
 import { IoMdRepeat } from "react-icons/io";
 import { ImShuffle } from "react-icons/im";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { PUBLIC } from "../../constants/routes";
 
 import "react-h5-audio-player/lib/styles.css";
@@ -27,6 +29,7 @@ import {
   setListPosition,
   setPlayState,
   clearQueue,
+  setVolume,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -34,6 +37,7 @@ import { addTrackToPlaylist } from "../../api/playlists-api";
 
 import HeartIcon from "../SVGicons/HeartIcon";
 import { saveListened } from "../../api/playback-api";
+import Button from "../Button";
 
 export default function MusicPlayer() {
   const queueState = useSelector((state) => state.queue);
@@ -54,6 +58,21 @@ export default function MusicPlayer() {
   const audioPlayer = useRef(null);
   const [myPlaylists, setMyPlaylists] = useState([]);
   const [hasPlayed, setHasPlayed] = useState([false]);
+  const contextualDropDownMusicRef = useRef([]);
+  const history = useHistory();
+  const [volumeWait, setVolumeWait] = useState(false);
+
+  const handleCloseContextual = () => {
+    const contextualDropDown = new bootstrap.Dropdown(
+      contextualDropDownMusicRef.current,
+    );
+    contextualDropDown.hide();
+  };
+
+  const handleGoToQueue = () => {
+    handleCloseContextual();
+    history.push(PUBLIC.QUEUE);
+  };
 
   const dispatch = useDispatch();
 
@@ -168,9 +187,10 @@ export default function MusicPlayer() {
   };
 
   const handleAddToPlaylist = async (event) => {
+    handleCloseContextual();
     const playlistId = event.target.getAttribute("playlistid");
     try {
-      await addTrackToPlaylist(playlistId, trackObject._id);
+      await addTrackToPlaylist(playlistId, trackObject.trackId);
       toast(`Song successfully added to playlist`, { type: "success" });
     } catch (error) {
       if (error.message === "Request failed with status code 400") {
@@ -189,6 +209,17 @@ export default function MusicPlayer() {
 
   const handleError = (error) => {
     toast(error, { type: "error" });
+  };
+
+  const handleVolumeChange = (event) => {
+    if (!volumeWait) {
+      setVolumeWait(true);
+      setTimeout(() => {
+        const volumeValue = event.srcElement.volume;
+        dispatch(setVolume(volumeValue));
+        setVolumeWait(false);
+      }, 500);
+    }
   };
 
   useEffect(() => {
@@ -265,12 +296,13 @@ export default function MusicPlayer() {
               </div>
               <div className="dropdown">
                 <button
-                  className="m-0 text-end"
                   type="button"
                   id="contextTrackMenu"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                   onClick={handleOpenDropdown}
+                  data-bs-auto-close="outside"
+                  ref={contextualDropDownMusicRef}
                 >
                   <FaEllipsisH />
                 </button>
@@ -279,49 +311,42 @@ export default function MusicPlayer() {
                   aria-labelledby="contextTrackMenu"
                 >
                   <>
-                    <Link to={`${PUBLIC.QUEUE}`}>
-                      <p
+                    <li>
+                      <Button
                         className="dropdown-item fnt-light fnt-song-regular m-0"
-                        type="button"
+                        onClick={handleGoToQueue}
                       >
                         Queue
-                      </p>
-                    </Link>
-                    <hr className="dropdown-wrapper m-0" />
+                      </Button>
+                    </li>
                     <li className="">
-                      <a
-                        className="dropdown-item fnt-light fnt-song-regular"
-                        // data-toggle="dropdown"
-                        href="#clearQueue"
+                      <Button
+                        className="dropdown-item fnt-light fnt-song-regular m-0"
                         onClick={handleClearQueue}
                       >
-                        <span className="fnt-light fnt-song-regular">
-                          Clear queue
-                        </span>
-                      </a>
+                        Clear queue
+                      </Button>
                     </li>
                     <hr className="dropdown-wrapper m-0" />
-                    <li className="">
+                    <li className="dropend">
                       <a
-                        className="dropdown-item fnt-light fnt-song-regular dropdown-toggle"
+                        className="dropdown-item fnt-light fnt-song-regular"
                         // type="button"
-                        data-toggle="dropdown"
-                        href="#addToPlaylist"
+                        data-bs-toggle="dropdown"
+                        id="contextAddToPlaylistMusic"
+                        href="#contextAddToPlaylistMusic"
                       >
                         <span className="fnt-light fnt-song-regular">
-                          Add to playlist
+                          Add to playlist <VscTriangleDown />
                         </span>
                       </a>
                       <ul
-                        className="dropdown-menu dropdown-submenu dropdown-submenu-left-top clr-secondary p-1"
-                        id="addToPlaylist"
+                        className="dropdown-menu clr-secondary p-1"
+                        aria-labelledby="contextAddToPlaylistMusic"
                       >
                         {myPlaylists.length > 0 &&
-                          myPlaylists.map((playlistElement, playlistIndex) => (
+                          myPlaylists.map((playlistElement) => (
                             <li key={playlistElement._id}>
-                              {playlistIndex > 0 && (
-                                <hr className="dropdown-wrapper m-0" />
-                              )}
                               <button
                                 className="dropdown-item fnt-light fnt-song-regular"
                                 type="button"
@@ -334,12 +359,11 @@ export default function MusicPlayer() {
                           ))}
                         <li>
                           <hr className="dropdown-wrapper m-0" />
-
                           <Link
                             to={{
                               pathname: `${PUBLIC.ADD_PLAYLIST}`,
                               state: {
-                                trackId: trackObject._id,
+                                trackId: trackObject.trackId,
                               },
                             }}
                           >
@@ -350,6 +374,14 @@ export default function MusicPlayer() {
                               New Playlist
                             </p>
                           </Link>
+                          {/* <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
+                          <p
+                            className="dropdown-item fnt-light fnt-song-regular m-0"
+                            type="button"
+                          >
+                            New Playlist
+                          </p>
+                        </Link> */}
                         </li>
                       </ul>
                     </li>
@@ -359,7 +391,7 @@ export default function MusicPlayer() {
             </div>
             <AudioPlayer
               autoPlayAfterSrcChange={false}
-              volume={0.1}
+              volume={queueState.volume}
               showSkipControls
               showJumpControls={false}
               src={trackObject.url}
@@ -367,6 +399,7 @@ export default function MusicPlayer() {
               onClickNext={nextTrack}
               onClickPrevious={previousTrack}
               onEnded={nextTrack}
+              onVolumeChange={handleVolumeChange}
               ref={audioPlayer}
               layout="horizontal-reverse"
               customIcons={{

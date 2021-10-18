@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Button";
@@ -19,9 +19,13 @@ function MyPlaylists() {
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
 
+  const history = useHistory();
+
   const fetchCreatedPlaylists = async () => {
+    const init = 0;
+    const limit = 150;
     try {
-      const { data } = await getMyPlaylists();
+      const { data } = await getMyPlaylists(init, limit);
       setCreatedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -29,8 +33,10 @@ function MyPlaylists() {
   };
 
   const fetchFollowedPlaylists = async () => {
+    const init = 0;
+    const limit = 150;
     try {
-      const { data } = await getFollowingPlaylists();
+      const { data } = await getFollowingPlaylists(init, limit);
       setFollowedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -97,17 +103,27 @@ function MyPlaylists() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Playlists" cols="12" isNegative />
         </div>
-        <div className="col col-3">
-          <Link className="float-end p-3" to={PUBLIC.ADD_PLAYLIST}>
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
+            <Button
+              classNames="me-3"
+              isNegative
+              secondaryBtn
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
+          <Link className="float-end py-2" to={PUBLIC.ADD_PLAYLIST}>
             <Button isNegative>New Playlist</Button>
           </Link>
         </div>
         <div className="col-12">
-          <form className="">
+          <form>
             <Input
               id="searchBar"
               name="searchBar"

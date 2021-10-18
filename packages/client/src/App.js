@@ -27,6 +27,9 @@ function App() {
         firebaseId: firebaseUser.uid,
         isLogged: true,
         mongoId: dbUser._id,
+        googleProvider:
+          firebaseUser.multiFactor.user.providerData[0].providerId ===
+          "google.com",
       }),
     );
     setLoading(false);

@@ -87,42 +87,44 @@ export default function PopularWave() {
   return (
     <>
       {/* Left */}
-      <div className="col col-12 col-md-10 row p-0 m-0 g-4">
+      <div className="col col-12 col-lg-10 row p-0 m-0 g-5 g-lg-4">
         {!loadStatus ? (
           popularPlaylists.length > 0 && (
             <HomeElement
               label="Playlists"
               to={`${PUBLIC.POPULAR}${PUBLIC.PLAYLISTS}`}
-              cols="6"
+              cols="12 row-cols-md-1 col-lg-6"
               isAnimationContainer
             >
               {popularPlaylists && (
                 <PlaylistList
                   playlists={popularPlaylists}
+                  colsMd="6"
                   onAddFollowedColumn={() => {}}
                 />
               )}
             </HomeElement>
           )
         ) : (
-          <HomeElement label="Playlists">
+          <HomeElement label="Playlists" cols="12 col-lg-6">
             <Spinner isNegative />
           </HomeElement>
         )}
         {popularTracks.length > 0 && (
           <HomeElement
-            label="Tracks"
+            label="Songs"
             to={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`}
-            cols="6"
+            cols="12 col-lg-6"
+            isAnimationContainer
           >
             <TrackList tracks={popularTracks} setTracks={setPopularTracks} />
           </HomeElement>
         )}
       </div>
       {/* Right */}
-      <div className="col col-12 col-md-2 row p-0 m-0 g-4">
+      <div className="col col-12 col-lg-2 row p-0 m-0 g-4">
         {popularGenres.length > 0 && (
-          <HomeElement label="Genres" isAnimationContainer>
+          <HomeElement label="Genres" cols="4 col-lg-12" isAnimationContainer>
             {popularGenres.map((genre) => (
               <div key={genre.name} className="mb-2 me-2">
                 <GenreCard>{genre.name.toUpperCase()}</GenreCard>
@@ -135,6 +137,7 @@ export default function PopularWave() {
             <HomeElement
               label="Albums"
               to={`${PUBLIC.POPULAR}${PUBLIC.ALBUMS}`}
+              cols="4 col-lg-12"
               isAnimationContainer
             >
               {popularAlbums.map((album) => (
@@ -147,12 +150,12 @@ export default function PopularWave() {
             </HomeElement>
           )
         ) : (
-          <HomeElement label="Liked tracks">
+          <HomeElement label="Albums" cols="4 col-lg-12">
             <Spinner isNegative />
           </HomeElement>
         )}
         {popularUsers.length > 0 && (
-          <HomeElement label="Users" isAnimationContainer>
+          <HomeElement label="Users" cols="4 col-lg-12" isAnimationContainer>
             {popularUsers.map((popular) => (
               <UserCard
                 key={popular._id}

@@ -8,6 +8,7 @@ const initialState = {
   isRegistering: false,
   isLogged: false,
   mongoId: "",
+  googleProvider: false,
 };
 
 export default initialState;

@@ -147,35 +147,40 @@ function TrackSorter({
     <div className="row m-0 col col-12">
       <div className="col col-12 d-flex justify-content-between align-items-center py-2 fixed-height">
         <div className="col col-2 m-0 px-2 fnt-song-bold d-flex align-items-center">
-          <h3 className="text-start fnt-sorter fnt-light me-1 m-0">#</h3>
+          <h3 className="text-start fnt-sorter fnt-light me-1 m-0 col col-2">
+            #
+          </h3>
         </div>
-        <div className="col col-3">
+        <div className="col col-8 col-sm-5 col-md-3">
           <SorterElement
             title={title}
             handleClick={handleSortByTitleAndArtist}
             orderIcon={flag.flagTitle === "titleDesc" ? "" : icon}
           />
         </div>
-        <div className="col col-3">
+        <div className="col col-3 d-none d-sm-inline">
           <SorterElement
             title="Album"
             handleClick={handleSortByAlbum}
             orderIcon={flag.flagAlbum === "albumDesc" ? "" : icon}
           />
         </div>
-        <div className="col col-2">
+        <div className="col col-2 d-none d-md-inline">
           <SorterElement
             title="Popularity"
             handleClick={handleSortByPopularity}
             orderIcon={flag.flagPopularity === "popDesc" ? "" : icon}
           />
         </div>
-        <div className="col col-2">
-          <SorterElement
-            title="Duration"
-            handleClick={handleSortByDuration}
-            orderIcon={flag.flagDuration === "durDesc" ? "" : icon}
-          />
+        <div className="col col-1 col-md-2 d-md-inline">
+          {/* Keep its width but not showing content in small sizes. See TrackCard responsiveness */}
+          <div className="d-none d-md-inline">
+            <SorterElement
+              title="Duration"
+              handleClick={handleSortByDuration}
+              orderIcon={flag.flagDuration === "durDesc" ? "" : icon}
+            />
+          </div>
         </div>
       </div>
       <hr className="fnt-light" />

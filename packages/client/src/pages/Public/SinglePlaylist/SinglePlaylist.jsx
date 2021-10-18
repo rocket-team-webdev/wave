@@ -26,6 +26,7 @@ import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import "./SinglePlaylist.scss";
 import GenreCard from "../../../components/GenreCard";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
+import Button from "../../../components/Button";
 
 export default function SinglePlaylist() {
   const [playlist, setPlaylist] = useState({});
@@ -125,7 +126,6 @@ export default function SinglePlaylist() {
 
   useEffect(() => {
     loadPlaylist();
-    setIsFollowed(playlist.isFollowed);
   }, []);
 
   useEffect(() => {
@@ -137,19 +137,23 @@ export default function SinglePlaylist() {
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
-          <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText={playlist.name} cols="11" isNegative />
-            <button
-              className="text-center"
-              type="button"
-              onClick={handleFollow}
-            >
-              {isFollowed ? (
-                <HeartIcon isFull isLarge isNegative />
-              ) : (
-                <HeartIcon isLarge isNegative />
-              )}
-            </button>
+          <div className="d-flex justify-content-between align-items-start row">
+            <div className="col col-10">
+              <JumboText priText={playlist.name} cols="12" isNegative />
+            </div>
+            <div className="d-flex justify-content-end col col-1">
+              <button
+                className="text-center"
+                type="button"
+                onClick={handleFollow}
+              >
+                {isFollowed ? (
+                  <HeartIcon isFull isLarge isNegative />
+                ) : (
+                  <HeartIcon isLarge isNegative />
+                )}
+              </button>
+            </div>
           </div>
           <div className="d-flex align-items-start mt-4">
             {playlistGenres.map((genre) => (
@@ -158,8 +162,6 @@ export default function SinglePlaylist() {
               </div>
             ))}
           </div>
-
-          {/* TODO only show creator if exists */}
           {playlist.userId && (
             <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
@@ -179,6 +181,15 @@ export default function SinglePlaylist() {
               {playlist.description}
             </p>
           )}
+          <div className="col-12 p-0 mt-4">
+            <Button
+              classNames="me-3"
+              isNegative
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"

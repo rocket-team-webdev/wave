@@ -24,7 +24,7 @@ export default function PlaylistUpdate() {
     `${PUBLIC.PLAYLIST_UPDATE}/:playlistId`,
   ).params;
 
-  const [publicAccessible, setPublicAccessible] = useState(false);
+  const [publicAccessible, setPublicAccessible] = useState(true);
   const [playlistState, setPlaylistState] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,9 +38,10 @@ export default function PlaylistUpdate() {
       description: "",
       thumbnail: "",
       primaryColor: "#000000",
-      publicAccessible: false,
+      publicAccessible: true,
     },
     validationSchema: playlistUpdateSchema,
+    enableReinitialize: true,
     onSubmit: async (playlist) => {
       setIsLoading(true);
       try {
@@ -48,7 +49,7 @@ export default function PlaylistUpdate() {
         formData.append("name", playlist.name);
         formData.append("description", playlist.description);
         formData.append("primaryColor", playlist.primaryColor);
-        formData.append("publicAccessible", playlist.publicAccessible);
+        formData.append("publicAccessible", publicAccessible);
         formData.append("thumbnail", playlist.thumbnail);
         formData.append("id", playlistId);
 
@@ -72,19 +73,19 @@ export default function PlaylistUpdate() {
         publicAccessible: data.data.publicAccessible,
       });
       setPlaylistState(data.data);
+      setPublicAccessible(data.data.publicAccessible);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   }
 
-  const initialPublicAccessible = () => {
-    setPublicAccessible(playlistState.publicAccessible);
-  };
+  // const initialPublicAccessible = () => {
+  // };
 
   const handlePublicAccessible = () => {
     const { checked } = publicAccessibleCheckbox.current;
-    setPublicAccessible(checked);
-    formik.setFieldValue("publicAccessible", checked);
+    setPublicAccessible(!checked);
+    // formik.setFieldValue("publicAccessible", checked);
   };
 
   useEffect(() => {
@@ -92,9 +93,9 @@ export default function PlaylistUpdate() {
     setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    initialPublicAccessible();
-  }, [playlistState]);
+  // useEffect(() => {
+  //   initialPublicAccessible();
+  // }, [playlistState]);
 
   const thumbnailOnChange = async (files) => {
     formik.setFieldValue("thumbnail", files[0]);
@@ -111,7 +112,7 @@ export default function PlaylistUpdate() {
             </div>
           )}
         </div>
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             acceptFiles="image/*"
             handleChange={thumbnailOnChange}
@@ -168,8 +169,9 @@ export default function PlaylistUpdate() {
                   <Checkbox
                     label="Private"
                     id="publicAccessible"
+                    name="publicAccessible"
                     ref={publicAccessibleCheckbox}
-                    checked={publicAccessible}
+                    checked={!publicAccessible}
                     onChange={handlePublicAccessible}
                   />
                   <p className="fnt-smallest col col-12 col-md-11 p-0 mt-2 truncate">

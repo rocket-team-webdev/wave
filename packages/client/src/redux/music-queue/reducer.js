@@ -13,6 +13,7 @@ import {
   PREV_SONG,
   SET_LIST_POSITION,
   SET_PLAY_STATE,
+  SET_VOLUME,
 } from "./types";
 
 import initialState from "./state";
@@ -83,6 +84,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, listPosition: action.payload };
     case SET_PLAY_STATE:
       return { ...state, willPlay: action.payload };
+    case SET_VOLUME:
+      return { ...state, volume: action.payload };
     default:
       break;
   }

@@ -9,7 +9,7 @@ export default function JumboText({
   isAnimated,
   cols = "6",
 }) {
-  const classNames = `jumbo-text fnt-jumbo mt-0 pt-0 fnt-jumbo fnt-uppercase col col-12 col-md-${cols}`;
+  const classNames = `fnt-jumbo mt-0 pt-0 fnt-jumbo fnt-uppercase col col-12 col-md-${cols}`;
   return (
     <>
       {isAnimated ? (

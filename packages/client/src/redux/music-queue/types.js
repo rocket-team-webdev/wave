@@ -12,3 +12,4 @@ export const NEXT_SONG = "NEXT_SONG";
 export const PREV_SONG = "PREV_SONG";
 export const SET_LIST_POSITION = "SET_LIST_POSITION";
 export const SET_PLAY_STATE = "SET_PLAY_STATE";
+export const SET_VOLUME = "SET_VOLUME";

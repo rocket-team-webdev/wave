@@ -13,6 +13,7 @@ import {
   SET_LIST_POSITION,
   SET_PLAY_STATE,
   SET_REPEAT,
+  SET_VOLUME,
 } from "./types";
 
 export const setSong = (value) => ({
@@ -78,5 +79,10 @@ export const setListPosition = (value) => ({
 
 export const setPlayState = (value) => ({
   type: SET_PLAY_STATE,
+  payload: value,
+});
+
+export const setVolume = (value) => ({
+  type: SET_VOLUME,
   payload: value,
 });

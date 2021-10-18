@@ -1,8 +1,7 @@
-const db = require("../models");
-
-const { cloudinary } = require("../services/cloudinary");
 const fs = require("fs");
 const path = require("path");
+const db = require("../models");
+const { cloudinary } = require("../services/cloudinary");
 const { promisify } = require("util");
 const writeFileAsync = promisify(fs.writeFile);
 
@@ -12,7 +11,7 @@ async function signUp(req, res, next) {
   const { firebaseId } = req.user;
 
   try {
-    const data = await db.User.findOne({ firebaseId });
+    const data = await db.User.findOne({ firebaseId }, { _id: 1 });
 
     if (!data) {
       Object.keys(req.body).forEach(
@@ -68,9 +67,13 @@ async function signUp(req, res, next) {
         .send({ message: "Successfully signed up", userId: newUser._id });
     }
 
-    res.status(200).send({ message: "User found", userId: data._id });
+    res
+      .status(409)
+      .send({ message: "User already exists found", userId: data._id });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -86,7 +89,7 @@ async function signIn(req, res, next) {
 
     res.status(200).send({ message: "Successfully signed in", data: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(401).send({ error: error.message });
     next(error);
   }
 }
