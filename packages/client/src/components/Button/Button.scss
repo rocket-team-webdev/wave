@@ -76,16 +76,25 @@
 }
 
 // Small button
-.small-btn {
+.follow-btn {
+  min-width: 100px;
+}
+
+// .small-btn-negative:hover,
+.small-btn-positive {
   padding: 5px;
   color: c.$lightColor;
+  background: unset;
   border: 2px solid c.$lightColor;
 }
-.small-btn:hover {
+
+// .small-btn-positive:hover,
+.small-btn-negative {
   color: c.$secondaryColor;
   background: c.$lightColor;
 }
-.small-btn:focus {
+
+.small-btn-positive:focus,
+.small-btn-negative:focus {
   padding: 5px;
-  background: c.$lightColor20;
 }

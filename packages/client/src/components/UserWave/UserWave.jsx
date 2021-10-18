@@ -39,6 +39,8 @@ export default function UserWave() {
   const [userTracks, setUserTracks] = useState([]);
   const [userLikedTracks, setUserLikedTracks] = useState([]);
 
+  // const [uploadFollowers, setUploadFollowers] = useState(setUpdateFollowers);
+
   const userState = useSelector((state) => state.user);
   const currentUserId = userState.mongoId;
 
