@@ -54,6 +54,7 @@ export default function MusicPlayer() {
   const [hasPlayed, setHasPlayed] = useState([false]);
   const contextualDropDownMusicRef = useRef([]);
   const history = useHistory();
+  const [volumeWait, setVolumeWait] = useState(false);
 
   const handleCloseContextual = () => {
     const contextualDropDown = new bootstrap.Dropdown(
@@ -170,8 +171,14 @@ export default function MusicPlayer() {
   };
 
   const handleVolumeChange = (event) => {
-    const volumeValue = event.srcElement.volume;
-    dispatch(setVolume(volumeValue));
+    if (!volumeWait) {
+      setVolumeWait(true);
+      setTimeout(() => {
+        const volumeValue = event.srcElement.volume;
+        dispatch(setVolume(volumeValue));
+        setVolumeWait(false);
+      }, 500);
+    }
   };
 
   useEffect(() => {

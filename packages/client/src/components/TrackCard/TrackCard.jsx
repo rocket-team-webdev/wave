@@ -442,7 +442,6 @@ export default function TrackCard({
                             data-bs-toggle="dropdown"
                             id="contextAddToPlaylist"
                             href="#addToPlaylist"
-                            data-bs-offset="-60,5"
                           >
                             <span className="fnt-light fnt-song-regular">
                               Add to playlist <VscTriangleDown />
@@ -522,7 +521,6 @@ export default function TrackCard({
                                 Delete song
                               </button>
                             </li>
-                            <hr className="dropdown-wrapper m-0" />
                           </>
                         ) : (
                           <>
