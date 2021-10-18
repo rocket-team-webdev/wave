@@ -6,6 +6,7 @@ import {
   CLEAR,
   SET_SHUFFLE,
   CLEAR_SHUFFLE,
+  SET_REPEAT,
   SET_ALL,
   LIKE,
   NEXT_SONG,
@@ -60,6 +61,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, isShuffled: true, shuffleOrder: action.payload };
     case CLEAR_SHUFFLE:
       return { ...state, isShuffled: false, shuffleOrder: null };
+    case SET_REPEAT:
+      return { ...state, repeatState: action.payload };
     case LIKE: {
       const currentSong = state.queue[action.payload];
       currentSong.isLiked = !currentSong.isLiked;

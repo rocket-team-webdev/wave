@@ -20,6 +20,7 @@ import "./MusicPlayer.scss";
 import {
   clearShuffle,
   setShuffle,
+  setRepeat,
   like,
   nextSong,
   prevSong,
@@ -47,7 +48,7 @@ export default function MusicPlayer() {
   //     : queueState.queue[listPosition],
   // );
   const [isShuffle, setIsShuffle] = useState(queueState.isShuffled);
-  const [repeatState, setRepeatState] = useState("false");
+  const [repeatState, setRepeatState] = useState(queueState.repeatState);
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
@@ -121,6 +122,13 @@ export default function MusicPlayer() {
     if (statePosition === 0) audioPlayer.current.audio.current.loop = true;
     else audioPlayer.current.audio.current.loop = false;
     if (statePosition === 1) setNextButtonDisabled(false);
+    dispatch(
+      setRepeat(
+        toggleStates[
+          statePosition === toggleStates.length - 1 ? 0 : statePosition + 1
+        ],
+      ),
+    );
     setRepeatState(
       toggleStates[
         statePosition === toggleStates.length - 1 ? 0 : statePosition + 1
