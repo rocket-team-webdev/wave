@@ -9,9 +9,11 @@ async function getUserById(req, res, next) {
     );
 
     res.status(200).send({ data: user });
-  } catch (err) {
-    res.status(500).send({ error: err });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -35,9 +37,11 @@ async function getAllUsers(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ users: topUsers });
-  } catch (err) {
-    res.status(500).send({ error: err });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -59,9 +63,11 @@ async function getUserFollowers(req, res, next) {
     const followersUserArray = followers[0].followedBy;
 
     res.status(200).send({ data: followersUserArray });
-  } catch (err) {
-    res.status(500).send({ error: err });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -83,9 +89,11 @@ async function getUserFollowings(req, res, next) {
     const followingUserArray = following[0].following;
 
     res.status(200).send({ data: followingUserArray });
-  } catch (err) {
-    res.status(500).send({ error: err });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -122,11 +130,11 @@ async function getUserPlaylists(req, res, next) {
     res.status(200).send({
       data: playlists,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -155,11 +163,11 @@ async function getUserFollowingPlaylists(req, res, next) {
     res.status(200).send({
       data: followingPlaylists,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -190,11 +198,11 @@ async function getUserAlbums(req, res, next) {
     res.status(200).send({
       albums,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -221,11 +229,11 @@ async function getUserLikedAlbums(req, res, next) {
     res.status(200).send({
       likedAlbums,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -269,11 +277,11 @@ async function getUserTracks(req, res, next) {
     res.status(200).send({
       data: tracks,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -314,11 +322,11 @@ async function getUserLikedTracks(req, res, next) {
     res.status(200).send({
       data: tracks,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 

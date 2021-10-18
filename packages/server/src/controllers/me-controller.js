@@ -24,11 +24,11 @@ async function getMyFollowers(req, res, next) {
     res.status(200).send({
       data: followersArray,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -57,11 +57,11 @@ async function getMyFollowings(req, res, next) {
     res.status(200).send({
       data: followingUsersArray,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -94,11 +94,11 @@ async function getMyPlaylists(req, res, next) {
     res.status(200).send({
       data: playlists,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -125,11 +125,11 @@ async function getMyFollowingPlaylists(req, res, next) {
     res.status(200).send({
       data: playlists,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -167,11 +167,11 @@ async function getMyTracks(req, res, next) {
     res.status(200).send({
       data: tracks,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -211,11 +211,11 @@ async function getMyLikedTracks(req, res, next) {
     res.status(200).send({
       data: tracks,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -243,11 +243,11 @@ async function getMyAlbums(req, res, next) {
     res.status(200).send({
       data: albums,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -275,11 +275,11 @@ async function getMyLikedAlbums(req, res, next) {
     res.status(200).send({
       data: userLikedAlbums,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 

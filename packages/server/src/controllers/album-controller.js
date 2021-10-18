@@ -36,11 +36,11 @@ async function getAlbums(req, res, next) {
     ]);
 
     res.status(200).send({ albums });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -98,7 +98,9 @@ async function addAlbum(req, res, next) {
 
     return res.status(200).send({ message: "album created successfully" });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -156,9 +158,11 @@ async function getAlbumById(req, res, next) {
     album.tracks = tracks;
 
     res.status(200).send({ data: album });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -232,8 +236,10 @@ async function updateAlbum(req, res, next) {
       message: "Album updated successfully",
     });
   } catch (error) {
-    res.status(500).send({ error: error });
-    next();
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -263,9 +269,11 @@ async function deleteAlbum(req, res, next) {
     }
 
     res.status(200).send({ message: "Album deleted successfully" });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -292,9 +300,11 @@ async function likeAlbum(req, res, next) {
     res.status(200).send({
       message: "Album liked/disliked successfully",
     });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 

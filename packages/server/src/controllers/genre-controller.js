@@ -9,11 +9,11 @@ async function getGenres(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ genres });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -39,11 +39,11 @@ async function getPopularGenres(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ genres });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 

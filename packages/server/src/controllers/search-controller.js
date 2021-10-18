@@ -43,7 +43,9 @@ async function searchTrack(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", tracks: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -81,7 +83,9 @@ async function searchPlaylist(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", playlist: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -119,7 +123,9 @@ async function searchAlbum(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", album: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -163,7 +169,9 @@ async function searchUser(req, res, next) {
       .status(200)
       .send({ message: "Successfully searched", users: data });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }

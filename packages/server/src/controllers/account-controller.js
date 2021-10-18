@@ -20,11 +20,11 @@ async function getAccount(req, res, next) {
     res.status(200).send({
       data: user,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -120,7 +120,7 @@ async function updateAccount(req, res, next) {
     });
   } catch (error) {
     res.status(500).send({
-      error: error,
+      error: error.message,
     });
     next(error);
   }
@@ -152,7 +152,7 @@ async function deleteAccount(req, res, next) {
       message: "Success",
     });
   } catch (error) {
-    res.status(410).send({ error: error });
+    res.status(410).send({ error: error.message });
     next(error);
   }
 }

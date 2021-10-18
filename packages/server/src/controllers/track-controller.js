@@ -38,11 +38,11 @@ async function getTracks(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ tracks: foundTracks });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -78,11 +78,11 @@ async function getTrack(req, res, next) {
     res.status(200).send({
       data: track,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).send({
-      error: err.message,
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -194,7 +194,9 @@ async function uploadTrack(req, res, next) {
       .status(415)
       .send({ message: "This file format is not supported!" });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -226,7 +228,9 @@ async function deleteTrack(req, res, next) {
 
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -253,7 +257,9 @@ async function likeTrack(req, res, next) {
 
     return res.status(200).send({ message: "Successfully liked/unliked" });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }

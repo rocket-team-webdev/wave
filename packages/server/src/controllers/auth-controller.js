@@ -71,7 +71,9 @@ async function signUp(req, res, next) {
       .status(409)
       .send({ message: "User already exists found", userId: data._id });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
@@ -87,7 +89,7 @@ async function signIn(req, res, next) {
 
     res.status(200).send({ message: "Successfully signed in", data: data });
   } catch (error) {
-    res.status(401).send({ error: error });
+    res.status(401).send({ error: error.message });
     next(error);
   }
 }

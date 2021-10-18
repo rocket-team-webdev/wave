@@ -40,9 +40,11 @@ async function getPlaylists(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ playlists: foundPlaylists });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -105,9 +107,11 @@ async function addPlaylist(req, res, next) {
     return res
       .status(200)
       .send({ message: "Playlist created successfully", playlistId: data._id });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -186,8 +190,10 @@ async function updatePlaylist(req, res, next) {
       message: "Playlist updated successfully!",
     });
   } catch (error) {
-    res.status(400).send({ error: error });
-    next();
+    res.status(400).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -260,9 +266,11 @@ async function getPlaylistById(req, res, next) {
       ])
       .orFail();
     res.status(200).send({ data: playlist });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -280,9 +288,11 @@ async function deletePlaylist(req, res, next) {
     res.status(200).send({
       message: "Playlist deleted successfully",
     });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -309,9 +319,11 @@ async function followPlaylist(req, res, next) {
     res.status(200).send({
       message: "Playlist followed successfully",
     });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -343,9 +355,11 @@ async function addTrackToPlaylist(req, res, next) {
         message: "Playlist already contains song",
       });
     }
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -370,9 +384,11 @@ async function removeTrackFromPlaylist(req, res, next) {
     res.status(200).send({
       message: "Playlist updated successfully",
     });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
@@ -405,9 +421,11 @@ async function reorderTracksInPlaylist(req, res, next) {
     res.status(200).send({
       message: "Playlist updated successfully",
     });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-    next(err);
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+    next(error);
   }
 }
 
