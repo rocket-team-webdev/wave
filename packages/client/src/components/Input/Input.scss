@@ -89,3 +89,7 @@ input[type="color"]::-webkit-color-swatch {
   border-radius: 6px;
   padding: 0px;
 }
+
+.no-overflow {
+  max-width: calc(100% - 2rem);
+}
