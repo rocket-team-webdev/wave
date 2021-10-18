@@ -81,7 +81,7 @@ export default function MusicPlayer() {
         dispatch(setPlayState(true));
       }
       if (
-        listPosition >= queueState.queue.length - 2 &&
+        queueState.listPosition >= queueState.queue.length - 2 &&
         queueState.repeatState !== "queue"
       )
         setNextButtonDisabled(true);
