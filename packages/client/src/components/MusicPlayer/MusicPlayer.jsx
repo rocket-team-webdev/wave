@@ -73,30 +73,34 @@ export default function MusicPlayer() {
   };
 
   const nextTrack = () => {
-    if (queueState.queue.length > listPosition + 1) {
-      dispatch(nextSong());
-    } else if (queueState.repeatState === "queue") {
-      dispatch(setListPosition(0));
+    if (queueState.queue.length > 1) {
+      if (queueState.queue.length > listPosition + 1) {
+        dispatch(nextSong());
+      } else if (queueState.repeatState === "queue") {
+        dispatch(setListPosition(0));
+        dispatch(setPlayState(true));
+      }
+      if (
+        listPosition >= queueState.queue.length - 2 &&
+        queueState.repeatState !== "queue"
+      )
+        setNextButtonDisabled(true);
+      else setNextButtonDisabled(false);
+      if (listPosition <= 1) setPrevButtonDisabled(false);
     }
-
-    if (
-      listPosition >= queueState.queue.length - 2 &&
-      queueState.repeatState !== "queue"
-    )
-      setNextButtonDisabled(true);
-    else setNextButtonDisabled(false);
-    if (listPosition <= 1) setPrevButtonDisabled(false);
   };
 
   const previousTrack = () => {
-    if (listPosition > 0) {
-      dispatch(prevSong());
-      setNextButtonDisabled(false);
+    if (queueState.queue.length > 1) {
+      if (listPosition > 0) {
+        dispatch(prevSong());
+        setNextButtonDisabled(false);
+      }
+      if (listPosition <= 1) setPrevButtonDisabled(true);
+      else setPrevButtonDisabled(false);
+      if (listPosition >= queueState.queue.length - 2)
+        setNextButtonDisabled(false);
     }
-    if (listPosition <= 1) setPrevButtonDisabled(true);
-    else setPrevButtonDisabled(false);
-    if (listPosition >= queueState.queue.length - 2)
-      setNextButtonDisabled(false);
   };
 
   const shuffledArray = (arrayLength, min) => {
