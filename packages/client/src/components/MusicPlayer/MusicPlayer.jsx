@@ -27,6 +27,7 @@ import {
   prevSong,
   setListPosition,
   setPlayState,
+  setVolume,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -166,6 +167,11 @@ export default function MusicPlayer() {
 
   const handleError = (error) => {
     toast(error, { type: "error" });
+  };
+
+  const handleVolumeChange = (event) => {
+    const volumeValue = event.srcElement.volume;
+    dispatch(setVolume(volumeValue));
   };
 
   useEffect(() => {
@@ -325,7 +331,7 @@ export default function MusicPlayer() {
           </div>
           <AudioPlayer
             autoPlayAfterSrcChange={false}
-            volume={0.1}
+            volume={queueState.volume}
             showSkipControls
             showJumpControls={false}
             src={trackObject.url}
@@ -333,6 +339,7 @@ export default function MusicPlayer() {
             onClickNext={nextTrack}
             onClickPrevious={previousTrack}
             onEnded={nextTrack}
+            onVolumeChange={handleVolumeChange}
             ref={audioPlayer}
             layout="horizontal-reverse"
             customIcons={{
