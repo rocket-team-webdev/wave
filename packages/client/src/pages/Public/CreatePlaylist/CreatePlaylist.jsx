@@ -89,7 +89,7 @@ export default function CreatePlaylist() {
             </div>
           )}
         </div>
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             paddingBottom="65px"
             paddingTop="65px"

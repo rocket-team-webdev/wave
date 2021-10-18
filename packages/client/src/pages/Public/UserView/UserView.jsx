@@ -56,10 +56,10 @@ export default function UserView() {
 
   return (
     <Layout isNegative>
-      <div className="row p-0 g-4">
+      <div className="row p-0 g-4 pt-4 pt-md-0 ">
         <div className="col col-12 ps-0">
           {!isLoading ? (
-            <div className="user-top d-flex justify-content-between">
+            <div className="user-top d-flex justify-content-between p-0 m-0 mb-3 mb-md-5">
               {/* Username */}
               <motion.h1
                 className="fnt-page-title text-break truncate"
@@ -83,7 +83,9 @@ export default function UserView() {
           )}
 
           {/* Bottom */}
-          <UserWave />
+          <div className="row">
+            <UserWave />
+          </div>
         </div>
       </div>
     </Layout>

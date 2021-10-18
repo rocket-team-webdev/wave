@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { IconContext } from "react-icons";
+import { FaSearch } from "react-icons/fa";
+
+import Button from "../Button";
 
 import { PUBLIC } from "../../constants/routes";
 
@@ -18,6 +22,7 @@ export default function Input({
   handleChange = () => {},
   handleBlur = () => {},
   handleInput = () => {},
+  hasSubmitIcon,
   errorMessage,
   hasErrorMessage,
   hasForgotPassword,
@@ -33,7 +38,7 @@ export default function Input({
   const errorClassNames = "col col-12 error-msg fnt-smallest mt-2 mb-0 ps-3 ";
 
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
-  let inputClassNames = "form-input fnt-input-light fx-rounded ps-3 ";
+  let inputClassNames = "fnt-input-light fx-rounded ps-3 ";
   let uploadClassNames =
     "form-input positive-custom-upload-input fx-rounded file-input-wrapper ps-0";
 
@@ -59,7 +64,11 @@ export default function Input({
   }
 
   return (
-    <div className={componentClasses}>
+    <div
+      className={
+        hasSubmitIcon ? `${componentClasses} px-0 ` : `${componentClasses}`
+      }
+    >
       {label ? (
         <label className={labelClassNames} htmlFor={id}>
           {label}
@@ -89,17 +98,42 @@ export default function Input({
           />
         </div>
       ) : (
-        <input
-          type={type}
-          className={inputClassNames}
-          id={id}
-          name={id}
-          placeholder={placeholder}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onInput={handleInput}
-          {...props}
-        />
+        <div
+          className={
+            hasSubmitIcon
+              ? "d-flex justify-content-between px-3"
+              : "col col-12 p-0"
+          }
+        >
+          <input
+            type={type}
+            className={
+              hasSubmitIcon
+                ? `${inputClassNames} flex-search flex-grow-1 px-0`
+                : `${inputClassNames} form-input col-12`
+            }
+            id={id}
+            name={id}
+            placeholder={placeholder}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            onInput={handleInput}
+            {...props}
+          />
+          {hasSubmitIcon && (
+            <div className="ps-2 h-100 custom-add-icon">
+              <Button isNegative submitButton>
+                <IconContext.Provider
+                  value={{
+                    style: { fontSize: 18, margin: 4 },
+                  }}
+                >
+                  <FaSearch />
+                </IconContext.Provider>{" "}
+              </Button>
+            </div>
+          )}
+        </div>
       )}
 
       <div className="row ">
