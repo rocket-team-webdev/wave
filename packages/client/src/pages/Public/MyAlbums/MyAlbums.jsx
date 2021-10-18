@@ -107,13 +107,14 @@ function MyAlbums() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Albums" cols="12" isNegative />
         </div>
-        <div className="col col-3 d-flex justify-content-end py-3">
-          <div>
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
             <Button
+              classNames="float-end"
               isNegative
               secondaryBtn
               handleClick={() => history.goBack()}
