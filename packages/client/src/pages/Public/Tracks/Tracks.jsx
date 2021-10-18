@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -12,15 +12,15 @@ import { PUBLIC } from "../../../constants/routes";
 import Input from "../../../components/Input";
 import { searchTrack } from "../../../api/search-api";
 import useDebounce from "../../../hooks/useDebounce";
+import BackButton from "../../../components/BackButton";
 
 export default function Tracks() {
+  const location = useLocation();
   const [uploadedSongs, setUploadedSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const queueState = useSelector((state) => state.queue);
-
-  const history = useHistory();
 
   const fetchUploadedSongs = async () => {
     try {
@@ -127,16 +127,17 @@ export default function Tracks() {
         </div>
         <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
           <div className="p-0 mt-2">
-            <Button
-              classNames="me-3"
-              isNegative
-              secondaryBtn
-              handleClick={() => history.goBack()}
-            >
-              Back
-            </Button>
+            <BackButton classNames="me-3" isNegative secondaryBtn />
           </div>
-          <Link className="float-end py-2" to={PUBLIC.TRACK_UPLOAD}>
+          <Link
+            className="float-end py-2"
+            to={{
+              pathname: `${PUBLIC.TRACK_UPLOAD}`,
+              state: {
+                referrer: location.pathname,
+              },
+            }}
+          >
             <Button isNegative>Upload Song</Button>
           </Link>
         </div>

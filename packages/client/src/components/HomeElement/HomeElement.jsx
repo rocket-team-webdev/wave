@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { containerAnimation } from "../../utils/motionSettings";
@@ -14,6 +14,7 @@ export default function HomeElement({
   isAnimationContainer,
   children,
 }) {
+  const location = useLocation();
   let contentClasses = "content d-flex flex-wrap";
 
   // Apply gutters to playlists/albums cards
@@ -37,7 +38,15 @@ export default function HomeElement({
                 {label.toUpperCase()}
               </p>
               {to && (
-                <Link to={to} className="mb-2 fnt-smallest">
+                <Link
+                  to={{
+                    pathname: `${to}`,
+                    state: {
+                      referrer: location.pathname,
+                    },
+                  }}
+                  className="mb-2 fnt-smallest"
+                >
                   See all
                   <FaArrowCircleRight className="ms-2" />
                 </Link>
@@ -59,7 +68,15 @@ export default function HomeElement({
                 {label.toUpperCase()}
               </p>
               {to && (
-                <Link to={to} className="mb-2 fnt-smallest">
+                <Link
+                  to={{
+                    pathname: `${to}`,
+                    state: {
+                      referrer: location.pathname,
+                    },
+                  }}
+                  className="mb-2 fnt-smallest"
+                >
                   See all
                   <FaArrowCircleRight className="ms-2" />
                 </Link>

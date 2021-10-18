@@ -80,7 +80,7 @@ export default function Input({
       )}
       {type === "file" ? (
         <div className={uploadClassNames}>
-          <div className="custom-upload-input fnt-input-light d-flex align-items-center px-3 truncate">
+          <div className="custom-upload-input fnt-input-light d-flex align-items-center px-3 truncate no-overflow">
             {fileName}
           </div>
           <input

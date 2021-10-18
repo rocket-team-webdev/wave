@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link /* useRouteMatch,  */ } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { FaEllipsisH } from "react-icons/fa";
@@ -75,6 +75,8 @@ export default function TrackCard({
     trackImg: trackImg,
     popularity: popularity,
   };
+
+  const location = useLocation();
 
   const handleCloseContextual = () => {
     const contextualDropDown = new bootstrap.Dropdown(
@@ -379,7 +381,12 @@ export default function TrackCard({
                     {/* Album */}
                     <Link
                       className="m-0 text-start fnt-song-regular fnt-light px-2 col truncate track-album"
-                      to={`${PUBLIC.ALBUM}/${albumId}`}
+                      to={{
+                        pathname: `${PUBLIC.ALBUM}/${albumId}`,
+                        state: {
+                          referrer: location.pathname,
+                        },
+                      }}
                     >
                       {albumName}
                     </Link>
@@ -472,6 +479,7 @@ export default function TrackCard({
                                   pathname: `${PUBLIC.ADD_PLAYLIST}`,
                                   state: {
                                     trackId: trackId,
+                                    referrer: location.pathname,
                                   },
                                 }}
                               >
@@ -502,7 +510,14 @@ export default function TrackCard({
                           <>
                             <hr className="dropdown-wrapper m-0" />
                             <li>
-                              <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                              <Link
+                                to={{
+                                  pathname: `${PUBLIC.TRACK_EDIT}/${trackId}`,
+                                  state: {
+                                    referrer: location.pathname,
+                                  },
+                                }}
+                              >
                                 <p
                                   className="dropdown-item fnt-light fnt-song-regular m-0"
                                   type="button"
@@ -526,7 +541,14 @@ export default function TrackCard({
                           <>
                             <hr className="dropdown-wrapper m-0" />
                             <li>
-                              <Link to={`${PUBLIC.USERS}/${userId}`}>
+                              <Link
+                                to={{
+                                  pathname: `${PUBLIC.USERS}/${userId}`,
+                                  state: {
+                                    referrer: location.pathname,
+                                  },
+                                }}
+                              >
                                 <p
                                   className="dropdown-item fnt-light fnt-song-regular m-0"
                                   type="button"
