@@ -44,9 +44,9 @@ export default function UserCard({ userId, userName, isPopularView }) {
 
         if (userId === userState.mongoId) {
           setPopularUserIcon(
-            <button type="button" className="px-0" onClick={() => {}}>
+            <div className="px-0">
               <BiUserCircle className="fnt-light me-2 fs-4 circle-icon" />
-            </button>,
+            </div>,
           );
         } else if (userFollows) {
           setPopularUserIcon(
