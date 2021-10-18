@@ -147,7 +147,10 @@ async function deleteAccount(req, res, next) {
     }
 
     // Delete owned Playlists
-    await db.Playlist.updateMany({ userId: userId }, { isDeleted: true });
+    await db.Playlist.updateMany(
+      { userId: userId, isDeleted: false },
+      { isDeleted: true },
+    );
 
     // Delete owned tracks from other's playlists
     const trackList = await db.Track.find({ userId: userId }, { _id: 1 });
@@ -165,19 +168,16 @@ async function deleteAccount(req, res, next) {
     await db.Track.deleteMany({ userId: userId });
 
     // Delete follows
-    await db.User.updateMany(
-      { following: userId },
-      { $pull: { following: userId } },
-    );
+    await db.User.updateMany({ following: userId }, [
+      { $set: { following: { $setDifference: ["$following", [userId]] } } },
+    ]);
 
     // Delete followers
-    await db.User.updateMany(
-      { followedBy: userId },
-      { $pull: { followedBy: userId } },
-    );
+    await db.User.updateMany({ followedBy: userId }, [
+      { $set: { followedBy: { $setDifference: ["$followedBy", [userId]] } } },
+    ]);
 
     res.status(200).send({
-      // data: deletedAccount,
       message: "Success",
     });
   } catch (error) {
