@@ -50,7 +50,6 @@ function UserAlbums() {
       const {
         data: { albums },
       } = await getUserAlbums(userId, init, limit);
-      console.log(albums);
       setUserCreatedAlbums(albums);
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -64,7 +63,6 @@ function UserAlbums() {
       const {
         data: { likedAlbums },
       } = await getUserLikedAlbums(userId, init, limit);
-      console.log(likedAlbums);
       setUserLikedAlbums(likedAlbums);
     } catch (error) {
       toast(error.message, { type: "error" });

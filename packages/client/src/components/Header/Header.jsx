@@ -68,7 +68,12 @@ function Header({ props }) {
                 <NavLink
                   className={navlinkClasses}
                   activeClassName="active-navlink"
-                  to={PUBLIC.MY_PLAYLISTS}
+                  to={{
+                    pathname: `${PUBLIC.MY_PLAYLISTS}`,
+                    state: {
+                      referrer: location.pathname,
+                    },
+                  }}
                 >
                   My playlists
                 </NavLink>
