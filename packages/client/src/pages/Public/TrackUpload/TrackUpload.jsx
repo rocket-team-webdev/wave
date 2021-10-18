@@ -23,6 +23,7 @@ import {
   loadLocalStorageItems,
   setLocalStorage,
 } from "../../../utils/localStorage";
+import BackButton from "../../../components/BackButton";
 
 export default function TrackUpload() {
   const location = useLocation();
@@ -46,6 +47,14 @@ export default function TrackUpload() {
     albumsArr.unshift("Select album");
     setAlbums(albumsArr);
   }, []);
+
+  const goBack = () => {
+    if (location.state) {
+      history.push(location.state.referrer);
+    } else {
+      history.push(`${PUBLIC.HOME}`);
+    }
+  };
 
   const lsInitialValue = loadLocalStorageItems(TRACK_UPLOAD_INFO, {});
 
@@ -87,7 +96,7 @@ export default function TrackUpload() {
         );
 
         toast("Track uploaded!", { type: "success" });
-        return history.goBack();
+        return goBack();
       } catch (error) {
         setLoading(false);
         return toast(error.message, { type: "error" });
@@ -200,14 +209,15 @@ export default function TrackUpload() {
               </div>
             </div>
             <div className="d-flex justify-content-end buttons-wrapper col col-12 p-0">
-              <Button
+              {/* <Button
                 classNames="me-3"
                 isNegative
                 secondaryBtn
                 handleClick={() => history.goBack()}
               >
                 Back
-              </Button>
+              </Button> */}
+              <BackButton classNames="me-3" isNegative secondaryBtn />
               <Button isNegative submitButton>
                 Upload
               </Button>

@@ -171,7 +171,7 @@ export default function Album() {
             <p className="ms-2 mb-0">{likesCounter} likes</p>
           </h3>
           <div className="col-12 p-0 mt-4">
-            <BackButton className="me-3" isNegative />
+            <BackButton classNames="me-3" isNegative />
           </div>
           <div className="d-flex align-items-center mt-5">
             <button

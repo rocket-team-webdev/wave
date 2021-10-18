@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
@@ -10,6 +8,7 @@ import useDebounce from "../../../hooks/useDebounce";
 import AlbumList from "../../../components/AlbumList/AlbumList";
 import { searchAlbum } from "../../../api/search-api";
 import { getLikedAlbums, getMyAlbums } from "../../../api/me-api";
+import BackButton from "../../../components/BackButton";
 
 function MyAlbums() {
   const [userAlbums, setUserAlbums] = useState([]);
@@ -17,8 +16,6 @@ function MyAlbums() {
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const userState = useSelector((state) => state.user);
-
-  const history = useHistory();
 
   async function fetchMyAlbums() {
     const init = 0;
@@ -113,13 +110,7 @@ function MyAlbums() {
         </div>
         <div className="col col-3 d-flex justify-content-end py-3">
           <div>
-            <Button
-              isNegative
-              secondaryBtn
-              handleClick={() => history.goBack()}
-            >
-              Back
-            </Button>
+            <BackButton isNegative secondaryBtn />
           </div>
         </div>
         <div className="col-12">

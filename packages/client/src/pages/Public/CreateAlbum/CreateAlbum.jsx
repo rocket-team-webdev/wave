@@ -13,6 +13,7 @@ import Spinner from "../../../components/Spinner";
 
 import { addAlbum } from "../../../api/album-api";
 import BackButton from "../../../components/BackButton";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function CreateAlbum() {
   const location = useLocation();
@@ -35,7 +36,11 @@ export default function CreateAlbum() {
         formData.append("year", albumState.year);
         formData.append("thumbnail", albumState.thumbnail);
         await addAlbum(formData);
-        if (location.state) history.push(location.state.referrer);
+        if (location.state) {
+          history.push(location.state.referrer);
+        } else {
+          history.push(`${PUBLIC.TRACK_UPLOAD}`);
+        }
         return toast("Album created!", { type: "success" });
       } catch (error) {
         return toast(error.response.data.msg, { type: "error" });
@@ -107,15 +112,7 @@ export default function CreateAlbum() {
                 </p>
               </div>
               <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
-                {/* <Button
-                  classNames="me-3"
-                  isNegative
-                  secondaryBtn
-                  handleClick={() => history.goBack()}
-                >
-                  Back
-                </Button> */}
-                <BackButton className="me-3" isNegative secondaryBtn />
+                <BackButton isNegative secondaryBtn classNames="me-3" />
                 <Button isNegative submitButton>
                   Create
                 </Button>

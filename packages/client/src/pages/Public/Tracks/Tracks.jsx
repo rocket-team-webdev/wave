@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -12,6 +12,7 @@ import { PUBLIC } from "../../../constants/routes";
 import Input from "../../../components/Input";
 import { searchTrack } from "../../../api/search-api";
 import useDebounce from "../../../hooks/useDebounce";
+import BackButton from "../../../components/BackButton";
 
 export default function Tracks() {
   const location = useLocation();
@@ -20,8 +21,6 @@ export default function Tracks() {
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const queueState = useSelector((state) => state.queue);
-
-  const history = useHistory();
 
   const fetchUploadedSongs = async () => {
     try {
@@ -128,14 +127,7 @@ export default function Tracks() {
         </div>
         <div className="d-flex justify-content-end col col-3">
           <div className="p-0 mt-3">
-            <Button
-              classNames="me-3"
-              isNegative
-              secondaryBtn
-              handleClick={() => history.goBack()}
-            >
-              Back
-            </Button>
+            <BackButton classNames="me-3" isNegative secondaryBtn />
           </div>
           <Link
             className="py-3"

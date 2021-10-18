@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Button";
@@ -11,6 +11,7 @@ import { getMyPlaylists, getFollowingPlaylists } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
 import useDebounce from "../../../hooks/useDebounce";
 import { searchPlaylists } from "../../../api/search-api";
+import BackButton from "../../../components/BackButton";
 
 function MyPlaylists() {
   const location = useLocation();
@@ -19,8 +20,6 @@ function MyPlaylists() {
   const userState = useSelector((state) => state.user);
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
-
-  const history = useHistory();
 
   const fetchCreatedPlaylists = async () => {
     const init = 0;
@@ -110,14 +109,7 @@ function MyPlaylists() {
         </div>
         <div className="d-flex justify-content-end col col-3">
           <div className="p-0 mt-3">
-            <Button
-              classNames="me-3"
-              isNegative
-              secondaryBtn
-              handleClick={() => history.goBack()}
-            >
-              Back
-            </Button>
+            <BackButton classNames="me-3" isNegative secondaryBtn />
           </div>
           <Link
             className="float-end py-3"

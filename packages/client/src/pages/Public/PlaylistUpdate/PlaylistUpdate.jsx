@@ -18,6 +18,7 @@ import {
   getPlaylistById,
   updatePlaylistById,
 } from "../../../api/playlists-api";
+import BackButton from "../../../components/BackButton";
 
 export default function PlaylistUpdate() {
   const { playlistId } = useRouteMatch(
@@ -178,14 +179,7 @@ export default function PlaylistUpdate() {
                   </p>
                 </div>
                 <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
-                  <Button
-                    classNames="me-3"
-                    isNegative
-                    secondaryBtn
-                    handleClick={() => history.goBack()}
-                  >
-                    Back
-                  </Button>
+                  <BackButton classNames="me-3" isNegative secondaryBtn />
                   <Button isNegative submitButton>
                     Update
                   </Button>

@@ -13,6 +13,7 @@ import Spinner from "../../../components/Spinner";
 
 import { getAlbumById, updateAlbum } from "../../../api/album-api";
 import { PUBLIC } from "../../../constants/routes";
+import BackButton from "../../../components/BackButton";
 
 export default function UpdateAlbum() {
   const history = useHistory();
@@ -127,14 +128,15 @@ export default function UpdateAlbum() {
                 </p>
               </div>
               <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
-                <Button
+                {/* <Button
                   classNames="me-3"
                   isNegative
                   secondaryBtn
                   handleClick={() => history.goBack()}
                 >
                   Back
-                </Button>
+                </Button> */}
+                <BackButton classNames="me-3" isNegative secondaryBtn />
                 <Button isNegative submitButton>
                   Update
                 </Button>

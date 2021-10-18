@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React /* useEffect,  useState */ from "react";
 import { useLocation, useHistory } from "react-router-dom";
+import { PUBLIC } from "../../constants/routes";
 
 import "./BackButton.scss";
 
@@ -14,7 +15,7 @@ export default function Button({
 }) {
   const location = useLocation();
   const history = useHistory();
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
 
   let btnclassNames = `${classNames} custom-btn fx-rounded d-flex align-items-center `;
 
@@ -39,18 +40,19 @@ export default function Button({
     btnclassNames += " w-100";
   }
 
-  if (disabled) {
-    btnclassNames += "disabled";
-  }
+  // if (disabled) {
+  //   btnclassNames += "disabled";
+  // }
 
-  useEffect(() => {
-    if (!location.state) setDisabled(true);
-  }, []);
+  // useEffect(() => {
+  //   if (!location.state) setDisabled(true);
+  // }, []);
 
-  console.log(location.state);
   const goBack = () => {
     if (location.state) {
       history.push(location.state.referrer);
+    } else {
+      history.push(`${PUBLIC.HOME}`);
     }
   };
 
@@ -58,7 +60,7 @@ export default function Button({
     <button
       className={btnclassNames}
       type="button"
-      disabled={disabled}
+      // disabled={disabled}
       onClick={goBack}
     >
       Back
