@@ -28,7 +28,7 @@ function MyPlaylists() {
 
   const fetchCreatedPlaylists = async (createdPage) => {
     try {
-      const { data } = await getMyPlaylists(createdPage, 5);
+      const { data } = await getMyPlaylists(createdPage, 10);
       setCreatedPlaylists((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );
@@ -40,7 +40,7 @@ function MyPlaylists() {
 
   const fetchFollowedPlaylists = async (followedPage) => {
     try {
-      const { data } = await getFollowingPlaylists(followedPage, 5);
+      const { data } = await getFollowingPlaylists(followedPage, 10);
       setFollowedPlaylists((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );

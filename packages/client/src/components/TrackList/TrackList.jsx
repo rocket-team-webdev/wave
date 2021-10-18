@@ -240,7 +240,7 @@ function TrackList({
     });
   };
 
-  const lastBookElementRef = useCallback((node) => {
+  const lastElementRef = useCallback((node) => {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
@@ -283,7 +283,7 @@ function TrackList({
                   animate="visible"
                 >
                   {tracks.map((song, index) => (
-                    <div
+                    <React.Fragment
                       key={`${
                         song.isLiked ? `${song._id}DivLike` : `${song._id}Div`
                       }`}
@@ -312,9 +312,9 @@ function TrackList({
                         isOnQueue={isOnQueue}
                       />
                       {tracks.length === index + 1 && (
-                        <div ref={lastBookElementRef} />
+                        <div ref={lastElementRef} />
                       )}
-                    </div>
+                    </React.Fragment>
                   ))}
                 </motion.div>
               )}

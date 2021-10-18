@@ -20,7 +20,7 @@ function PlaylistList({
     onAddFollowedColumn(playlist, isFollowed);
   };
 
-  const lastBookElementRef = useCallback((node) => {
+  const lastElementRef = useCallback((node) => {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
@@ -52,8 +52,7 @@ function PlaylistList({
       animate="visible"
     >
       {listOfPlaylists.map((playlist, index) => (
-        <div
-          className={`col col-12 col-md-${colsMd}`}
+        <React.Fragment
           key={`${
             playlist.isFollowed
               ? `${playlist._id}DivFollowed`
@@ -69,10 +68,8 @@ function PlaylistList({
             colsMd={colsMd}
             updateFollowedView={handleAddFollowedColumn}
           />
-          {listOfPlaylists.length === index + 1 && (
-            <div ref={lastBookElementRef} />
-          )}
-        </div>
+          {listOfPlaylists.length === index + 1 && <div ref={lastElementRef} />}
+        </React.Fragment>
       ))}
     </motion.div>
   );
