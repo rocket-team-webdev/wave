@@ -132,6 +132,23 @@ export default function Tracks() {
     handleAddLikedColumn(newSong, newSong.isLiked);
   }, [queueState.queue]);
 
+  const lastBookElementRef = useCallback((entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
+    }
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(lastBookElementRef);
+    if (loader.current) observer.observe(loader.current);
+  }, [lastBookElementRef]);
+
+  useEffect(() => {
+    const pageNum = page - 1;
+    if (pageNum >= 0) fetchTracksData(pageNum);
+  }, [page]);
+
   return (
     <Layout isNegative>
       <div className="row mb-5">
