@@ -128,14 +128,6 @@ export default function UpdateAlbum() {
                 </p>
               </div>
               <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
-                {/* <Button
-                  classNames="me-3"
-                  isNegative
-                  secondaryBtn
-                  handleClick={() => history.goBack()}
-                >
-                  Back
-                </Button> */}
                 <BackButton classNames="me-3" isNegative secondaryBtn />
                 <Button isNegative submitButton>
                   Update
