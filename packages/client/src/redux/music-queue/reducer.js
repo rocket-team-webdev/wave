@@ -6,6 +6,7 @@ import {
   CLEAR,
   SET_SHUFFLE,
   CLEAR_SHUFFLE,
+  SET_REPEAT,
   SET_ALL,
   LIKE,
   NEXT_SONG,
@@ -23,7 +24,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         willPlay: false,
-        listPosition: state.listPosition - action.payload.offset,
+        listPosition: action.payload.listPosition,
         queue: [
           // ...state.queue.slice(0, state.listPosition),
           action.payload.track,
@@ -61,6 +62,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, isShuffled: true, shuffleOrder: action.payload };
     case CLEAR_SHUFFLE:
       return { ...state, isShuffled: false, shuffleOrder: null };
+    case SET_REPEAT:
+      return { ...state, repeatState: action.payload };
     case LIKE: {
       const currentSong = state.queue[action.payload];
       currentSong.isLiked = !currentSong.isLiked;

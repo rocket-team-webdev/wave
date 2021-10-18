@@ -31,7 +31,8 @@ export default function Home() {
     },
     validationSchema: homeSearchSchema,
     onSubmit: (formikState) => {
-      history.push(`${PUBLIC.SEARCH}?q=${formikState.searchBar}`);
+      if (formikState.searchBar !== "")
+        history.push(`${PUBLIC.SEARCH}?q=${formikState.searchBar}`);
     },
   });
 

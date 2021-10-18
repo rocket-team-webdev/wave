@@ -93,7 +93,7 @@ function TrackUpdate() {
     try {
       const {
         data: { albums },
-      } = await getUserAlbums(userId);
+      } = await getUserAlbums(userId, 0, 10);
       const albumsArr = albums.map((album) => album.title);
       albumsArr.unshift("Select album");
       setAlbums(albumsArr);
