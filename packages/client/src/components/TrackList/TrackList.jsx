@@ -66,13 +66,13 @@ function TrackList({
     switch (flag.flagTitle) {
       case "none":
         setTracks(tracks);
-        updateQueue(tracks);
+        if (isOnQueue) updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "titleDesc":
         sortedTracks = sortArrayDescendent(tracks, "name");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "titleAsc",
@@ -81,7 +81,7 @@ function TrackList({
       case "titleAsc":
         sortedTracks = sortArrayAscendent(tracks, "name");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "artistDesc",
@@ -90,7 +90,7 @@ function TrackList({
       case "artistDesc":
         sortedTracks = sortArrayDescendent(tracks, "artist");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "artistAsc",
@@ -99,7 +99,7 @@ function TrackList({
       case "artistAsc":
         sortedTracks = sortArrayAscendent(tracks, "artist");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagTitle: "none",
@@ -107,7 +107,7 @@ function TrackList({
         break;
       default:
         setTracks(tracks);
-        updateQueue(tracks);
+        if (isOnQueue) updateQueue(tracks);
     }
   };
 
@@ -116,13 +116,13 @@ function TrackList({
     switch (flag.flagAlbum) {
       case "none":
         setTracks(tracks);
-        updateQueue(tracks);
+        if (isOnQueue) updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "albumDesc":
         sortedTracks = sortArrayAscendent(tracks, "album", "title");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagAlbum: "albumAsc",
@@ -131,7 +131,7 @@ function TrackList({
       case "albumAsc":
         sortedTracks = sortArrayDescendent(tracks, "album", "title");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagAlbum: "none",
@@ -139,7 +139,7 @@ function TrackList({
         break;
       default:
         setTracks(tracks);
-        updateQueue(tracks);
+        if (isOnQueue) updateQueue(tracks);
     }
   };
 
@@ -148,13 +148,13 @@ function TrackList({
     switch (flag.flagPopularity) {
       case "none":
         setTracks(tracks);
-        updateQueue(tracks);
+        if (isOnQueue) updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "popDesc":
         sortedTracks = sortArrayDescendent(tracks, "popularity");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagPopularity: "popAsc",
@@ -163,7 +163,7 @@ function TrackList({
       case "popAsc":
         sortedTracks = sortArrayAscendent(tracks, "popularity");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagPopularity: "none",
@@ -179,13 +179,13 @@ function TrackList({
     switch (flag.flagDuration) {
       case "none":
         setTracks(tracks);
-        updateQueue(tracks);
+        if (isOnQueue) updateQueue(tracks);
         setFlag(flagInitialState);
         break;
       case "durDesc":
         sortedTracks = sortArrayDescendent(tracks, "duration");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagDuration: "durAsc",
@@ -194,7 +194,7 @@ function TrackList({
       case "durAsc":
         sortedTracks = sortArrayAscendent(tracks, "duration");
         setTracks(sortedTracks);
-        updateQueue(sortedTracks);
+        if (isOnQueue) updateQueue(sortedTracks);
         setFlag({
           ...flagInitialState,
           flagDuration: "none",
@@ -221,7 +221,7 @@ function TrackList({
 
     const items = reorder(tracks, source.index, destination.index);
     setTracks(items);
-    updateQueue(items);
+    if (isOnQueue) updateQueue(items);
     await updatePlaylistOrder({
       source: {
         index: source.index,

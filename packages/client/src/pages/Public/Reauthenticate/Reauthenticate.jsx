@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -17,8 +17,10 @@ import {
 import { logOut } from "../../../redux/user/actions";
 import { deleteAccount } from "../../../api/account-api";
 import { PUBLIC } from "../../../constants/routes";
+import Spinner from "../../../components/Spinner";
 
 function Reauthenticate() {
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,8 +30,9 @@ function Reauthenticate() {
     },
     validationSchema: ReauthenticateSchema,
     onSubmit: async (updatePasswordState) => {
-      const { userPassword } = updatePasswordState;
       try {
+        setLoading(true);
+        const { userPassword } = updatePasswordState;
         await reauthenticateUserWithCredential(userPassword);
         await deleteAccount();
         await deleteCurrentUserAccount();
@@ -38,9 +41,11 @@ function Reauthenticate() {
         dispatch(logOut());
 
         history.push(PUBLIC.SIGN_IN);
+        toast("Account deleted successfully!", { type: "success" });
       } catch (error) {
         toast(error.message, { type: "error" });
       }
+      setLoading(false);
     },
   });
 
@@ -54,24 +59,33 @@ function Reauthenticate() {
       <div className="row">
         <div className="col col-6 m-auto">
           <FormWrapper formTitle="Enter your credentials">
-            <Input
-              label="user password"
-              id="userPassword"
-              type="password"
-              placeholder="User password"
-              onChange={formik.handleChange}
-              value={formik.values.currentPassword}
-              errorMessage={formik.errors.currentPassword}
-              hasErrorMessage={formik.touched.currentPassword}
-            />
-
-            <div className="row">
-              <div className="mt-5 col-auto ms-auto">
-                <Button type="submit" isDanger>
-                  Delete account
-                </Button>
+            <form onSubmit={formik.handleSubmit}>
+              {loading ? (
+                <div className="col col-12 col-md-6">
+                  <Spinner />
+                </div>
+              ) : (
+                <Input
+                  label="user password"
+                  id="userPassword"
+                  type="password"
+                  placeholder="User password"
+                  handleChange={formik.handleChange}
+                  handleBlur={formik.handleBlur}
+                  value={formik.values.userPassword}
+                  errorMessage={formik.errors.userPassword}
+                  hasErrorMessage={formik.touched.userPassword}
+                  disabled={loading}
+                />
+              )}
+              <div className="row">
+                <div className="mt-5 col-auto ms-auto">
+                  <Button type="submit" isDanger submitButton>
+                    Delete account
+                  </Button>
+                </div>
               </div>
-            </div>
+            </form>
           </FormWrapper>
         </div>
       </div>

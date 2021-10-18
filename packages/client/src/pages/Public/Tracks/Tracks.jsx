@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -19,6 +19,8 @@ export default function Tracks() {
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const queueState = useSelector((state) => state.queue);
+
+  const history = useHistory();
 
   const fetchUploadedSongs = async () => {
     try {
@@ -123,9 +125,19 @@ export default function Tracks() {
         <div className="col col-9">
           <JumboText priText="My Songs" cols="12" isNegative />
         </div>
-        <div className="col col-3">
-          <Link className="float-end p-3" to={PUBLIC.TRACK_UPLOAD}>
-            <Button isNegative>Upload</Button>
+        <div className="d-flex justify-content-end col col-3">
+          <div className="p-0 mt-3">
+            <Button
+              classNames="me-3"
+              isNegative
+              secondaryBtn
+              handleClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </div>
+          <Link className="py-3" to={PUBLIC.TRACK_UPLOAD}>
+            <Button isNegative>Upload Song</Button>
           </Link>
         </div>
         <div className="col-12">

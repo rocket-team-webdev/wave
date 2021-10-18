@@ -27,6 +27,7 @@ import {
   prevSong,
   setListPosition,
   setPlayState,
+  setVolume,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -168,6 +169,11 @@ export default function MusicPlayer() {
     toast(error, { type: "error" });
   };
 
+  const handleVolumeChange = (event) => {
+    const volumeValue = event.srcElement.volume;
+    dispatch(setVolume(volumeValue));
+  };
+
   useEffect(() => {
     if (queueState.queue.length > 1) {
       if (listPosition === 0) {
@@ -293,9 +299,14 @@ export default function MusicPlayer() {
                         ))}
                       <li>
                         <hr className="dropdown-wrapper m-0" />
-
-                        <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
-                          {/* TODO: when creating playlist adding that song */}
+                        <Link
+                          to={{
+                            pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                            state: {
+                              trackId: trackObject.trackId,
+                            },
+                          }}
+                        >
                           <p
                             className="dropdown-item fnt-light fnt-song-regular m-0"
                             type="button"
@@ -303,6 +314,14 @@ export default function MusicPlayer() {
                             New Playlist
                           </p>
                         </Link>
+                        {/* <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
+                          <p
+                            className="dropdown-item fnt-light fnt-song-regular m-0"
+                            type="button"
+                          >
+                            New Playlist
+                          </p>
+                        </Link> */}
                       </li>
                     </ul>
                   </li>
@@ -312,7 +331,7 @@ export default function MusicPlayer() {
           </div>
           <AudioPlayer
             autoPlayAfterSrcChange={false}
-            volume={0.1}
+            volume={queueState.volume}
             showSkipControls
             showJumpControls={false}
             src={trackObject.url}
@@ -320,6 +339,7 @@ export default function MusicPlayer() {
             onClickNext={nextTrack}
             onClickPrevious={previousTrack}
             onEnded={nextTrack}
+            onVolumeChange={handleVolumeChange}
             ref={audioPlayer}
             layout="horizontal-reverse"
             customIcons={{
