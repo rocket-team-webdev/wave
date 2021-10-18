@@ -4,8 +4,6 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
-import { IconContext } from "react-icons";
-import { FaSearch } from "react-icons/fa";
 
 import { fromBottom } from "../../../utils/motionSettings";
 
@@ -33,7 +31,6 @@ export default function Home() {
     },
     validationSchema: homeSearchSchema,
     onSubmit: (formikState) => {
-      console.log(formikState);
       history.push(`${PUBLIC.SEARCH}?q=${formikState.searchBar}`);
     },
   });
@@ -92,22 +89,10 @@ export default function Home() {
                 value={formik.values.searchBar}
                 errorMessage={formik.errors.searchBar}
                 hasErrorMessage={formik.touched.searchBar}
-                classNames="col-8 col-md-9"
+                classNames="col-12"
+                hasSubmitIcon
                 isNegative
               />
-              <div className="col-4 col-md-3 mb-2">
-                <div className="mb-1 w-100">
-                  <Button submitButton isNegative>
-                    <IconContext.Provider
-                      value={{
-                        style: { fontSize: 18, margin: 4 },
-                      }}
-                    >
-                      <FaSearch />
-                    </IconContext.Provider>
-                  </Button>
-                </div>
-              </div>
             </form>
 
             {/* Popular/MyWave button */}

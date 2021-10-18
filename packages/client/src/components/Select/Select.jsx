@@ -49,9 +49,7 @@ export default function Select({
       </label>
       <div
         className={
-          hasAddIcon
-            ? "d-flex justify-content-between px-0 select-with-add"
-            : "col col-12 p-0"
+          hasAddIcon ? "d-flex justify-content-between px-0" : "col col-12 p-0"
         }
       >
         <select

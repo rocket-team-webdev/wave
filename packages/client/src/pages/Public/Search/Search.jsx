@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { IconContext } from "react-icons";
-import { FaSearch } from "react-icons/fa";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -118,22 +116,10 @@ function Search() {
                 placeholder="Search"
                 handleChange={handleSearchChange}
                 value={searchBar}
-                classNames="col-10 col-md-9 col-lg-7"
+                classNames="col-12 col-md-10 col-lg-7 px-3"
+                hasSubmitIcon
                 isNegative
               />
-              <div className="col-2 mb-2">
-                <div className="mb-1">
-                  <Button submitButton isNegative>
-                    <IconContext.Provider
-                      value={{
-                        style: { fontSize: 18, margin: 4 },
-                      }}
-                    >
-                      <FaSearch />
-                    </IconContext.Provider>
-                  </Button>
-                </div>
-              </div>
             </form>
           </div>
           <Link className="float-start p-0 pt-4" to={PUBLIC.HOME}>
