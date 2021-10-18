@@ -51,18 +51,6 @@ async function addAlbum(req, res, next) {
     const albumObj = {};
     let thumbnail = req.files["thumbnail"];
 
-    // Checking if title album already exists (No need)
-    // const isAlbum = await db.Album.findOne(
-    //   {
-    //     title: req.body.title,
-    //     userId: userId,
-    //   },
-    //   { _id: 1 },
-    // );
-    // if (isAlbum) {
-    //   return res.status(409).send({ msg: "Error: Album already exists" });
-    // }
-
     // Album cover by default
     albumObj.thumbnail = DEFAULT_ALBUM_THUMBNAIL;
     // if there is a thumbnail
