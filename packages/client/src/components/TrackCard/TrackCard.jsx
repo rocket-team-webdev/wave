@@ -385,14 +385,14 @@ export default function TrackCard({
                     </Link>
                   </div>
                   {/* Playcounter */}
-                  <div className="col col-2 d-none d-md-flex justify-content-between align-items-center">
+                  <div className="col col-2 d-none d-md-inline justify-content-between align-items-center">
                     <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
                       {formatPlayCounter(popularity)}
                     </h4>
                   </div>
                   <div className="col col-1 col-md-2 d-flex justify-content-end justify-content-md-between align-items-center">
                     {/* Time */}
-                    <h4 className="m-0 d-none d-md-flex text-start fnt-song-regular px-2 track-time truncate">
+                    <h4 className="m-0 d-none d-md-inline text-start fnt-song-regular px-2 track-time truncate">
                       {timeIntoString(time)}
                     </h4>
                     {/* Contextual menu */}

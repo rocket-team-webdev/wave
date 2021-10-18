@@ -158,21 +158,21 @@ function TrackSorter({
             orderIcon={flag.flagTitle === "titleDesc" ? "" : icon}
           />
         </div>
-        <div className="col col-3 d-none d-sm-flex">
+        <div className="col col-3 d-none d-sm-inline">
           <SorterElement
             title="Album"
             handleClick={handleSortByAlbum}
             orderIcon={flag.flagAlbum === "albumDesc" ? "" : icon}
           />
         </div>
-        <div className="col col-2 d-none d-md-flex">
+        <div className="col col-2 d-none d-md-inline">
           <SorterElement
             title="Popularity"
             handleClick={handleSortByPopularity}
             orderIcon={flag.flagPopularity === "popDesc" ? "" : icon}
           />
         </div>
-        <div className="col col-1 col-md-2 d-md-flex">
+        <div className="col col-1 col-md-2 d-md-inline">
           {/* Keep its width but not showing content in small sizes. See TrackCard responsiveness */}
           <div className="d-none d-md-inline">
             <SorterElement
