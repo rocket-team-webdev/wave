@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useRouteMatch, useHistory } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
 import PlaylistList from "../../../components/PlaylistList";
@@ -11,6 +10,7 @@ import {
   getUserFollowingPlaylists,
 } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
+import BackButton from "../../../components/BackButton";
 
 function UserPlaylists() {
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
@@ -61,39 +61,6 @@ function UserPlaylists() {
     }
   };
 
-  // const handleAddFollowedColumn = (playlist, isFollowed) => {
-  //   try {
-  //     if (isFollowed) {
-  //       const updatedCreatedPlaylists = createdPlaylists.map((byPlaylist) => {
-  //         if (byPlaylist._id === playlist._id)
-  //           return { ...byPlaylist, isFollowed: isFollowed };
-  //         return byPlaylist;
-  //       });
-  //       const updatedFollowedPlaylists = followedPlaylists.filter(
-  //         (v) => v._id === playlist._id,
-  //       );
-
-  //       if (!updatedFollowedPlaylists.length)
-  //         setFollowedPlaylists((prevSongs) => [...prevSongs, playlist]);
-
-  //       setCreatedPlaylists(updatedCreatedPlaylists);
-  //     } else {
-  //       const updatedFollowedPlaylists = followedPlaylists.filter(
-  //         (pl) => pl._id !== playlist._id,
-  //       );
-  //       const updatedCreatedPlaylists = createdPlaylists.map((byPlaylist) => {
-  //         if (byPlaylist._id === playlist._id)
-  //           return { ...byPlaylist, isFollowed: isFollowed };
-  //         return byPlaylist;
-  //       });
-  //       setFollowedPlaylists(updatedFollowedPlaylists);
-  //       setCreatedPlaylists(updatedCreatedPlaylists);
-  //     }
-  //   } catch (error) {
-  //     toast(error.message, { type: "error" });
-  //   }
-  // };
-
   useEffect(() => {
     fetchCreatedPlaylists();
     fetchFollowedPlaylists();
@@ -102,39 +69,29 @@ function UserPlaylists() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText
             priText={`${userPossessive} Playlists`}
             cols="12"
             isNegative
           />
         </div>
-        <div className="col col-3">
-          <Link className="float-end p-3" to={`${PUBLIC.USERS}/${userId}`}>
-            <Button isNegative>Back</Button>
-          </Link>
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
+            <BackButton isNegative />
+          </div>
         </div>
       </div>
 
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {createdPlaylists && (
-            <PlaylistList
-              playlists={createdPlaylists}
-              // onAddFollowedColumn={handleAddFollowedColumn}
-            />
-          )}
+          {createdPlaylists && <PlaylistList playlists={createdPlaylists} />}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {followedPlaylists && (
-            <PlaylistList
-              playlists={followedPlaylists}
-              // onAddFollowedColumn={handleAddFollowedColumn}
-            />
-          )}
+          {followedPlaylists && <PlaylistList playlists={followedPlaylists} />}
         </div>
       </div>
     </Layout>

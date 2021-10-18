@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Button";
@@ -11,8 +11,10 @@ import { getMyPlaylists, getFollowingPlaylists } from "../../../api/me-api";
 import { PUBLIC } from "../../../constants/routes";
 import useDebounce from "../../../hooks/useDebounce";
 import { searchPlaylists } from "../../../api/search-api";
+import BackButton from "../../../components/BackButton";
 
 function MyPlaylists() {
+  const location = useLocation();
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const userState = useSelector((state) => state.user);
@@ -101,17 +103,28 @@ function MyPlaylists() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Playlists" cols="12" isNegative />
         </div>
-        <div className="col col-3">
-          <Link className="float-end p-3" to={PUBLIC.ADD_PLAYLIST}>
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
+            <BackButton classNames="me-3" isNegative secondaryBtn />
+          </div>
+          <Link
+            className="float-end py-2"
+            to={{
+              pathname: `${PUBLIC.ADD_PLAYLIST}`,
+              state: {
+                referrer: location.pathname,
+              },
+            }}
+          >
             <Button isNegative>New Playlist</Button>
           </Link>
         </div>
         <div className="col-12">
-          <form className="">
+          <form>
             <Input
               id="searchBar"
               name="searchBar"

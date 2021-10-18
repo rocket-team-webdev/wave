@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaEllipsisH, FaPlay, FaPause } from "react-icons/fa";
 import { VscTriangleDown } from "react-icons/vsc";
@@ -27,6 +27,7 @@ import {
   prevSong,
   setListPosition,
   setPlayState,
+  setVolume,
 } from "../../redux/music-queue/actions";
 import { likeTrack } from "../../api/tracks-api";
 import { getMyPlaylists } from "../../api/me-api";
@@ -37,6 +38,7 @@ import { saveListened } from "../../api/playback-api";
 import Button from "../Button";
 
 export default function MusicPlayer() {
+  const location = useLocation();
   const queueState = useSelector((state) => state.queue);
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -53,6 +55,7 @@ export default function MusicPlayer() {
   const [hasPlayed, setHasPlayed] = useState([false]);
   const contextualDropDownMusicRef = useRef([]);
   const history = useHistory();
+  const [volumeWait, setVolumeWait] = useState(false);
 
   const handleCloseContextual = () => {
     const contextualDropDown = new bootstrap.Dropdown(
@@ -168,6 +171,17 @@ export default function MusicPlayer() {
     toast(error, { type: "error" });
   };
 
+  const handleVolumeChange = (event) => {
+    if (!volumeWait) {
+      setVolumeWait(true);
+      setTimeout(() => {
+        const volumeValue = event.srcElement.volume;
+        dispatch(setVolume(volumeValue));
+        setVolumeWait(false);
+      }, 500);
+    }
+  };
+
   useEffect(() => {
     if (queueState.queue.length > 1) {
       if (listPosition === 0) {
@@ -210,7 +224,14 @@ export default function MusicPlayer() {
         <div className="rhap_main-container clr-white">
           <div className="rhap_track-info">
             <div className="rhap_album-thumb">
-              <Link to={`${PUBLIC.ALBUM}/${trackObject.albumId}`}>
+              <Link
+                to={{
+                  pathname: `${PUBLIC.ALBUM}/${trackObject.albumId}`,
+                  state: {
+                    referrer: location.pathname,
+                  },
+                }}
+              >
                 <img
                   src={trackObject.trackImg}
                   alt="album-cover"
@@ -293,9 +314,15 @@ export default function MusicPlayer() {
                         ))}
                       <li>
                         <hr className="dropdown-wrapper m-0" />
-
-                        <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
-                          {/* TODO: when creating playlist adding that song */}
+                        <Link
+                          to={{
+                            pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                            state: {
+                              trackId: trackObject.trackId,
+                              referrer: location.pathname,
+                            },
+                          }}
+                        >
                           <p
                             className="dropdown-item fnt-light fnt-song-regular m-0"
                             type="button"
@@ -303,6 +330,14 @@ export default function MusicPlayer() {
                             New Playlist
                           </p>
                         </Link>
+                        {/* <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
+                          <p
+                            className="dropdown-item fnt-light fnt-song-regular m-0"
+                            type="button"
+                          >
+                            New Playlist
+                          </p>
+                        </Link> */}
                       </li>
                     </ul>
                   </li>
@@ -312,7 +347,7 @@ export default function MusicPlayer() {
           </div>
           <AudioPlayer
             autoPlayAfterSrcChange={false}
-            volume={0.1}
+            volume={queueState.volume}
             showSkipControls
             showJumpControls={false}
             src={trackObject.url}
@@ -320,6 +355,7 @@ export default function MusicPlayer() {
             onClickNext={nextTrack}
             onClickPrevious={previousTrack}
             onEnded={nextTrack}
+            onVolumeChange={handleVolumeChange}
             ref={audioPlayer}
             layout="horizontal-reverse"
             customIcons={{

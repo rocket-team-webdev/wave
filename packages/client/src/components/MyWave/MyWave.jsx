@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -194,41 +195,54 @@ export default function MyWave() {
   }, [myTracks, myLikedTracks]);
 
   return (
-    <div className="user-bottom row p-0 mt-4">
-      {/* Bottom left */}
-      <div className="col col-12 col-md-10 bottom-left row p-0 m-0 g-4">
+    <>
+      {/* Left */}
+      <div className="col col-12 col-lg-10 row p-0 m-0 g-5 g-lg-4">
         {/* User playlists */}
         {!isLoading ? (
-          myPlaylists.length > 0 && (
+          myPlaylists.length > 0 ? (
             <HomeElement
               label="Created playlists"
-              cols="6"
+              cols="12 row-cols-md-1 col-lg-6"
               isAnimationContainer
               to={`${PUBLIC.MY_PLAYLISTS}`}
             >
               <PlaylistList
                 playlists={myPlaylists}
+                colsMd="6"
                 onAddFollowedColumn={() => {}}
               />
             </HomeElement>
+          ) : (
+            <HomeElement label="Created playlists" cols="3 col-lg-12">
+              No created playlists
+            </HomeElement>
           )
         ) : (
-          <HomeElement label="Created playlists">
+          <HomeElement
+            label="Created playlists"
+            cols="12 row-cols-md-1 col-lg-6"
+          >
             <Spinner isNegative />
           </HomeElement>
         )}
         {!isLoading ? (
-          myFollowingPlaylists.length > 0 && (
+          myFollowingPlaylists.length > 0 ? (
             <HomeElement
               label="Following playlists"
-              cols="6"
+              cols="12 row-cols-md-1 col-lg-6"
               isAnimationContainer
               to={`${PUBLIC.MY_PLAYLISTS}`}
             >
               <PlaylistList
                 playlists={myFollowingPlaylists}
+                colsMd="6"
                 onAddFollowedColumn={() => {}}
               />
+            </HomeElement>
+          ) : (
+            <HomeElement label="Following playlists" cols="3 col-lg-12">
+              No following playlists
             </HomeElement>
           )
         ) : (
@@ -238,63 +252,74 @@ export default function MyWave() {
         )}
         {/* User tracks */}
         {!isLoading ? (
-          myTracks.length > 0 && (
+          myTracks.length > 0 ? (
             <HomeElement
-              label="Uploaded tracks"
-              cols="6"
+              label="Uploaded songs"
+              cols="12 col-lg-6"
               isAnimationContainer
               to={PUBLIC.MY_SONGS}
             >
               <TrackList tracks={myTracks} setTrakcs={setMyTracks} />
             </HomeElement>
+          ) : (
+            <HomeElement label="Uploaded songs" cols="3 col-lg-12">
+              No uploaded songs
+            </HomeElement>
           )
         ) : (
-          <HomeElement label="Uploaded tracks">
+          <HomeElement label="Uploaded songs">
             <Spinner isNegative />
           </HomeElement>
         )}
         {/* User liked tracks */}
         {!isLoading ? (
-          myLikedTracks.length > 0 && (
+          myLikedTracks.length > 0 ? (
             <HomeElement
-              label="Liked tracks"
-              cols="6"
+              label="Liked songs"
+              cols="12 col-lg-6"
               isAnimationContainer
               to={PUBLIC.MY_SONGS}
             >
               <TrackList tracks={myLikedTracks} setTrakcs={setMyLikedTracks} />
             </HomeElement>
+          ) : (
+            <HomeElement label="Liked songs" cols="3 col-lg-12">
+              No liked tracks
+            </HomeElement>
           )
         ) : (
-          <HomeElement label="Liked tracks">
+          <HomeElement label="Liked songs">
             <Spinner isNegative />
           </HomeElement>
         )}
       </div>
-      {/* Bottom right */}
-      <div className="bottom-right col col-12 col-md-2 row p-0 m-0 g-4 h-fit-content">
-        {/* TODO User genres */}
+      {/* Right */}
+      <div className="col col-12 col-lg-2 row p-0 m-0 g-4">
         {!isLoading ? (
-          myGenres.length > 0 && (
-            <HomeElement label="Genres" isAnimationContainer>
+          myGenres.length > 0 ? (
+            <HomeElement label="Genres" cols="3 col-lg-12" isAnimationContainer>
               {myGenres.map((genre) => (
                 <div key={genre._id} className="mb-2 me-2">
                   <GenreCard>{genre.name.toUpperCase()}</GenreCard>
                 </div>
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Genres" cols="3 col-lg-12">
+              No genres
+            </HomeElement>
           )
         ) : (
-          <HomeElement label="Liked tracks">
+          <HomeElement label="Liked tracks" cols="3 col-lg-12">
             <Spinner isNegative />
           </HomeElement>
         )}
         {/* User albums */}
         {!isLoading ? (
-          myAlbums.length > 0 && (
+          myAlbums.length > 0 ? (
             <HomeElement
               label="Albums"
-              cols="12"
+              cols="3 col-lg-12"
               to={PUBLIC.ALBUMS}
               isAnimationContainer
             >
@@ -306,6 +331,10 @@ export default function MyWave() {
                 />
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Albums" cols="3 col-lg-12">
+              No albums
+            </HomeElement>
           )
         ) : (
           <HomeElement label="Liked tracks">
@@ -314,11 +343,11 @@ export default function MyWave() {
         )}
         {/* User followers */}
         {!isLoading ? (
-          myFollowers.length > 0 && (
+          myFollowers.length > 0 ? (
             <HomeElement
               label="Followers"
               sublabel={myFollowers.length}
-              cols="12"
+              cols="3 col-lg-12"
               isAnimationContainer
             >
               {myFollowers.map((following) => (
@@ -329,6 +358,10 @@ export default function MyWave() {
                 />
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Followers" cols="3 col-lg-12">
+              No followers
+            </HomeElement>
           )
         ) : (
           <HomeElement label="Liked tracks">
@@ -337,11 +370,11 @@ export default function MyWave() {
         )}
         {/* User following */}
         {!isLoading ? (
-          myFollowings.length > 0 && (
+          myFollowings.length > 0 ? (
             <HomeElement
               label="Following"
               sublabel={myFollowings.length}
-              cols="12"
+              cols="3 col-lg-12"
               isAnimationContainer
             >
               {myFollowings.map((following) => (
@@ -352,6 +385,10 @@ export default function MyWave() {
                 />
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Following" cols="3 col-lg-12">
+              No followings
+            </HomeElement>
           )
         ) : (
           <HomeElement label="Liked tracks">
@@ -359,6 +396,6 @@ export default function MyWave() {
           </HomeElement>
         )}
       </div>
-    </div>
+    </>
   );
 }

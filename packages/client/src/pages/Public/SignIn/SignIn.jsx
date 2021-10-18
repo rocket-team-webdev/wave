@@ -99,16 +99,18 @@ export default function SignIn() {
 
   return (
     <Layout>
-      <div className="row">
+      <div className="row p-0 m-0 col col-12 pb-5 pb-sm-0">
         {loading ? (
-          <div className="col col-12 col-md-6">
+          <div className="col col-12 col-lg-6">
             <Spinner />
           </div>
         ) : (
-          <JumboText secText="Sign in." />
+          <div className="col col-12 col-lg-6">
+            <JumboText cols="12" secText="Sign in." />
+          </div>
         )}
 
-        <div className="col-6">
+        <div className="col col-12 col-lg-6">
           <FormWrapper formTitle="Log in">
             <form onSubmit={formik.handleSubmit} className="row">
               <Input
@@ -117,12 +119,13 @@ export default function SignIn() {
                 id="email"
                 name="email"
                 placeholder="name@example.com"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.email}
                 errorMessage={formik.errors.email}
                 hasErrorMessage={formik.touched.email}
                 classNames="mb-1"
+                disabled={loading}
               />
               <Input
                 label="password"
@@ -131,18 +134,20 @@ export default function SignIn() {
                 name="password"
                 placeholder="Password"
                 hasForgotPassword
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
                 value={formik.values.password}
                 errorMessage={formik.errors.password}
                 hasErrorMessage={formik.touched.password}
                 classNames="mb-4"
+                disabled={loading}
               />
               <div className="form-footer-wrapper">
                 <div className="fnt-caption mt-4 row d-flex justify-content-between">
                   <Checkbox
                     label="Stay logged in"
-                    id="testCheckbox"
+                    id="credentialsCheckbox"
+                    name="credentialsCheckbox"
                     ref={credentialsCheckbox}
                     checked={saveCredentials}
                     onChange={handleSaveCredentials}

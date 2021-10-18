@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link, useHistory } from "react-router-dom";
+import { useRouteMatch, Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaHeart, FaPlay, FaEllipsisH } from "react-icons/fa";
@@ -22,9 +22,12 @@ import "./Album.scss";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import GenreCard from "../../../components/GenreCard";
 import DeleteModal from "../../../components/DeleteModal";
+import BackButton from "../../../components/BackButton";
 
 export default function Album() {
   const history = useHistory();
+  const location = useLocation();
+
   const [album, setAlbum] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
@@ -127,15 +130,23 @@ export default function Album() {
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
-          <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText={album.title} cols="11" isNegative />
-            <button className="text-center" type="button" onClick={handleLike}>
-              {isLiked ? (
-                <HeartIcon isFull isLarge isNegative />
-              ) : (
-                <HeartIcon isLarge isNegative />
-              )}
-            </button>
+          <div className="d-flex justify-content-between align-items-start row">
+            <div className="col col-10">
+              <JumboText priText={album.title} cols="12" isNegative />
+            </div>
+            <div className="d-flex justify-content-end col col-1">
+              <button
+                className="text-center"
+                type="button"
+                onClick={handleLike}
+              >
+                {isLiked ? (
+                  <HeartIcon isFull isLarge isNegative />
+                ) : (
+                  <HeartIcon isLarge isNegative />
+                )}
+              </button>
+            </div>
           </div>
           <div className="d-flex align-items-start mt-4">
             {albumGenres.map((genre) => (
@@ -151,7 +162,14 @@ export default function Album() {
           {album.userId && (
             <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
-              <Link to={`${PUBLIC.USERS}/${album.userId._id}`}>
+              <Link
+                to={{
+                  pathname: `${PUBLIC.USERS}/${album.userId._id}`,
+                  state: {
+                    referrer: location.pathname,
+                  },
+                }}
+              >
                 <p className="mb-0 ms-1">{album.userId.firstName}</p>
               </Link>
             </h3>
@@ -160,6 +178,9 @@ export default function Album() {
             <FaHeart />
             <p className="ms-2 mb-0">{likesCounter} likes</p>
           </h3>
+          <div className="col-12 p-0 mt-4">
+            <BackButton classNames="me-3" isNegative />
+          </div>
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"
@@ -184,7 +205,14 @@ export default function Album() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.UPDATE_ALBUM}/${album._id}`}>
+                  <Link
+                    to={{
+                      pathname: `${PUBLIC.UPDATE_ALBUM}/${album._id}`,
+                      state: {
+                        referrer: location.pathname,
+                      },
+                    }}
+                  >
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"

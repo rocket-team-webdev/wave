@@ -15,6 +15,7 @@ import Spinner from "../../../components/Spinner";
 
 import { addPlaylist, addTrackToPlaylist } from "../../../api/playlists-api";
 import { PUBLIC } from "../../../constants/routes";
+import BackButton from "../../../components/BackButton";
 
 export default function CreatePlaylist() {
   const history = useHistory();
@@ -59,7 +60,11 @@ export default function CreatePlaylist() {
             return toast(e.response.data.msg, { type: "error" });
           }
         }
-        history.goBack();
+        if (location.state) {
+          history.push(location.state.referrer);
+        } else {
+          history.push(`${PUBLIC.PLAYLISTS}`);
+        }
         return toast("Playlist created!", { type: "success" });
       } catch (error) {
         return toast(error.response?.data.msg, { type: "error" });
@@ -75,7 +80,7 @@ export default function CreatePlaylist() {
     const { checked } = publicAccessibleCheckbox.current;
     setPublicAccessible(!checked);
     // formik.setFieldValue("publicAccessible", !publicAccessible);
-    formik.values.publicAccessible = !checked;
+    // formik.values.publicAccessible = !checked;
   };
 
   return (
@@ -89,7 +94,7 @@ export default function CreatePlaylist() {
             </div>
           )}
         </div>
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             paddingBottom="65px"
             paddingTop="65px"
@@ -159,16 +164,9 @@ export default function CreatePlaylist() {
                   </p>
                 </div>
                 <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
-                  <Button
-                    classNames="me-3"
-                    isNegative
-                    secondaryBtn
-                    handleClick={() => history.goBack()}
-                  >
-                    Back
-                  </Button>
+                  <BackButton classNames="me-3" isNegative secondaryBtn />
                   <Button isNegative submitButton>
-                    Update
+                    Create
                   </Button>
                 </div>
               </div>

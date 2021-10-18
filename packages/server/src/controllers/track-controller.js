@@ -31,7 +31,6 @@ async function getTracks(req, res, next) {
         path: "album",
         options: {
           select: "title thumbnail",
-          // sort: { created: -1},
         },
       })
       .sort({ popularity: -1 })
@@ -39,43 +38,64 @@ async function getTracks(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ tracks: foundTracks });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
 async function getTrack(req, res, next) {
   try {
     const { id } = req.params;
-    const track = await db.Track.findById({ _id: id })
-      .populate("album", "thumbnail title")
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
+    const track = await db.Track.findById(
+      { _id: id },
+      {
+        name: 1,
+        artist: 1,
+        likes: { $size: "$likedBy" },
+        isLiked: { $setIsSubset: [[userId], "$likedBy"] },
+        popularity: 1,
+        color: 1,
+        genreId: 1,
+        userId: 1,
+        album: 1,
+        duration: 1,
+        url: 1,
+      },
+    )
+      .populate({
+        path: "album",
+        options: {
+          select: "title thumbnail",
+        },
+      })
       .populate("genreId", "name");
 
     res.status(200).send({
       data: track,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
 async function updateTrack(req, res, next) {
   try {
-    // const { id } = req.params;
-    const { id, title, artist, genre, album } = req.body;
+    const { id: trackId, title, artist, genre, album } = req.body;
     const foundGenre = await db.Genre.findOne({ name: `${genre}` }, { _id: 1 });
     const foundAlbum = await db.Album.findOne(
       { title: `${album}` },
       { _id: 1 },
     );
     const updatedTrack = await db.Track.findByIdAndUpdate(
-      { _id: id },
+      { _id: trackId },
       {
         name: title,
         artist: artist,
@@ -84,16 +104,27 @@ async function updateTrack(req, res, next) {
       },
       {
         new: true,
+        projection: {
+          name: 1,
+          artist: 1,
+          popularity: 1,
+          color: 1,
+          genreId: 1,
+          userId: 1,
+          album: 1,
+          duration: 1,
+          url: 1,
+        },
       },
     );
 
     res.status(200).send({
-      id: id,
+      id: trackId,
       data: updatedTrack,
       message: "Success",
     });
   } catch (error) {
-    res.status(404).send({
+    res.status(500).send({
       error: error.message,
     });
     next(error);
@@ -160,18 +191,20 @@ async function uploadTrack(req, res, next) {
     }
 
     return res
-      .status(400)
+      .status(415)
       .send({ message: "This file format is not supported!" });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
 
 async function deleteTrack(req, res, next) {
-  const { id } = req.params;
   try {
-    const track = await db.Track.findOne({ _id: id });
+    const { id } = req.params;
+    const track = await db.Track.findOne({ _id: id }, { url: 1, album: 1 });
     const { url } = track;
     // ----
     // Delete from Cloudinary
@@ -195,36 +228,38 @@ async function deleteTrack(req, res, next) {
 
     return res.status(200).send({ message: "Successfully deleted track" });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }
 
 async function likeTrack(req, res, next) {
-  const { id } = req.params;
-  console.log(id);
   try {
-    // Get track
-    const track = await db.Track.findOne({ _id: id });
-    const trackLikes = track.likedBy;
+    const { id: trackId } = req.params;
+    const { email } = req.user;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
-    // Get user id
-    const { firebaseId } = req.user;
-    const { _id: userId } = await db.User.findOne({ firebaseId });
+    await db.Track.findOneAndUpdate({ _id: trackId }, [
+      {
+        $set: {
+          likedBy: {
+            $cond: {
+              if: { $in: [userId, "$likedBy"] },
+              then: { $setDifference: ["$likedBy", [userId]] },
+              else: { $concatArrays: ["$likedBy", [userId]] },
+            },
+          },
+        },
+      },
+    ]);
 
-    // Updating likedBy array
-    if (trackLikes.includes(userId)) {
-      const userIndex = trackLikes.indexOf(userId);
-      trackLikes.splice(userIndex, 1);
-    } else {
-      trackLikes.push(userId);
-    }
-
-    await db.Track.findOneAndUpdate({ _id: id }, { likedBy: trackLikes });
-
-    return res.status(200).send({ message: "Successfully liked" });
+    return res.status(200).send({ message: "Successfully liked/unliked" });
   } catch (error) {
-    res.status(500).send({ error: error });
+    res.status(500).send({
+      error: error.message,
+    });
     next(error);
   }
 }

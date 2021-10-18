@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link /* useRouteMatch,  */ } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Draggable } from "react-beautiful-dnd";
 import { FaEllipsisH } from "react-icons/fa";
@@ -75,6 +75,8 @@ export default function TrackCard({
     trackImg: trackImg,
     popularity: popularity,
   };
+
+  const location = useLocation();
 
   const handleCloseContextual = () => {
     const contextualDropDown = new bootstrap.Dropdown(
@@ -364,7 +366,7 @@ export default function TrackCard({
                       </button>
                     </div>
                   </div>
-                  <div className="col col-3 d-flex justify-content-between align-items-center">
+                  <div className="col col-8 col-sm-5 col-md-3 d-flex justify-content-between align-items-center">
                     {/* Title/Artist */}
                     <div className=" ps-md-3 pe-md-2 px-2 col title-and-artist">
                       <h3 className="m-0 text-start fnt-song-bold truncate">
@@ -375,24 +377,29 @@ export default function TrackCard({
                       </h4>
                     </div>
                   </div>
-                  <div className="col col-3 d-flex justify-content-between align-items-center">
+                  <div className="col col-3 d-none d-sm-flex justify-content-between align-items-center">
                     {/* Album */}
                     <Link
                       className="m-0 text-start fnt-song-regular fnt-light px-2 col truncate track-album"
-                      to={`${PUBLIC.ALBUM}/${albumId}`}
+                      to={{
+                        pathname: `${PUBLIC.ALBUM}/${albumId}`,
+                        state: {
+                          referrer: location.pathname,
+                        },
+                      }}
                     >
                       {albumName}
                     </Link>
                   </div>
                   {/* Playcounter */}
-                  <div className="col col-2 d-flex justify-content-between align-items-center">
+                  <div className="col col-2 d-none d-md-inline justify-content-between align-items-center">
                     <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
                       {formatPlayCounter(popularity)}
                     </h4>
                   </div>
-                  <div className="col col-2 d-flex justify-content-between align-items-center">
+                  <div className="col col-1 col-md-2 d-flex justify-content-end justify-content-md-between align-items-center">
                     {/* Time */}
-                    <h4 className="m-0 text-start fnt-song-regular px-2 track-time truncate">
+                    <h4 className="m-0 d-none d-md-inline text-start fnt-song-regular px-2 track-time truncate">
                       {timeIntoString(time)}
                     </h4>
                     {/* Contextual menu */}
@@ -435,58 +442,6 @@ export default function TrackCard({
                             </button>
                           </li>
                         )}
-
-                        {/* <hr className="dropdown-wrapper m-0" /> */}
-                        {onOwnedPlaylist ? (
-                          <button
-                            className="dropdown-item fnt-danger fnt-song-regular clr-danger"
-                            data-bs-toggle="modal"
-                            // data-bs-target="#deleteFromPlaylistModal"
-                            data-bs-target={`#deleteFromPlaylistModal${trackId}`}
-                            type="button"
-                          >
-                            Remove from Playlist
-                          </button>
-                        ) : null}
-                        {/* {isOwned ? (
-                          <>
-                            <li>
-                              <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
-                                <p
-                                  className="dropdown-item fnt-light fnt-song-regular m-0"
-                                  type="button"
-                                >
-                                  Edit
-                                </p>
-                              </Link>
-                              <hr className="dropdown-wrapper m-0" />
-                            </li>
-                            <li>
-                              <button
-                                className="dropdown-item fnt-light fnt-song-regular"
-                                data-bs-toggle="modal"
-                                // data-bs-target="#deleteTrackModal"
-                                data-bs-target={`#deleteTrackModal${trackId}`}
-                                type="button"
-                                // onClick={handleDeleteSong}
-                              >
-                                Delete
-                              </button>
-                            </li>
-                          </>
-                        ) : (
-                          <li>
-                            <Link to={`${PUBLIC.USERS}/${userId}`}>
-                              <p
-                                className="dropdown-item fnt-light fnt-song-regular m-0"
-                                type="button"
-                              >
-                                Go to user
-                              </p>
-                            </Link>
-                          </li>
-                        )} */}
-                        {/* <hr className="dropdown-wrapper m-0" /> */}
                         <li className="dropstart">
                           <a
                             className="dropdown-item fnt-light fnt-song-regular"
@@ -494,7 +449,6 @@ export default function TrackCard({
                             data-bs-toggle="dropdown"
                             id="contextAddToPlaylist"
                             href="#addToPlaylist"
-                            data-bs-offset="-60,5"
                           >
                             <span className="fnt-light fnt-song-regular">
                               Add to playlist <VscTriangleDown />
@@ -525,6 +479,7 @@ export default function TrackCard({
                                   pathname: `${PUBLIC.ADD_PLAYLIST}`,
                                   state: {
                                     trackId: trackId,
+                                    referrer: location.pathname,
                                   },
                                 }}
                               >
@@ -538,12 +493,31 @@ export default function TrackCard({
                             </li>
                           </ul>
                         </li>
+                        <li className="d-sm-none">
+                          <hr className=" dropdown-wrapper m-0" />
+
+                          <Link to={`${PUBLIC.ALBUM}/${albumId}`}>
+                            <p
+                              className="dropdown-item fnt-light fnt-song-regular m-0"
+                              type="button"
+                            >
+                              Go to album
+                            </p>
+                          </Link>
+                        </li>
 
                         {isOwned ? (
                           <>
                             <hr className="dropdown-wrapper m-0" />
                             <li>
-                              <Link to={`${PUBLIC.TRACK_EDIT}/${trackId}`}>
+                              <Link
+                                to={{
+                                  pathname: `${PUBLIC.TRACK_EDIT}/${trackId}`,
+                                  state: {
+                                    referrer: location.pathname,
+                                  },
+                                }}
+                              >
                                 <p
                                   className="dropdown-item fnt-light fnt-song-regular m-0"
                                   type="button"
@@ -556,10 +530,8 @@ export default function TrackCard({
                               <button
                                 className="dropdown-item fnt-light fnt-song-regular"
                                 data-bs-toggle="modal"
-                                // data-bs-target="#deleteTrackModal"
                                 data-bs-target={`#deleteTrackModal${trackId}`}
                                 type="button"
-                                // onClick={handleDeleteSong}
                               >
                                 Delete song
                               </button>
@@ -569,7 +541,14 @@ export default function TrackCard({
                           <>
                             <hr className="dropdown-wrapper m-0" />
                             <li>
-                              <Link to={`${PUBLIC.USERS}/${userId}`}>
+                              <Link
+                                to={{
+                                  pathname: `${PUBLIC.USERS}/${userId}`,
+                                  state: {
+                                    referrer: location.pathname,
+                                  },
+                                }}
+                              >
                                 <p
                                   className="dropdown-item fnt-light fnt-song-regular m-0"
                                   type="button"
@@ -587,7 +566,6 @@ export default function TrackCard({
                           <button
                             className="dropdown-item fnt-song-regular fnt-light"
                             data-bs-toggle="modal"
-                            // data-bs-target="#deleteFromPlaylistModal"
                             data-bs-target={`#deleteFromPlaylistModal${trackId}`}
                             type="button"
                           >

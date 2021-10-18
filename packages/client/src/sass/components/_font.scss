@@ -50,8 +50,10 @@
 
 // Sizes & styles
 .fnt-jumbo {
-  font-size: 205px;
+  font-size: calc(48px + 10vw);
+  // font-size: 205px;
   text-transform: uppercase;
+  hyphens: auto;
 }
 
 .fnt-sidebar {
@@ -59,13 +61,20 @@
 }
 
 .fnt-page-title {
-  font-size: 120px;
+  font-size: calc(62px + 5vw);
+  // font-size: 120px;
+}
+
+.fnt-sidebar,
+.fnt-label-bold {
+  line-height: 1;
 }
 
 .fnt-subtitle-light,
 .fnt-subtitle-bold {
-  font-size: 93px;
-  line-height: 1;
+  font-size: calc(48px + 3vw);
+  // font-size: 93px;
+  line-height: 0.8;
 }
 
 .fnt-label-light,
@@ -141,7 +150,6 @@
 .fnt-subtitle-bold,
 .fnt-label-bold {
   font-weight: 800;
-  line-height: 1;
 }
 
 .fnt-input-light,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fromBottom } from "../../utils/motionSettings";
 
@@ -19,6 +19,7 @@ export default function AlbumCard({
   colsMd = "6",
   updateLikedView = () => {},
 }) {
+  const location = useLocation();
   const [liked, setLiked] = useState(isLiked);
   const albumObject = {
     title: albumTitle,
@@ -52,11 +53,19 @@ export default function AlbumCard({
     setLiked(isLiked);
   }, [isLiked]);
 
-  const componentClasses = `col col-12 col-lg-${colsMd} p-2`;
+  const componentClasses = `col col-12 col-md-${colsMd} p-2`;
   return (
     <>
       {isPlaceholder ? (
-        <Link to={PUBLIC.ADD_ALBUM} className={componentClasses}>
+        <Link
+          to={{
+            pathname: `${PUBLIC.ADD_ALBUM}`,
+            state: {
+              referrer: location.pathname,
+            },
+          }}
+          className={componentClasses}
+        >
           <motion.div
             className="d-flex flex-column justify-content-center album-card album-placeholder fx-rounded clr-light-20 py-3 px-4"
             // Animation settings
@@ -68,7 +77,15 @@ export default function AlbumCard({
           </motion.div>
         </Link>
       ) : (
-        <Link to={`${PUBLIC.ALBUM}/${albumId}`} className={componentClasses}>
+        <Link
+          to={{
+            pathname: `${PUBLIC.ALBUM}/${albumId}`,
+            state: {
+              referrer: location.pathname,
+            },
+          }}
+          className={componentClasses}
+        >
           <motion.div
             className="d-flex flex-column justify-content-between album-card album-gradient fx-rounded py-3 px-4"
             // Animation settings

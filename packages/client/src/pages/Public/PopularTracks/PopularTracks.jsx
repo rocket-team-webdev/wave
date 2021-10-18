@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
-import { PUBLIC } from "../../../constants/routes";
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
-import Button from "../../../components/Button";
+
 import { getAllTracks } from "../../../api/tracks-api";
 import TrackList from "../../../components/TrackList";
+import BackButton from "../../../components/BackButton";
 
 export default function PopularTracks() {
   const [tracks, setTracks] = useState();
@@ -32,9 +31,8 @@ export default function PopularTracks() {
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="The top 50" cols="11" isNegative />
           </div>
-          <Link className="float-start p-0 pt-4" to={PUBLIC.HOME}>
-            <Button isNegative>Back</Button>
-          </Link>
+
+          <BackButton isNegative />
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">

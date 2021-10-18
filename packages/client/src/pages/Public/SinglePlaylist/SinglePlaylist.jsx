@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouteMatch, Link, useHistory } from "react-router-dom";
+import { useRouteMatch, Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaPlay, FaEllipsisH } from "react-icons/fa";
@@ -26,8 +26,10 @@ import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import "./SinglePlaylist.scss";
 import GenreCard from "../../../components/GenreCard";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
+import BackButton from "../../../components/BackButton";
 
 export default function SinglePlaylist() {
+  const location = useLocation();
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
@@ -122,7 +124,6 @@ export default function SinglePlaylist() {
 
   useEffect(() => {
     loadPlaylist();
-    setIsFollowed(playlist.isFollowed);
   }, []);
 
   return (
@@ -130,19 +131,23 @@ export default function SinglePlaylist() {
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">
-          <div className="d-flex justify-content-between align-items-start">
-            <JumboText priText={playlist.name} cols="11" isNegative />
-            <button
-              className="text-center"
-              type="button"
-              onClick={handleFollow}
-            >
-              {isFollowed ? (
-                <HeartIcon isFull isLarge isNegative />
-              ) : (
-                <HeartIcon isLarge isNegative />
-              )}
-            </button>
+          <div className="d-flex justify-content-between align-items-start row">
+            <div className="col col-10">
+              <JumboText priText={playlist.name} cols="12" isNegative />
+            </div>
+            <div className="d-flex justify-content-end col col-1">
+              <button
+                className="text-center"
+                type="button"
+                onClick={handleFollow}
+              >
+                {isFollowed ? (
+                  <HeartIcon isFull isLarge isNegative />
+                ) : (
+                  <HeartIcon isLarge isNegative />
+                )}
+              </button>
+            </div>
           </div>
           <div className="d-flex align-items-start mt-4">
             {playlistGenres.map((genre) => (
@@ -151,12 +156,17 @@ export default function SinglePlaylist() {
               </div>
             ))}
           </div>
-
-          {/* TODO only show creator if exists */}
           {playlist.userId && (
             <h3 className="fnt-light fnt-caption mt-4 d-flex align-items-center">
               <p className="mb-0">Created by </p>
-              <Link to={`${PUBLIC.USERS}/${playlist.userId._id}`}>
+              <Link
+                to={{
+                  pathname: `${PUBLIC.USERS}/${playlist.userId._id}`,
+                  state: {
+                    referrer: location.pathname,
+                  },
+                }}
+              >
                 <p className="fnt-light mb-0 ms-1">
                   {playlist.userId.firstName}
                 </p>
@@ -172,6 +182,9 @@ export default function SinglePlaylist() {
               {playlist.description}
             </p>
           )}
+          <div className="col-12 p-0 mt-4">
+            <BackButton classNames="me-3" isNegative />
+          </div>
           <div className="d-flex align-items-center mt-5">
             <button
               type="button"
@@ -196,7 +209,14 @@ export default function SinglePlaylist() {
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
                   aria-labelledby="contextSongMenu"
                 >
-                  <Link to={`${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`}>
+                  <Link
+                    to={{
+                      pathname: `${PUBLIC.PLAYLIST_UPDATE}/${playlistId}`,
+                      state: {
+                        referrer: location.pathname,
+                      },
+                    }}
+                  >
                     <p
                       className="dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"

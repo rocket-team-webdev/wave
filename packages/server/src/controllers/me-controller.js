@@ -3,9 +3,8 @@ const db = require("../models");
 async function getMyFollowers(req, res, next) {
   try {
     const { email } = req.user;
-    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
-
     const { page = 0, limit = 5 } = req.query;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const followers = await db.User.find(
       { _id: userId },
@@ -25,11 +24,11 @@ async function getMyFollowers(req, res, next) {
     res.status(200).send({
       data: followersArray,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -48,7 +47,6 @@ async function getMyFollowings(req, res, next) {
         path: "following",
         options: {
           select: "firstName",
-          // sort: { created: -1},
         },
       })
       .skip(parseInt(page) * parseInt(limit))
@@ -59,31 +57,26 @@ async function getMyFollowings(req, res, next) {
     res.status(200).send({
       data: followingUsersArray,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
 async function getMyPlaylists(req, res, next) {
   try {
     const { email } = req.user;
-    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 4, isContextualMenu = false } = req.query;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const projection = !isContextualMenu
       ? {
           name: 1,
-          // collaborative: 1,
-          // description: 1,
           primaryColor: 1,
           thumbnail: 1,
-          // publicAccessible: 1,
           userId: 1,
-          // tracks: 1,
-          // isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
           follows: { $size: "$followedBy" },
         }
       : {
@@ -101,31 +94,27 @@ async function getMyPlaylists(req, res, next) {
     res.status(200).send({
       data: playlists,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
 async function getMyFollowingPlaylists(req, res, next) {
   try {
     const { email } = req.user;
-    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 4 } = req.query;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const playlists = await db.Playlist.find(
       { followedBy: userId, isDeleted: false },
       {
         name: 1,
-        // collaborative: 1,
-        // description: 1,
         primaryColor: 1,
         thumbnail: 1,
-        // publicAccessible: 1,
         userId: 1,
-        // tracks: 1,
         isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
         follows: { $size: "$followedBy" },
       },
@@ -136,19 +125,19 @@ async function getMyFollowingPlaylists(req, res, next) {
     res.status(200).send({
       data: playlists,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
 async function getMyTracks(req, res, next) {
   try {
     const { email } = req.user;
-    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 5 } = req.query;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const tracks = await db.Track.find(
       { userId },
@@ -159,7 +148,6 @@ async function getMyTracks(req, res, next) {
         isLiked: { $setIsSubset: [[userId], "$likedBy"] },
         popularity: 1,
         color: 1,
-        // released: 1,
         genreId: 1,
         userId: 1,
         album: 1,
@@ -171,7 +159,6 @@ async function getMyTracks(req, res, next) {
         path: "album",
         options: {
           select: "title thumbnail",
-          // sort: { created: -1},
         },
       })
       .skip(parseInt(page) * parseInt(limit))
@@ -180,19 +167,19 @@ async function getMyTracks(req, res, next) {
     res.status(200).send({
       data: tracks,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
 async function getMyLikedTracks(req, res, next) {
   try {
     const { email } = req.user;
-    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
     const { page = 0, limit = 5 } = req.query;
+    const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const tracks = await db.Track.find(
       { likedBy: userId },
@@ -215,7 +202,6 @@ async function getMyLikedTracks(req, res, next) {
         path: "album",
         options: {
           select: "title thumbnail",
-          // sort: { created: -1},
         },
       })
       .sort({ popularity: -1 })
@@ -225,11 +211,11 @@ async function getMyLikedTracks(req, res, next) {
     res.status(200).send({
       data: tracks,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -237,7 +223,6 @@ async function getMyAlbums(req, res, next) {
   try {
     const { email } = req.user;
     const { page = 0, limit = 5 } = req.query;
-
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const albums = await db.Album.find(
@@ -258,11 +243,11 @@ async function getMyAlbums(req, res, next) {
     res.status(200).send({
       data: albums,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -270,7 +255,6 @@ async function getMyLikedAlbums(req, res, next) {
   try {
     const { email } = req.user;
     const { page = 0, limit = 5 } = req.query;
-
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const userLikedAlbums = await db.Album.find(
@@ -291,11 +275,11 @@ async function getMyLikedAlbums(req, res, next) {
     res.status(200).send({
       data: userLikedAlbums,
     });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 

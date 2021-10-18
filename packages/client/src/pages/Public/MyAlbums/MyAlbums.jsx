@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
@@ -10,6 +8,7 @@ import useDebounce from "../../../hooks/useDebounce";
 import AlbumList from "../../../components/AlbumList/AlbumList";
 import { searchAlbum } from "../../../api/search-api";
 import { getLikedAlbums, getMyAlbums } from "../../../api/me-api";
+import BackButton from "../../../components/BackButton";
 
 function MyAlbums() {
   const [userAlbums, setUserAlbums] = useState([]);
@@ -17,8 +16,6 @@ function MyAlbums() {
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
   const userState = useSelector((state) => state.user);
-
-  const history = useHistory();
 
   async function fetchMyAlbums() {
     const init = 0;
@@ -107,15 +104,14 @@ function MyAlbums() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Albums" cols="12" isNegative />
         </div>
-        <div className="col col-3 d-flex justify-content-end">
-          <div>
-            <Button isNegative handleClick={() => history.goBack()}>
-              Back
-            </Button>
+
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
+            <BackButton isNegative secondaryBtn />
           </div>
         </div>
         <div className="col-12">

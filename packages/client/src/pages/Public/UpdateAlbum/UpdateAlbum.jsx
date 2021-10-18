@@ -13,6 +13,7 @@ import Spinner from "../../../components/Spinner";
 
 import { getAlbumById, updateAlbum } from "../../../api/album-api";
 import { PUBLIC } from "../../../constants/routes";
+import BackButton from "../../../components/BackButton";
 
 export default function UpdateAlbum() {
   const history = useHistory();
@@ -79,7 +80,7 @@ export default function UpdateAlbum() {
           )}
         </div>
 
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             acceptFiles="image/*"
             handleChange={thumbnailOnChange}
@@ -127,14 +128,7 @@ export default function UpdateAlbum() {
                 </p>
               </div>
               <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
-                <Button
-                  classNames="me-3"
-                  isNegative
-                  secondaryBtn
-                  handleClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
+                <BackButton classNames="me-3" isNegative secondaryBtn />
                 <Button isNegative submitButton>
                   Update
                 </Button>

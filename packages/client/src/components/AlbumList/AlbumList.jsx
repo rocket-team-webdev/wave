@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { containerAnimation } from "../../utils/motionSettings";
 import AlbumCard from "../AlbumCard";
 
-function AlbumList({ albums, onAddLikedColumn = () => {} }) {
+function AlbumList({ albums, onAddLikedColumn = () => {}, colsMd = "6" }) {
   const [listOfAlbums, setListOfAlbums] = useState(albums);
 
   const handleAddLikedColumn = (album, isLiked) => {
@@ -28,7 +28,7 @@ function AlbumList({ albums, onAddLikedColumn = () => {} }) {
           albumTitle={album.title}
           userId={album.userId}
           isLiked={album.isLiked}
-          colsMd="6"
+          colsMd={colsMd}
           updateLikedView={handleAddLikedColumn}
         />
       ))}

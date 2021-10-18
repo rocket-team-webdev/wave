@@ -40,6 +40,7 @@ export default function Account() {
     },
     validationSchema: updateSchema,
     onSubmit: async (updateState) => {
+      setLoadStatus(true);
       try {
         const formData = new FormData();
         formData.append("profilePicture", updateState.profilePicture);
@@ -55,13 +56,13 @@ export default function Account() {
       } catch (error) {
         toast(error.message, { type: "error" });
       }
+      setLoadStatus(false);
     },
   });
 
   async function loadAccount() {
+    setLoadStatus(true);
     try {
-      setLoadStatus(true);
-
       const { data } = await getAccount();
       formik.setValues({
         profilePicture: data.data.profilePicture || "",
@@ -71,11 +72,10 @@ export default function Account() {
         email: data.data.email || "",
         country: data.data.country || "",
       });
-
-      setLoadStatus(false);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus(false);
   }
 
   useEffect(() => {
@@ -88,12 +88,12 @@ export default function Account() {
 
   return (
     <Layout>
-      <div className="row">
-        <div className="col-6 pt-2">
+      <div className="row p-0 m-0 col col-12 pb-5 pb-sm-0">
+        <div className="col col-12 col-lg-6">
           <AccountSideBar />
         </div>
 
-        <div className="col-6">
+        <div className="col col-12 col-lg-6">
           <FormWrapper
             formTitle="Account details"
             img={userState.profilePicture}
@@ -110,7 +110,7 @@ export default function Account() {
                 placeholder={formik.values.firstName}
                 handleChange={formik.handleChange}
                 handleBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-12 col-md-6"
@@ -123,7 +123,7 @@ export default function Account() {
                 placeholder={formik.values.lastName}
                 handleChange={formik.handleChange}
                 handleBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-12 col-md-6"
@@ -136,7 +136,7 @@ export default function Account() {
                 placeholder={formik.values.birthDate}
                 handleChange={formik.handleChange}
                 handleBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-12 col-md-6"
@@ -148,7 +148,7 @@ export default function Account() {
                 handleBlur={formik.handleBlur}
                 errorMessage={formik.errors.profilePicture}
                 hasErrorMessage={formik.touched.profilePicture}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Input
                 classNames="col-12 col-md-8"
@@ -161,7 +161,7 @@ export default function Account() {
                 placeholder={formik.values.email}
                 handleChange={formik.handleChange}
                 handleBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
               />
               <Select
                 classNames="col-12 col-md-4"
@@ -170,7 +170,7 @@ export default function Account() {
                 value={formik.values.country}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={loadStatus.isLoading || loadStatus.isError}
+                disabled={loadStatus}
                 options={[
                   "Spain",
                   "Argentina",

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouteMatch, useLocation } from "react-router-dom";
@@ -199,15 +200,15 @@ export default function UserWave() {
   }, [userTracks, userLikedTracks]);
 
   return (
-    <div className="user-bottom row p-0 mt-4">
-      {/* Bottom left */}
-      <div className="col col-12 col-md-10 bottom-left row p-0 m-0 gx-4 gy-5">
+    <>
+      {/* Left */}
+      <div className="col col-12 col-lg-10 row p-0 m-0 g-5 g-lg-4 mt-5">
         {/* User playlists */}
         {!isLoading ? (
-          userPlaylists.length > 0 && (
+          userPlaylists.length > 0 ? (
             <HomeElement
               label="Created playlists"
-              cols="6"
+              cols="12 row-cols-md-1 col-lg-6"
               isAnimationContainer
               to={
                 userId === currentUserId
@@ -220,18 +221,25 @@ export default function UserWave() {
                 onAddFollowedColumn={() => {}}
               />
             </HomeElement>
+          ) : (
+            <HomeElement label="Created playlists" cols="3 col-lg-12">
+              No created playlists
+            </HomeElement>
           )
         ) : (
-          <HomeElement label="Created playlists">
+          <HomeElement
+            label="Created playlists"
+            cols="12 row-cols-md-1 col-lg-6"
+          >
             <Spinner isNegative />
           </HomeElement>
         )}
         {/* User following playlists */}
         {!isLoading ? (
-          userFollowingPlaylists.length > 0 && (
+          userFollowingPlaylists.length > 0 ? (
             <HomeElement
               label="Following playlists"
-              cols="6"
+              cols="12 row-cols-md-1 col-lg-6"
               isAnimationContainer
               to={
                 userId === currentUserId
@@ -244,17 +252,32 @@ export default function UserWave() {
                 onAddFollowedColumn={() => {}}
               />
             </HomeElement>
+          ) : (
+            <HomeElement label="Following playlists" cols="3 col-lg-12">
+              No following playlists
+            </HomeElement>
           )
         ) : (
-          <HomeElement label="Following playlists">
+          <HomeElement
+            label="Following playlists"
+            cols="12 row-cols-md-1 col-lg-6"
+          >
             <Spinner isNegative />
           </HomeElement>
         )}
         {/* User tracks */}
         {!isLoading ? (
-          userTracks.length > 0 && (
-            <HomeElement label="Uploaded tracks" cols="6" isAnimationContainer>
+          userTracks.length > 0 ? (
+            <HomeElement
+              label="Uploaded tracks"
+              cols="12 row-cols-md-1 col-lg-6"
+              isAnimationContainer
+            >
               <TrackList tracks={userTracks} setTrakcs={setUserTracks} />
+            </HomeElement>
+          ) : (
+            <HomeElement label="Uploaded songs" cols="3 col-lg-12">
+              No uploaded songs
             </HomeElement>
           )
         ) : (
@@ -264,12 +287,20 @@ export default function UserWave() {
         )}
         {/* User liked tracks */}
         {!isLoading ? (
-          userLikedTracks.length > 0 && (
-            <HomeElement label="Liked tracks" cols="6" isAnimationContainer>
+          userLikedTracks.length > 0 ? (
+            <HomeElement
+              label="Liked tracks"
+              cols="12 row-cols-md-1 col-lg-6"
+              isAnimationContainer
+            >
               <TrackList
                 tracks={userLikedTracks}
                 setTrakcs={setUserLikedTracks}
               />
+            </HomeElement>
+          ) : (
+            <HomeElement label="Liked songs" cols="3 col-lg-12">
+              No liked tracks
             </HomeElement>
           )
         ) : (
@@ -278,17 +309,20 @@ export default function UserWave() {
           </HomeElement>
         )}
       </div>
-      {/* Bottom right */}
-      <div className="bottom-right col col-12 col-md-2 row p-0 m-0 gx-4 gy-5 h-fit-content">
-        {/* TODO User genres */}
+      {/* Right */}
+      <div className="col col-12 col-lg-2 row p-0 m-0 g-4 mt-5">
         {!isLoading ? (
-          userGenres.length > 0 && (
-            <HomeElement label="Genres" isAnimationContainer>
+          userGenres.length > 0 ? (
+            <HomeElement label="Genres" cols="3 col-lg-12" isAnimationContainer>
               {userGenres.map((genre) => (
                 <div key={genre._id} className="mb-2 me-2">
                   <GenreCard>{genre.name.toUpperCase()}</GenreCard>
                 </div>
               ))}
+            </HomeElement>
+          ) : (
+            <HomeElement label="Genres" cols="3 col-lg-12">
+              No genres
             </HomeElement>
           )
         ) : (
@@ -298,10 +332,10 @@ export default function UserWave() {
         )}
         {/* User albums */}
         {!isLoading ? (
-          userAlbums.length > 0 && (
+          userAlbums.length > 0 ? (
             <HomeElement
               label="Albums"
-              cols="12"
+              cols="3 col-lg-12"
               to={
                 userId === currentUserId
                   ? `${PUBLIC.ALBUMS}`
@@ -317,6 +351,10 @@ export default function UserWave() {
                 />
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Albums" cols="3 col-lg-12">
+              No albums
+            </HomeElement>
           )
         ) : (
           <HomeElement label="Liked tracks">
@@ -325,11 +363,11 @@ export default function UserWave() {
         )}
         {/* User followers */}
         {!isLoading ? (
-          userFollowers.length > 0 && (
+          userFollowers.length > 0 ? (
             <HomeElement
               label="Followers"
               sublabel={userFollowers.length}
-              cols="12"
+              cols="3 col-lg-12"
               isAnimationContainer
             >
               {userFollowers.map((following) => (
@@ -340,6 +378,10 @@ export default function UserWave() {
                 />
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Followers" cols="3 col-lg-12">
+              No followers
+            </HomeElement>
           )
         ) : (
           <HomeElement label="Liked tracks">
@@ -348,11 +390,11 @@ export default function UserWave() {
         )}
         {/* User following */}
         {!isLoading ? (
-          userFollowings.length > 0 && (
+          userFollowings.length > 0 ? (
             <HomeElement
               label="Following"
               sublabel={userFollowings.length}
-              cols="12"
+              cols="3 col-lg-12"
               isAnimationContainer
             >
               {userFollowings.map((following) => (
@@ -363,13 +405,17 @@ export default function UserWave() {
                 />
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Following" cols="3 col-lg-12">
+              No followings
+            </HomeElement>
           )
         ) : (
-          <HomeElement label="Liked tracks">
+          <HomeElement label="Liked tracks" cols="3 col-lg-12">
             <Spinner isNegative />
           </HomeElement>
         )}
       </div>
-    </div>
+    </>
   );
 }

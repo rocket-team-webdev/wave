@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
 import albumSchema from "./album-schema";
@@ -12,8 +12,11 @@ import JumboText from "../../../components/JumboText";
 import Spinner from "../../../components/Spinner";
 
 import { addAlbum } from "../../../api/album-api";
+import BackButton from "../../../components/BackButton";
+import { PUBLIC } from "../../../constants/routes";
 
 export default function CreateAlbum() {
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
@@ -33,7 +36,11 @@ export default function CreateAlbum() {
         formData.append("year", albumState.year);
         formData.append("thumbnail", albumState.thumbnail);
         await addAlbum(formData);
-        history.goBack();
+        if (location.state) {
+          history.push(location.state.referrer);
+        } else {
+          history.push(`${PUBLIC.TRACK_UPLOAD}`);
+        }
         return toast("Album created!", { type: "success" });
       } catch (error) {
         return toast(error.response.data.msg, { type: "error" });
@@ -57,7 +64,7 @@ export default function CreateAlbum() {
           )}
         </div>
 
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             acceptFiles="image/*"
             handleChange={thumbnailOnChange}
@@ -105,14 +112,7 @@ export default function CreateAlbum() {
                 </p>
               </div>
               <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
-                <Button
-                  classNames="me-3"
-                  isNegative
-                  secondaryBtn
-                  handleClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
+                <BackButton isNegative secondaryBtn classNames="me-3" />
                 <Button isNegative submitButton>
                   Create
                 </Button>

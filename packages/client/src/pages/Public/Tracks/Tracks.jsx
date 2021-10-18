@@ -1,6 +1,5 @@
-// import React, { useEffect, useState } from "react";
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -13,12 +12,14 @@ import { PUBLIC } from "../../../constants/routes";
 import Input from "../../../components/Input";
 import { searchTrack } from "../../../api/search-api";
 import useDebounce from "../../../hooks/useDebounce";
+import BackButton from "../../../components/BackButton";
 
 function getUniqueListBy(arr, key) {
   return [...new Map(arr.map((item) => [item[key], item])).values()];
 }
 
 export default function Tracks() {
+  const location = useLocation();
   const [uploadedSongs, setUploadedSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const [searchBar, setSearchBar] = useState("");
@@ -154,17 +155,28 @@ export default function Tracks() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Songs" cols="12" isNegative />
         </div>
-        <div className="col col-3">
-          <Link className="float-end p-3" to={PUBLIC.TRACK_UPLOAD}>
-            <Button isNegative>Upload</Button>
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
+            <BackButton classNames="me-3" isNegative secondaryBtn />
+          </div>
+          <Link
+            className="float-end py-2"
+            to={{
+              pathname: `${PUBLIC.TRACK_UPLOAD}`,
+              state: {
+                referrer: location.pathname,
+              },
+            }}
+          >
+            <Button isNegative>Upload Song</Button>
           </Link>
         </div>
         <div className="col-12">
-          <form className="">
+          <form>
             <Input
               id="searchBar"
               name="searchBar"

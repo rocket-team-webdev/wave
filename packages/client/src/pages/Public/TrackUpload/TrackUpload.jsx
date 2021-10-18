@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as id3 from "id3js/lib/id3";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
 import uploadSchema from "./track-schema";
@@ -23,8 +23,10 @@ import {
   loadLocalStorageItems,
   setLocalStorage,
 } from "../../../utils/localStorage";
+import BackButton from "../../../components/BackButton";
 
 export default function TrackUpload() {
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
@@ -45,6 +47,14 @@ export default function TrackUpload() {
     albumsArr.unshift("Select album");
     setAlbums(albumsArr);
   }, []);
+
+  const goBack = () => {
+    if (location.state) {
+      history.push(location.state.referrer);
+    } else {
+      history.push(`${PUBLIC.HOME}`);
+    }
+  };
 
   const lsInitialValue = loadLocalStorageItems(TRACK_UPLOAD_INFO, {});
 
@@ -86,7 +96,7 @@ export default function TrackUpload() {
         );
 
         toast("Track uploaded!", { type: "success" });
-        return history.goBack();
+        return goBack();
       } catch (error) {
         setLoading(false);
         return toast(error.message, { type: "error" });
@@ -113,7 +123,9 @@ export default function TrackUpload() {
       track: formik.values.track,
     };
     setLocalStorage(formValues, TRACK_UPLOAD_INFO);
-    history.push(PUBLIC.ADD_ALBUM);
+    history.push(PUBLIC.ADD_ALBUM, {
+      referrer: location.pathname,
+    });
   };
 
   return (
@@ -128,7 +140,7 @@ export default function TrackUpload() {
           )}
         </div>
 
-        <div className="col col-12 col-md-6">
+        <div className="col col-12 col-md-6 mb-5 mb-md-0">
           <DragAndDrop
             handleChange={trackOnChange}
             dropText="Drop the song here..."
@@ -178,7 +190,7 @@ export default function TrackUpload() {
                 options={genresState}
               />
 
-              <div className="col-12 col-lg-6 pe-0">
+              <div className="col-12 col-lg-6">
                 <Select
                   classNames="me-1 w-100 "
                   label="album"
@@ -197,14 +209,7 @@ export default function TrackUpload() {
               </div>
             </div>
             <div className="d-flex justify-content-end buttons-wrapper col col-12 p-0">
-              <Button
-                classNames="me-3"
-                isNegative
-                secondaryBtn
-                handleClick={() => history.goBack()}
-              >
-                Back
-              </Button>
+              <BackButton classNames="me-3" isNegative secondaryBtn />
               <Button isNegative submitButton>
                 Upload
               </Button>

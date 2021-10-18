@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
@@ -22,6 +22,7 @@ import {
   updateTrackById,
 } from "../../../api/tracks-api";
 import DeleteModal from "../../../components/DeleteModal";
+import BackButton from "../../../components/BackButton";
 
 function TrackUpdate() {
   const { trackId } = useRouteMatch(`${PUBLIC.TRACK_UPDATE}/:trackId`).params;
@@ -33,6 +34,7 @@ function TrackUpdate() {
   const userId = userState.mongoId;
 
   const history = useHistory();
+  const location = useLocation();
 
   const formik = useFormik({
     initialValues: {
@@ -102,7 +104,11 @@ function TrackUpdate() {
 
   const handleDeleteSong = async () => {
     await deleteTrack(trackId);
-    history.goBack();
+    if (location.state) {
+      history.push(location.state.referrer);
+    } else {
+      history.push(`${PUBLIC.HOME}`);
+    }
   };
 
   useEffect(() => {
@@ -159,7 +165,7 @@ function TrackUpdate() {
                 hasErrorMessage={formik.touched.artist}
               />
               <Select
-                classNames="col-12 col-md-6"
+                classNames="col-12 col-lg-6"
                 label="genre"
                 id="genre"
                 type="select"
@@ -188,16 +194,19 @@ function TrackUpdate() {
                 options={albumsState}
               />
               <div className="d-flex justify-content-between align-items-center mt-3">
-                <Button
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteTrackModal"
-                  isDanger
-                >
-                  Delete
-                </Button>
-                <Button isNegative submitButton>
-                  Update
-                </Button>
+                <BackButton classNames="me-3" isNegative secondaryBtn />
+                <div className="d-flex gap-4">
+                  <Button
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteTrackModal"
+                    isDanger
+                  >
+                    Delete
+                  </Button>
+                  <Button isNegative submitButton>
+                    Update
+                  </Button>
+                </div>
               </div>
             </div>
           </form>
