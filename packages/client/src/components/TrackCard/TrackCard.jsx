@@ -131,12 +131,20 @@ export default function TrackCard({
         (item) => item.trackId === trackObject.trackId,
       );
       if (!songRepeat) {
-        const payload = { track: trackObject, offset: 1 };
-        if (queueState.listPosition === 0) payload.offset = 0;
+        const payload = {
+          track: trackObject,
+          listPosition: queueState.listPosition,
+        };
+        if (queueState.listPosition === queueState.queue.length - 1)
+          payload.listPosition = 0;
         dispatch(setSong(payload));
         dispatch(setPlayState(true));
       } else {
-        toast(`Song already exists on your queue`, { type: "error" });
+        const songRepeatIndex = queueState.queue.findIndex(
+          (item) => item.trackId === trackObject.trackId,
+        );
+        dispatch(setListPosition(songRepeatIndex));
+        dispatch(setPlayState(true));
       }
     }
   };
@@ -154,6 +162,8 @@ export default function TrackCard({
     );
     if (!songRepeat) {
       dispatch(addSong(trackObject));
+      console.log(queueState.queue.length);
+      if (queueState.queue.length === 0) dispatch(setPlayState(true));
     } else {
       toast(`Song already exists on your queue`, { type: "error" });
     }
@@ -392,7 +402,7 @@ export default function TrackCard({
                     </Link>
                   </div>
                   {/* Playcounter */}
-                  <div className="col col-2 d-none d-md-inline justify-content-between align-items-center">
+                  <div className="col col-2 d-none d-md-flex justify-content-between align-items-center">
                     <h4 className="m-0 text-start fnt-song-regular px-2 track-playcounter ">
                       {formatPlayCounter(popularity)}
                     </h4>

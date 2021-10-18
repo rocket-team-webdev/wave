@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouteMatch, Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { FaPlay, FaEllipsisH } from "react-icons/fa";
+import { FaPlay, FaEllipsisH, FaMusic } from "react-icons/fa";
 
 import {
   setQueue,
@@ -36,8 +36,10 @@ export default function SinglePlaylist() {
   const [isOwned, setIsOwned] = useState(false);
   const [followersCounter, setFollowersCounter] = useState(0);
   const [playlistGenres, setPlaylistGenres] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const userState = useSelector((state) => state.user);
+  const queueState = useSelector((state) => state.queue);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -80,6 +82,7 @@ export default function SinglePlaylist() {
 
   const handlePlaying = () => {
     if (tracks.length > 0) {
+      setIsPlaying(true);
       dispatch(clearQueue());
       const tracksArray = [];
       tracks.forEach((track) => {
@@ -125,6 +128,10 @@ export default function SinglePlaylist() {
   useEffect(() => {
     loadPlaylist();
   }, []);
+
+  useEffect(() => {
+    if (queueState.queue.length === 0) setIsPlaying(false);
+  }, [queueState]);
 
   return (
     <Layout thumbnailUrl={playlist.thumbnail}>
@@ -189,9 +196,10 @@ export default function SinglePlaylist() {
             <button
               type="button"
               onClick={handlePlaying}
+              disabled={isPlaying}
               className="play-button clr-light fnt-secondary d-flex justify-content-center align-items-center"
             >
-              <FaPlay />
+              {isPlaying ? <FaMusic /> : <FaPlay />}
             </button>
             {/* Dropdown menu if user is owner */}
             {isOwned && (

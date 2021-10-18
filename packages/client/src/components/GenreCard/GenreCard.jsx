@@ -15,7 +15,7 @@ export default function GenreCard({
 
   return (
     <motion.button
-      className="fx-rounded d-flex align-items-center fnt-caption small-btn px-2"
+      className="fx-rounded d-flex align-items-center fnt-caption small-btn-positive px-2"
       type="button"
       disabled={disabled}
       onClick={handleClick}
