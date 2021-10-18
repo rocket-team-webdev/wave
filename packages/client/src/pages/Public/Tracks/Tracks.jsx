@@ -121,12 +121,12 @@ export default function Tracks() {
 
   return (
     <Layout isNegative>
-      <div className="row mb-5">
-        <div className="col col-9">
+      <div className="row mb-3 mb-md-5">
+        <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Songs" cols="12" isNegative />
         </div>
-        <div className="d-flex justify-content-end col col-3">
-          <div className="p-0 mt-3">
+        <div className="d-flex justify-content-start justify-content-md-end col col-12 col-md-3 mb-4 mb-md-0">
+          <div className="p-0 mt-2">
             <Button
               classNames="me-3"
               isNegative
@@ -136,12 +136,12 @@ export default function Tracks() {
               Back
             </Button>
           </div>
-          <Link className="py-3" to={PUBLIC.TRACK_UPLOAD}>
+          <Link className="float-end py-2" to={PUBLIC.TRACK_UPLOAD}>
             <Button isNegative>Upload Song</Button>
           </Link>
         </div>
         <div className="col-12">
-          <form className="">
+          <form>
             <Input
               id="searchBar"
               name="searchBar"
