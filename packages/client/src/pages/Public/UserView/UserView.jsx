@@ -7,6 +7,7 @@ import { fromBottom } from "../../../utils/motionSettings";
 
 import Layout from "../../../components/Layout";
 import UserWave from "../../../components/UserWave";
+import Button from "../../../components/Button";
 import Spinner from "../../../components/Spinner";
 
 import "./UserView.scss";
@@ -45,6 +46,17 @@ export default function UserView() {
     }
   };
 
+  // Follow user
+  const handleFollow = () => {
+    setIsLoading(true);
+
+    try {
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     // General
     loadUser();
@@ -60,25 +72,29 @@ export default function UserView() {
       <div className="row p-0 g-4 pt-4 pt-md-0 ">
         <div className="col col-12 ps-0">
           {!isLoading ? (
-            <div className="user-top d-flex justify-content-between p-0 m-0 mb-3 mb-md-5">
-              {/* Username */}
-              <motion.h1
-                className="fnt-page-title text-break truncate"
-                variants={fromBottom}
-                initial="hidden"
-                animate="visible"
-              >
-                {`${user.firstName} ${user.lastName}`.toUpperCase()}
-              </motion.h1>
-              <motion.img
-                className="user-profile-picture fx-rounded"
-                variants={fromBottom}
-                initial="hidden"
-                animate="visible"
-                src={user.profilePicture}
-                alt={user.firstName}
-              />
-            </div>
+            <>
+              <div className="user-top d-flex justify-content-between p-0 m-0 mb-3 mb-md-5">
+                {/* Username */}
+                <motion.h1
+                  className="fnt-page-title text-break truncate"
+                  variants={fromBottom}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {`${user.firstName} ${user.lastName}`.toUpperCase()}
+                </motion.h1>
+                <motion.img
+                  className="user-profile-picture fx-rounded"
+                  variants={fromBottom}
+                  initial="hidden"
+                  animate="visible"
+                  src={user.profilePicture}
+                  alt={user.firstName}
+                />
+              </div>
+              {}
+              <Button isSmall>Follow</Button>
+            </>
           ) : (
             <Spinner isNegative />
           )}

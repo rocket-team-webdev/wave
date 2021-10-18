@@ -76,16 +76,29 @@
 }
 
 // Small button
-.small-btn {
+.small-btn-positive,
+.small-btn-negative:hover {
   padding: 5px;
   color: c.$lightColor;
+  background: unset;
   border: 2px solid c.$lightColor;
 }
-.small-btn:hover {
+
+.small-btn-positive:hover,
+.small-btn-negative {
   color: c.$secondaryColor;
   background: c.$lightColor;
 }
-.small-btn:focus {
+
+.small-btn-positive:focus,
+.small-btn-negative:focus {
   padding: 5px;
-  background: c.$lightColor20;
+}
+
+.small-btn-positive:focus {
+  background: c.$secondaryColor;
+}
+
+.small-btn-negative:focus {
+  background: c.$secondaryColor;
 }
