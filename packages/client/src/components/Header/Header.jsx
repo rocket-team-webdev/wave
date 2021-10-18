@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 import { PUBLIC } from "../../constants/routes";
 import { logOut } from "../../redux/user/actions";
 import { signOut } from "../../services/auth";
@@ -13,6 +13,7 @@ import "./Header.scss";
 import { clearQueue } from "../../redux/music-queue/actions";
 
 function Header({ props }) {
+  const location = useLocation();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
 
@@ -36,7 +37,14 @@ function Header({ props }) {
       <div className="row m-0 w-100 d-flex align-items-center">
         <div className="col-7 p-0">
           <div className="logo-container">
-            <Link to={PUBLIC.HOME}>
+            <Link
+              to={{
+                pathname: `${PUBLIC.HOME}`,
+                state: {
+                  referrer: location.pathname,
+                },
+              }}
+            >
               <img src={waveappLogo} alt="Wave App Logo" />
             </Link>
           </div>
@@ -48,7 +56,12 @@ function Header({ props }) {
                 <NavLink
                   className={navlinkClasses}
                   activeClassName="active-navlink"
-                  to={PUBLIC.MY_SONGS}
+                  to={{
+                    pathname: `${PUBLIC.MY_SONGS}`,
+                    state: {
+                      referrer: location.pathname,
+                    },
+                  }}
                 >
                   My songs
                 </NavLink>
@@ -62,13 +75,23 @@ function Header({ props }) {
                 <NavLink
                   className={navlinkClasses}
                   activeClassName="active-navlink"
-                  to={`${PUBLIC.ALBUMS}`}
+                  to={{
+                    pathname: `${PUBLIC.ALBUMS}`,
+                    state: {
+                      referrer: location.pathname,
+                    },
+                  }}
                 >
                   My albums
                 </NavLink>
               </div>
               <NavLink
-                to={`${PUBLIC.USER_VIEW}/${userState.mongoId}`}
+                to={{
+                  pathname: `${PUBLIC.USER_VIEW}/${userState.mongoId}`,
+                  state: {
+                    referrer: location.pathname,
+                  },
+                }}
                 className="fnt-caption d-flex justify-content-center align-items-center fnt-white user-link truncate"
               >
                 <div>{userState.firstName}</div>
@@ -96,7 +119,12 @@ function Header({ props }) {
                     {/* Displaying in small sizes */}
                     <li className="d-md-none fnt-light">
                       <Link
-                        to={PUBLIC.MY_SONGS}
+                        to={{
+                          pathname: `${PUBLIC.MY_SONGS}`,
+                          state: {
+                            referrer: location.pathname,
+                          },
+                        }}
                         className="dropdown-item fnt-link-regular"
                         onClick={() => {}}
                       >
@@ -105,7 +133,12 @@ function Header({ props }) {
                     </li>
                     <li className="d-md-none fnt-light">
                       <Link
-                        to={PUBLIC.MY_PLAYLISTS}
+                        to={{
+                          pathname: `${PUBLIC.MY_PLAYLISTS}`,
+                          state: {
+                            referrer: location.pathname,
+                          },
+                        }}
                         className="dropdown-item fnt-link-regular"
                         onClick={() => {}}
                       >
@@ -114,7 +147,12 @@ function Header({ props }) {
                     </li>
                     <li className="d-md-none fnt-light">
                       <Link
-                        to="/"
+                        to={{
+                          pathname: `/`,
+                          state: {
+                            referrer: location.pathname,
+                          },
+                        }}
                         className="dropdown-item fnt-link-regular"
                         onClick={() => {}}
                       >
@@ -125,7 +163,12 @@ function Header({ props }) {
                     {/* Displaying at all sizes */}
                     <li className="fnt-light">
                       <Link
-                        to={PUBLIC.TRACK_UPLOAD}
+                        to={{
+                          pathname: `${PUBLIC.TRACK_UPLOAD}`,
+                          state: {
+                            referrer: location.pathname,
+                          },
+                        }}
                         className="dropdown-item fnt-link-regular"
                       >
                         Upload song
@@ -133,7 +176,12 @@ function Header({ props }) {
                     </li>
                     <li className="fnt-light">
                       <Link
-                        to={PUBLIC.ADD_PLAYLIST}
+                        to={{
+                          pathname: `${PUBLIC.ADD_PLAYLIST}`,
+                          state: {
+                            referrer: location.pathname,
+                          },
+                        }}
                         className="dropdown-item fnt-link-regular"
                         type="button"
                       >
@@ -142,7 +190,12 @@ function Header({ props }) {
                     </li>
                     <li className="fnt-light">
                       <Link
-                        to={PUBLIC.ADD_ALBUM}
+                        to={{
+                          pathname: `${PUBLIC.ADD_ALBUM}`,
+                          state: {
+                            referrer: location.pathname,
+                          },
+                        }}
                         className="dropdown-item fnt-link-regular"
                         type="button"
                       >
@@ -153,7 +206,12 @@ function Header({ props }) {
 
                     <li className="fnt-light">
                       <Link
-                        to={PUBLIC.USER_ACCOUNT}
+                        to={{
+                          pathname: `${PUBLIC.USER_ACCOUNT}`,
+                          state: {
+                            referrer: location.pathname,
+                          },
+                        }}
                         className="dropdown-item fnt-link-regular"
                         type="button"
                       >

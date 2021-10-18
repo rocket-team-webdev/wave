@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as id3 from "id3js/lib/id3";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Layout from "../../../components/Layout";
 import uploadSchema from "./track-schema";
@@ -25,6 +25,7 @@ import {
 } from "../../../utils/localStorage";
 
 export default function TrackUpload() {
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
@@ -113,7 +114,9 @@ export default function TrackUpload() {
       track: formik.values.track,
     };
     setLocalStorage(formValues, TRACK_UPLOAD_INFO);
-    history.push(PUBLIC.ADD_ALBUM);
+    history.push(PUBLIC.ADD_ALBUM, {
+      referrer: location.pathname,
+    });
   };
 
   return (

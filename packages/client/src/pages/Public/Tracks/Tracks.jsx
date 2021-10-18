@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -14,6 +14,7 @@ import { searchTrack } from "../../../api/search-api";
 import useDebounce from "../../../hooks/useDebounce";
 
 export default function Tracks() {
+  const location = useLocation();
   const [uploadedSongs, setUploadedSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const [searchBar, setSearchBar] = useState("");
@@ -136,7 +137,15 @@ export default function Tracks() {
               Back
             </Button>
           </div>
-          <Link className="py-3" to={PUBLIC.TRACK_UPLOAD}>
+          <Link
+            className="py-3"
+            to={{
+              pathname: `${PUBLIC.TRACK_UPLOAD}`,
+              state: {
+                referrer: location.pathname,
+              },
+            }}
+          >
             <Button isNegative>Upload Song</Button>
           </Link>
         </div>

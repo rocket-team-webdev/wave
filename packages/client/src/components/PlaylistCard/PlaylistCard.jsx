@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fromBottom } from "../../utils/motionSettings";
 
@@ -19,6 +19,7 @@ export default function PlaylistCard({
   colsMd = "6",
   updateFollowedView = () => {},
 }) {
+  const location = useLocation();
   const [followed, setFollowed] = useState(isFollowed);
   const playlistObject = {
     name: playlistName,
@@ -56,7 +57,15 @@ export default function PlaylistCard({
   return (
     <>
       {isPlaceholder ? (
-        <Link to={PUBLIC.ADD_PLAYLIST} className={componentClasses}>
+        <Link
+          to={{
+            pathname: `${PUBLIC.ADD_PLAYLIST}`,
+            state: {
+              referrer: location.pathname,
+            },
+          }}
+          className={componentClasses}
+        >
           <motion.div
             className="d-flex flex-column justify-content-center playlist-card playlist-placeholder fx-rounded clr-light-20 py-3 px-4"
             // Animation settings
@@ -69,7 +78,12 @@ export default function PlaylistCard({
         </Link>
       ) : (
         <Link
-          to={`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`}
+          to={{
+            pathname: `${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`,
+            state: {
+              referrer: location.pathname,
+            },
+          }}
           className={componentClasses}
         >
           <motion.div

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useRouteMatch, useHistory } from "react-router-dom";
+import { Link, useRouteMatch, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../../components/Button";
 import JumboText from "../../../components/JumboText";
@@ -13,6 +13,7 @@ import { PUBLIC } from "../../../constants/routes";
 import AlbumList from "../../../components/AlbumList/AlbumList";
 
 function UserAlbums() {
+  const location = useLocation();
   const [userCreatedAlbums, setUserCreatedAlbums] = useState([]);
   const [userLikedAlbums, setUserLikedAlbums] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
@@ -87,7 +88,15 @@ function UserAlbums() {
           />
         </div>
         <div className="col col-3">
-          <Link className="float-end p-3" to={`${PUBLIC.USERS}/${userId}`}>
+          <Link
+            className="float-end p-3"
+            to={{
+              pathname: `${PUBLIC.USERS}/${userId}`,
+              state: {
+                referrer: location.pathname,
+              },
+            }}
+          >
             <Button isNegative>Back</Button>
           </Link>
         </div>

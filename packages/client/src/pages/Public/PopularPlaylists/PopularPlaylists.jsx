@@ -32,6 +32,7 @@ export default function PopularPlaylists() {
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Top playlists" cols="11" isNegative />
           </div>
+          {/* //BACK */}
           <Link className="float-start p-0 pt-4" to={PUBLIC.HOME}>
             <Button isNegative>Back</Button>
           </Link>

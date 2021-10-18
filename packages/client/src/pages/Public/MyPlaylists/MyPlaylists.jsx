@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Button";
@@ -13,6 +13,7 @@ import useDebounce from "../../../hooks/useDebounce";
 import { searchPlaylists } from "../../../api/search-api";
 
 function MyPlaylists() {
+  const location = useLocation();
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const userState = useSelector((state) => state.user);
@@ -118,7 +119,15 @@ function MyPlaylists() {
               Back
             </Button>
           </div>
-          <Link className="float-end py-3" to={PUBLIC.ADD_PLAYLIST}>
+          <Link
+            className="float-end py-3"
+            to={{
+              pathname: `${PUBLIC.ADD_PLAYLIST}`,
+              state: {
+                referrer: location.pathname,
+              },
+            }}
+          >
             <Button isNegative>New Playlist</Button>
           </Link>
         </div>
