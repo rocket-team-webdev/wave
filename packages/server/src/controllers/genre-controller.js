@@ -4,16 +4,16 @@ async function getGenres(req, res, next) {
   try {
     const { page = 0, limit = 10 } = req.query;
 
-    const genres = await db.Genre.find({})
+    const genres = await db.Genre.find({}, { _id: 1, popularity: 1, name: 1 })
       .skip(parseInt(page) * parseInt(limit))
       .limit(parseInt(limit));
 
     res.status(200).send({ genres });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 
@@ -39,11 +39,11 @@ async function getPopularGenres(req, res, next) {
       .limit(parseInt(limit));
 
     res.status(200).send({ genres });
-  } catch (err) {
-    res.status(404).send({
-      error: err.message,
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
     });
-    next(err);
+    next(error);
   }
 }
 

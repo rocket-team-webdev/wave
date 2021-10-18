@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
