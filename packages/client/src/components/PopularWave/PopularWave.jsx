@@ -107,7 +107,7 @@ export default function PopularWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Playlists" cols="12 col-lg-6">
-              <p>No playlists</p>
+              <p className="fnt-caption fnt-secondary">No playlists</p>
             </HomeElement>
           )
         ) : (
@@ -126,7 +126,7 @@ export default function PopularWave() {
           </HomeElement>
         ) : (
           <HomeElement label="Songs" cols="12 col-lg-6">
-            <p>No songs</p>
+            <p className="fnt-caption fnt-secondary">No songs</p>
           </HomeElement>
         )}
       </div>
@@ -142,7 +142,7 @@ export default function PopularWave() {
           </HomeElement>
         ) : (
           <HomeElement label="Genres" cols="4 col-lg-12">
-            <p>No genres</p>
+            <p className="fnt-caption fnt-secondary">No genres</p>
           </HomeElement>
         )}
         {!loadStatus ? (
@@ -163,7 +163,7 @@ export default function PopularWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Albums" cols="4 col-lg-12">
-              <p>No albums</p>
+              <p className="fnt-caption fnt-secondary">No albums</p>
             </HomeElement>
           )
         ) : (
@@ -184,7 +184,7 @@ export default function PopularWave() {
           </HomeElement>
         ) : (
           <HomeElement label="Users" cols="4 col-lg-12">
-            <p>No users</p>
+            <p className="fnt-caption fnt-secondary">No users</p>
           </HomeElement>
         )}
       </div>

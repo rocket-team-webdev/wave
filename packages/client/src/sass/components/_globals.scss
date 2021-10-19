@@ -63,6 +63,10 @@ select:-webkit-autofill:focus {
   // -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
+a {
+  color: c.$secondaryColor;
+}
+
 a,
 a:visited {
   text-decoration: none;
@@ -77,6 +81,14 @@ a:visited {
 a:hover {
   font-weight: normal;
   color: inherit;
+}
+
+.nav-link:visited {
+  color: c.$lightColor;
+}
+
+.fnt-smallest:visited {
+  color: c.$secondaryColor;
 }
 
 button {

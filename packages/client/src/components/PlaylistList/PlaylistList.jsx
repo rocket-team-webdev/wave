@@ -41,7 +41,6 @@ function PlaylistList({
 
   useEffect(() => {
     setListOfPlaylists(playlists);
-    console.log("Set playlists, ", playlists);
   }, [playlists]);
 
   return (

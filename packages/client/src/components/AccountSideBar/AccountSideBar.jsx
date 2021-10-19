@@ -7,12 +7,12 @@ function AccountSideBar() {
 
   return (
     <div className="row m-0 p-0">
-      <div className="col col-12 col-sm-6 col-lg-12">
+      <div className="col col-12 col-sm-6 col-lg-12 p-0">
         <h1 className="fnt-jumbo mt-0 pt-0 fnt-primary fnt-uppercase truncate">
           {userState.firstName}
         </h1>
       </div>
-      <div className="col col-12 col-sm-6 col-lg-12">
+      <div className="col col-12 col-sm-6 col-lg-12 p-0">
         <div>
           <NavLink
             exact

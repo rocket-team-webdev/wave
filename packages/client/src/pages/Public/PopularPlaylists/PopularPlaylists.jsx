@@ -29,11 +29,11 @@ export default function PopularPlaylists() {
     <Layout isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
-        <div className="col col-12 col-md-6 left-side mt-4">
+        <div className="col col-12 col-md-6 left-side mt-4 px-4 p-md-0">
           <div className="d-flex justify-content-between align-items-start">
             <JumboText priText="Top playlists" cols="11" isNegative />
           </div>
-          <BackButton isNegative />
+          <BackButton classNames="mt-5" isNegative />
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">

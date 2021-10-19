@@ -2,10 +2,15 @@ import React from "react";
 
 import "./Footer.scss";
 
-const Footer = ({ ...props }) => {
+const Footer = ({ darkBackground, ...props }) => {
+  const footerClasses = "px-3 px-sm-5 h-60 d-flex align-items-center";
   return (
     <footer
-      className="px-3 px-sm-5 h-60 d-flex align-items-center fx-blur"
+      className={
+        darkBackground
+          ? `${footerClasses} fx-dark-footer`
+          : `${footerClasses} fx-blur`
+      }
       {...props}
     >
       <div className="row m-0 w-100 d-flex align-items-center">
