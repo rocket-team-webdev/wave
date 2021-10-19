@@ -94,9 +94,11 @@ async function addAlbum(req, res, next) {
     albumObj.year = req.body.year;
     albumObj.userId = userId;
 
-    await db.Album.create(albumObj);
+    const { _id: albumId } = await db.Album.create(albumObj);
 
-    return res.status(200).send({ message: "album created successfully" });
+    return res
+      .status(200)
+      .send({ message: "album created successfully", _id: albumId });
   } catch (error) {
     res.status(500).send({
       error: error.message,

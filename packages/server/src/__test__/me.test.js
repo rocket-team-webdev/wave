@@ -7,7 +7,7 @@ const { config } = require("../config/config");
 const requestMeApi = request(`http://localhost:${config.app.port}/api/me`);
 
 describe("Backend 'me' api testing", function () {
-  test.skip("GET / my tracks", () => {
+  test("GET / my tracks", () => {
     return requestMeApi
       .get("/tracks")
       .auth(token, { type: "bearer" })
