@@ -56,8 +56,6 @@ async function signUp(req, res, next) {
         });
       }
 
-      console.log("profilePictureUrl fuers", profilePictureUrl);
-
       const newUser = await db.User.create({
         ...req.user,
         ...req.body,

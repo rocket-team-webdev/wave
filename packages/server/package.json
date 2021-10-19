@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js",
+    "start": "nodemon ./src/index.js",
     "test": "jest --env=node",
     "test:ci:all": "jest --env=node",
     "test:watch": "jest --watch",
