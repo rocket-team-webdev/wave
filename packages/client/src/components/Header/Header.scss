@@ -21,12 +21,12 @@ header {
 }
 
 .nav-link {
-  font-weight: 700;
+  font-weight: 250;
   min-width: 120px;
   text-align: center;
   &:hover {
-    font-weight: 300;
-    color: inherit !important;
+    font-weight: 800;
+    // color: inherit !important;
   }
 }
 

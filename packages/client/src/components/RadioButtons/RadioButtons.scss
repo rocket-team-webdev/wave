@@ -3,7 +3,7 @@
 
 .custom-radio {
   @extend .btn;
-  color: c.$secondaryColor;
+  color: c.$lightColor;
   border: 2px solid c.$lightColor;
   background: unset;
   &:hover {
@@ -14,6 +14,8 @@
 .custom-btn-check {
   @extend .btn-check;
   &:checked + label {
+    color: c.$secondaryColor;
+
     background: c.$lightColor;
   }
 

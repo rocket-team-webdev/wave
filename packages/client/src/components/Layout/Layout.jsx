@@ -17,12 +17,13 @@ function Layout({ children, isNegative = false, thumbnailUrl, bgColor }) {
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
       backgroundPosition: "center",
+      backgroundPositionX: "25%",
     };
     if (bgColor) backgroundStyles.backgroundColor = `${bgColor}`;
   }
 
-  if (isNegative) {
-    mainClassNames += " ";
+  if (!isNegative && !thumbnailUrl) {
+    mainClassNames += "clr-white ";
   }
 
   return (

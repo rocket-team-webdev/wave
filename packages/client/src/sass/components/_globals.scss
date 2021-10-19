@@ -63,32 +63,28 @@ select:-webkit-autofill:focus {
   // -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
-// Scroll
-/* width */
-::-webkit-scrollbar {
-  position: relative;
-  width: 4px;
-  z-index: 2000;
-}
+// // Scroll
+// /* width */
+// ::-webkit-scrollbar {
+//   position: relative;
+//   width: 4px;
+//   z-index: 2000;
+//   background: red;
+// }
 
-/* Button */
-::-webkit-scrollbar-button {
-  height: 50px;
-}
-/* Track */
-::-webkit-scrollbar-track {
-  z-index: 2000;
-}
+// /* Track */
+// ::-webkit-scrollbar-track {
+//   z-index: 2000;
+// }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  width: 8px;
-  // background: c.$lightColor;
-  background: rgba(255, 255, 255, 0.8);
-  margin-left: 20px;
-  border-radius: 4px;
-  z-index: 2000;
-}
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   width: 8px;
+//   background: rgba(255, 255, 255, 0.8);
+//   margin-left: 20px;
+//   border-radius: 4px;
+//   z-index: 2000;
+// }
 
 a {
   color: c.$secondaryColor;
@@ -108,6 +104,14 @@ a:visited {
 a:hover {
   font-weight: normal;
   color: inherit;
+}
+
+.nav-link:visited {
+  color: c.$lightColor;
+}
+
+.fnt-smallest:visited {
+  color: c.$secondaryColor;
 }
 
 button {

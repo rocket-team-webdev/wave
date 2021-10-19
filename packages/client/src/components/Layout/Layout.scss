@@ -5,22 +5,18 @@ header {
 
 main {
   padding-bottom: 130px;
-  max-height: 100vh;
-  overflow-y: scroll;
+  flex-shrink: 1;
+}
+
+.layout-wrapper {
+  min-height: 100vh;
+  z-index: -2;
 }
 
 footer {
   position: fixed;
   width: 100%;
   bottom: 0;
-}
-
-#root {
-}
-.layout-wrapper {
-  // min-height: 100vh;
-  overflow: hidden;
-  z-index: -2;
 }
 
 .main-with-thumbnail {
