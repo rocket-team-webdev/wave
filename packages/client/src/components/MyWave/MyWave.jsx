@@ -28,7 +28,17 @@ import { getAllGenres } from "../../api/genre-api";
 import { uniqueValuesArray } from "../../utils/arrayFunctions";
 
 export default function MyWave() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadStatus, setLoadStatus] = useState({
+    myGenres: false,
+    allGenres: false,
+    myFollowers: false,
+    myFollowings: false,
+    myPlaylists: false,
+    myFollowingPlaylists: false,
+    myAlbums: false,
+    myTracks: false,
+    myLikedTracks: false,
+  });
   const [myGenres, setMyGenres] = useState([]);
   const [allGenres, setAllGenres] = useState([]);
   const [myFollowers, setMyFollowers] = useState([]);
@@ -53,6 +63,7 @@ export default function MyWave() {
     });
     const cleanedGenres = uniqueValuesArray(genresArray);
     setMyGenres(cleanedGenres);
+    setLoadStatus((prev) => ({ ...prev, myGenres: true }));
   };
 
   const loadMyGenres = () => {
@@ -63,106 +74,90 @@ export default function MyWave() {
   };
 
   const loadAllGenres = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getAllGenres();
       setAllGenres(data.genres);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, allGenres: true }));
   };
 
   // Users
 
   const loadMyFollowers = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getMyFollowers();
       setMyFollowers(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, myFollowers: true }));
   };
 
   const loadMyFollowings = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getMyFollowings();
       setMyFollowings(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, myFollowings: true }));
   };
 
   // Playlists
 
   const loadMyPlaylists = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getMyPlaylists(0, 2);
       setMyPlaylists(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, myPlaylists: true }));
   };
 
   const loadMyFollowingPlaylists = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getFollowingPlaylists(0, 2);
       setMyFollowingPlaylists(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, myFollowingPlaylists: true }));
   };
 
   // Albums
 
   const loadMyAlbums = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getMyAlbums();
       setMyAlbums(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, myAlbums: true }));
   };
 
   // Tracks
   const loadMyTracks = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getMyTracks();
       setMyTracks(data.data);
-
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, myTracks: true }));
   };
+
   const loadMyLikedTracks = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getLikedTracks();
       setMyLikedTracks(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, myLikedTracks: true }));
   };
 
   const initialFetch = () => {
@@ -199,7 +194,7 @@ export default function MyWave() {
       {/* Left */}
       <div className="col col-12 col-lg-10 row p-0 m-0 g-5 g-lg-4">
         {/* User playlists */}
-        {!isLoading ? (
+        {loadStatus.myPlaylists ? (
           myPlaylists.length > 0 ? (
             <HomeElement
               label="Created playlists"
@@ -229,7 +224,8 @@ export default function MyWave() {
             <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
-        {!isLoading ? (
+
+        {loadStatus.myFollowingPlaylists ? (
           myFollowingPlaylists.length > 0 ? (
             <HomeElement
               label="Following playlists"
@@ -256,8 +252,9 @@ export default function MyWave() {
             <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
+
         {/* User tracks */}
-        {!isLoading ? (
+        {loadStatus.myTracks ? (
           myTracks.length > 0 ? (
             <HomeElement
               label="Uploaded songs"
@@ -277,8 +274,9 @@ export default function MyWave() {
             <Spinner isNegative />
           </HomeElement>
         )}
+
         {/* User liked tracks */}
-        {!isLoading ? (
+        {loadStatus.myLikedTracks ? (
           myLikedTracks.length > 0 ? (
             <HomeElement
               label="Liked songs"
@@ -301,7 +299,7 @@ export default function MyWave() {
       </div>
       {/* Right */}
       <div className="col col-12 col-lg-2 row p-0 m-0 g-5 g-lg-4">
-        {!isLoading ? (
+        {loadStatus.myGenres ? (
           myGenres.length > 0 ? (
             <HomeElement label="Genres" cols="3 col-lg-12" isAnimationContainer>
               {myGenres.map((genre) => (
@@ -320,8 +318,9 @@ export default function MyWave() {
             <Spinner isNegative />
           </HomeElement>
         )}
+
         {/* User albums */}
-        {!isLoading ? (
+        {loadStatus.myAlbums ? (
           myAlbums.length > 0 ? (
             <HomeElement
               label="Albums"
@@ -347,8 +346,9 @@ export default function MyWave() {
             <Spinner isNegative />
           </HomeElement>
         )}
+
         {/* User followers */}
-        {!isLoading ? (
+        {loadStatus.myFollowers ? (
           myFollowers.length > 0 ? (
             <HomeElement
               label="Followers"
@@ -374,8 +374,9 @@ export default function MyWave() {
             <Spinner isNegative />
           </HomeElement>
         )}
+
         {/* User following */}
-        {!isLoading ? (
+        {loadStatus.myFollowings ? (
           myFollowings.length > 0 ? (
             <HomeElement
               label="Following"

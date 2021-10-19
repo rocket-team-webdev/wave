@@ -27,7 +27,7 @@ import BackButton from "../../../components/BackButton";
 
 export default function TrackUpload() {
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
   const history = useHistory();
@@ -46,6 +46,7 @@ export default function TrackUpload() {
     const albumsArr = albums.map((album) => album.title);
     albumsArr.unshift("Select album");
     setAlbums(albumsArr);
+    setIsLoading(false);
   }, []);
 
   const goBack = () => {
@@ -68,7 +69,7 @@ export default function TrackUpload() {
     },
     validationSchema: uploadSchema,
     onSubmit: async (uploadState) => {
-      setLoading(true);
+      setIsLoading(true);
       try {
         if (!uploadState.track)
           return toast("Choose a track!", { type: "error" });
@@ -81,7 +82,6 @@ export default function TrackUpload() {
         formData.append("track", uploadState.track);
 
         await uploadTrack(formData);
-        setLoading(false);
 
         // reset form values
         setLocalStorage({}, TRACK_UPLOAD_INFO);
@@ -96,9 +96,10 @@ export default function TrackUpload() {
         );
 
         toast("Track uploaded!", { type: "success" });
+        setIsLoading(false);
         return goBack();
       } catch (error) {
-        setLoading(false);
+        setIsLoading(false);
         return toast(error.message, { type: "error" });
       }
     },
@@ -133,7 +134,7 @@ export default function TrackUpload() {
       <div className="row">
         <div className="mb-5 d-flex">
           <JumboText priText="Song upload" cols="11" isNegative />
-          {loading && (
+          {isLoading && (
             <div className="col d-flex justify-content-end">
               <Spinner isNegative />
             </div>
@@ -210,7 +211,7 @@ export default function TrackUpload() {
             </div>
             <div className="d-flex justify-content-end buttons-wrapper col col-12 p-0">
               <BackButton classNames="me-3" isNegative secondaryBtn />
-              <Button isNegative submitButton>
+              <Button isNegative submitButton disabled={isLoading}>
                 Upload
               </Button>
             </div>

@@ -29,6 +29,7 @@ export default function UpdateAlbum() {
     },
     validationSchema: updateAlbumSchema,
     onSubmit: async (albumState) => {
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append("title", albumState.title);
@@ -38,8 +39,10 @@ export default function UpdateAlbum() {
 
         await updateAlbum(formData);
         history.push(`${PUBLIC.ALBUM}/${album._id}`);
+        setIsLoading(false);
         return toast("Album updated!", { type: "success" });
       } catch (error) {
+        setIsLoading(false);
         return toast(error.response.data.msg, { type: "error" });
       }
     },
@@ -57,11 +60,11 @@ export default function UpdateAlbum() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setIsLoading(false);
   }
 
   useEffect(() => {
     fetchAlbum(albumId);
-    setIsLoading(false);
   }, []);
 
   const thumbnailOnChange = async (files) => {
@@ -129,7 +132,7 @@ export default function UpdateAlbum() {
               </div>
               <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
                 <BackButton classNames="me-3" isNegative secondaryBtn />
-                <Button isNegative submitButton>
+                <Button isNegative submitButton disabled={isLoading}>
                   Update
                 </Button>
               </div>

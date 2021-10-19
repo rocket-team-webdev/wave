@@ -18,7 +18,13 @@ import { getAllAlbums } from "../../api/album-api";
 import { PUBLIC } from "../../constants/routes";
 
 export default function PopularWave() {
-  const [loadStatus, setLoadStatus] = useState(false);
+  const [loadStatus, setLoadStatus] = useState({
+    popularGenres: false,
+    popularUsers: false,
+    popularAlbums: false,
+    popularPlaylists: false,
+    popularTracks: false,
+  });
   const [popularGenres, setPopularGenres] = useState([]);
   const [popularUsers, setPopularUsers] = useState([]);
   const [popularAlbums, setPopularAlbums] = useState([]);
@@ -33,6 +39,7 @@ export default function PopularWave() {
     } catch (err) {
       toast(err.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, popularGenres: true }));
   };
 
   // Albums
@@ -43,6 +50,7 @@ export default function PopularWave() {
     } catch (err) {
       toast(err.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, popularAlbums: true }));
   };
 
   // Users
@@ -53,28 +61,31 @@ export default function PopularWave() {
     } catch (err) {
       toast(err.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, popularUsers: true }));
   };
 
   // Playlists
   const loadPlaylists = async () => {
     try {
-      setLoadStatus(true);
       const { data } = await getAllPlaylists(0, 6);
       setPopularPlaylists(data.playlists);
-      setLoadStatus(false);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, popularPlaylists: true }));
   };
 
   // Tracks
   const loadTracks = async () => {
     try {
-      const { data } = await getAllTracks(0, 10);
-      setPopularTracks(data.tracks);
+      const {
+        data: { tracks },
+      } = await getAllTracks(0, 10);
+      setPopularTracks(tracks);
     } catch (err) {
       toast(err.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, popularTracks: true }));
   };
 
   useEffect(() => {
@@ -89,7 +100,7 @@ export default function PopularWave() {
     <>
       {/* Left */}
       <div className="col col-12 col-lg-10 row p-0 m-0 g-5 g-lg-4">
-        {!loadStatus ? (
+        {loadStatus.popularPlaylists ? (
           popularPlaylists.length > 0 ? (
             <HomeElement
               label="Playlists"
@@ -115,37 +126,49 @@ export default function PopularWave() {
             <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
-        {popularTracks.length > 0 ? (
-          <HomeElement
-            label="Songs"
-            to={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`}
-            cols="12 col-lg-6"
-            isAnimationContainer
-          >
-            <TrackList tracks={popularTracks} setTracks={setPopularTracks} />
-          </HomeElement>
+        {loadStatus.popularTracks ? (
+          popularTracks.length > 0 ? (
+            <HomeElement
+              label="Songs"
+              to={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`}
+              cols="12 col-lg-6"
+              isAnimationContainer
+            >
+              <TrackList tracks={popularTracks} setTracks={setPopularTracks} />
+            </HomeElement>
+          ) : (
+            <HomeElement label="Songs" cols="12 col-lg-6">
+              <p>No songs</p>
+            </HomeElement>
+          )
         ) : (
-          <HomeElement label="Songs" cols="12 col-lg-6">
-            <p>No songs</p>
+          <HomeElement label="Playlists" cols="12 col-lg-6">
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
       </div>
       {/* Right */}
       <div className="col col-12 col-lg-2 row p-0 m-0 g-5 g-lg-4">
-        {popularGenres.length > 0 ? (
-          <HomeElement label="Genres" cols="4 col-lg-12" isAnimationContainer>
-            {popularGenres.map((genre) => (
-              <div key={genre.name} className="mb-2 me-2">
-                <GenreCard>{genre.name.toUpperCase()}</GenreCard>
-              </div>
-            ))}
-          </HomeElement>
+        {loadStatus.popularGenres ? (
+          popularGenres.length > 0 ? (
+            <HomeElement label="Genres" cols="4 col-lg-12" isAnimationContainer>
+              {popularGenres.map((genre) => (
+                <div key={genre.name} className="mb-2 me-2">
+                  <GenreCard>{genre.name.toUpperCase()}</GenreCard>
+                </div>
+              ))}
+            </HomeElement>
+          ) : (
+            <HomeElement label="Genres" cols="4 col-lg-12">
+              <p>No genres</p>
+            </HomeElement>
+          )
         ) : (
           <HomeElement label="Genres" cols="4 col-lg-12">
-            <p>No genres</p>
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
-        {!loadStatus ? (
+        {loadStatus.popularAlbums ? (
           popularAlbums.length > 0 ? (
             <HomeElement
               label="Albums"
@@ -171,20 +194,26 @@ export default function PopularWave() {
             <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
-        {popularUsers.length > 0 ? (
-          <HomeElement label="Users" cols="4 col-lg-12" isAnimationContainer>
-            {popularUsers.map((popular) => (
-              <UserCard
-                key={popular._id}
-                userId={popular._id}
-                userName={popular.firstName}
-                isPopularView
-              />
-            ))}
-          </HomeElement>
+        {loadStatus.popularUsers ? (
+          popularUsers.length > 0 ? (
+            <HomeElement label="Users" cols="4 col-lg-12" isAnimationContainer>
+              {popularUsers.map((popular) => (
+                <UserCard
+                  key={popular._id}
+                  userId={popular._id}
+                  userName={popular.firstName}
+                  isPopularView
+                />
+              ))}
+            </HomeElement>
+          ) : (
+            <HomeElement label="Users" cols="4 col-lg-12">
+              <p>No users</p>
+            </HomeElement>
+          )
         ) : (
           <HomeElement label="Users" cols="4 col-lg-12">
-            <p>No users</p>
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
       </div>

@@ -11,8 +11,13 @@ import {
 import { PUBLIC } from "../../../constants/routes";
 import AlbumList from "../../../components/AlbumList/AlbumList";
 import BackButton from "../../../components/BackButton";
+import Spinner from "../../../components/Spinner";
 
 function UserAlbums() {
+  const [loadStatus, setLoadStatus] = useState({
+    userAlbums: false,
+    likedAlbums: false,
+  });
   const [userCreatedAlbums, setUserCreatedAlbums] = useState([]);
   const [userLikedAlbums, setUserLikedAlbums] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
@@ -53,6 +58,7 @@ function UserAlbums() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, userAlbums: true }));
   };
 
   const fetchLikedAlbums = async () => {
@@ -66,6 +72,7 @@ function UserAlbums() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, likedAlbums: true }));
   };
 
   useEffect(() => {
@@ -94,11 +101,19 @@ function UserAlbums() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {userCreatedAlbums && <AlbumList albums={userCreatedAlbums} />}
+          {loadStatus.userAlbums ? (
+            userCreatedAlbums && <AlbumList albums={userCreatedAlbums} />
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
+          )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Liked</div>
-          {userLikedAlbums && <AlbumList albums={userLikedAlbums} />}
+          {loadStatus.likedAlbums ? (
+            userLikedAlbums && <AlbumList albums={userLikedAlbums} />
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
+          )}
         </div>
       </div>
     </Layout>
