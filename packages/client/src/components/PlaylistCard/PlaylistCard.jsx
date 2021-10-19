@@ -50,13 +50,6 @@ export default function PlaylistCard({
     }
   };
 
-  let backgroundStyles = {};
-  if (thumbnail) {
-    backgroundStyles = {
-      backgroundImage: `url(${thumbnail})`,
-    };
-  }
-
   useEffect(() => {
     setFollowed(isFollowed);
   }, [isFollowed]);
@@ -103,25 +96,29 @@ export default function PlaylistCard({
             // Animation settings
             variants={fromBottom}
           >
-            <div className="thumbnail-card" style={backgroundStyles} />
+            <img
+              className="thumbnail-card"
+              src={thumbnail}
+              alt={playlistName}
+            />
             <div
-              className="heart-wrapper d-flex justify-content-end fnt-primary"
+              className="heart-wrapper d-flex justify-content-end fnt-primary "
               data-testid="playlistCard"
             >
               <button
-                className="text-center px-0"
+                className="text-center px-0 "
                 type="button"
                 onClick={handleLike}
               >
                 {followed ? (
-                  <HeartIcon isFull isNegative />
+                  <HeartIcon isFull isNegative classNames="color-hov" />
                 ) : (
-                  <HeartIcon isNegative />
+                  <HeartIcon isNegative classNames="color-hov" />
                 )}
               </button>
             </div>
 
-            <p className="fnt-input-bold fnt-light mb-0 truncate">
+            <p className="fnt-input-bold fnt-light mb-0 truncate color-hov">
               {playlistName.toUpperCase()}
             </p>
           </motion.div>
