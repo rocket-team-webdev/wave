@@ -9,7 +9,7 @@ main {
 
 .layout-wrapper {
   min-height: 100vh;
-  background: lightblue;
+  z-index: -2;
 }
 
 footer {
@@ -23,10 +23,10 @@ footer {
   .thumbnail-background {
     position: absolute;
     z-index: -1;
-    top: -5%;
-    left: -5%;
-    width: 105%;
-    height: 105%;
+    top: -20%;
+    left: -20%;
+    width: 120%;
+    height: 120%;
     filter: blur(30px) brightness(70%);
   }
 }

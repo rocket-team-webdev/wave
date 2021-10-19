@@ -7,7 +7,7 @@ $grayColor: rgb(233, 233, 233);
 $lightColor: rgb(250, 250, 250);
 $lightColor60: rgba(250, 250, 250, 0.6);
 $lightColor20: rgba(250, 250, 250, 0.2);
-$white: rgb(255, 255, 255);
+$whiteColor: rgb(255, 255, 255);
 $darkDangerColor: rgb(218, 95, 100);
 $lightDangerColor: rgb(255, 206, 208);
 $darkSuccessColor: rgb(93, 172, 101);
@@ -45,7 +45,7 @@ $playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
 }
 
 .clr-white {
-  background: $white;
+  background: $whiteColor;
 }
 
 .clr-danger {
@@ -81,7 +81,7 @@ $playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
 }
 
 .fnt-white {
-  color: $white !important;
+  color: $whiteColor !important;
 }
 
 .fnt-danger {

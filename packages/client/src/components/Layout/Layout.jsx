@@ -20,8 +20,8 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
     };
   }
 
-  if (!isNegative) {
-    mainClassNames += "clr-white ";
+  if (isNegative) {
+    mainClassNames += " ";
   }
 
   return (

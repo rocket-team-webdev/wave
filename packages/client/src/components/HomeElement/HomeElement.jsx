@@ -48,7 +48,7 @@ export default function HomeElement({
                   className="mb-2 fnt-smallest fnt-secondary"
                 >
                   See all
-                  <FaArrowCircleRight className="ms-2" />
+                  <FaArrowCircleRight className="ms-2 fnt-secondary" />
                 </Link>
               )}
               {sublabel && (

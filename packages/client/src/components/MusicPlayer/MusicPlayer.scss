@@ -12,7 +12,7 @@
   // overflow-x: hidden;
 }
 .rhap_container {
-  background-color: c.$white;
+  background-color: c.$whiteColor;
   box-shadow: none;
   padding-right: 3rem;
 }
@@ -29,7 +29,7 @@
 }
 .rhap_volume-indicator {
   top: -5px;
-  background-color: c.$white;
+  background-color: c.$whiteColor;
   opacity: 1;
   box-shadow: none;
   border: 2px solid c.$secondaryColor;
@@ -53,7 +53,7 @@
 }
 
 .rhap_progress-indicator {
-  background-color: c.$white;
+  background-color: c.$whiteColor;
   border: 2px solid c.$secondaryColor;
   opacity: 1;
   box-shadow: none;
@@ -213,7 +213,7 @@
     display: none;
   }
 
-  .dropdown{
+  .dropdown {
     padding-bottom: 1rem;
   }
 }

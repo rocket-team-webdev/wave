@@ -7,7 +7,13 @@
 }
 
 .playlist-gradient {
-  background: c.$playlistGradient;
+  background: c.$whiteColor;
+  // background: c.$playlistGradient;
+  &:hover {
+    // background-image: none;
+    color: c.$lightColor;
+    background: c.$secondaryColor;
+  }
 }
 
 .card-min {
