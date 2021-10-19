@@ -7,7 +7,7 @@ import "@testing-library/jest-dom";
 
 import Input from "../../components/Input";
 
-describe("Input Component", () => {
+describe.skip("Input Component", () => {
   test("renders", () => {
     render(<Input label="renderedInput" />);
     expect(screen.getByLabelText(/renderedInput/i)).toBeInTheDocument();

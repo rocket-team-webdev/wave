@@ -71,7 +71,10 @@ export default function PlaylistCard({
             // Animation settings
             variants={fromBottom}
           >
-            <p className="fnt-input-bold fnt-light mb-0 truncate text-center">
+            <p
+              className="fnt-input-bold fnt-light mb-0 truncate text-center"
+              data-testid="playlistCard"
+            >
               New playlist
             </p>
           </motion.div>
