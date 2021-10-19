@@ -41,6 +41,7 @@ function PlaylistList({
 
   useEffect(() => {
     setListOfPlaylists(playlists);
+    console.log("Set playlists, ", playlists);
   }, [playlists]);
 
   return (
@@ -65,6 +66,7 @@ function PlaylistList({
             userId={playlist.userId}
             isFollowed={playlist.isFollowed}
             thumbnail={playlist.thumbnail}
+            bgColor={playlist.primaryColor}
             colsMd={colsMd}
             updateFollowedView={handleAddFollowedColumn}
           />
