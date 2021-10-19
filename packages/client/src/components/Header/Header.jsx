@@ -193,7 +193,7 @@ function Header({ props }) {
                         Create playlist
                       </Link>
                     </li>
-                    <li className="fnt-light">
+                    {/* <li className="fnt-light">
                       <Link
                         to={{
                           pathname: `${PUBLIC.ADD_ALBUM}`,
@@ -206,7 +206,7 @@ function Header({ props }) {
                       >
                         Create album
                       </Link>
-                    </li>
+                    </li> */}
                     <hr className="light-hr" />
 
                     <li className="fnt-light">

@@ -35,7 +35,8 @@ export default function Input({
   };
 
   const componentClasses = `${classNames} custom-input d-flex flex-column mb-3`;
-  const errorClassNames = "col col-12 error-msg fnt-smallest mt-2 mb-0 ps-3 ";
+  const errorClassNames =
+    "col col-12 error-msg fnt-smallest mt-2 mb-0 ps-3 w-100";
 
   let labelClassNames = "fnt-label-bold p-0 mb-2 ";
   let inputClassNames = "fnt-input-light fx-rounded ps-3 ";
@@ -136,7 +137,7 @@ export default function Input({
         </div>
       )}
 
-      <div className="row ">
+      <div className="row m-0">
         {hasErrorMessage && errorMessage ? (
           <p
             className={
