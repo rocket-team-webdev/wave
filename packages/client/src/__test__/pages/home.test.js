@@ -23,7 +23,7 @@ jest.mock("firebase/compat/app", () => {
   };
 });
 
-describe("Home Page test", () => {
+describe.skip("Home Page test", () => {
   afterEach(cleanup);
 
   test("Home page rendering", async () => {
