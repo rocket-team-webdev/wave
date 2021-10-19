@@ -81,6 +81,7 @@ async function getMyPlaylists(req, res, next) {
         }
       : {
           name: 1,
+          primaryColor: 1,
           isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
           thumbnail: 1,
         };
