@@ -1,10 +1,14 @@
 import React from "react";
 
-export default function Spinner({ isNegative = false }) {
+export default function Spinner({ classNames, isNegative = false }) {
+  const spinnerClassNames = classNames;
+
   return (
     <div
       className={
-        isNegative ? "spinner-grow text-light " : "spinner-grow text-dark "
+        isNegative
+          ? `${spinnerClassNames} spinner-grow text-light `
+          : `${spinnerClassNames} spinner-grow text-dark `
       }
       role="status"
     >

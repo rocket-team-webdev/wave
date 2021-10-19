@@ -115,13 +115,13 @@ function Search() {
                 placeholder="Search"
                 handleChange={handleSearchChange}
                 value={searchBar}
-                classNames="col-12 col-md-10 col-lg-7 px-3"
+                classNames="w-100"
                 hasSubmitIcon
                 isNegative
               />
             </form>
           </div>
-          <BackButton isNegative classNames="ms-3" />
+          <BackButton isNegative />
         </div>
 
         {/* Right side */}
