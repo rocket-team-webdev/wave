@@ -1,7 +1,12 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-import { updatePassword, reauthenticateWithCredential } from "firebase/auth";
+import {
+  updatePassword,
+  reauthenticateWithCredential,
+  reauthenticateWithPopup,
+  OAuthProvider,
+} from "firebase/auth";
 
 if (!firebase.apps.length) {
   const firebaseConfig = {
@@ -105,6 +110,12 @@ export function reauthenticateUserWithCredential(userPassword) {
     userPassword,
   );
   return reauthenticateWithCredential(auth.currentUser, credential);
+}
+
+export function reauthenticateUserWithGoogle() {
+  const provider = new OAuthProvider("google.com");
+
+  return reauthenticateWithPopup(auth.currentUser, provider);
 }
 
 // export async function handleGoogleSignIn() {

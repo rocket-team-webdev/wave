@@ -13,7 +13,7 @@ import Input from "../../../components/Input";
 import {
   reauthenticateUserWithCredential,
   deleteCurrentUserAccount,
-  signInWithGoogle,
+  reauthenticateUserWithGoogle,
   signOut,
 } from "../../../services/auth/auth";
 import { logOut } from "../../../redux/user/actions";
@@ -30,7 +30,7 @@ function Reauthenticate() {
   const handleDeleteAccount = async (userPassword) => {
     try {
       setLoading(true);
-      if (userState.googleProvider) await signInWithGoogle();
+      if (userState.googleProvider) await reauthenticateUserWithGoogle();
       else await reauthenticateUserWithCredential(userPassword);
 
       await deleteAccount();
