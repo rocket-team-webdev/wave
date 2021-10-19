@@ -44,7 +44,7 @@ function Layout({ children, isNegative = false, thumbnailUrl, bgColor }) {
         >
           <Header />
           <main className={mainClassNames}>{children}</main>
-          <Footer />
+          <Footer darkBackground={!isNegative} />
         </div>
       )}
     </>
