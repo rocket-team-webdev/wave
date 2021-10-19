@@ -300,7 +300,7 @@ export default function MyWave() {
         )}
       </div>
       {/* Right */}
-      <div className="col col-12 col-lg-2 row p-0 m-0 g-4">
+      <div className="col col-12 col-lg-2 row p-0 m-0 g-5 g-lg-4">
         {!isLoading ? (
           myGenres.length > 0 ? (
             <HomeElement label="Genres" cols="3 col-lg-12" isAnimationContainer>
