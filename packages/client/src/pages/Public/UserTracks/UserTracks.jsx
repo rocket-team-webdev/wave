@@ -11,11 +11,14 @@ import {
 import { PUBLIC } from "../../../constants/routes";
 import BackButton from "../../../components/BackButton";
 import TrackList from "../../../components/TrackList";
+import { getUniqueListBy } from "../../../utils/lists";
 
 function UserTracks() {
   const [createdTracks, setCreatedTracks] = useState([]);
   const [followedTracks, setFollowedTracks] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
+  // const [createdPage, setCreatedPage] = useState(0);
+  // const [followedPage, setFollowedPage] = useState(0);
   const history = useHistory();
 
   const { userId } = useRouteMatch(
@@ -43,19 +46,23 @@ function UserTracks() {
     }
   };
 
-  const fetchCreatedTracks = async () => {
+  const fetchCreatedTracks = async (createdPage) => {
     try {
-      const { data } = await getUserTracks(userId, 0, "");
-      setCreatedTracks(data.data);
+      const { data } = await getUserTracks(userId, createdPage, 10);
+      setCreatedTracks((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
-  const fetchFollowedTracks = async () => {
+  const fetchFollowedTracks = async (followedPage) => {
     try {
-      const { data } = await getUserLikedTracks(userId, 0, "");
-      setFollowedTracks(data.data);
+      const { data } = await getUserLikedTracks(userId, followedPage, 10);
+      setFollowedTracks((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -87,11 +94,22 @@ function UserTracks() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {createdTracks && <TrackList tracks={createdTracks} />}
+          {createdTracks && (
+            <TrackList
+              tracks={createdTracks}
+              loadMoreTracks={fetchCreatedTracks}
+              // propPage={page}
+            />
+          )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {followedTracks && <TrackList tracks={followedTracks} />}
+          {followedTracks && (
+            <TrackList
+              tracks={followedTracks}
+              loadMoreTracks={fetchFollowedTracks}
+            />
+          )}
         </div>
       </div>
     </Layout>
