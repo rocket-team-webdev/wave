@@ -83,7 +83,7 @@ export default function UserCard({ userId, userName, isPopularView }) {
       // Animation settings
       variants={fromBottom}
     >
-      <div className="d-flex align-items-center me-4 mb-2 user-card w-100">
+      <div className="d-flex align-items-center me-4 mb-1 user-card w-100">
         {isPopularView ? (
           popularUserIcon
         ) : (

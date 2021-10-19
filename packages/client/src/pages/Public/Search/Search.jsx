@@ -121,7 +121,7 @@ function Search() {
               />
             </form>
           </div>
-          <BackButton isNegative classNames="ms-3" />
+          <BackButton isNegative />
         </div>
 
         {/* Right side */}

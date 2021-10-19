@@ -214,8 +214,11 @@ export default function MyWave() {
               />
             </HomeElement>
           ) : (
-            <HomeElement label="Created playlists" cols="3 col-lg-12">
-              No created playlists
+            <HomeElement
+              label="Created playlists"
+              cols="12 row-cols-md-1 col-lg-6"
+            >
+              <p>No created playlists</p>
             </HomeElement>
           )
         ) : (
@@ -223,7 +226,7 @@ export default function MyWave() {
             label="Created playlists"
             cols="12 row-cols-md-1 col-lg-6"
           >
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {!isLoading ? (
@@ -241,13 +244,16 @@ export default function MyWave() {
               />
             </HomeElement>
           ) : (
-            <HomeElement label="Following playlists" cols="3 col-lg-12">
-              No following playlists
+            <HomeElement
+              label="Following playlists"
+              cols="12 row-cols-md-1 col-lg-6"
+            >
+              <p>No following playlists</p>
             </HomeElement>
           )
         ) : (
           <HomeElement label="Following playlists">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User tracks */}
@@ -262,8 +268,8 @@ export default function MyWave() {
               <TrackList tracks={myTracks} setTrakcs={setMyTracks} />
             </HomeElement>
           ) : (
-            <HomeElement label="Uploaded songs" cols="3 col-lg-12">
-              No uploaded songs
+            <HomeElement label="Uploaded songs" cols="12 col-lg-6">
+              <p>No uploaded songs</p>
             </HomeElement>
           )
         ) : (
@@ -283,8 +289,8 @@ export default function MyWave() {
               <TrackList tracks={myLikedTracks} setTrakcs={setMyLikedTracks} />
             </HomeElement>
           ) : (
-            <HomeElement label="Liked songs" cols="3 col-lg-12">
-              No liked tracks
+            <HomeElement label="Liked songs" cols="12 col-lg-6">
+              <p>No liked tracks</p>
             </HomeElement>
           )
         ) : (
@@ -294,7 +300,7 @@ export default function MyWave() {
         )}
       </div>
       {/* Right */}
-      <div className="col col-12 col-lg-2 row p-0 m-0 g-4">
+      <div className="col col-12 col-lg-2 row p-0 m-0 g-5 g-lg-4">
         {!isLoading ? (
           myGenres.length > 0 ? (
             <HomeElement label="Genres" cols="3 col-lg-12" isAnimationContainer>
@@ -306,7 +312,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Genres" cols="3 col-lg-12">
-              No genres
+              <p>No genres</p>
             </HomeElement>
           )
         ) : (
@@ -333,7 +339,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Albums" cols="3 col-lg-12">
-              No albums
+              <p>No albums</p>
             </HomeElement>
           )
         ) : (
@@ -360,7 +366,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Followers" cols="3 col-lg-12">
-              No followers
+              <p>No followers</p>
             </HomeElement>
           )
         ) : (
@@ -387,7 +393,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Following" cols="3 col-lg-12">
-              No followings
+              <p>No followings</p>
             </HomeElement>
           )
         ) : (

@@ -12,6 +12,7 @@ import { PUBLIC } from "../../../constants/routes";
 import useDebounce from "../../../hooks/useDebounce";
 import { searchPlaylists } from "../../../api/search-api";
 import BackButton from "../../../components/BackButton";
+import { getUniqueListBy } from "../../../utils/lists";
 
 function MyPlaylists() {
   const location = useLocation();
@@ -21,27 +22,47 @@ function MyPlaylists() {
   const [searchBar, setSearchBar] = useState("");
   const debouncedSearch = useDebounce(searchBar, 500);
 
-  const fetchCreatedPlaylists = async () => {
-    const init = 0;
-    const limit = 150;
+  const [page, setPage] = useState(0);
+  const [pageFollowed, setPageFollowed] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const fetchCreatedPlaylists = async (createdPage) => {
     try {
-      const { data } = await getMyPlaylists(init, limit);
-      setCreatedPlaylists(data.data);
+      const { data } = await getMyPlaylists(createdPage, 10);
+      setCreatedPlaylists((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
+      // setCreatedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
-  const fetchFollowedPlaylists = async () => {
-    const init = 0;
-    const limit = 150;
+  const fetchFollowedPlaylists = async (followedPage) => {
     try {
-      const { data } = await getFollowingPlaylists(init, limit);
-      setFollowedPlaylists(data.data);
+      const { data } = await getFollowingPlaylists(followedPage, 10);
+      setFollowedPlaylists((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
+      // setFollowedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
+
+  const fetchPlaylistsData = (fetchPage = 0) => {
+    setPage(fetchPage);
+    fetchCreatedPlaylists(fetchPage);
+  };
+  const fetchPlaylistsDataFollowed = (fetchPage = 0) => {
+    setPageFollowed(fetchPage);
+    fetchFollowedPlaylists(fetchPage);
+  };
+
+  // const fetchPlaylistsData = (fetchPage = 0) => {
+  //   fetchCreatedPlaylists(fetchPage);
+  //   fetchFollowedPlaylists(fetchPage);
+  // };
 
   const handleAddFollowedColumn = (playlist, isFollowed) => {
     try {
@@ -82,24 +103,35 @@ function MyPlaylists() {
 
   useEffect(async () => {
     try {
-      const { data } = await searchPlaylists(debouncedSearch);
-      const currentUserId = userState.mongoId;
-      const followed = data.playlist.filter((playlist) => playlist.isFollowed);
-      const created = data.playlist.filter(
-        (playlist) => playlist.userId === currentUserId,
-      );
+      if (debouncedSearch !== "") {
+        setIsSearching(true);
+        const { data } = await searchPlaylists(debouncedSearch);
+        const currentUserId = userState.mongoId;
+        const followed = data.playlist.filter(
+          (playlist) => playlist.isFollowed,
+        );
+        const created = data.playlist.filter(
+          (playlist) => playlist.userId === currentUserId,
+        );
 
-      setCreatedPlaylists(created);
-      setFollowedPlaylists(followed);
+        setCreatedPlaylists(created);
+        setFollowedPlaylists(followed);
+      } else {
+        setPage(0);
+        setPageFollowed(0);
+        setIsSearching(false);
+        fetchPlaylistsData();
+        fetchPlaylistsDataFollowed();
+      }
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   }, [debouncedSearch]);
 
-  useEffect(() => {
-    fetchCreatedPlaylists();
-    fetchFollowedPlaylists();
-  }, []);
+  // useEffect(() => {
+  //   fetchCreatedPlaylists();
+  //   fetchFollowedPlaylists();
+  // }, []);
 
   return (
     <Layout isNegative>
@@ -146,6 +178,9 @@ function MyPlaylists() {
             <PlaylistList
               playlists={createdPlaylists}
               onAddFollowedColumn={handleAddFollowedColumn}
+              isSearching={isSearching}
+              loadMoreTracks={fetchPlaylistsData}
+              propPage={page}
             />
           )}
         </div>
@@ -155,6 +190,9 @@ function MyPlaylists() {
             <PlaylistList
               playlists={followedPlaylists}
               onAddFollowedColumn={handleAddFollowedColumn}
+              isSearching={isSearching}
+              loadMoreTracks={fetchPlaylistsDataFollowed}
+              propPage={pageFollowed}
             />
           )}
         </div>

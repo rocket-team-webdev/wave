@@ -9,6 +9,7 @@ import AlbumList from "../../../components/AlbumList/AlbumList";
 import { searchAlbum } from "../../../api/search-api";
 import { getLikedAlbums, getMyAlbums } from "../../../api/me-api";
 import BackButton from "../../../components/BackButton";
+import { getUniqueListBy } from "../../../utils/lists";
 
 function MyAlbums() {
   const [userAlbums, setUserAlbums] = useState([]);
@@ -17,33 +18,45 @@ function MyAlbums() {
   const debouncedSearch = useDebounce(searchBar, 500);
   const userState = useSelector((state) => state.user);
 
-  async function fetchMyAlbums() {
-    const init = 0;
-    const limit = 12;
+  const [page, setPage] = useState(0);
+  const [pageLiked, setPageLiked] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
+
+  async function fetchMyAlbums(createdPage) {
     try {
       const {
         data: { data },
-      } = await getMyAlbums(init, limit);
-      const albumsArr = data.map((album) => album);
-      setUserAlbums(albumsArr);
+      } = await getMyAlbums(createdPage, 10);
+
+      // const albumsArr = data.map((album) => album);
+      // setUserAlbums(albumsArr);
+      setUserAlbums((prev) => getUniqueListBy([...prev, ...data], "_id"));
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   }
 
-  async function fetchLikedAlbums() {
-    const init = 0;
-    const limit = 12;
+  async function fetchLikedAlbums(likedPage) {
     try {
       const {
         data: { data },
-      } = await getLikedAlbums(init, limit);
-      const albumsArr = data.map((album) => album);
-      setLikedAlbums(albumsArr);
+      } = await getLikedAlbums(likedPage, 10);
+      // const albumsArr = data.map((album) => album);
+      // setLikedAlbums(albumsArr);
+      setLikedAlbums((prev) => getUniqueListBy([...prev, ...data], "_id"));
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   }
+
+  const fetchMyAlbumsData = (fetchPage = 0) => {
+    setPage(fetchPage);
+    fetchMyAlbums(fetchPage);
+  };
+  const fetchAlbumsDataLiked = (fetchPage = 0) => {
+    setPageLiked(fetchPage);
+    fetchLikedAlbums(fetchPage);
+  };
 
   const handleAddLikedColumn = (album, liked) => {
     try {
@@ -84,23 +97,31 @@ function MyAlbums() {
     const init = 0;
     const limit = 12;
     try {
-      const { data } = await searchAlbum(debouncedSearch, init, limit);
-      const currentUserId = userState.mongoId;
-      const liked = data.album.filter((album) => album.isLiked);
-      const created = data.album.filter(
-        (album) => album.userId === currentUserId,
-      );
-      setUserAlbums(created);
-      setLikedAlbums(liked);
+      if (debouncedSearch !== "") {
+        const { data } = await searchAlbum(debouncedSearch, init, limit);
+        const currentUserId = userState.mongoId;
+        const liked = data.album.filter((album) => album.isLiked);
+        const created = data.album.filter(
+          (album) => album.userId === currentUserId,
+        );
+        setUserAlbums(created);
+        setLikedAlbums(liked);
+      } else {
+        setPage(0);
+        setPageLiked(0);
+        setIsSearching(false);
+        fetchMyAlbumsData();
+        fetchAlbumsDataLiked();
+      }
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   }, [debouncedSearch]);
 
-  useEffect(() => {
-    fetchMyAlbums();
-    fetchLikedAlbums();
-  }, []);
+  // useEffect(() => {
+  //   fetchMyAlbums();
+  //   fetchLikedAlbums();
+  // }, []);
 
   return (
     <Layout isNegative>
@@ -137,6 +158,9 @@ function MyAlbums() {
             <AlbumList
               albums={userAlbums}
               onAddLikedColumn={handleAddLikedColumn}
+              isSearching={isSearching}
+              loadMoreTracks={fetchMyAlbumsData}
+              propPage={page}
             />
           )}
         </div>
@@ -146,6 +170,9 @@ function MyAlbums() {
             <AlbumList
               albums={likedAlbums}
               onAddLikedColumn={handleAddLikedColumn}
+              isSearching={isSearching}
+              loadMoreTracks={fetchAlbumsDataLiked}
+              propPage={pageLiked}
             />
           )}
         </div>
