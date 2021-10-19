@@ -31,6 +31,7 @@ import NotFound from "../../pages/Public/NotFound";
 import MyAlbums from "../../pages/Public/MyAlbums/MyAlbums";
 import UserPlaylists from "../../pages/Public/UserPlaylists";
 import UserAlbums from "../../pages/Public/UserAlbums";
+import UserTracks from "../../pages/Public/UserTracks";
 import PopularPlaylists from "../../pages/Public/PopularPlaylists";
 import PopularTracks from "../../pages/Public/PopularTracks";
 import PopularAlbums from "../../pages/Public/PopularAlbums";
@@ -66,6 +67,9 @@ export default function Router() {
         </PrivateRoute>
         <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id${PUBLIC.ALBUMS}`} exact>
           <UserAlbums />
+        </PrivateRoute>
+        <PrivateRoute path={`${PUBLIC.USER_VIEW}/:id${PUBLIC.TRACKS}`} exact>
+          <UserTracks />
         </PrivateRoute>
         <PrivateRoute path={PUBLIC.USER_ACCOUNT} exact>
           <Account />
