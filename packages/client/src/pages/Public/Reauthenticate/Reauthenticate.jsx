@@ -105,15 +105,15 @@ function Reauthenticate() {
               <div className="row">
                 <div className="mt-5 col-auto ms-auto">
                   {!userState.googleProvider && (
-                    <Button type="submit" isDanger submitButton>
+                    <Button isDanger submitButton disabled={loading}>
                       Delete account
                     </Button>
                   )}
                   {userState.googleProvider && (
                     <Button
-                      type="submit"
                       isDanger
                       onClick={handleDeleteAccount}
+                      disabled={loading}
                     >
                       Delete account
                     </Button>
