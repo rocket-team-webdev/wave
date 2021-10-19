@@ -1,14 +1,24 @@
 @use "../../sass/components/colors" as c;
-@import "bootstrap.scss";
-
-.home-radio {
-  @extend .btn:active;
-  color: red !important;
-  background: c.$lightColor;
-  outline: none;
-}
+@import "bootstrap";
 
 .custom-radio {
-  @extend .btn-outline-light;
+  @extend .btn;
+  color: c.$secondaryColor;
   border: 2px solid c.$lightColor;
+  background: unset;
+  &:hover {
+    color: c.$secondaryColor;
+  }
+}
+
+.custom-btn-check {
+  @extend .btn-check;
+  &:checked + label {
+    background: c.$lightColor;
+  }
+
+  // TODO
+  // &:checked + label:focus {
+  //   outline: none;
+  // }
 }

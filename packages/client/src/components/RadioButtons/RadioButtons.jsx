@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./RadioButtons.scss";
+
 export default function RadioButtons({ handleChange = () => {} }) {
   return (
     <div
@@ -9,7 +11,7 @@ export default function RadioButtons({ handleChange = () => {} }) {
     >
       <input
         type="radio"
-        className="btn-check"
+        className="custom-btn-check"
         name="btnradio"
         id="popularRadio"
         autoComplete="off"
@@ -17,24 +19,22 @@ export default function RadioButtons({ handleChange = () => {} }) {
         defaultChecked
       />
       <label
-        className="btn btn-outline-light fnt-caption custom-radio"
+        className="fnt-caption custom-radio p-2"
         htmlFor="popularRadio"
+        checked
       >
         Popular
       </label>
 
       <input
         type="radio"
-        className="btn-check"
+        className="custom-btn-check"
         name="btnradio"
         id="myWaveRadio"
         autoComplete="off"
         onChange={handleChange}
       />
-      <label
-        className="btn btn-outline-light fnt-caption custom-radio"
-        htmlFor="myWaveRadio"
-      >
+      <label className="fnt-caption custom-radio p-2" htmlFor="myWaveRadio">
         MyWave
       </label>
     </div>
