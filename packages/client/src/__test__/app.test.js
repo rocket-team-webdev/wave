@@ -113,7 +113,7 @@ const playlistData = [
   },
 ];
 
-describe("Router App", () => {
+describe.skip("Router App", () => {
   const history = createBrowserHistory();
 
   afterEach(() => {
@@ -121,7 +121,7 @@ describe("Router App", () => {
     history.push("/");
   });
 
-  test.skip("Navigating from home to tracks page", async () => {
+  test("Navigating from home to tracks page", async () => {
     axios.create.mockReturnThis();
     axios.get
       .mockResolvedValue({ data: { data: [] } })
@@ -151,7 +151,7 @@ describe("Router App", () => {
     expect(screen.getAllByText(/My songs/i)[1]).toBeInTheDocument();
   });
 
-  test.skip("Render playlists and navigate to playlists page", async () => {
+  test("Render playlists and navigate to playlists page", async () => {
     axios.create.mockReturnThis();
     axios.get
       .mockResolvedValue({ data: { data: [] } })

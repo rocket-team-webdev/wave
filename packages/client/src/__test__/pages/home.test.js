@@ -23,7 +23,7 @@ jest.mock("firebase/compat/app", () => {
   };
 });
 
-describe.skip("Home Page test", () => {
+describe("Home Page test", () => {
   afterEach(cleanup);
 
   test("Home page rendering", async () => {
@@ -36,7 +36,7 @@ describe.skip("Home Page test", () => {
     );
 
     // Home page rendered - Popular
-    expect(screen.getByText(/welcome to waveapp/i)).toBeInTheDocument();
+    expect(screen.getByText(/general dashboard/i)).toBeInTheDocument();
   });
 
   test("Navigating from popular to myWave", async () => {
@@ -49,7 +49,7 @@ describe.skip("Home Page test", () => {
     );
 
     // Home page rendered - Popular
-    expect(screen.getByText(/playlists/i)).toBeInTheDocument();
+    expect(screen.getByText(/general dashboard/i)).toBeInTheDocument();
 
     // fireEvent.click(mywave);
     const mywave = home.getByLabelText(/mywave/i);
