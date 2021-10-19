@@ -1,4 +1,5 @@
 import React from "react";
+import { Scrollbars } from "react-custom-scrollbars";
 
 import Header from "../Header";
 import Footer from "../Footer";
@@ -25,7 +26,26 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
   }
 
   return (
-    <>
+    <Scrollbars
+      autoHide
+      renderTrackVertical={({ style, ...props }) => (
+        <div
+          {...props}
+          style={{
+            ...style,
+            zIndex: 1000,
+            position: "absolute",
+            width: "6px",
+            transition: "opacity 200ms ease 0s",
+            opacity: 0,
+            right: "2px",
+            bottom: "2px",
+            top: "2px",
+            borderRadius: "3px",
+          }}
+        />
+      )}
+    >
       {thumbnailUrl ? (
         <div className="d-flex flex-column layout-wrapper" data-testid="layout">
           <Header />
@@ -45,7 +65,7 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
           <Footer />
         </div>
       )}
-    </>
+    </Scrollbars>
   );
 }
 
