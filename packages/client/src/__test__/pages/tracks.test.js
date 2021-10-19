@@ -65,7 +65,7 @@ const tracksData = {
   },
 };
 
-describe.skip("Tracks Page test", () => {
+describe("Tracks Page test", () => {
   afterEach(cleanup);
 
   test("Tracks page rendering without songs", async () => {

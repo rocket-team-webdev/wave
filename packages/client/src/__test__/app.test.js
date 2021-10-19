@@ -113,7 +113,7 @@ const playlistData = [
   },
 ];
 
-describe.skip("Router App", () => {
+describe("Router App", () => {
   const history = createBrowserHistory();
 
   afterEach(() => {
