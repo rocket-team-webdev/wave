@@ -66,10 +66,15 @@ select:-webkit-autofill:focus {
 // Scroll
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
+  position: relative;
+  width: 4px;
   z-index: 2000;
 }
 
+/* Button */
+::-webkit-scrollbar-button {
+  height: 50px;
+}
 /* Track */
 ::-webkit-scrollbar-track {
   z-index: 2000;
@@ -77,10 +82,16 @@ select:-webkit-autofill:focus {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  width: 10px;
-  background: c.$lightColor;
-  border-radius: 3px;
+  width: 8px;
+  // background: c.$lightColor;
+  background: rgba(255, 255, 255, 0.8);
+  margin-left: 20px;
+  border-radius: 4px;
   z-index: 2000;
+}
+
+a {
+  color: c.$secondaryColor;
 }
 
 a,
