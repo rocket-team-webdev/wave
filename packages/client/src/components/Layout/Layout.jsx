@@ -5,7 +5,7 @@ import Footer from "../Footer";
 
 import "./Layout.scss";
 
-function Layout({ children, isNegative = false, thumbnailUrl }) {
+function Layout({ children, isNegative = false, thumbnailUrl, bgColor }) {
   let mainClassNames = "flex-grow-1 px-3 pt-4 px-sm-5 pt-5 ";
 
   // Thumbnail background settings
@@ -13,11 +13,12 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
   if (thumbnailUrl) {
     mainClassNames += "main-with-thumbnail ";
     backgroundStyles = {
-      background: `url(${thumbnailUrl})`,
+      backgroundImage: `url(${thumbnailUrl})`,
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
       backgroundPosition: "center",
     };
+    if (bgColor) backgroundStyles.backgroundColor = `${bgColor}`;
   }
 
   if (isNegative) {

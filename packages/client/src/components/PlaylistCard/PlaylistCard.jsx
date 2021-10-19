@@ -23,8 +23,6 @@ export default function PlaylistCard({
   colsMd = "6",
   updateFollowedView = () => {},
 }) {
-  console.log("PlaylistColor");
-  console.log(bgColor);
   const location = useLocation();
   const [followed, setFollowed] = useState(isFollowed);
   const playlistObject = {
