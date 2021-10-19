@@ -15,32 +15,24 @@ describe("Backend 'tracks' api testing", function () {
 
     if (!fs.existsSync(filePath)) throw new Error("file does not exist");
 
-    return (
-      requestApi
-        .post("/")
-        .auth(token, { type: "bearer" })
-        .set("Accept", "application/json")
-        // .send({
-        //   name: "Testing track",
-        //   artist: "Testing artist",
-        //   album: "Album 5",
-        //   genre: "rock",
-        // })
-        .field("name", "Testing track")
-        .field("artist", "Testing artist")
-        .field("album", "Album 5")
-        .field("genre", "rock")
-        .attach("track", filePath)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.message).toBe("cloudinary track uploaded");
-          trackId = response.body._id;
-        })
-        .catch((err) => {
-          throw err;
-        })
-    );
+    return requestApi
+      .post("/")
+      .auth(token, { type: "bearer" })
+      .set("Accept", "application/json")
+      .field("name", "Testing track")
+      .field("artist", "Testing artist")
+      .field("album", "Album 1")
+      .field("genre", "Rock")
+      .attach("track", filePath)
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.message).toBe("cloudinary track uploaded");
+        trackId = response.body._id;
+      })
+      .catch((err) => {
+        throw err;
+      });
   });
 
   test("DELETE / delete track", () => {
