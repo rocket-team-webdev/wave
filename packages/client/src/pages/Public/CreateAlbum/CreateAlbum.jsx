@@ -41,8 +41,10 @@ export default function CreateAlbum() {
         } else {
           history.push(`${PUBLIC.TRACK_UPLOAD}`);
         }
+        setIsLoading(false);
         return toast("Album created!", { type: "success" });
       } catch (error) {
+        setIsLoading(false);
         return toast(error.response.data.msg, { type: "error" });
       }
     },
@@ -113,7 +115,7 @@ export default function CreateAlbum() {
               </div>
               <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
                 <BackButton isNegative secondaryBtn classNames="me-3" />
-                <Button isNegative submitButton>
+                <Button isNegative submitButton disabled={isLoading}>
                   Create
                 </Button>
               </div>

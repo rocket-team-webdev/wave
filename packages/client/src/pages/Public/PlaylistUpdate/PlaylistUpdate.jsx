@@ -55,16 +55,17 @@ export default function PlaylistUpdate() {
         formData.append("id", playlistId);
 
         await updatePlaylistById(formData);
+        setIsLoading(false);
         history.push(`${PUBLIC.SINGLE_PLAYLIST}/${playlistId}`);
         return toast("Playlist updated!", { type: "success" });
       } catch (error) {
+        setIsLoading(false);
         return toast(error.response.data.msg, { type: "error" });
       }
     },
   });
 
   async function fetchPlaylist(id) {
-    setIsLoading(true);
     try {
       const { data } = await getPlaylistById(id);
       formik.setValues({
@@ -78,6 +79,7 @@ export default function PlaylistUpdate() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setIsLoading(false);
   }
 
   // const initialPublicAccessible = () => {
@@ -91,7 +93,6 @@ export default function PlaylistUpdate() {
 
   useEffect(() => {
     fetchPlaylist(playlistId);
-    setIsLoading(false);
   }, []);
 
   // useEffect(() => {
@@ -182,7 +183,7 @@ export default function PlaylistUpdate() {
                 </div>
                 <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
                   <BackButton classNames="me-3" isNegative secondaryBtn />
-                  <Button isNegative submitButton>
+                  <Button isNegative submitButton disabled={isLoading}>
                     Update
                   </Button>
                 </div>

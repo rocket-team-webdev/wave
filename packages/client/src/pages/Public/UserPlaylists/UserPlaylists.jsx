@@ -11,9 +11,14 @@ import {
 } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
 import BackButton from "../../../components/BackButton";
+import Spinner from "../../../components/Spinner";
 import { getUniqueListBy } from "../../../utils/lists";
 
 function UserPlaylists() {
+  const [loadStatus, setLoadStatus] = useState({
+    createdPlaylists: false,
+    followedPlaylists: false,
+  });
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
@@ -53,6 +58,7 @@ function UserPlaylists() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, createdPlaylists: true }));
   };
 
   const fetchFollowedPlaylists = async (followedPage) => {
@@ -64,6 +70,7 @@ function UserPlaylists() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, followedPlaylists: true }));
   };
 
   useEffect(() => {
@@ -92,20 +99,28 @@ function UserPlaylists() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {createdPlaylists && (
-            <PlaylistList
-              playlists={createdPlaylists}
-              loadMoreTracks={fetchCreatedPlaylists}
-            />
+          {loadStatus.createdPlaylists ? (
+            createdPlaylists && (
+              <PlaylistList
+                playlists={createdPlaylists}
+                loadMoreTracks={fetchCreatedPlaylists}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {followedPlaylists && (
-            <PlaylistList
-              playlists={followedPlaylists}
-              loadMoreTracks={fetchFollowedPlaylists}
-            />
+          {loadStatus.followedPlaylists ? (
+            followedPlaylists && (
+              <PlaylistList
+                playlists={followedPlaylists}
+                loadMoreTracks={fetchFollowedPlaylists}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
       </div>

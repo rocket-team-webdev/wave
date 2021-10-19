@@ -10,8 +10,13 @@ import { searchAlbum } from "../../../api/search-api";
 import { getLikedAlbums, getMyAlbums } from "../../../api/me-api";
 import BackButton from "../../../components/BackButton";
 import { getUniqueListBy } from "../../../utils/lists";
+import Spinner from "../../../components/Spinner";
 
 function MyAlbums() {
+  const [loadStatus, setLoadStatus] = useState({
+    userAlbums: false,
+    likedAlbums: false,
+  });
   const [userAlbums, setUserAlbums] = useState([]);
   const [likedAlbums, setLikedAlbums] = useState([]);
   const [searchBar, setSearchBar] = useState("");
@@ -34,6 +39,7 @@ function MyAlbums() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, userAlbums: true }));
   }
 
   async function fetchLikedAlbums(likedPage) {
@@ -47,6 +53,7 @@ function MyAlbums() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, likedAlbums: true }));
   }
 
   const fetchMyAlbumsData = (fetchPage = 0) => {
@@ -154,26 +161,34 @@ function MyAlbums() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {userAlbums && (
-            <AlbumList
-              albums={userAlbums}
-              onAddLikedColumn={handleAddLikedColumn}
-              isSearching={isSearching}
-              loadMoreTracks={fetchMyAlbumsData}
-              propPage={page}
-            />
+          {loadStatus.userAlbums ? (
+            userAlbums && (
+              <AlbumList
+                albums={userAlbums}
+                onAddLikedColumn={handleAddLikedColumn}
+                isSearching={isSearching}
+                loadMoreTracks={fetchMyAlbumsData}
+                propPage={page}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Liked</div>
-          {likedAlbums && (
-            <AlbumList
-              albums={likedAlbums}
-              onAddLikedColumn={handleAddLikedColumn}
-              isSearching={isSearching}
-              loadMoreTracks={fetchAlbumsDataLiked}
-              propPage={pageLiked}
-            />
+          {loadStatus.likedAlbums ? (
+            likedAlbums && (
+              <AlbumList
+                albums={likedAlbums}
+                onAddLikedColumn={handleAddLikedColumn}
+                isSearching={isSearching}
+                loadMoreTracks={fetchAlbumsDataLiked}
+                propPage={pageLiked}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
       </div>

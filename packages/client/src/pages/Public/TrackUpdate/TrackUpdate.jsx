@@ -26,10 +26,10 @@ import BackButton from "../../../components/BackButton";
 
 function TrackUpdate() {
   const { trackId } = useRouteMatch(`${PUBLIC.TRACK_UPDATE}/:trackId`).params;
+  const [isLoading, setIsLoading] = useState(true);
   const [genresState, setGenres] = useState([]);
   const [albumsState, setAlbums] = useState([]);
   const [trackState, setTrackState] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const userState = useSelector((state) => state.user);
   const userId = userState.mongoId;
 
@@ -55,12 +55,12 @@ function TrackUpdate() {
       };
 
       await updateTrackById(data);
+      setIsLoading(false);
       history.push(PUBLIC.MY_SONGS);
     },
   });
 
   async function fetchTrack(id) {
-    setIsLoading(true);
     try {
       const { data } = await getTrackById(id);
       formik.setValues({
@@ -77,7 +77,6 @@ function TrackUpdate() {
   }
 
   async function fetchGenres() {
-    setIsLoading(true);
     try {
       const { data } = await getAllGenres();
       const genresArr = data.genres.map((genre) => genre.name);
@@ -89,7 +88,6 @@ function TrackUpdate() {
   }
 
   async function fetchAlbums() {
-    setIsLoading(true);
     try {
       const {
         data: { albums },
@@ -103,6 +101,7 @@ function TrackUpdate() {
   }
 
   const handleDeleteSong = async () => {
+    setIsLoading(true);
     await deleteTrack(trackId);
     if (location.state) {
       history.push(location.state.referrer);
@@ -200,10 +199,11 @@ function TrackUpdate() {
                     data-bs-toggle="modal"
                     data-bs-target="#deleteTrackModal"
                     isDanger
+                    disabled={isLoading}
                   >
                     Delete
                   </Button>
-                  <Button isNegative submitButton>
+                  <Button isNegative submitButton disabled={isLoading}>
                     Update
                   </Button>
                 </div>

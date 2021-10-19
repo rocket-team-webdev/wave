@@ -12,8 +12,13 @@ import { PUBLIC } from "../../../constants/routes";
 import BackButton from "../../../components/BackButton";
 import TrackList from "../../../components/TrackList";
 import { getUniqueListBy } from "../../../utils/lists";
+import Spinner from "../../../components/Spinner";
 
 function UserTracks() {
+  const [loadStatus, setLoadStatus] = useState({
+    createdTracks: false,
+    followedTracks: false,
+  });
   const [createdTracks, setCreatedTracks] = useState([]);
   const [followedTracks, setFollowedTracks] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
@@ -53,6 +58,7 @@ function UserTracks() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, createdTracks: true }));
   };
 
   const fetchFollowedTracks = async (followedPage) => {
@@ -64,6 +70,7 @@ function UserTracks() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, followedTracks: true }));
   };
 
   useEffect(() => {
@@ -92,20 +99,28 @@ function UserTracks() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {createdTracks && (
-            <TrackList
-              tracks={createdTracks}
-              loadMoreTracks={fetchCreatedTracks}
-            />
+          {loadStatus.createdTracks ? (
+            createdTracks && (
+              <TrackList
+                tracks={createdTracks}
+                loadMoreTracks={fetchCreatedTracks}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {followedTracks && (
-            <TrackList
-              tracks={followedTracks}
-              loadMoreTracks={fetchFollowedTracks}
-            />
+          {loadStatus.followedTracks ? (
+            followedTracks && (
+              <TrackList
+                tracks={followedTracks}
+                loadMoreTracks={fetchFollowedTracks}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
       </div>

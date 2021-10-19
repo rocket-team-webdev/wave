@@ -28,7 +28,17 @@ import { getAllGenres } from "../../api/genre-api";
 import { uniqueValuesArray } from "../../utils/arrayFunctions";
 
 export default function UserWave() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadStatus, setLoadStatus] = useState({
+    userGenres: false,
+    allGenres: false,
+    userFollowers: false,
+    userFollowings: false,
+    userPlaylists: false,
+    userFollowingPlaylists: false,
+    userAlbums: false,
+    userTracks: false,
+    userLikedTracks: false,
+  });
   const [userGenres, setUserGenres] = useState([]);
   const [allGenres, setAllGenres] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
@@ -60,6 +70,7 @@ export default function UserWave() {
     });
     const cleanedGenres = uniqueValuesArray(genresArray);
     setUserGenres(cleanedGenres);
+    setLoadStatus((prev) => ({ ...prev, userGenres: true }));
   };
 
   const loadUserGenres = () => {
@@ -70,106 +81,90 @@ export default function UserWave() {
   };
 
   const loadAllGenres = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getAllGenres();
       setAllGenres(data.genres);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, allGenres: true }));
   };
 
   // Users
 
   const loadUserFollowers = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getUserFollowers(userId);
       setUserFollowers(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, userFollowers: true }));
   };
 
   const loadUserFollowings = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getUserFollowings(userId);
       setUserFollowings(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, userFollowings: true }));
   };
 
   // Playlists
 
   const loadUserPlaylists = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getUserPlaylists(userId, 0, 2);
       setUserPlaylists(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, userPlaylists: true }));
   };
 
   const loadUserFollowingPlaylists = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getUserFollowingPlaylists(userId, 0, 2);
       setUserFollowingPlaylists(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, userFollowingPlaylists: true }));
   };
 
   // Albums
 
   const loadUserAlbums = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getUserAlbums(userId);
       setUserAlbums(data.albums);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, userAlbums: true }));
   };
 
   // Tracks
   const loadUserTracks = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getUserTracks(userId);
       setUserTracks(data.data);
-
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, userTracks: true }));
   };
+
   const loadUserLikedTracks = async () => {
-    setIsLoading(true);
     try {
       const { data } = await getUserLikedTracks(userId);
       setUserLikedTracks(data.data);
-      setIsLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
-      setIsLoading(false);
     }
+    setLoadStatus((prev) => ({ ...prev, userLikedTracks: true }));
   };
 
   const initialFetch = () => {
@@ -206,7 +201,7 @@ export default function UserWave() {
       {/* Left */}
       <div className="col col-12 col-lg-10 row p-0 m-0 g-5 g-lg-4 mt-5">
         {/* User playlists */}
-        {!isLoading ? (
+        {loadStatus.userPlaylists ? (
           userPlaylists.length > 0 ? (
             <HomeElement
               label="Created playlists"
@@ -240,7 +235,7 @@ export default function UserWave() {
           </HomeElement>
         )}
         {/* User following playlists */}
-        {!isLoading ? (
+        {loadStatus.userFollowingPlaylists ? (
           userFollowingPlaylists.length > 0 ? (
             <HomeElement
               label="Following playlists"
@@ -274,7 +269,7 @@ export default function UserWave() {
           </HomeElement>
         )}
         {/* User tracks */}
-        {!isLoading ? (
+        {loadStatus.userTracks ? (
           userTracks.length > 0 ? (
             <HomeElement
               label="Uploaded tracks"
@@ -298,7 +293,7 @@ export default function UserWave() {
           </HomeElement>
         )}
         {/* User liked tracks */}
-        {!isLoading ? (
+        {loadStatus.userLikedTracks ? (
           userLikedTracks.length > 0 ? (
             <HomeElement
               label="Liked tracks"
@@ -324,7 +319,7 @@ export default function UserWave() {
       </div>
       {/* Right */}
       <div className="col col-12 col-lg-2 row p-0 m-0 g-5 g-lg-4 mt-5">
-        {!isLoading ? (
+        {loadStatus.userGenres ? (
           userGenres.length > 0 ? (
             <HomeElement label="Genres" cols="3 col-lg-12" isAnimationContainer>
               {userGenres.map((genre) => (
@@ -344,7 +339,7 @@ export default function UserWave() {
           </HomeElement>
         )}
         {/* User albums */}
-        {!isLoading ? (
+        {loadStatus.userAlbums ? (
           userAlbums.length > 0 ? (
             <HomeElement
               label="Albums"
@@ -375,7 +370,7 @@ export default function UserWave() {
           </HomeElement>
         )}
         {/* User followers */}
-        {!isLoading ? (
+        {loadStatus.userFollowers ? (
           userFollowers.length > 0 ? (
             <HomeElement
               label="Followers"
@@ -402,7 +397,7 @@ export default function UserWave() {
           </HomeElement>
         )}
         {/* User following */}
-        {!isLoading ? (
+        {loadStatus.userFollowings ? (
           userFollowings.length > 0 ? (
             <HomeElement
               label="Following"

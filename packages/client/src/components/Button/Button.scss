@@ -97,3 +97,7 @@
 .small-btn-negative:focus {
   padding: 5px;
 }
+
+button:disabled {
+  opacity: 0.2;
+}
