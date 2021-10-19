@@ -36,8 +36,6 @@ function MyAlbums() {
     }
   }
 
-  console.log(userAlbums);
-
   async function fetchLikedAlbums(likedPage) {
     try {
       const {
