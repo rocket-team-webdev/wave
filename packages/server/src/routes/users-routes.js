@@ -69,6 +69,12 @@ usersRouter.get(
 
 usersRouter.get("/:id", authFirebaseMiddleware, usersController.getUserById);
 
+usersRouter.post(
+  "/:id/follow",
+  authFirebaseMiddleware,
+  usersController.followUser,
+);
+
 module.exports = {
   usersRouter,
 };

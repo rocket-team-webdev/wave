@@ -57,6 +57,18 @@ export async function getUserFollowings(
   });
 }
 
+export async function followUser(id, api = makeUsersApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.post(
+    `/${id}${API.FOLLOW}`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+}
+
 // ---------
 // Playlists
 // ---------

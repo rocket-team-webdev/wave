@@ -52,6 +52,7 @@ export const API = {
   ME: "/me",
   TRACKS: "/tracks",
   LIKED: "/liked",
+  FOLLOW: "/follow",
   FOLLOWERS: "/followers",
   FOLLOWING: "/following",
   SEARCH: "/search",

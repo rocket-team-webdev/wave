@@ -39,6 +39,8 @@ export default function UserWave() {
   const [userTracks, setUserTracks] = useState([]);
   const [userLikedTracks, setUserLikedTracks] = useState([]);
 
+  // const [uploadFollowers, setUploadFollowers] = useState(setUpdateFollowers);
+
   const userState = useSelector((state) => state.user);
   const currentUserId = userState.mongoId;
 
@@ -222,8 +224,11 @@ export default function UserWave() {
               />
             </HomeElement>
           ) : (
-            <HomeElement label="Created playlists" cols="3 col-lg-12">
-              No created playlists
+            <HomeElement
+              label="Created playlists"
+              cols="12 row-cols-md-1 col-lg-6"
+            >
+              <p>No created playlists</p>
             </HomeElement>
           )
         ) : (
@@ -231,7 +236,7 @@ export default function UserWave() {
             label="Created playlists"
             cols="12 row-cols-md-1 col-lg-6"
           >
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User following playlists */}
@@ -253,8 +258,11 @@ export default function UserWave() {
               />
             </HomeElement>
           ) : (
-            <HomeElement label="Following playlists" cols="3 col-lg-12">
-              No following playlists
+            <HomeElement
+              label="Following playlists"
+              cols="12 row-cols-md-1 col-lg-6"
+            >
+              <p>No following playlists</p>
             </HomeElement>
           )
         ) : (
@@ -262,7 +270,7 @@ export default function UserWave() {
             label="Following playlists"
             cols="12 row-cols-md-1 col-lg-6"
           >
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User tracks */}
@@ -276,8 +284,11 @@ export default function UserWave() {
               <TrackList tracks={userTracks} setTrakcs={setUserTracks} />
             </HomeElement>
           ) : (
-            <HomeElement label="Uploaded songs" cols="3 col-lg-12">
-              No uploaded songs
+            <HomeElement
+              label="Uploaded songs"
+              cols="12 row-cols-md-1 col-lg-6"
+            >
+              <p>No uploaded songs</p>
             </HomeElement>
           )
         ) : (
@@ -299,8 +310,8 @@ export default function UserWave() {
               />
             </HomeElement>
           ) : (
-            <HomeElement label="Liked songs" cols="3 col-lg-12">
-              No liked tracks
+            <HomeElement label="Liked songs" cols="12 row-cols-md-1 col-lg-6">
+              <p>No liked tracks</p>
             </HomeElement>
           )
         ) : (
@@ -310,7 +321,7 @@ export default function UserWave() {
         )}
       </div>
       {/* Right */}
-      <div className="col col-12 col-lg-2 row p-0 m-0 g-4 mt-5">
+      <div className="col col-12 col-lg-2 row p-0 m-0 g-5 g-lg-4 mt-5">
         {!isLoading ? (
           userGenres.length > 0 ? (
             <HomeElement label="Genres" cols="3 col-lg-12" isAnimationContainer>
@@ -322,7 +333,7 @@ export default function UserWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Genres" cols="3 col-lg-12">
-              No genres
+              <p>No genres</p>
             </HomeElement>
           )
         ) : (
@@ -353,12 +364,12 @@ export default function UserWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Albums" cols="3 col-lg-12">
-              No albums
+              <p>No albums</p>
             </HomeElement>
           )
         ) : (
           <HomeElement label="Liked tracks">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User followers */}
@@ -380,7 +391,7 @@ export default function UserWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Followers" cols="3 col-lg-12">
-              No followers
+              <p>No followers</p>
             </HomeElement>
           )
         ) : (
@@ -407,7 +418,7 @@ export default function UserWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Following" cols="3 col-lg-12">
-              No followings
+              <p>No followings</p>
             </HomeElement>
           )
         ) : (

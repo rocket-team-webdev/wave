@@ -1,5 +1,5 @@
 const DEFAULT_ALBUM_THUMBNAIL =
-  "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633942579/default-preset/f14d6fc4-2cea-41a2-9724-a7e5dff027e8_rw_1200_xt8p05.jpg";
+  "https://res.cloudinary.com/dz5nspe7f/image/upload/v1634465202/default-preset/wave-vinylcover-01_js603w.png";
 const DEFAULT_PROFILE_PICTURE =
   "https://res.cloudinary.com/dz5nspe7f/image/upload/v1633334998/default-preset/default-profile-picture_vbob5l.png";
 const DEFAULT_PLAYLIST_THUMBNAIL =

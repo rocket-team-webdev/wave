@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -89,7 +90,7 @@ export default function PopularWave() {
       {/* Left */}
       <div className="col col-12 col-lg-10 row p-0 m-0 g-5 g-lg-4">
         {!loadStatus ? (
-          popularPlaylists.length > 0 && (
+          popularPlaylists.length > 0 ? (
             <HomeElement
               label="Playlists"
               to={`${PUBLIC.POPULAR}${PUBLIC.PLAYLISTS}`}
@@ -104,13 +105,17 @@ export default function PopularWave() {
                 />
               )}
             </HomeElement>
+          ) : (
+            <HomeElement label="Playlists" cols="12 col-lg-6">
+              <p>No playlists</p>
+            </HomeElement>
           )
         ) : (
           <HomeElement label="Playlists" cols="12 col-lg-6">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
-        {popularTracks.length > 0 && (
+        {popularTracks.length > 0 ? (
           <HomeElement
             label="Songs"
             to={`${PUBLIC.POPULAR}${PUBLIC.TRACKS}`}
@@ -119,11 +124,15 @@ export default function PopularWave() {
           >
             <TrackList tracks={popularTracks} setTracks={setPopularTracks} />
           </HomeElement>
+        ) : (
+          <HomeElement label="Songs" cols="12 col-lg-6">
+            <p>No songs</p>
+          </HomeElement>
         )}
       </div>
       {/* Right */}
-      <div className="col col-12 col-lg-2 row p-0 m-0 g-4">
-        {popularGenres.length > 0 && (
+      <div className="col col-12 col-lg-2 row p-0 m-0 g-5 g-lg-4">
+        {popularGenres.length > 0 ? (
           <HomeElement label="Genres" cols="4 col-lg-12" isAnimationContainer>
             {popularGenres.map((genre) => (
               <div key={genre.name} className="mb-2 me-2">
@@ -131,9 +140,13 @@ export default function PopularWave() {
               </div>
             ))}
           </HomeElement>
+        ) : (
+          <HomeElement label="Genres" cols="4 col-lg-12">
+            <p>No genres</p>
+          </HomeElement>
         )}
         {!loadStatus ? (
-          popularAlbums.length > 0 && (
+          popularAlbums.length > 0 ? (
             <HomeElement
               label="Albums"
               to={`${PUBLIC.POPULAR}${PUBLIC.ALBUMS}`}
@@ -148,21 +161,30 @@ export default function PopularWave() {
                 />
               ))}
             </HomeElement>
+          ) : (
+            <HomeElement label="Albums" cols="4 col-lg-12">
+              <p>No albums</p>
+            </HomeElement>
           )
         ) : (
           <HomeElement label="Albums" cols="4 col-lg-12">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
-        {popularUsers.length > 0 && (
+        {popularUsers.length > 0 ? (
           <HomeElement label="Users" cols="4 col-lg-12" isAnimationContainer>
             {popularUsers.map((popular) => (
               <UserCard
                 key={popular._id}
                 userId={popular._id}
                 userName={popular.firstName}
+                isPopularView
               />
             ))}
+          </HomeElement>
+        ) : (
+          <HomeElement label="Users" cols="4 col-lg-12">
+            <p>No users</p>
           </HomeElement>
         )}
       </div>

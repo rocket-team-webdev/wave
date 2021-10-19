@@ -12,6 +12,7 @@ import {
   PREV_SONG,
   SET_LIST_POSITION,
   SET_PLAY_STATE,
+  SET_REPEAT,
   SET_VOLUME,
 } from "./types";
 
@@ -51,6 +52,11 @@ export const setShuffle = (value) => ({
 
 export const clearShuffle = () => ({
   type: CLEAR_SHUFFLE,
+});
+
+export const setRepeat = (value) => ({
+  type: SET_REPEAT,
+  payload: value,
 });
 
 export const like = (value) => ({
