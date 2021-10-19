@@ -63,6 +63,26 @@ select:-webkit-autofill:focus {
   // -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
+// Scroll
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  z-index: 2000;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  z-index: 2000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  width: 10px;
+  background: c.$lightColor;
+  border-radius: 3px;
+  z-index: 2000;
+}
+
 a,
 a:visited {
   text-decoration: none;

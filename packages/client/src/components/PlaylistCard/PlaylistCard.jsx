@@ -23,7 +23,6 @@ export default function PlaylistCard({
   colsMd = "6",
   updateFollowedView = () => {},
 }) {
-  console.log(bgColor);
   const location = useLocation();
   const [followed, setFollowed] = useState(isFollowed);
   const playlistObject = {
@@ -59,7 +58,7 @@ export default function PlaylistCard({
   if (thumbnail === DEFAULT_PLAYLIST_THUMBNAIL) {
     backgroundStyles = {
       backgroundImage: `url(${thumbnail})`,
-      background: `${playlistObject.primaryColor}`,
+      backgroundColor: `${bgColor}`,
     };
   } else {
     backgroundStyles = {

@@ -1,21 +1,22 @@
 @use "../../sass/components/colors" as c;
 
-header {
-}
+#root {
+  background: red;
+  .layout-wrapper {
+    min-height: 100vh;
+    z-index: -2;
+    header {
+    }
 
-main {
-  padding-bottom: 130px;
-}
-
-.layout-wrapper {
-  min-height: 100vh;
-  z-index: -2;
-}
-
-footer {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
+    main {
+      padding-bottom: 130px;
+    }
+    footer {
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  }
 }
 
 .main-with-thumbnail {
