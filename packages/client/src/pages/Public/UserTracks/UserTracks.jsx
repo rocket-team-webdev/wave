@@ -5,27 +5,28 @@ import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
 import {
   getUserById,
-  getUserAlbums,
-  getUserLikedAlbums,
+  getUserTracks,
+  getUserLikedTracks,
 } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
-import AlbumList from "../../../components/AlbumList/AlbumList";
 import BackButton from "../../../components/BackButton";
+import TrackList from "../../../components/TrackList";
 import { getUniqueListBy } from "../../../utils/lists";
 
-function UserAlbums() {
-  const [userCreatedAlbums, setUserCreatedAlbums] = useState([]);
-  const [userLikedAlbums, setUserLikedAlbums] = useState([]);
+function UserTracks() {
+  const [createdTracks, setCreatedTracks] = useState([]);
+  const [followedTracks, setFollowedTracks] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
   const history = useHistory();
 
   const { userId } = useRouteMatch(
-    `${PUBLIC.USER_VIEW}/:userId${PUBLIC.ALBUMS}`,
+    `${PUBLIC.USER_VIEW}/:userId${PUBLIC.TRACKS}`,
   ).params;
 
   const loadUser = async () => {
     try {
       const { data } = await getUserById(userId);
+      // setUserData(data.data);
       setUserPossessive(
         data.data.firstName.slice(-1) === "s"
           ? `${data.data.firstName}'`
@@ -43,26 +44,22 @@ function UserAlbums() {
     }
   };
 
-  const fetchCreatedAlbums = async (createdPage) => {
+  const fetchCreatedTracks = async (createdPage) => {
     try {
-      const {
-        data: { albums },
-      } = await getUserAlbums(userId, createdPage, 4);
-      setUserCreatedAlbums((prev) =>
-        getUniqueListBy([...prev, ...albums], "_id"),
+      const { data } = await getUserTracks(userId, createdPage, 10);
+      setCreatedTracks((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
       );
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
-  const fetchLikedAlbums = async (likedPage) => {
+  const fetchFollowedTracks = async (followedPage) => {
     try {
-      const {
-        data: { likedAlbums },
-      } = await getUserLikedAlbums(userId, likedPage, 4);
-      setUserLikedAlbums((prev) =>
-        getUniqueListBy([...prev, ...likedAlbums], "_id"),
+      const { data } = await getUserLikedTracks(userId, followedPage, 10);
+      setFollowedTracks((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
       );
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -70,8 +67,8 @@ function UserAlbums() {
   };
 
   useEffect(() => {
-    fetchCreatedAlbums();
-    fetchLikedAlbums();
+    fetchCreatedTracks();
+    fetchFollowedTracks();
     loadUser();
   }, []);
 
@@ -80,7 +77,7 @@ function UserAlbums() {
       <div className="row mb-3 mb-md-5">
         <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText
-            priText={`${userPossessive} Albums`}
+            priText={`${userPossessive} Tracks`}
             cols="12"
             isNegative
           />
@@ -95,19 +92,19 @@ function UserAlbums() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {userCreatedAlbums && (
-            <AlbumList
-              albums={userCreatedAlbums}
-              loadMoreTracks={fetchCreatedAlbums}
+          {createdTracks && (
+            <TrackList
+              tracks={createdTracks}
+              loadMoreTracks={fetchCreatedTracks}
             />
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
-          <div className="fnt-page-title mb-4">Liked</div>
-          {userLikedAlbums && (
-            <AlbumList
-              albums={userLikedAlbums}
-              loadMoreTracks={fetchLikedAlbums}
+          <div className="fnt-page-title mb-4">Followed</div>
+          {followedTracks && (
+            <TrackList
+              tracks={followedTracks}
+              loadMoreTracks={fetchFollowedTracks}
             />
           )}
         </div>
@@ -116,4 +113,4 @@ function UserAlbums() {
   );
 }
 
-export default UserAlbums;
+export default UserTracks;

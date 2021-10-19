@@ -11,6 +11,7 @@ import {
 } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
 import BackButton from "../../../components/BackButton";
+import { getUniqueListBy } from "../../../utils/lists";
 
 function UserPlaylists() {
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
@@ -43,19 +44,23 @@ function UserPlaylists() {
     }
   };
 
-  const fetchCreatedPlaylists = async () => {
+  const fetchCreatedPlaylists = async (createdPage) => {
     try {
-      const { data } = await getUserPlaylists(userId);
-      setCreatedPlaylists(data.data);
+      const { data } = await getUserPlaylists(userId, createdPage, 5);
+      setCreatedPlaylists((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
-  const fetchFollowedPlaylists = async () => {
+  const fetchFollowedPlaylists = async (followedPage) => {
     try {
-      const { data } = await getUserFollowingPlaylists(userId);
-      setFollowedPlaylists(data.data);
+      const { data } = await getUserFollowingPlaylists(userId, followedPage, 5);
+      setFollowedPlaylists((prev) =>
+        getUniqueListBy([...prev, ...data.data], "_id"),
+      );
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -87,11 +92,21 @@ function UserPlaylists() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {createdPlaylists && <PlaylistList playlists={createdPlaylists} />}
+          {createdPlaylists && (
+            <PlaylistList
+              playlists={createdPlaylists}
+              loadMoreTracks={fetchCreatedPlaylists}
+            />
+          )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {followedPlaylists && <PlaylistList playlists={followedPlaylists} />}
+          {followedPlaylists && (
+            <PlaylistList
+              playlists={followedPlaylists}
+              loadMoreTracks={fetchFollowedPlaylists}
+            />
+          )}
         </div>
       </div>
     </Layout>
