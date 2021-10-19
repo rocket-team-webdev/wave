@@ -33,11 +33,14 @@
   ],
   "scripts": {
     "client": "yarn workspace client start",
+    "client-dev": "yarn workspace client dev",
     "client-build": "yarn workspace client build",
     "client-test": "yarn workspace client test",
     "server": "yarn workspace server start",
+    "server-dev": "yarn workspace server dev",
     "stats-server": "yarn workspace stats-server start",
-    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\""
+    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\"",
+    "dev": "concurrently --kill-others-on-fail \"yarn client-dev\" \"yarn server-dev\""
   },
   "devDependencies": {
     "concurrently": "^6.2.1"
