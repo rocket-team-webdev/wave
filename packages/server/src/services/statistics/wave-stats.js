@@ -19,6 +19,8 @@ function fetchListenedTracks(api = makePlaybackApi()) {
 
 async function updateListenedTracks() {
   try {
+    console.log("Started update to tracks popularity");
+
     const { data } = await fetchListenedTracks();
     const tracksArray = data.data;
 
@@ -28,6 +30,31 @@ async function updateListenedTracks() {
         { popularity: track.total },
       );
     });
+    console.log("Finished update to tracks popularity");
+    await updateGenresPopularity();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function updateGenresPopularity() {
+  try {
+    console.log("Started update to genres popularity");
+    const genresArray = await db.Track.aggregate([
+      {
+        $group: {
+          _id: "$genreId",
+          totalPopularity: { $sum: "$popularity" },
+        },
+      },
+    ]);
+    await genresArray.forEach(async (genreElement) => {
+      await db.Genre.findOneAndUpdate(
+        { _id: genreElement._id },
+        { popularity: genreElement.totalPopularity },
+      );
+    });
+    console.log("Finished update to genres popularity");
   } catch (error) {
     console.error(error);
   }
@@ -35,4 +62,5 @@ async function updateListenedTracks() {
 
 module.exports = {
   updateListenedTracks,
+  updateGenresPopularity,
 };
