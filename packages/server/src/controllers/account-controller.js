@@ -130,25 +130,54 @@ async function deleteAccount(req, res, next) {
   try {
     const { email } = req.user;
 
-    const { profilePicture } = await db.User.findOne(
+    const { profilePicture, _id: userId } = await db.User.findOne(
       { email: email },
-      { profilePicture: 1, _id: 0 },
+      { profilePicture: 1, _id: 1 },
     );
 
+    // Delete user account
+    const deletedAccount = await db.User.findOneAndDelete({ email });
+    if (!deletedAccount) res.status(404).send({ message: "User not found!" });
+
+    // Delete cloudinary picture
     // checking if old profile picture is the default one
     if (profilePicture !== DEFAULT_PROFILE_PICTURE) {
       const publicId = getPublicId(profilePicture);
       await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
     }
 
-    const deletedAccount = await db.User.findOneAndDelete({ email });
+    // Delete owned Playlists
+    await db.Playlist.updateMany(
+      { userId: userId, isDeleted: false },
+      { isDeleted: true },
+    );
 
-    // TODO: delete all account data
+    // Delete owned tracks from other's playlists
+    const trackList = await db.Track.find({ userId: userId }, { _id: 1 });
+    await trackList.forEach(async (track) => {
+      await db.Playlist.updateMany(
+        { trackId: track._id },
+        { $pull: { trackId: track._id } },
+      );
+    });
 
-    if (!deletedAccount) res.status(404).send({ message: "User not found!" });
+    // Delete owned albums
+    await db.Album.deleteMany({ userId: userId });
+
+    // Delete tracks
+    await db.Track.deleteMany({ userId: userId });
+
+    // Delete follows
+    await db.User.updateMany({ following: userId }, [
+      { $set: { following: { $setDifference: ["$following", [userId]] } } },
+    ]);
+
+    // Delete followers
+    await db.User.updateMany({ followedBy: userId }, [
+      { $set: { followedBy: { $setDifference: ["$followedBy", [userId]] } } },
+    ]);
 
     res.status(200).send({
-      data: deletedAccount,
       message: "Success",
     });
   } catch (error) {
