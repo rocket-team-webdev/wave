@@ -28,7 +28,7 @@ async function updateListenedTracks() {
       await db.Track.findOneAndUpdate(
         { _id: track.trackId },
         { popularity: track.total },
-      );
+      ).catch(() => undefined);
     });
     console.log("Finished update to tracks popularity");
     await updateGenresPopularity();
