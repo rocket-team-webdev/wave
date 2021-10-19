@@ -82,6 +82,7 @@ async function getMyPlaylists(req, res, next) {
       : {
           name: 1,
           isFollowed: { $setIsSubset: [[userId], "$followedBy"] },
+          thumbnail: 1,
         };
     const playlists = await db.Playlist.find(
       { userId: userId, isDeleted: false },
