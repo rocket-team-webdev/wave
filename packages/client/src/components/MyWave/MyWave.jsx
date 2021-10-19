@@ -226,7 +226,7 @@ export default function MyWave() {
             label="Created playlists"
             cols="12 row-cols-md-1 col-lg-6"
           >
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {!isLoading ? (
@@ -253,7 +253,7 @@ export default function MyWave() {
           )
         ) : (
           <HomeElement label="Following playlists">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User tracks */}

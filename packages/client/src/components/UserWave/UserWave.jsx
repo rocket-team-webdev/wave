@@ -236,7 +236,7 @@ export default function UserWave() {
             label="Created playlists"
             cols="12 row-cols-md-1 col-lg-6"
           >
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User following playlists */}
@@ -270,7 +270,7 @@ export default function UserWave() {
             label="Following playlists"
             cols="12 row-cols-md-1 col-lg-6"
           >
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User tracks */}
@@ -369,7 +369,7 @@ export default function UserWave() {
           )
         ) : (
           <HomeElement label="Liked tracks">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {/* User followers */}

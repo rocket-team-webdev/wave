@@ -112,7 +112,7 @@ export default function PopularWave() {
           )
         ) : (
           <HomeElement label="Playlists" cols="12 col-lg-6">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {popularTracks.length > 0 ? (
@@ -168,7 +168,7 @@ export default function PopularWave() {
           )
         ) : (
           <HomeElement label="Albums" cols="4 col-lg-12">
-            <Spinner isNegative />
+            <Spinner classNames="ms-2" isNegative />
           </HomeElement>
         )}
         {popularUsers.length > 0 ? (
