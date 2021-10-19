@@ -19,7 +19,8 @@ async function signUp(req, res, next) {
       );
 
       let profilePicture = req.files?.profilePicture;
-      let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
+      let profilePictureUrl =
+        req.body.profilePicture || DEFAULT_PROFILE_PICTURE;
 
       if (profilePicture) {
         profilePicture = profilePicture[0];
@@ -54,6 +55,8 @@ async function signUp(req, res, next) {
           if (err) throw err;
         });
       }
+
+      console.log("profilePictureUrl fuers", profilePictureUrl);
 
       const newUser = await db.User.create({
         ...req.user,
