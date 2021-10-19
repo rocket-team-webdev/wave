@@ -62,6 +62,7 @@ function AlbumList({
             albumTitle={album.title}
             userId={album.userId}
             isLiked={album.isLiked}
+            thumbnail={album.thumbnail}
             colsMd={colsMd}
             updateLikedView={handleAddLikedColumn}
           />

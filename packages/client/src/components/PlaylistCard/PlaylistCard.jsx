@@ -15,6 +15,7 @@ export default function PlaylistCard({
   playlistName,
   userId,
   isFollowed,
+  thumbnail,
   isPlaceholder = false,
   colsMd = "6",
   updateFollowedView = () => {},
@@ -48,6 +49,13 @@ export default function PlaylistCard({
       setFollowed(!followed);
     }
   };
+
+  let backgroundStyles = {};
+  if (thumbnail) {
+    backgroundStyles = {
+      backgroundImage: `url(${thumbnail})`,
+    };
+  }
 
   useEffect(() => {
     setFollowed(isFollowed);
@@ -87,10 +95,12 @@ export default function PlaylistCard({
           className={componentClasses}
         >
           <motion.div
-            className="d-flex flex-column justify-content-between playlist-card playlist-gradient fx-rounded py-3 px-4"
+            className="d-flex flex-column justify-content-between playlist-card playlist-gradient fx-rounded py-3 px-4 parent-thumbnail-card"
+            // style={backgroundStyles}
             // Animation settings
             variants={fromBottom}
           >
+            <div className="thumbnail-card" style={backgroundStyles} />
             <div
               className="heart-wrapper d-flex justify-content-end fnt-primary"
               data-testid="playlistCard"
@@ -100,7 +110,11 @@ export default function PlaylistCard({
                 type="button"
                 onClick={handleLike}
               >
-                {followed ? <HeartIcon isFull /> : <HeartIcon />}
+                {followed ? (
+                  <HeartIcon isFull isNegative />
+                ) : (
+                  <HeartIcon isNegative />
+                )}
               </button>
             </div>
 
