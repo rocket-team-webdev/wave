@@ -17,8 +17,6 @@ function UserTracks() {
   const [createdTracks, setCreatedTracks] = useState([]);
   const [followedTracks, setFollowedTracks] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
-  // const [createdPage, setCreatedPage] = useState(0);
-  // const [followedPage, setFollowedPage] = useState(0);
   const history = useHistory();
 
   const { userId } = useRouteMatch(
@@ -98,7 +96,6 @@ function UserTracks() {
             <TrackList
               tracks={createdTracks}
               loadMoreTracks={fetchCreatedTracks}
-              // propPage={page}
             />
           )}
         </div>
