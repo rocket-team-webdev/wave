@@ -153,7 +153,6 @@ export default function MusicPlayer() {
     const statePosition = toggleStates.findIndex(
       (element) => element === queueState.repeatState,
     );
-    console.log(statePosition);
     if (statePosition === 0) audioPlayer.current.audio.current.loop = true;
     else audioPlayer.current.audio.current.loop = false;
     if (statePosition === 1) setNextButtonDisabled(false);
