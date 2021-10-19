@@ -32,7 +32,7 @@ function Header({ props }) {
   return (
     <header
       {...props}
-      className="container-fluid px-3 px-sm-5 h-85 d-flex align-items-center clr-primary"
+      className="container-fluid px-3 px-sm-5 h-85 d-flex align-items-center fx-blur"
     >
       <div className="row m-0 w-100 d-flex align-items-center">
         <div className="col-7 p-0">

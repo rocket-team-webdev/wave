@@ -16,10 +16,7 @@ export default function RadioButtons({ handleChange = () => {} }) {
         onChange={handleChange}
         defaultChecked
       />
-      <label
-        className="btn btn-outline-light fnt-caption custom-radio"
-        htmlFor="popularRadio"
-      >
+      <label className="btn fnt-caption custom-radio" htmlFor="popularRadio">
         Popular
       </label>
 
@@ -31,10 +28,7 @@ export default function RadioButtons({ handleChange = () => {} }) {
         autoComplete="off"
         onChange={handleChange}
       />
-      <label
-        className="btn btn-outline-light fnt-caption custom-radio"
-        htmlFor="myWaveRadio"
-      >
+      <label className="btn  fnt-caption custom-radio" htmlFor="myWaveRadio">
         MyWave
       </label>
     </div>

@@ -66,9 +66,12 @@ select:-webkit-autofill:focus {
 a,
 a:visited {
   text-decoration: none;
-  color: inherit;
   font-weight: bold;
   transition: 0.3s;
+}
+
+a:visited {
+  color: inherit;
 }
 
 a:hover {

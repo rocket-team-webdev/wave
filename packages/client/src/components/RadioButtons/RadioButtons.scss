@@ -1,9 +1,11 @@
-@import "bootstrap.scss";
 @use "../../sass/components/colors" as c;
+@import "bootstrap.scss";
 
 .home-radio {
   @extend .btn:active;
-  color: c.$colorPrimary;
+  color: red !important;
+  background: c.$lightColor;
+  outline: none;
 }
 
 .custom-radio {

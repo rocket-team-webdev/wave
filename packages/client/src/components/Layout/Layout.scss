@@ -1,19 +1,21 @@
 @use "../../sass/components/colors" as c;
 
 header {
-  border-bottom: 2px solid c.$lightColor;
 }
 
 main {
-  padding-bottom: 100px;
+  padding-bottom: 130px;
 }
 
 .layout-wrapper {
   min-height: 100vh;
+  background: lightblue;
 }
 
 footer {
-  border-top: 2px solid c.$lightColor;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
 
 .main-with-thumbnail {

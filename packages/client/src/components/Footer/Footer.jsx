@@ -5,7 +5,7 @@ import "./Footer.scss";
 const Footer = ({ ...props }) => {
   return (
     <footer
-      className="clr-primary px-3 px-sm-5 h-60 d-flex align-items-center"
+      className="px-3 px-sm-5 h-60 d-flex align-items-center fx-blur"
       {...props}
     >
       <div className="row m-0 w-100 d-flex align-items-center">

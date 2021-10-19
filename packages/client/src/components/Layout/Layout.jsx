@@ -6,7 +6,7 @@ import Footer from "../Footer";
 import "./Layout.scss";
 
 function Layout({ children, isNegative = false, thumbnailUrl }) {
-  let mainClassNames = "flex-grow-1 px-3 pt-4 pb-5 p-sm-5 ";
+  let mainClassNames = "flex-grow-1 px-3 pt-4 px-sm-5 pt-5 ";
 
   // Thumbnail background settings
   let backgroundStyles = {};
@@ -20,8 +20,8 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
     };
   }
 
-  if (isNegative) {
-    mainClassNames += "clr-primary ";
+  if (!isNegative) {
+    mainClassNames += "clr-white ";
   }
 
   return (
@@ -36,7 +36,7 @@ function Layout({ children, isNegative = false, thumbnailUrl }) {
           <Footer />
         </div>
       ) : (
-        <div className="d-flex flex-column layout-wrapper">
+        <div className="d-flex flex-column layout-wrapper clr-primary">
           <Header />
           <main className={mainClassNames}>{children}</main>
           <Footer />
