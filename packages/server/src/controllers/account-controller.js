@@ -155,9 +155,10 @@ async function deleteAccount(req, res, next) {
     // Delete owned tracks from other's playlists
     const trackList = await db.Track.find({ userId: userId }, { _id: 1 });
     await trackList.forEach(async (track) => {
-      await db.Playlist.updateMany({ trackId: track._id }, [
-        { $set: { trackId: { $setDifference: ["$trackId", [track._id]] } } },
-      ]);
+      await db.Playlist.updateMany(
+        { trackId: track._id },
+        { $pull: { trackId: track._id } },
+      );
     });
 
     // Delete owned albums
