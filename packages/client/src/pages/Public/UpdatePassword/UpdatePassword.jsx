@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -17,7 +18,12 @@ import FormWrapper from "../../../components/FormWrapper";
 
 function UpdatePassword() {
   const [loading, setLoading] = useState(false);
+  const userState = useSelector((state) => state.user);
   const history = useHistory();
+
+  useEffect(() => {
+    if (userState.googleProvider) history.goBack();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
