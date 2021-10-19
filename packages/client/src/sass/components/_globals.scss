@@ -21,6 +21,16 @@
   // outline: 2px solid blue;
 }
 
+input,
+input:before,
+input:after {
+  -webkit-user-select: initial;
+  -khtml-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
+}
+
 body {
   height: 100vh;
   margin: 0;

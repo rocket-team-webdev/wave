@@ -256,6 +256,18 @@ async function deleteAlbum(req, res, next) {
       },
     );
 
+    // delete tracks of album from all playlists
+    const trackList = await db.Track.find(
+      { _id: albumId, userId: userId },
+      { _id: 1 },
+    );
+    await trackList.forEach(async (track) => {
+      await db.Playlist.updateMany(
+        { trackId: track._id },
+        { $pull: { trackId: track._id } },
+      );
+    });
+
     // deleting tracks from album
     await db.Track.deleteMany({ album: albumId, userId: userId });
 
