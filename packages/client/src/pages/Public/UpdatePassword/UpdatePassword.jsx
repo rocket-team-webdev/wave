@@ -102,7 +102,9 @@ function UpdatePassword() {
               />
               <div className="row pe-0">
                 <div className="mt-5 col-auto ms-auto pe-0">
-                  <Button type="submit">Change Password</Button>
+                  <Button type="submit" disabled={loading}>
+                    Change Password
+                  </Button>
                 </div>
               </div>
             </form>
