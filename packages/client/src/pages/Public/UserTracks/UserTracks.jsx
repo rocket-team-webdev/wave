@@ -3,29 +3,29 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import JumboText from "../../../components/JumboText";
 import Layout from "../../../components/Layout";
-import PlaylistList from "../../../components/PlaylistList";
 import {
   getUserById,
-  getUserPlaylists,
-  getUserFollowingPlaylists,
+  getUserTracks,
+  getUserLikedTracks,
 } from "../../../api/users-api";
 import { PUBLIC } from "../../../constants/routes";
 import BackButton from "../../../components/BackButton";
-import Spinner from "../../../components/Spinner";
+import TrackList from "../../../components/TrackList";
 import { getUniqueListBy } from "../../../utils/lists";
+import Spinner from "../../../components/Spinner";
 
-function UserPlaylists() {
+function UserTracks() {
   const [loadStatus, setLoadStatus] = useState({
-    createdPlaylists: false,
-    followedPlaylists: false,
+    createdTracks: false,
+    followedTracks: false,
   });
-  const [createdPlaylists, setCreatedPlaylists] = useState([]);
-  const [followedPlaylists, setFollowedPlaylists] = useState([]);
+  const [createdTracks, setCreatedTracks] = useState([]);
+  const [followedTracks, setFollowedTracks] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
   const history = useHistory();
 
   const { userId } = useRouteMatch(
-    `${PUBLIC.USER_VIEW}/:userId${PUBLIC.PLAYLISTS}`,
+    `${PUBLIC.USER_VIEW}/:userId${PUBLIC.TRACKS}`,
   ).params;
 
   const loadUser = async () => {
@@ -49,33 +49,33 @@ function UserPlaylists() {
     }
   };
 
-  const fetchCreatedPlaylists = async (createdPage) => {
+  const fetchCreatedTracks = async (createdPage) => {
     try {
-      const { data } = await getUserPlaylists(userId, createdPage, 5);
-      setCreatedPlaylists((prev) =>
+      const { data } = await getUserTracks(userId, createdPage, 10);
+      setCreatedTracks((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );
     } catch (error) {
       toast(error.message, { type: "error" });
     }
-    setLoadStatus((prev) => ({ ...prev, createdPlaylists: true }));
+    setLoadStatus((prev) => ({ ...prev, createdTracks: true }));
   };
 
-  const fetchFollowedPlaylists = async (followedPage) => {
+  const fetchFollowedTracks = async (followedPage) => {
     try {
-      const { data } = await getUserFollowingPlaylists(userId, followedPage, 5);
-      setFollowedPlaylists((prev) =>
+      const { data } = await getUserLikedTracks(userId, followedPage, 10);
+      setFollowedTracks((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );
     } catch (error) {
       toast(error.message, { type: "error" });
     }
-    setLoadStatus((prev) => ({ ...prev, followedPlaylists: true }));
+    setLoadStatus((prev) => ({ ...prev, followedTracks: true }));
   };
 
   useEffect(() => {
-    fetchCreatedPlaylists();
-    fetchFollowedPlaylists();
+    fetchCreatedTracks();
+    fetchFollowedTracks();
     loadUser();
   }, []);
 
@@ -84,7 +84,7 @@ function UserPlaylists() {
       <div className="row mb-3 mb-md-5">
         <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText
-            priText={`${userPossessive} Playlists`}
+            priText={`${userPossessive} Tracks`}
             cols="12"
             isNegative
           />
@@ -99,11 +99,11 @@ function UserPlaylists() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {loadStatus.createdPlaylists ? (
-            createdPlaylists && (
-              <PlaylistList
-                playlists={createdPlaylists}
-                loadMoreTracks={fetchCreatedPlaylists}
+          {loadStatus.createdTracks ? (
+            createdTracks && (
+              <TrackList
+                tracks={createdTracks}
+                loadMoreTracks={fetchCreatedTracks}
               />
             )
           ) : (
@@ -112,11 +112,11 @@ function UserPlaylists() {
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {loadStatus.followedPlaylists ? (
-            followedPlaylists && (
-              <PlaylistList
-                playlists={followedPlaylists}
-                loadMoreTracks={fetchFollowedPlaylists}
+          {loadStatus.followedTracks ? (
+            followedTracks && (
+              <TrackList
+                tracks={followedTracks}
+                loadMoreTracks={fetchFollowedTracks}
               />
             )
           ) : (
@@ -128,4 +128,4 @@ function UserPlaylists() {
   );
 }
 
-export default UserPlaylists;
+export default UserTracks;

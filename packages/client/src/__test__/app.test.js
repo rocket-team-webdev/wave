@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import { createBrowserHistory } from "history";
 import { Router } from "react-router-dom";
+import "../__mocks__/intersectionObserverMock";
 
 import axios from "axios";
 
@@ -32,14 +33,14 @@ jest.mock("id3js/lib/id3", () => {
 //   unobserve: jest.fn(),
 // }));
 
-const mock = function () {
-  return {
-    observe: jest.fn(),
-    disconnect: jest.fn(),
-  };
-};
+// const mock = function () {
+//   return {
+//     observe: jest.fn(),
+//     disconnect: jest.fn(),
+//   };
+// };
 
-window.IntersectionObserver = mock;
+// window.IntersectionObserver = mock;
 
 const tracksData = [
   {

@@ -19,12 +19,8 @@ function App() {
 
     dispatch(
       logIn({
-        email: firebaseUser.email,
-        token: firebaseUser.multiFactor.user.accessToken,
         firstName: dbUser.firstName,
-        lastName: dbUser.lastName,
         profilePicture: dbUser.profilePicture || "",
-        firebaseId: firebaseUser.uid,
         isLogged: true,
         mongoId: dbUser._id,
         googleProvider:

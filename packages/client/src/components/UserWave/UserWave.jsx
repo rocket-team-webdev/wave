@@ -275,8 +275,9 @@ export default function UserWave() {
               label="Uploaded tracks"
               cols="12 row-cols-md-1 col-lg-6"
               isAnimationContainer
+              to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.TRACKS}`}
             >
-              <TrackList tracks={userTracks} setTrakcs={setUserTracks} />
+              <TrackList tracks={userTracks} setTracks={setUserTracks} />
             </HomeElement>
           ) : (
             <HomeElement
@@ -298,10 +299,11 @@ export default function UserWave() {
               label="Liked tracks"
               cols="12 row-cols-md-1 col-lg-6"
               isAnimationContainer
+              to={`${PUBLIC.USER_VIEW}/${userId}${PUBLIC.TRACKS}`}
             >
               <TrackList
                 tracks={userLikedTracks}
-                setTrakcs={setUserLikedTracks}
+                setTracks={setUserLikedTracks}
               />
             </HomeElement>
           ) : (

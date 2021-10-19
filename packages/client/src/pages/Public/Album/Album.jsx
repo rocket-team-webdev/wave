@@ -129,7 +129,7 @@ export default function Album() {
   useEffect(() => {
     loadAlbum();
     setIsPlaying(false);
-  }, []);
+  }, [albumId]);
 
   useEffect(() => {
     if (queueState.queue.length === 0) setIsPlaying(false);

@@ -23,9 +23,16 @@ connect()
       console.log(`Server running at port ${config.app.port}`);
     });
 
-    cron.schedule("0 0 * * *", () => {
-      updateListenedTracks();
-    });
+    cron.schedule(
+      "58 * * * *",
+      () => {
+        updateListenedTracks();
+      },
+      {
+        scheduled: true,
+        timezone: "Europe/Madrid",
+      },
+    );
   })
   .catch((err) => {
     console.log(err);
