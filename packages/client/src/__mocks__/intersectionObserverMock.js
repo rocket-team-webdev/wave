@@ -1,5 +1,9 @@
+/* eslint-disable no-empty-function */
+/* eslint-disable class-methods-use-this */
 global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
+  constructor() {
+    return null;
+  }
 
   observe() {
     return null;

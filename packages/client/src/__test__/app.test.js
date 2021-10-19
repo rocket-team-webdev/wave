@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-mocks-import */
 /* eslint-disable jest/no-disabled-tests */
 import userEvent from "@testing-library/user-event";
 import React from "react";
@@ -28,18 +29,12 @@ jest.mock("id3js/lib/id3", () => {
   return { fromFile: jest.fn() };
 });
 
-// window.IntersectionObserver = jest.fn(() => ({
-//   observe: jest.fn(),
-//   unobserve: jest.fn(),
-// }));
-
 // const mock = function () {
 //   return {
 //     observe: jest.fn(),
 //     disconnect: jest.fn(),
 //   };
 // };
-
 // window.IntersectionObserver = mock;
 
 const tracksData = [

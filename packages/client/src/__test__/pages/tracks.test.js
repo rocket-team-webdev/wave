@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-mocks-import */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jest/no-disabled-tests */
 import React from "react";
