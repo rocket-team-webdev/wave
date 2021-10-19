@@ -15,6 +15,7 @@ export default function AlbumCard({
   albumTitle,
   userId,
   isLiked,
+  thumbnail,
   isPlaceholder = false,
   colsMd = "6",
   updateLikedView = () => {},
@@ -48,6 +49,13 @@ export default function AlbumCard({
       setLiked(!liked);
     }
   };
+
+  let backgroundStyles = {};
+  if (thumbnail) {
+    backgroundStyles = {
+      backgroundImage: `url(${thumbnail})`,
+    };
+  }
 
   useEffect(() => {
     setLiked(isLiked);
@@ -87,10 +95,11 @@ export default function AlbumCard({
           className={componentClasses}
         >
           <motion.div
-            className="d-flex flex-column justify-content-between album-card album-gradient fx-rounded py-3 px-4"
+            className="d-flex flex-column justify-content-between album-card album-gradient fx-rounded py-3 px-4 parent-thumbnail-card"
             // Animation settings
             variants={fromBottom}
           >
+            <div className="thumbnail-card" style={backgroundStyles} />
             <div
               className="heart-wrapper d-flex justify-content-end fnt-primary"
               data-testid="playlistCard"
@@ -100,7 +109,11 @@ export default function AlbumCard({
                 type="button"
                 onClick={handleLike}
               >
-                {liked ? <HeartIcon isFull /> : <HeartIcon />}
+                {liked ? (
+                  <HeartIcon isFull isNegative />
+                ) : (
+                  <HeartIcon isNegative />
+                )}
               </button>
             </div>
 

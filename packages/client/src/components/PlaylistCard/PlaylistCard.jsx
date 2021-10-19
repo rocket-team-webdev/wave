@@ -54,9 +54,6 @@ export default function PlaylistCard({
   if (thumbnail) {
     backgroundStyles = {
       backgroundImage: `url(${thumbnail})`,
-      // backgroundRepeat: "no-repeat",
-      // backgroundSize: "cover",
-      // backgroundPosition: "center",
     };
   }
 
