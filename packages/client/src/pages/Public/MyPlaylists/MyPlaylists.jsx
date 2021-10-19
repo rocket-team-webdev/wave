@@ -13,9 +13,14 @@ import useDebounce from "../../../hooks/useDebounce";
 import { searchPlaylists } from "../../../api/search-api";
 import BackButton from "../../../components/BackButton";
 import { getUniqueListBy } from "../../../utils/lists";
+import Spinner from "../../../components/Spinner";
 
 function MyPlaylists() {
   const location = useLocation();
+  const [loadStatus, setLoadStatus] = useState({
+    createdPlaylists: false,
+    followedPlaylists: false,
+  });
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const userState = useSelector((state) => state.user);
@@ -36,6 +41,7 @@ function MyPlaylists() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, createdPlaylists: true }));
   };
 
   const fetchFollowedPlaylists = async (followedPage) => {
@@ -49,6 +55,7 @@ function MyPlaylists() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, followedPlaylists: true }));
   };
 
   const fetchPlaylistsData = (fetchPage = 0) => {
@@ -175,26 +182,34 @@ function MyPlaylists() {
       <div className="row g-5">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Created</div>
-          {createdPlaylists && (
-            <PlaylistList
-              playlists={createdPlaylists}
-              onAddFollowedColumn={handleAddFollowedColumn}
-              isSearching={isSearching}
-              loadMoreTracks={fetchPlaylistsData}
-              propPage={page}
-            />
+          {loadStatus.createdPlaylists ? (
+            createdPlaylists && (
+              <PlaylistList
+                playlists={createdPlaylists}
+                onAddFollowedColumn={handleAddFollowedColumn}
+                isSearching={isSearching}
+                loadMoreTracks={fetchPlaylistsData}
+                propPage={page}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Followed</div>
-          {followedPlaylists && (
-            <PlaylistList
-              playlists={followedPlaylists}
-              onAddFollowedColumn={handleAddFollowedColumn}
-              isSearching={isSearching}
-              loadMoreTracks={fetchPlaylistsDataFollowed}
-              propPage={pageFollowed}
-            />
+          {loadStatus.followedPlaylists ? (
+            followedPlaylists && (
+              <PlaylistList
+                playlists={followedPlaylists}
+                onAddFollowedColumn={handleAddFollowedColumn}
+                isSearching={isSearching}
+                loadMoreTracks={fetchPlaylistsDataFollowed}
+                propPage={pageFollowed}
+              />
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
       </div>

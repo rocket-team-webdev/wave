@@ -8,8 +8,10 @@ import JumboText from "../../../components/JumboText";
 import PlaylistList from "../../../components/PlaylistList";
 
 import BackButton from "../../../components/BackButton";
+import Spinner from "../../../components/Spinner";
 
 export default function PopularPlaylists() {
+  const [isLoading, setIsLoading] = useState(true);
   const [playlists, setPlaylists] = useState();
 
   const loadPopularPlaylists = async () => {
@@ -19,6 +21,7 @@ export default function PopularPlaylists() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -37,7 +40,11 @@ export default function PopularPlaylists() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          {playlists && <PlaylistList playlists={playlists} />}
+          {!isLoading ? (
+            playlists && <PlaylistList playlists={playlists} />
+          ) : (
+            <Spinner isNegative />
+          )}
         </div>
       </div>
     </Layout>

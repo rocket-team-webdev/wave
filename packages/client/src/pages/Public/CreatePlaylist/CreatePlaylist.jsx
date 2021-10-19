@@ -60,6 +60,7 @@ export default function CreatePlaylist() {
             return toast(e.response.data.msg, { type: "error" });
           }
         }
+        setIsLoading(false);
         if (location.state) {
           history.push(location.state.referrer);
         } else {
@@ -67,6 +68,7 @@ export default function CreatePlaylist() {
         }
         return toast("Playlist created!", { type: "success" });
       } catch (error) {
+        setIsLoading(false);
         return toast(error.response?.data.msg, { type: "error" });
       }
     },
@@ -165,7 +167,7 @@ export default function CreatePlaylist() {
                 </div>
                 <div className="d-flex justify-content-end buttons-wrapper col col-12 col-md-6 p-0">
                   <BackButton classNames="me-3" isNegative secondaryBtn />
-                  <Button isNegative submitButton>
+                  <Button isNegative submitButton disabled={isLoading}>
                     Create
                   </Button>
                 </div>

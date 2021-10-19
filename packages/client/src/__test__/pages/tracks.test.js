@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-mocks-import */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jest/no-disabled-tests */
 import React from "react";
@@ -6,6 +7,7 @@ import { Router } from "react-router-dom";
 import axios from "axios";
 import { render, screen, waitFor, cleanup } from "../../utils/test-utils";
 import "@testing-library/jest-dom";
+import "../../__mocks__/intersectionObserverMock";
 
 import Tracks from "../../pages/Public/Tracks";
 import { getMyTracks } from "../../api/me-api";
@@ -89,13 +91,14 @@ describe("Tracks Page test", () => {
     expect(result).toEqual(tracksData);
   });
 
-  test.skip("Tracks page rendering with songs", async () => {
+  test("Tracks page rendering with songs", async () => {
     const history = createMemoryHistory();
 
     axios.create.mockReturnThis();
-    axios.get.mockResolvedValue(tracksData);
-    // .mockResolvedValueOnce(tracksData)
-    // .mockResolvedValueOnce({ data: { data: [] } });
+    axios.get
+      .mockResolvedValue({ data: { data: [] } })
+      .mockResolvedValueOnce(tracksData)
+      .mockResolvedValueOnce({ data: { data: [] } });
 
     render(
       <Router history={history}>
@@ -112,6 +115,6 @@ describe("Tracks Page test", () => {
     // expect tracks to be rendered
     expect(browserRouter).toHaveLength(2);
     // tracks page rendered
-    expect(screen.getByText(/my songs/i)[1]).toBeInTheDocument();
+    expect(screen.getAllByText(/my songs/i)[1]).toBeInTheDocument();
   });
 });

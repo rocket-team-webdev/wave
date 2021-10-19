@@ -27,9 +27,13 @@ import "./SinglePlaylist.scss";
 import GenreCard from "../../../components/GenreCard";
 import { uniqueValuesArray } from "../../../utils/arrayFunctions";
 import BackButton from "../../../components/BackButton";
+import Spinner from "../../../components/Spinner";
 
 export default function SinglePlaylist() {
   const location = useLocation();
+  const [loadStatus, setLoadStatus] = useState({
+    tracks: false,
+  });
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false);
@@ -79,6 +83,7 @@ export default function SinglePlaylist() {
         toast(error.message, { type: "error" });
       }
     }
+    setLoadStatus({ tracks: true });
   };
 
   const handlePlaying = () => {
@@ -249,12 +254,16 @@ export default function SinglePlaylist() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          <TrackList
-            tracks={tracks}
-            setTracks={setTracks}
-            hasSorter
-            isOnPlaylist={playlist}
-          />
+          {loadStatus.tracks ? (
+            <TrackList
+              tracks={tracks}
+              setTracks={setTracks}
+              hasSorter
+              isOnPlaylist={playlist}
+            />
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
+          )}
         </div>
         <DeleteModal
           id="deletePlaylistModal"

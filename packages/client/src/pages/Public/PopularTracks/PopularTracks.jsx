@@ -7,8 +7,10 @@ import JumboText from "../../../components/JumboText";
 import { getAllTracks } from "../../../api/tracks-api";
 import TrackList from "../../../components/TrackList";
 import BackButton from "../../../components/BackButton";
+import Spinner from "../../../components/Spinner";
 
 export default function PopularTracks() {
+  const [isLoading, setIsLoading] = useState(true);
   const [tracks, setTracks] = useState();
 
   const loadPopularTracks = async () => {
@@ -18,6 +20,7 @@ export default function PopularTracks() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -36,13 +39,16 @@ export default function PopularTracks() {
             <div className="d-flex justify-content-between align-items-start">
               <JumboText priText="The top 50" cols="11" isNegative />
             </div>
-
-            <BackButton classNames="mt-5" isNegative />
           </div>
-          {/* Right side */}
-          <div className="col col-12 col-md-6 right-side pe-0">
-            {tracks && <TrackList tracks={tracks} />}
-          </div>
+          <BackButton isNegative />
+        </div>
+        {/* Right side */}
+        <div className="col col-12 col-md-6 right-side pe-0">
+          {!isLoading ? (
+            tracks && <TrackList tracks={tracks} />
+          ) : (
+            <Spinner isNegative />
+          )}
         </div>
       </Layout>
     </>

@@ -21,22 +21,30 @@
 }
 
 .parent-thumbnail-card {
-  // opacity: 1;
-  // transform: none;
   overflow: hidden;
   position: relative;
   z-index: 0;
-  // filter: url();
   .thumbnail-card {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    width: 110%;
-    height: 110%;
+    width: 140%;
     position: absolute;
-    top: -5%;
-    left: -5%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: -1;
     filter: blur(7px) brightness(80%);
+    opacity: 1;
+  }
+}
+
+.parent-thumbnail-card:hover {
+  .thumbnail-card {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .color-hov {
+    color: c.$secondaryColor;
   }
 }

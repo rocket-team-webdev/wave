@@ -15,7 +15,6 @@ export default function Button({
 }) {
   const location = useLocation();
   const history = useHistory();
-  // const [disabled, setDisabled] = useState(false);
 
   let btnclassNames = `${classNames} custom-btn fx-rounded d-flex align-items-center `;
 
@@ -39,14 +38,6 @@ export default function Button({
   if (fullWidth) {
     btnclassNames += " w-100";
   }
-
-  // if (disabled) {
-  //   btnclassNames += "disabled";
-  // }
-
-  // useEffect(() => {
-  //   if (!location.state) setDisabled(true);
-  // }, []);
 
   const goBack = () => {
     if (location.state) {
