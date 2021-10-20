@@ -9,8 +9,7 @@
 .playlist-gradient {
   background: c.$whiteColor;
   &:hover {
-    color: c.$lightColor;
-    background: c.$secondaryColor;
+    background: c.$playlistGradient;
   }
 }
 
