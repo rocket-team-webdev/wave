@@ -162,7 +162,6 @@ export default function TrackCard({
     );
     if (!songRepeat) {
       dispatch(addSong(trackObject));
-      console.log(queueState.queue.length);
       if (queueState.queue.length === 0) dispatch(setPlayState(true));
     } else {
       toast(`Song already exists on your queue`, { type: "error" });

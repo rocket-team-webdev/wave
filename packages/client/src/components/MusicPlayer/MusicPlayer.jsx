@@ -77,13 +77,6 @@ export default function MusicPlayer() {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   return function cleanUp() {
-  //     console.log("unmounted");
-  //     setTrackObject(null);
-  //   };
-  // });
-
   const handlePlay = () => {
     dispatch(setPlayState(false));
     if (!hasPlayed) {

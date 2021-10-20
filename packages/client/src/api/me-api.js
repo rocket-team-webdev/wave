@@ -62,14 +62,6 @@ export async function getFollowingPlaylists(
   );
 }
 
-export async function getPlaylist(id, api = makeMeApi()) {
-  const token = await getCurrentUserToken();
-
-  return api.get(`${API.PLAYLISTS}/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
 // ------
 // Albums
 // ------
