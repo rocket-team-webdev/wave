@@ -136,13 +136,8 @@ function MyPlaylists() {
     }
   }, [debouncedSearch]);
 
-  // useEffect(() => {
-  //   fetchCreatedPlaylists();
-  //   fetchFollowedPlaylists();
-  // }, []);
-
   return (
-    <Layout docTitle="My albums" isNegative>
+    <Layout docTitle="My playlists" isNegative>
       <div className="row mb-3 mb-md-5">
         <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Playlists" cols="12" isNegative />
