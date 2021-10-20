@@ -11,16 +11,22 @@ import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 import TrackList from "../../../components/TrackList";
 import Button from "../../../components/Button";
+import BackButton from "../../../components/BackButton";
 
 import { clearQueue } from "../../../redux/music-queue/actions";
 
+import { generatePossessive } from "../../../utils/possessiveFunction";
+
 import "./Queue.scss";
-import BackButton from "../../../components/BackButton";
 
 export default function Queue() {
   const [tracks, setTracks] = useState([]);
+  const [docTitle, setDocTitle] = useState("Loading user");
 
   const queueState = useSelector((state) => state.queue);
+  const userState = useSelector((state) => state.user);
+  const userFirstName = userState.firstName;
+  const userPossessive = generatePossessive(userFirstName);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -76,11 +82,15 @@ export default function Queue() {
   };
 
   useEffect(() => {
+    setDocTitle(`${userPossessive} queue`);
+  }, []);
+
+  useEffect(() => {
     loadQueue();
   }, [queueState.queue]);
 
   return (
-    <Layout isNegative>
+    <Layout docTitle={docTitle} isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-4 left-side mt-4">

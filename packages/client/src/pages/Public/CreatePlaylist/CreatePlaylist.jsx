@@ -86,7 +86,7 @@ export default function CreatePlaylist() {
   };
 
   return (
-    <Layout isNegative>
+    <Layout docTitle="New playlist" isNegative>
       <div className="row">
         <div className="mb-5 d-flex">
           <JumboText priText="New playlist" cols="12" isNegative />

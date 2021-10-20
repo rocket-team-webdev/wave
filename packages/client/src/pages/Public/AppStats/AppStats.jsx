@@ -60,7 +60,7 @@ export default function AppStats() {
   }, []);
 
   return (
-    <Layout>
+    <Layout docTitle="App stats">
       <div className="row p-0 m-0 col col-12 pb-5 pb-sm-0">
         <div className="col col-12 col-lg-6 ps-3 ps-sm-0">
           <AccountSideBar />

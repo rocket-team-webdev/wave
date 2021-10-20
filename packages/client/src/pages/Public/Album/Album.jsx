@@ -35,6 +35,7 @@ export default function Album() {
   const [isOwned, setIsOwned] = useState(false);
   const [albumGenres, setAlbumGenres] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [docTitle, setDocTitle] = useState("Loading album");
 
   const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
@@ -135,8 +136,12 @@ export default function Album() {
     if (queueState.queue.length === 0) setIsPlaying(false);
   }, [queueState]);
 
+  useEffect(() => {
+    setDocTitle(album.title);
+  }, [album]);
+
   return (
-    <Layout thumbnailUrl={album.thumbnail}>
+    <Layout docTitle={docTitle} thumbnailUrl={album.thumbnail}>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">

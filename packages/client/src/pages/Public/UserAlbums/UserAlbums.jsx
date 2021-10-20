@@ -8,11 +8,15 @@ import {
   getUserAlbums,
   getUserLikedAlbums,
 } from "../../../api/users-api";
+
 import { PUBLIC } from "../../../constants/routes";
+
 import AlbumList from "../../../components/AlbumList/AlbumList";
 import BackButton from "../../../components/BackButton";
 import Spinner from "../../../components/Spinner";
+
 import { getUniqueListBy } from "../../../utils/lists";
+import { generatePossessive } from "../../../utils/possessiveFunction";
 
 function UserAlbums() {
   const [loadStatus, setLoadStatus] = useState({
@@ -22,6 +26,8 @@ function UserAlbums() {
   const [userCreatedAlbums, setUserCreatedAlbums] = useState([]);
   const [userLikedAlbums, setUserLikedAlbums] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
+  const [docTitle, setDocTitle] = useState("Loading user");
+
   const history = useHistory();
 
   const { userId } = useRouteMatch(
@@ -31,11 +37,7 @@ function UserAlbums() {
   const loadUser = async () => {
     try {
       const { data } = await getUserById(userId);
-      setUserPossessive(
-        data.data.firstName.slice(-1) === "s"
-          ? `${data.data.firstName}'`
-          : `${data.data.firstName}'s`,
-      );
+      setUserPossessive(generatePossessive(data.data.firstName));
     } catch (error) {
       if (error.response.status === 500) {
         toast("User not found", {
@@ -82,8 +84,12 @@ function UserAlbums() {
     loadUser();
   }, []);
 
+  useEffect(() => {
+    setDocTitle(userPossessive);
+  }, [userPossessive]);
+
   return (
-    <Layout isNegative>
+    <Layout docTitle={docTitle} isNegative>
       <div className="row mb-3 mb-md-5">
         <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText

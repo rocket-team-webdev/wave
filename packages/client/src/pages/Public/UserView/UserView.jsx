@@ -17,6 +17,8 @@ import { PUBLIC } from "../../../constants/routes";
 import { getUserById, followUser } from "../../../api/users-api";
 import { getMyFollowings } from "../../../api/me-api";
 
+import { generatePossessive } from "../../../utils/possessiveFunction";
+
 export default function UserView() {
   const [isLoading, setIsLoading] = useState(false);
   const [isAppUser, setIsAppUser] = useState(false);
@@ -45,11 +47,7 @@ export default function UserView() {
       const { data } = await getUserById(userId);
       handleIsAppUser();
       setUser(data.data);
-      setUserPossessive(
-        data.data.firstName.slice(-1) === "s"
-          ? `${data.data.firstName}'`
-          : `${data.data.firstName}'s`,
-      );
+      setUserPossessive(generatePossessive(data.data.firstName));
       setIsLoading(false);
     } catch (error) {
       if (error.response.status === 500) {
