@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { Helmet } from "react-helmet";
 
 import updateSchema from "./update-schema";
 
@@ -197,17 +196,18 @@ export default function Account() {
                 <div className="col-6 d-flex justify-content-end pe-0">
                   <Button submitButton>Save </Button>
                 </div>
-              </form>
-            </FormWrapper>
-          </div>
-
-          <DeleteModal
-            id="deleteUserModal"
-            modalTitle="Removing user"
-            modalBody="Are you sure you want to delete this user?"
-            handleSubmit={handleDeleteAccount}
-          />
+              </div>
+            </form>
+          </FormWrapper>
         </div>
-      </Layout>
+
+        <DeleteModal
+          id="deleteUserModal"
+          modalTitle="Removing user"
+          modalBody="Are you sure you want to delete this user?"
+          handleSubmit={handleDeleteAccount}
+        />
+      </div>
+    </Layout>
   );
 }

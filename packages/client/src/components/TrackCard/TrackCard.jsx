@@ -413,7 +413,7 @@ export default function TrackCard({
                       {timeIntoString(time)}
                     </h4>
                     {/* Contextual menu */}
-                    <div className="dropdown">
+                    <div className="dropdown trackcard-dropdown">
                       <button
                         className="m-0 text-end fnt-light"
                         type="button"

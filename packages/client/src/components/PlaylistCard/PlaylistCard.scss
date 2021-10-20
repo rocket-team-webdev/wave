@@ -8,9 +8,7 @@
 
 .playlist-gradient {
   background: c.$whiteColor;
-  // background: c.$playlistGradient;
   &:hover {
-    // background-image: none;
     color: c.$lightColor;
     background: c.$secondaryColor;
   }
