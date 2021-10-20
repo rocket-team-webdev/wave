@@ -55,7 +55,7 @@ export default function CreateAlbum() {
   };
 
   return (
-    <Layout isNegative>
+    <Layout docTitle="New album" isNegative>
       <div className="row">
         <div className="mb-5 d-flex">
           <JumboText priText="New album" cols="12" isNegative />

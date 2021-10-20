@@ -27,7 +27,7 @@ export default function PopularAlbums() {
   }, []);
 
   return (
-    <Layout isNegative>
+    <Layout docTitle="Top albums" isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4 px-4 p-md-0">

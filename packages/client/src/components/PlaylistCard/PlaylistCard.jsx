@@ -57,17 +57,9 @@ export default function PlaylistCard({
   let backgroundStyles;
   if (thumbnail === DEFAULT_PLAYLIST_THUMBNAIL) {
     backgroundStyles = {
-      backgroundImage: `url(${thumbnail})`,
-      backgroundColor: `${playlistObject.primaryColor}`,
-    };
-  } else {
-    // eslint-disable-next-line no-unused-vars
-    backgroundStyles = {
-      backgroundImage: `url(${thumbnail})`,
+      backgroundColor: `${bgColor}`,
     };
   }
-
-  // console.log("bgStyles", backgroundStyles);
 
   useEffect(() => {
     setFollowed(isFollowed);
@@ -87,7 +79,7 @@ export default function PlaylistCard({
           className={componentClasses}
         >
           <motion.div
-            className="d-flex flex-column justify-content-center playlist-card playlist-placeholder fx-rounded clr-light-20 py-3 px-4"
+            className="d-flex flex-column justify-content-center playlist-card playlist-placeholder fx-rounded  py-3 px-4"
             // Animation settings
             variants={fromBottom}
           >
@@ -111,13 +103,13 @@ export default function PlaylistCard({
         >
           <motion.div
             className="d-flex flex-column justify-content-between playlist-card playlist-gradient fx-rounded py-3 px-4 parent-thumbnail-card"
-            // style={backgroundStyles}
             // Animation settings
             variants={fromBottom}
           >
             <img
-              className="thumbnail-card"
+              className={`${backgroundStyles} thumbnail-card`}
               src={thumbnail}
+              style={backgroundStyles}
               alt={playlistName}
             />
             <div

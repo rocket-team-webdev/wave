@@ -125,13 +125,8 @@ function MyAlbums() {
     }
   }, [debouncedSearch]);
 
-  // useEffect(() => {
-  //   fetchMyAlbums();
-  //   fetchLikedAlbums();
-  // }, []);
-
   return (
-    <Layout isNegative>
+    <Layout docTitle="My albums" isNegative>
       <div className="row mb-3 mb-md-5">
         <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText priText="My Albums" cols="12" isNegative />
