@@ -18,7 +18,7 @@ function Header({ props }) {
   const history = useHistory();
 
   const navlinkClasses =
-    "fnt-caption d-flex justify-content-center align-items-center fnt-secondary nav-link";
+    "fnt-caption d-flex justify-content-center align-items-center fnt-light nav-link";
 
   const handleSignOut = async () => {
     dispatch(logOut());
@@ -128,7 +128,7 @@ function Header({ props }) {
                             referrer: location.pathname,
                           },
                         }}
-                        className="dropdown-item fnt-link-regular"
+                        className="custom-dropdown-item fnt-link-regular"
                         onClick={() => {}}
                       >
                         My songs
@@ -142,7 +142,7 @@ function Header({ props }) {
                             referrer: location.pathname,
                           },
                         }}
-                        className="dropdown-item fnt-link-regular"
+                        className="custom-dropdown-item fnt-link-regular"
                         onClick={() => {}}
                       >
                         My playlists
@@ -156,7 +156,7 @@ function Header({ props }) {
                             referrer: location.pathname,
                           },
                         }}
-                        className="dropdown-item fnt-link-regular"
+                        className="custom-dropdown-item fnt-link-regular"
                         onClick={() => {}}
                       >
                         My albums
@@ -172,7 +172,7 @@ function Header({ props }) {
                             referrer: location.pathname,
                           },
                         }}
-                        className="dropdown-item fnt-link-regular"
+                        className="custom-dropdown-item fnt-link-regular"
                       >
                         Upload song
                       </Link>
@@ -185,7 +185,7 @@ function Header({ props }) {
                             referrer: location.pathname,
                           },
                         }}
-                        className="dropdown-item fnt-link-regular"
+                        className="custom-dropdown-item fnt-link-regular"
                         type="button"
                       >
                         Create playlist
@@ -199,7 +199,7 @@ function Header({ props }) {
                             referrer: location.pathname,
                           },
                         }}
-                        className="dropdown-item fnt-link-regular"
+                        className="custom-dropdown-item fnt-link-regular"
                         type="button"
                       >
                         Create album
@@ -215,7 +215,7 @@ function Header({ props }) {
                             referrer: location.pathname,
                           },
                         }}
-                        className="dropdown-item fnt-link-regular"
+                        className="custom-dropdown-item fnt-link-regular"
                         type="button"
                       >
                         Account details
@@ -223,7 +223,7 @@ function Header({ props }) {
                     </li>
                     <li>
                       <button
-                        className="dropdown-item fnt-light fnt-regular"
+                        className="custom-dropdown-item fnt-light fnt-regular"
                         type="button"
                         onClick={handleSignOut}
                       >

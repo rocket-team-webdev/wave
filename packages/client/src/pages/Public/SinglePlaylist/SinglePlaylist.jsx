@@ -240,7 +240,7 @@ export default function SinglePlaylist() {
                     }}
                   >
                     <p
-                      className="dropdown-item fnt-light fnt-song-regular m-0"
+                      className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                       type="button"
                     >
                       Edit
@@ -248,7 +248,7 @@ export default function SinglePlaylist() {
                   </Link>
                   <hr className="dropdown-wrapper m-0" />
                   <button
-                    className="dropdown-item fnt-light fnt-song-regular"
+                    className="custom-dropdown-item fnt-light fnt-song-regular"
                     data-bs-toggle="modal"
                     data-bs-target="#deletePlaylistModal"
                     type="button"
