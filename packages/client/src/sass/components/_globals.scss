@@ -1,4 +1,5 @@
 @use "./colors" as c;
+@import "bootstrap";
 
 // Test guidelines
 * {
@@ -79,10 +80,6 @@ a:hover {
   color: inherit;
 }
 
-a .dropwdown-item {
-  color: red;
-}
-
 .nav-link:visited {
   color: c.$lightColor;
 }
@@ -98,6 +95,26 @@ button {
 
 button:active {
   outline: 0;
+}
+
+// Dropdown items
+.dropdown-menu {
+  @extend .dropdown-menu;
+  background-color: c.$secondaryColor;
+}
+
+.custom-dropdown-item {
+  @extend .dropdown-item;
+  color: c.$lightColor !important;
+}
+
+.custom-dropdown-item:hover {
+  background-color: rgb(250, 250, 250, 0.2) !important;
+  color: c.$lightColor !important;
+}
+
+.dropdown-menu li {
+  position: relative;
 }
 
 /* -------------------------------------------------------------------------- */

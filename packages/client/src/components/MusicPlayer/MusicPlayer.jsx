@@ -293,7 +293,7 @@ export default function MusicPlayer() {
                   data-bs-auto-close="outside"
                   ref={contextualDropDownMusicRef}
                 >
-                  <FaEllipsisH />
+                  <FaEllipsisH className="fnt-secondary" />
                 </button>
                 <ul
                   className="dropdown-menu dropdown-menu-end clr-secondary p-1"
@@ -302,7 +302,7 @@ export default function MusicPlayer() {
                   <>
                     <li>
                       <Button
-                        className="dropdown-item fnt-light fnt-song-regular m-0"
+                        className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                         onClick={handleGoToQueue}
                       >
                         Queue
@@ -310,7 +310,7 @@ export default function MusicPlayer() {
                     </li>
                     <li>
                       <Button
-                        className="dropdown-item fnt-light fnt-song-regular m-0"
+                        className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                         onClick={handleClearQueue}
                       >
                         Clear queue
@@ -319,7 +319,7 @@ export default function MusicPlayer() {
                     <hr className="dropdown-wrapper m-0" />
                     <li className="dropend">
                       <a
-                        className="dropdown-item fnt-light fnt-song-regular"
+                        className="custom-dropdown-item fnt-light fnt-song-regular"
                         data-bs-toggle="dropdown"
                         id="contextAddToPlaylistMusic"
                         href="#contextAddToPlaylistMusic"
@@ -336,7 +336,7 @@ export default function MusicPlayer() {
                           myPlaylists.map((playlistElement) => (
                             <li key={playlistElement._id}>
                               <button
-                                className="dropdown-item fnt-light fnt-song-regular"
+                                className="custom-dropdown-item fnt-light fnt-song-regular"
                                 type="button"
                                 onClick={handleAddToPlaylist}
                                 playlistid={playlistElement._id}
@@ -356,7 +356,7 @@ export default function MusicPlayer() {
                             }}
                           >
                             <p
-                              className="dropdown-item fnt-light fnt-song-regular m-0"
+                              className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                               type="button"
                             >
                               New Playlist
@@ -364,7 +364,7 @@ export default function MusicPlayer() {
                           </Link>
                           {/* <Link to={`${PUBLIC.ADD_PLAYLIST}/${trackObject._id}`}>
                           <p
-                            className="dropdown-item fnt-light fnt-song-regular m-0"
+                            className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                             type="button"
                           >
                             New Playlist

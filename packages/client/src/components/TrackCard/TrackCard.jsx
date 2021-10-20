@@ -420,7 +420,7 @@ export default function TrackCard({
                         {isOnQueue ? (
                           <li>
                             <button
-                              className="dropdown-item fnt-light fnt-song-regular "
+                              className="custom-dropdown-item fnt-light fnt-song-regular "
                               type="button"
                               onClick={handleDeleteFromQueue}
                             >
@@ -430,7 +430,7 @@ export default function TrackCard({
                         ) : (
                           <li>
                             <button
-                              className="dropdown-item fnt-light fnt-song-regular "
+                              className="custom-dropdown-item fnt-light fnt-song-regular "
                               type="button"
                               onClick={handleAddToQueue}
                             >
@@ -440,7 +440,7 @@ export default function TrackCard({
                         )}
                         <li className="dropstart">
                           <a
-                            className="dropdown-item fnt-light fnt-song-regular"
+                            className="custom-dropdown-item fnt-light fnt-song-regular"
                             data-bs-toggle="dropdown"
                             id="contextAddToPlaylist"
                             href="#addToPlaylist"
@@ -457,7 +457,7 @@ export default function TrackCard({
                               myPlaylists.map((playlistElement) => (
                                 <li key={playlistElement._id}>
                                   <button
-                                    className="dropdown-item fnt-light fnt-song-regular"
+                                    className="custom-dropdown-item fnt-light fnt-song-regular"
                                     type="button"
                                     onClick={handleAddToPlaylist}
                                     playlistid={playlistElement._id}
@@ -479,7 +479,7 @@ export default function TrackCard({
                                 }}
                               >
                                 <p
-                                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                                  className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                                   type="button"
                                 >
                                   New Playlist
@@ -493,7 +493,7 @@ export default function TrackCard({
 
                           <Link to={`${PUBLIC.ALBUM}/${albumId}`}>
                             <p
-                              className="dropdown-item fnt-light fnt-song-regular m-0"
+                              className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                               type="button"
                             >
                               Go to album
@@ -514,7 +514,7 @@ export default function TrackCard({
                                 }}
                               >
                                 <p
-                                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                                  className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                                   type="button"
                                 >
                                   Edit song
@@ -523,7 +523,7 @@ export default function TrackCard({
                             </li>
                             <li>
                               <button
-                                className="dropdown-item fnt-light fnt-song-regular"
+                                className="custom-dropdown-item fnt-light fnt-song-regular"
                                 data-bs-toggle="modal"
                                 data-bs-target={`#deleteTrackModal${trackId}`}
                                 type="button"
@@ -545,7 +545,7 @@ export default function TrackCard({
                                 }}
                               >
                                 <p
-                                  className="dropdown-item fnt-light fnt-song-regular m-0"
+                                  className="custom-dropdown-item fnt-light fnt-song-regular m-0"
                                   type="button"
                                 >
                                   Go to user
@@ -559,7 +559,7 @@ export default function TrackCard({
                         ) : null}
                         {onOwnedPlaylist ? (
                           <button
-                            className="dropdown-item fnt-song-regular fnt-light"
+                            className="custom-dropdown-item fnt-song-regular fnt-light"
                             data-bs-toggle="modal"
                             data-bs-target={`#deleteFromPlaylistModal${trackId}`}
                             type="button"

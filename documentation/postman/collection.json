@@ -1,0 +1,1505 @@
+{
+  "info": {
+    "_postman_id": "7a9e1728-8e90-4135-bfcf-ecdcd5aeb6eb",
+    "name": "Wave",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Requires Token",
+      "item": [
+        {
+          "name": "Account",
+          "item": [
+            {
+              "name": "Get Account",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/account",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["account"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Account",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"birthDate\": \"1993-12-18\",\r\n    \"country\": \"argentina\",\r\n    \"email\": \"john@rocket-team.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/account",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["account"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Account",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/account",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["account"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Albums",
+          "item": [
+            {
+              "name": "Get All Albums",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/albums?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["albums"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Album By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/albums/6155d4cf66640133925ced69",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["albums", "6155d4cf66640133925ced69"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Album",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"test album\",\r\n    \"year\": \"2021\",\r\n    \"thumbnail\": \"\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/albums",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["albums"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Album",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"test album\",\r\n    \"year\": \"2021\",\r\n    \"thumbnail\": \"\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/albums",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["albums"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Album",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/albums/6155d4cf66640133925ced69",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["albums", "6155d4cf66640133925ced69"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Like Album",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/albums/6155d4cf66640133925ced69/like",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["albums", "6155d4cf66640133925ced69", "like"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Genre",
+          "item": [
+            {
+              "name": "Get Popular Genres",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/genres?page=0&limit=10",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["genres"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Me",
+          "item": [
+            {
+              "name": "Get My Followers",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/followers?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "followers"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Followings",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/following?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "following"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Playlists",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/playlists?page=0&limit=5&isContextualMenu=false",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "playlists"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    },
+                    {
+                      "key": "isContextualMenu",
+                      "value": "false",
+                      "description": "For retreiving only names and ids"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Following Playlists",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/playlists/following?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "playlists", "following"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Tracks",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/tracks?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "tracks"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Liked Tracks",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/tracks/liked?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "tracks", "liked"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Albums",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/albums?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "albums"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Liked Albums",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/albums/liked?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "albums", "liked"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Playback",
+          "item": [
+            {
+              "name": "Save Listened Songs",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "x-api-token",
+                    "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM1MDM0MmIwMjU1MDAyYWI3NWUwNTM0Yz",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n      \"agent\": \"mobile\",\n      \"trackId\": \"6155c91c622f449444513f47\",\n      \"userId\": \"615482e0c934df3f5bc09214\"\n    }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{STATS_API_ROUTE}}/playbacks",
+                  "host": ["{{STATS_API_ROUTE}}"],
+                  "path": ["playbacks"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Fetch Listened Tracks",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-api-token",
+                    "value": "private-key",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{STATS_API_ROUTE}}/playbacks",
+                  "host": ["{{STATS_API_ROUTE}}"],
+                  "path": ["playbacks"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Playlists",
+          "item": [
+            {
+              "name": "Get All playlists",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Playlist by Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists/615c345b11399a28c8fb0d90?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists", "615c345b11399a28c8fb0d90"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5",
+                      "description": "This pagination is for the tracks of the playlist"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Playlist",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"615c345b11399a28c8fb0d91\",\r\n    \"name\": \"Updated Playlist name\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Playlist",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"615c345b11399a28c8fb0d91\",\r\n    \"name\": \"Updated Playlist name\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Playlist",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists/615c345b11399a28c8fb0d91/follow",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists", "615c345b11399a28c8fb0d91", "follow"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Follow Playlist",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists/615c345b11399a28c8fb0d91/follow",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists", "615c345b11399a28c8fb0d91", "follow"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add track to playlist",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"playlistId\": \"615c345b11399a28c8fb0d91\",\r\n    \"trackId\": \"6155c9d6622f449444513f55\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists/add-track",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists", "add-track"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Remove Track to Playlist",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"playlistId\": \"615c7de260c2390ab23d69a9\",\r\n    \"trackId\": \"6155c9d6622f449444513f55\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists/remove-track",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists", "remove-track"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Playlist Order",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n      \"source\": {\r\n        \"index\": source.index,\r\n        \"trackId\": tracks[source.index]?._id,\r\n      },\r\n      \"destination\": {\r\n        \"index\": destination.index,\r\n        \"trackId\": tracks[destination.index]?._id,\r\n      },\r\n      \"playlistId\": isOnPlaylist?._id,\r\n    }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/playlists/reorder",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["playlists", "reorder"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Search",
+          "item": [
+            {
+              "name": "Search Tracks",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/search/tracks?q=a&page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["search", "tracks"],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "a",
+                      "description": "The search parameters"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search Playlists",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/search/playlists?q=a&page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["search", "playlists"],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "a",
+                      "description": "The search parameters"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search Albums",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/search/albums?q=a&page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["search", "albums"],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "a",
+                      "description": "The search parameters"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search Users",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/search/users?q=a&page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["search", "users"],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "a",
+                      "description": "The search parameters"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Tracks",
+          "item": [
+            {
+              "name": "Get All Tracks (by popularity)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/me/tracks?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["me", "tracks"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Track by Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/tracks/6155d5a966640133925ced94",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["tracks", "6155d5a966640133925ced94"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Track",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"id\": \"6155d5a966640133925ced94\",\n    \"artist\": \"Mozart La Para\",\n    \"genre\": \"techno\",\n    \"title\": \"Sin placa\",\n    \"album\": \"Album Nacho\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/tracks/",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["tracks", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Track",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"artist\": \"Mozart La Para\",\n    \"genre\": \"techno\",\n    \"title\": \"Sin placa\",\n    \"album\": \"Album Nacho\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_ROUTE}}/tracks/",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["tracks", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Track",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/tracks/6155d5a966640133925ced94",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["tracks", "6155d5a966640133925ced94"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Like/Dislike Track",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/tracks/6155d5a966640133925ced94/like",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["tracks", "6155d5a966640133925ced94", "like"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Users",
+          "item": [
+            {
+              "name": "Get User By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "615486c478206d637454b5b6"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Users (by popularity)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/popular?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "popular"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Followers",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/followers?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "615486c478206d637454b5b6", "followers"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Followings",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/following?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "615486c478206d637454b5b6", "following"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Follow/Unfollow User",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/61556affd0b9691c9d0fd089/follow",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "61556affd0b9691c9d0fd089", "follow"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Playlists (by popularity)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/playlists?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "615486c478206d637454b5b6", "playlists"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Following Playlists (by popularity)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/playlists/following?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": [
+                    "users",
+                    "615486c478206d637454b5b6",
+                    "playlists",
+                    "following"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Albums",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/albums?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "615486c478206d637454b5b6", "albums"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Liked Albums",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/albums/liked?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": [
+                    "users",
+                    "615486c478206d637454b5b6",
+                    "albums",
+                    "liked"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Tracks (by popularity)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/tracks?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": ["users", "615486c478206d637454b5b6", "tracks"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Liked Tracks (by popularity) Copy",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_ROUTE}}/users/615486c478206d637454b5b6/tracks/liked?page=0&limit=5",
+                  "host": ["{{API_ROUTE}}"],
+                  "path": [
+                    "users",
+                    "615486c478206d637454b5b6",
+                    "tracks",
+                    "liked"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "getUser",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"success\": true,\r\n\"data\": {\r\n\"id\": 3,\r\n\"title\": \"Amazing apartment in Dubai\",\r\n\"street\": \"Gardens avenue\",\r\n\"number\": \"10\",\r\n\"city\": \"Dubai\",\r\n\"province\": \"Dubai\",\r\n\"country\": \"Emirates\",\r\n\"status\": \"available\",\r\n\"type\": \"flat/apartment\",\r\n\"description\": \"This is the description of the property\",\r\n\"contact_email\": \"pepito@assemblerschool.com\",\r\n\"contact_phone\": \"344767574657\",\r\n\"condition\": \"new\",\r\n\"room\": \"2\",\r\n\"bath\": \"1\",\r\n\"size\": \"67\",\r\n\"price\": \"400000\",\r\n\"pet\": \"false\",\r\n\"garden\": \"true\",\r\n\"air_conditioning\": \"true\",\r\n\"swimming_pool\": \"false\",\r\n\"terrace\": \"true\",\r\n\"created_at\": \"08/30/2021\",\r\n\"updated_at\": \"08/30/2021\"\r\n},\r\n\"message\": \"Property created.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_ROUTE}}/account",
+              "host": ["{{API_ROUTE}}"],
+              "path": ["account"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"Dr.Nick Segundo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_ROUTE}}/account/",
+              "host": ["{{API_ROUTE}}"],
+              "path": ["account", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAlbums",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": null
+          },
+          "response": []
+        },
+        {
+          "name": "addAlbum",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Hammu Nation\",\r\n    \"year\": \"2021\",\r\n    \"thumbnail\": \"https://res.cloudinary.com/dz5nspe7f/image/upload/v1632915420/covers-preset/default-album_cugdui.png\",\r\n    \"userId\": \"{61546a4fc0753283941fecf1,}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_ROUTE}}/albums",
+              "host": ["{{API_ROUTE}}"],
+              "path": ["albums"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM1MDM0MmIwMjU1MDAyYWI3NWUwNTM0YzU4MmVjYzY2Y2YwZTE3ZDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vd2F2ZS01Y2NiYSIsImF1ZCI6IndhdmUtNWNjYmEiLCJhdXRoX3RpbWUiOjE2MzM1MTk2NTcsInVzZXJfaWQiOiJ5Y1NjUkFpSkRtTnEzS3Npam53YkRHeUNyT3oyIiwic3ViIjoieWNTY1JBaUpEbU5xM0tzaWpud2JER3lDck96MiIsImlhdCI6MTYzMzUxOTY1NywiZXhwIjoxNjMzNTIzMjU3LCJlbWFpbCI6InZpY3Rvcmh1Z29nb3RlQGhvdG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidmljdG9yaHVnb2dvdGVAaG90bWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.eK_DPTTBum6kfR5xEB7CN-lt7OhhzhIc3b1abPokz5ZzWg9U3jhHC6TvZnqwv4qmytaqvheo8Ojzsj3824kEBpWbBIAL2Vl4bxV4e6rL-VSOp_1vfB14Dfn0xot_uzv9hRiR0vwEyl4W5NhSUY0gokDoJBqdA5H5VE_m3oD0kRU0xXyS-pUV8UW0iGXlOMm16FefIwLnZfuRlbjx_VmSmXmlayWdw97xMUMh-PolVQLEquvlQnJyhsrbuBFkTpEelInmRAG1mEWVFErc-L_qOimmb_M9iINnIFPN4ddIbhhIFQd0NWSgmGaexa8lWI-c6litlPF7MOtsxAfSWSqqpg",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Playlists",
+      "item": [
+        {
+          "name": "{{API_ROUTE}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_ROUTE}}",
+              "host": ["{{API_ROUTE}}"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTM4MmFlMTgxYWJlNjFiOTYwYjA1Yzk3ZmE0MDljNDdhNDQ0ZTciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vd2F2ZS01Y2NiYSIsImF1ZCI6IndhdmUtNWNjYmEiLCJhdXRoX3RpbWUiOjE2MzQxMTcyODYsInVzZXJfaWQiOiJ5Y1NjUkFpSkRtTnEzS3Npam53YkRHeUNyT3oyIiwic3ViIjoieWNTY1JBaUpEbU5xM0tzaWpud2JER3lDck96MiIsImlhdCI6MTYzNDExNzI4NiwiZXhwIjoxNjM0MTIwODg2LCJlbWFpbCI6InZpY3Rvcmh1Z29nb3RlQGhvdG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidmljdG9yaHVnb2dvdGVAaG90bWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.UJfV6VxezDyYI1aXkirHA8cDkkKyKZuHpBZ07sD4PzJhrbay1oJLGvxux3_g_5yiZj0CpMLBolgsxo-IAluuepJqrpAb1mY4A9isi-uXIzBGXrKBGZQkZu7bRFRR4Kwiy4qQbKUmgvWJhSr_vgNg74sJyGrEujBrTNgGnAme5wxIZ616Sp2-aUzdHBLD3IycOMq0--j35mj4OAhFLZE4uSbT_We7ydk0-XN2glEoaLIDRiAhIARK3JGOl7hGAMrOhGyLMk3g-KjW6Sp44ESsG1xGicFwTJF4iSwJzare6mQg4N8P7BXNTU0Pk6IF1Twdflv2PVmixYJVi8l0lTxUmQ",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Albums",
+      "item": [
+        {
+          "name": "Get Album",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": null
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTM4MmFlMTgxYWJlNjFiOTYwYjA1Yzk3ZmE0MDljNDdhNDQ0ZTciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vd2F2ZS01Y2NiYSIsImF1ZCI6IndhdmUtNWNjYmEiLCJhdXRoX3RpbWUiOjE2MzQxMTcyODYsInVzZXJfaWQiOiJ5Y1NjUkFpSkRtTnEzS3Npam53YkRHeUNyT3oyIiwic3ViIjoieWNTY1JBaUpEbU5xM0tzaWpud2JER3lDck96MiIsImlhdCI6MTYzNDExNzI4NiwiZXhwIjoxNjM0MTIwODg2LCJlbWFpbCI6InZpY3Rvcmh1Z29nb3RlQGhvdG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidmljdG9yaHVnb2dvdGVAaG90bWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.UJfV6VxezDyYI1aXkirHA8cDkkKyKZuHpBZ07sD4PzJhrbay1oJLGvxux3_g_5yiZj0CpMLBolgsxo-IAluuepJqrpAb1mY4A9isi-uXIzBGXrKBGZQkZu7bRFRR4Kwiy4qQbKUmgvWJhSr_vgNg74sJyGrEujBrTNgGnAme5wxIZ616Sp2-aUzdHBLD3IycOMq0--j35mj4OAhFLZE4uSbT_We7ydk0-XN2glEoaLIDRiAhIARK3JGOl7hGAMrOhGyLMk3g-KjW6Sp44ESsG1xGicFwTJF4iSwJzare6mQg4N8P7BXNTU0Pk6IF1Twdflv2PVmixYJVi8l0lTxUmQ",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stats Server",
+      "item": [
+        {
+          "name": "Post a new Playback",
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-token",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM1MDM0MmIwMjU1MDAyYWI3NWUwNTM0Yz",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"agent\": \"mobile\",\n    \"trackId\": \"mathisong\",\n    \"userId\": \"brahim\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{STATS_API_ROUTE}}/playbacks",
+              "host": ["{{STATS_API_ROUTE}}"],
+              "path": ["playbacks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Track count",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "private-key",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "x-api-token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"agent\": \"mobile\",\n    \"trackId\": \"brahimsong\",\n    \"userId\": \"brahim\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{STATS_API_ROUTE}}/playbacks",
+              "host": ["{{STATS_API_ROUTE}}"],
+              "path": ["playbacks"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Sign In",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_ROUTE}}/authenticate",
+              "host": ["{{API_ROUTE}}"],
+              "path": ["authenticate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"email\": \"test1@test.com\",\n\"password\": \"12345678\",\n\"confirmPassword\": \"12345678\",\n\"birthDate\": \"1999-02-02\",\n\"country\": \"Spain\",\n\"firstName\": \"Nacho one\",\n\"lastName\": \"Test one\",\n\"profilePicture\": \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80\",\n\"username\": \"Test one\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_ROUTE}}/register",
+              "host": ["{{API_ROUTE}}"],
+              "path": ["register"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "API_ROUTE",
+      "value": "http://localhost:4000/api"
+    },
+    {
+      "key": "STATS_API_ROUTE",
+      "value": "http://localhost:8100/api"
+    }
+  ]
+}
