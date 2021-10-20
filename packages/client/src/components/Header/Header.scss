@@ -1,3 +1,5 @@
+@use "../../sass/components/colors" as c;
+
 header {
   position: -webkit-sticky;
   position: sticky;
@@ -26,6 +28,7 @@ header {
   text-align: center;
   &:hover {
     font-weight: 800;
+    color: c.$lightColor;
   }
 }
 
