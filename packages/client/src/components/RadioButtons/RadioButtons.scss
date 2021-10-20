@@ -6,16 +6,18 @@
   color: c.$lightColor;
   border: 2px solid c.$lightColor;
   background: unset;
+  box-shadow: none;
   &:hover {
     color: c.$secondaryColor;
   }
 }
-
 .custom-btn-check {
   @extend .btn-check;
   &:checked + label {
     color: c.$secondaryColor;
-
     background: c.$lightColor;
   }
+}
+.custom-btn-check:focus + .custom-radio {
+  box-shadow: none;
 }

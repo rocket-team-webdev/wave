@@ -79,6 +79,10 @@ a:hover {
   color: inherit;
 }
 
+a .dropwdown-item {
+  color: red;
+}
+
 .nav-link:visited {
   color: c.$lightColor;
 }
@@ -110,6 +114,7 @@ button:active {
   border: 1px solid white !important;
   margin: 5px 0;
 }
+
 /* -------------------------------------------------------------------------- */
 /*                               Global effects                               */
 /* -------------------------------------------------------------------------- */
