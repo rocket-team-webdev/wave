@@ -7,6 +7,9 @@ function getSeedGenres() {
       name: "rock",
     },
     {
+      name: "pop",
+    },
+    {
       name: "soul",
     },
     {
@@ -40,10 +43,16 @@ function getSeedGenres() {
       name: "grunge",
     },
     {
-      name: "focus",
+      name: "jazz",
     },
     {
-      name: "jazz",
+      name: "techno",
+    },
+    {
+      name: "rap",
+    },
+    {
+      name: "cumbia",
     },
     {
       name: "other",
