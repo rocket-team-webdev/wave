@@ -34,7 +34,7 @@ export default function HomeElement({
         >
           <div className="p-0 mx-0">
             <div className="d-flex justify-content-between home-element-header pt-2">
-              <p className="fnt-label-bold mb-3 truncate home-element-title">
+              <p className="fnt-label-bold fnt-secondary mb-3 truncate home-element-title">
                 {label.toUpperCase()}
               </p>
               {to && (
@@ -45,14 +45,14 @@ export default function HomeElement({
                       referrer: location.pathname,
                     },
                   }}
-                  className="mb-2 fnt-smallest"
+                  className="mb-2 fnt-smallest fnt-secondary"
                 >
                   See all
-                  <FaArrowCircleRight className="ms-2" />
+                  <FaArrowCircleRight className="ms-2 fnt-secondary" />
                 </Link>
               )}
               {sublabel && (
-                <p className="fnt-label-light mb-3 truncate home-element-title">
+                <p className="fnt-label-light fnt-secondary mb-3 truncate home-element-title">
                   {sublabel}
                 </p>
               )}
@@ -64,7 +64,7 @@ export default function HomeElement({
         <div className={`home-element mb-4 col col-12 col-md-${cols}`}>
           <div className="p-0 mx-0">
             <div className="d-flex justify-content-between home-element-header pt-2">
-              <p className="fnt-label-bold mb-3 truncate home-element-title">
+              <p className="fnt-label-bold fnt-secondary mb-3 truncate home-element-title">
                 {label.toUpperCase()}
               </p>
               {to && (
@@ -75,7 +75,7 @@ export default function HomeElement({
                       referrer: location.pathname,
                     },
                   }}
-                  className="mb-2 fnt-smallest"
+                  className="mb-2 fnt-smallest fnt-secondary"
                 >
                   See all
                   <FaArrowCircleRight className="ms-2" />

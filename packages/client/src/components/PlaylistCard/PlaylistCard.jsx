@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fromBottom } from "../../utils/motionSettings";
 
+import { DEFAULT_PLAYLIST_THUMBNAIL } from "../../utils/defaultPresets";
+
 import HeartIcon from "../SVGicons/HeartIcon";
 import { PUBLIC } from "../../constants/routes";
 
@@ -16,6 +18,7 @@ export default function PlaylistCard({
   userId,
   isFollowed,
   thumbnail,
+  bgColor,
   isPlaceholder = false,
   colsMd = "6",
   updateFollowedView = () => {},
@@ -27,6 +30,7 @@ export default function PlaylistCard({
     playlistId: playlistId,
     isFollowed: isFollowed,
     userId: userId,
+    primaryColor: bgColor,
   };
 
   const handleLike = async (e) => {
@@ -49,6 +53,21 @@ export default function PlaylistCard({
       setFollowed(!followed);
     }
   };
+
+  let backgroundStyles;
+  if (thumbnail === DEFAULT_PLAYLIST_THUMBNAIL) {
+    backgroundStyles = {
+      backgroundImage: `url(${thumbnail})`,
+      backgroundColor: `${playlistObject.primaryColor}`,
+    };
+  } else {
+    // eslint-disable-next-line no-unused-vars
+    backgroundStyles = {
+      backgroundImage: `url(${thumbnail})`,
+    };
+  }
+
+  // console.log("bgStyles", backgroundStyles);
 
   useEffect(() => {
     setFollowed(isFollowed);

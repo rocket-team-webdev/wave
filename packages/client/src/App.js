@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet";
 import { onAuthStateChanged, getCurrentUser } from "./services/auth";
 import { logIn } from "./redux/user/actions";
 import { signInUserData } from "./api/account-api";
@@ -50,6 +51,9 @@ function App() {
 
   return (
     <>
+      <Helmet titleTemplate="%s - WaveApp" defaultTitle="WaveApp">
+        <meta name="description" content="The wave is coming" />
+      </Helmet>
       {!loading && <RouterComponent />}
 
       <ToastContainer draggable theme="colored" />

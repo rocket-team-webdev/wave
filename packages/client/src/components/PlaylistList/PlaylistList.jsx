@@ -65,6 +65,7 @@ function PlaylistList({
             userId={playlist.userId}
             isFollowed={playlist.isFollowed}
             thumbnail={playlist.thumbnail}
+            bgColor={playlist.primaryColor}
             colsMd={colsMd}
             updateFollowedView={handleAddFollowedColumn}
           />

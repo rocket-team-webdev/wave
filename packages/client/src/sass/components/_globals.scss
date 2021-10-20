@@ -63,17 +63,32 @@ select:-webkit-autofill:focus {
   // -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
+a {
+  color: c.$secondaryColor;
+}
+
 a,
 a:visited {
   text-decoration: none;
-  color: inherit;
   font-weight: bold;
   transition: 0.3s;
+}
+
+a:visited {
+  color: inherit;
 }
 
 a:hover {
   font-weight: normal;
   color: inherit;
+}
+
+.nav-link:visited {
+  color: c.$lightColor;
+}
+
+.fnt-smallest:visited {
+  color: c.$secondaryColor;
 }
 
 button {

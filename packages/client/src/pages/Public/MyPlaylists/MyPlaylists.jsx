@@ -50,6 +50,7 @@ function MyPlaylists() {
       setFollowedPlaylists((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );
+
       // setFollowedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });

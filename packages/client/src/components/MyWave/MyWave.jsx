@@ -213,7 +213,7 @@ export default function MyWave() {
               label="Created playlists"
               cols="12 row-cols-md-1 col-lg-6"
             >
-              <p>No created playlists</p>
+              <p className="fnt-caption fnt-secondary">No created playlists</p>
             </HomeElement>
           )
         ) : (
@@ -244,7 +244,9 @@ export default function MyWave() {
               label="Following playlists"
               cols="12 row-cols-md-1 col-lg-6"
             >
-              <p>No following playlists</p>
+              <p className="fnt-caption fnt-secondary">
+                No following playlists
+              </p>
             </HomeElement>
           )
         ) : (
@@ -266,7 +268,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Uploaded songs" cols="12 col-lg-6">
-              <p>No uploaded songs</p>
+              <p className="fnt-caption fnt-secondary">No uploaded songs</p>
             </HomeElement>
           )
         ) : (
@@ -288,7 +290,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Liked songs" cols="12 col-lg-6">
-              <p>No liked tracks</p>
+              <p className="fnt-caption fnt-secondary">No liked songs</p>
             </HomeElement>
           )
         ) : (
@@ -310,7 +312,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Genres" cols="3 col-lg-12">
-              <p>No genres</p>
+              <p className="fnt-caption fnt-secondary">No genres</p>
             </HomeElement>
           )
         ) : (
@@ -338,7 +340,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Albums" cols="3 col-lg-12">
-              <p>No albums</p>
+              <p className="fnt-caption fnt-secondary">No albums</p>
             </HomeElement>
           )
         ) : (
@@ -366,7 +368,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Followers" cols="3 col-lg-12">
-              <p>No followers</p>
+              <p className="fnt-caption fnt-secondary">No followers</p>
             </HomeElement>
           )
         ) : (
@@ -394,7 +396,7 @@ export default function MyWave() {
             </HomeElement>
           ) : (
             <HomeElement label="Following" cols="3 col-lg-12">
-              <p>No followings</p>
+              <p className="fnt-caption fnt-secondary">No followings</p>
             </HomeElement>
           )
         ) : (

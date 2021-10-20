@@ -49,7 +49,7 @@
 
 .negative-primary-btn:hover,
 .negative-secondary-btn {
-  color: c.$primaryColor;
+  color: c.$secondaryColor;
   background: c.$lightColor;
   border: 2px solid c.$lightColor;
 }
@@ -80,6 +80,7 @@
 }
 
 // .small-btn-negative:hover,
+.genre-btn-positive,
 .small-btn-positive {
   padding: 5px;
   color: c.$lightColor;
@@ -88,6 +89,7 @@
 }
 
 // .small-btn-positive:hover,
+.genre-btn-positive:hover,
 .small-btn-negative {
   color: c.$secondaryColor;
   background: c.$lightColor;
