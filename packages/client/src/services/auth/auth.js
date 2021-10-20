@@ -12,15 +12,15 @@ import {
 } from "firebase/auth";
 
 if (!firebase.apps.length) {
-  const { 
-REACT_APP_FB_API_KEY,
-REACT_APP_FB_AUTH_DOMAIN,
-REACT_APP_FB_PROJECT_ID,
-REACT_APP_FB_STORAGE_BUCKET,
-REACT_APP_FB_MSG_SENDER_ID,
-REACT_APP_FB_APP_ID,
-REACT_APP_FB_MEASUREMENT_ID } =
-  process.env;
+  const {
+    REACT_APP_FB_API_KEY,
+    REACT_APP_FB_AUTH_DOMAIN,
+    REACT_APP_FB_PROJECT_ID,
+    REACT_APP_FB_STORAGE_BUCKET,
+    REACT_APP_FB_MSG_SENDER_ID,
+    REACT_APP_FB_APP_ID,
+    REACT_APP_FB_MEASUREMENT_ID,
+  } = process.env;
   const firebaseConfig = {
     apiKey: REACT_APP_FB_API_KEY,
     authDomain: REACT_APP_FB_AUTH_DOMAIN,
