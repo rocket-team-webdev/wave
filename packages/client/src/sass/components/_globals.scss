@@ -155,3 +155,7 @@ button:active {
 .header-links:visited {
   color: c.$lightColor !important;
 }
+
+html {
+  overflow: hidden;
+}
