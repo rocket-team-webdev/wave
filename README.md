@@ -169,7 +169,7 @@ This is our secondary API. It was created to manage all of the app statistics. T
 
 For the deploy of our application we have used [Heroku](www.heroku.com) for the back end and [Netlify](www.netlify.com) for our front end.
 
-During the development phase we've implemented CI/CD on development branches.
+During the development phase we implemented CI/CD on development branches.
 
 # 🧭 App navigation
 
@@ -211,7 +211,7 @@ Of course, playlists are a list of tracks! WaveApp doesn't differ much from othe
 
 ![Mockup-logo](./documentation/design/mockups/17-User-view.png)
 
-One of the main purposes of WaveApp is to discover and connect with other users. This means that, there's no only a personal view with a summary of what the user has created, liked and followed so far but there's also the possibility to go to other user's profile page. Likewise in the home page, most of the content blocks allow to redirect the user to a more detailed view with all songs, albums or playlists created and liked/followed by the user.
+One of the main purposes of WaveApp is to discover and connect with other users. This means that, there's not only a personal view with a summary of what the user has created, liked and followed so far but there's also the possibility to go to other user's profile page. Likewise in the home page, most of the content blocks allow to redirect the user to a more detailed view with all songs, albums or playlists created and liked/followed by the user.
 
 ![Mockup-logo](./documentation/design/mockups/00-COMBO-My.png)
 
