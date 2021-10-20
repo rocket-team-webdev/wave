@@ -2,6 +2,7 @@ import React from "react";
 import { render as rtlRender } from "@testing-library/react";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { HelmetProvider } from "react-helmet-async";
 
 // Import your own reducer
 import userReducer from "../redux/user/reducer";
@@ -33,8 +34,14 @@ function render(
     ...renderOptions
   } = {},
 ) {
+  const context = {};
+
   function Wrapper({ children }) {
-    return <Provider store={store}>{children}</Provider>;
+    return (
+      <Provider store={store}>
+        <HelmetProvider context={context}>{children}</HelmetProvider>
+      </Provider>
+    );
   }
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }
