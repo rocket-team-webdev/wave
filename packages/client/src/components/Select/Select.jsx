@@ -20,7 +20,6 @@ export default function Select({
   errorMessage,
   hasErrorMessage,
   options = [],
-  // ...props
 }) {
   let selectClassNames =
     "fnt-input-light fx-rounded positive-input px-3 col custom-select ";
@@ -63,7 +62,6 @@ export default function Select({
           onBlur={handleBlur}
           id={id}
           name={id}
-          // {...props}
         >
           {options.map((option) => (
             <option key={option} value={option} className="custom-option">

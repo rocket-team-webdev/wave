@@ -12,13 +12,6 @@ export default function Toast({ warning, message = "message", props }) {
     });
   }, []);
 
-  // const handler = () => {
-  //   fer.current.forEach((element) => {
-  //     const toast = new bootstrap.Toast(element);
-  //     toast.show();
-  //   });
-  // };
-
   let classNames = "toast align-items-center position-relative ";
 
   if (warning) {

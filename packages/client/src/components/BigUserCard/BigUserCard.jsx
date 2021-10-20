@@ -11,11 +11,8 @@ export default function BigUserCard({ user, classNames = "" }) {
 
   return (
     <motion.div
-      className=" pe-4 d-flex flex-column align-items-start" // Animation settings
-      // className="w-100"
-      // Animation settings
+      className=" pe-4 d-flex flex-column align-items-start"
       variants={fromBottom}
-      // variants={fromRight}
     >
       <Link
         to={{

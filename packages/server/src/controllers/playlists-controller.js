@@ -205,7 +205,6 @@ async function getPlaylistById(req, res, next) {
     const { _id: userId } = await db.User.findOne({ email }, { _id: 1 });
 
     const playlist = await db.Playlist.findOne(
-      //TODO: playlist owned or public
       {
         _id: playlistId,
         isDeleted: false,

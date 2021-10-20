@@ -150,19 +150,12 @@ export default function TrackCard({
   };
 
   const handleAddToQueue = () => {
-    // const dropdownElementList = [].slice.call(
-    //   document.querySelectorAll(".dropdown-toggle"),
-    // );
-    // const dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-    //   return new bootstrap.Dropdown(dropdownToggleEl);
-    // });
     handleCloseContextual();
     const songRepeat = queueState.queue.find(
       (item) => item.trackId === trackObject.trackId,
     );
     if (!songRepeat) {
       dispatch(addSong(trackObject));
-      console.log(queueState.queue.length);
       if (queueState.queue.length === 0) dispatch(setPlayState(true));
     } else {
       toast(`Song already exists on your queue`, { type: "error" });
@@ -273,7 +266,6 @@ export default function TrackCard({
         <motion.div
           // Animation settings
           variants={fromBottom}
-          // whileTap={pressedElement}
         >
           <Draggable
             draggableId={trackId}
@@ -283,7 +275,6 @@ export default function TrackCard({
             {(provided, snapshot) => (
               <div
                 className="row m-0 col card-hover col-12 mb-1"
-                // onDoubleClick={handlePlay}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
@@ -303,14 +294,12 @@ export default function TrackCard({
           </Draggable>
 
           <DeleteModal
-            // id="deleteTrackModal"
             id={`deleteTrackModal${trackId}`}
             modalTitle="Removing track"
             modalBody={`Are you sure you want to delete ${trackName}?`}
             handleSubmit={handleDeleteSong}
           />
           <DeleteModal
-            // id="deleteFromPlaylistModal"
             id={`deleteFromPlaylistModal${trackId}`}
             modalTitle="Removing track from playlist"
             modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}
@@ -321,7 +310,6 @@ export default function TrackCard({
         <motion.div
           // Animation settings
           variants={fromBottom}
-          // whileTap={pressedElement}
         >
           <Draggable
             draggableId={trackId}
@@ -419,7 +407,6 @@ export default function TrackCard({
                         type="button"
                         id="contextSongMenu"
                         data-bs-toggle="dropdown"
-                        // aria-expanded="false"
                         onClick={handleOpenDropdown}
                         data-bs-auto-close="outside"
                         ref={contextualDropDownRef}
@@ -445,7 +432,6 @@ export default function TrackCard({
                             <button
                               className="dropdown-item fnt-light fnt-song-regular "
                               type="button"
-                              // data-bs-toggle="dropdown"
                               onClick={handleAddToQueue}
                             >
                               Add to queue
@@ -455,7 +441,6 @@ export default function TrackCard({
                         <li className="dropstart">
                           <a
                             className="dropdown-item fnt-light fnt-song-regular"
-                            // type="button"
                             data-bs-toggle="dropdown"
                             id="contextAddToPlaylist"
                             href="#addToPlaylist"
@@ -591,14 +576,12 @@ export default function TrackCard({
           </Draggable>
 
           <DeleteModal
-            // id="deleteTrackModal"
             id={`deleteTrackModal${trackId}`}
             modalTitle="Removing track"
             modalBody={`Are you sure you want to delete ${trackName}?`}
             handleSubmit={handleDeleteSong}
           />
           <DeleteModal
-            // id="deleteFromPlaylistModal"
             id={`deleteFromPlaylistModal${trackId}`}
             modalTitle="Removing track from playlist"
             modalBody={`Are you sure you want to delete ${trackName} from the current playlist?`}

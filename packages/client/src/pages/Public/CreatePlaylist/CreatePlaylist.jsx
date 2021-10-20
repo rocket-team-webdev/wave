@@ -81,8 +81,6 @@ export default function CreatePlaylist() {
   const handlePublicAccessible = () => {
     const { checked } = publicAccessibleCheckbox.current;
     setPublicAccessible(!checked);
-    // formik.setFieldValue("publicAccessible", !publicAccessible);
-    // formik.values.publicAccessible = !checked;
   };
 
   return (

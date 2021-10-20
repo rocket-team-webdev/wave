@@ -94,7 +94,6 @@ export default function Input({
             onBlur={handleBlur}
             onInput={handleInput}
             accept={acceptFiles}
-            // onClick={(e) => InDragAndDrop && e.preventDefault()}
             {...props}
           />
         </div>

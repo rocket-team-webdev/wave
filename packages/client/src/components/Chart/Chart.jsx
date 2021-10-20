@@ -30,7 +30,6 @@ const Chart = ({
               },
             },
 
-            // responsive: false,
             maintainAspectRatio: false,
             indexAxis: horizontal && "y",
           }}

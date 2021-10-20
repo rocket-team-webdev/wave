@@ -48,12 +48,7 @@ export default function Button({
   };
 
   return (
-    <button
-      className={btnclassNames}
-      type="button"
-      // disabled={disabled}
-      onClick={goBack}
-    >
+    <button className={btnclassNames} type="button" onClick={goBack}>
       Back
     </button>
   );

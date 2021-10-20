@@ -4,8 +4,6 @@ import { containerAnimation } from "../../utils/motionSettings";
 import BigUserCard from "../BigUserCard/BigUserCard";
 
 function UserList({ users }) {
-  // const [listOfUsers, setListOfUsers] = useState(users);
-
   return (
     <motion.div
       className="content d-flex flex-wrap container-fluid row row-cols-1 row-cols-md-2 p-0 m-0"
