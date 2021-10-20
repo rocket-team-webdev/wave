@@ -41,7 +41,8 @@ REACT_APP_WAVE_STATS_API_ROUTE = Your Laravel app route
 The server .env file need to contain the next variables:
 
 ``` 
-MONGO_DB_URL_PRODUCTION = Your MongoDB Atlas connection url for producction MONGO_DB_URL_DEVELOPMENT = Your MongoDB Atlas connection url for development 
+MONGO_DB_URL_PRODUCTION = Your MongoDB Atlas connection url for producction 
+MONGO_DB_URL_DEVELOPMENT = Your MongoDB Atlas connection url for development 
 MONGO_DB_URL_TEST = Your MongoDB Atlas connection url for test 
 
 # Access token to 
@@ -241,7 +242,7 @@ Before starting the code development we set up some team conventions in order to
 To manage all the processes of the project within the Scrum Agile Methodology using Github Projects and its automation, we agreed on a branch naming strategy so we could store into Github folders and subfolders all branches and divide them by sprints, epic tasks, user stories, and tasks with their own issue numbers and descriptions to connect our branches with their related Github issues so we could close them every time we created a Pull Request. 
 An example of a branch name is the following:
 
-`` **epic-name/user-story/134/B-F/subtask-name** ``
+`` epic-name/user-story/issue-number/B-F/subtask-name ``
 
 # 🕵️‍♂️ Resources 
 
@@ -290,5 +291,5 @@ An example of a branch name is the following:
 # 🖇️  Contributing 
 If you want to contribute, please fork the repository, create a new branch whit your contribution, and push the branch as a pull requests. 
 
-# ✨  Contributors  
+# ✨  Team  
 Thanks goes to these wonderful people<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section --> <!-- prettier-ignore-start --> <!-- markdownlint-disable --> <table> <tr> <td align="center"><a href="https://github.com/bbenalia"><img src="https://avatars.githubusercontent.com/u/65949632?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brahim Benalia</b></sub></a><br /> <a href="https://github.com/rocket-team-webdev/wave/commits/develop?author=bbenalia" title="Code">💻</a> </td> <td align="center"><a href="https://github.com/labietelabiete"><img src="https://avatars.githubusercontent.com/u/72515410?v=4" width="100px;" alt=""/><br /><sub><b>Hugo Gómez</b></sub></a><br /><a href="https://github.com/rocket-team-webdev/wave/commits/develop?author=labietelabiete" title="Code">💻</a></td> <td align="center"><a href="https://github.com/Nachomontoya"><img src="https://avatars.githubusercontent.com/u/73990495?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nacho Montoya</b></sub></a><br /><a href="https://github.com/rocket-team-webdev/wave/commits/develop?author=Nachomontoya" title="Code">💻</a></td> <td align="center"><a href="https://github.com/Ricard-Garcia"><img src="https://avatars.githubusercontent.com/u/15958524?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ricard García</b></sub></a><br /><a href="https://github.com/rocket-team-webdev/wave/commits/develop?author=ricard-garcia" title="Code">💻</a> </td> <td align="center"><a href="https://github.com/mhfortuna"><img src="https://avatars.githubusercontent.com/u/66578026?v=4s=100" width="100px;" alt=""/><br /><sub><b>Mathias Fortuna</b></sub></a><br /><a href="https://github.com/rocket-team-webdev/wave/commits/develop?author=mhfortuna" title="Code">💻</a></td> <td align="center"><a href="https://github.com/Ernest-DT"><img src="https://avatars.githubusercontent.com/u/78990572?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ernest Duocastella</b></sub></a><br /><a href="https://github.com/rocket-team-webdev/wave/commits/develop?author=ernest-dt" title="Code">💻</a> </td> </tr> </table> <!-- markdownlint-restore --> <!-- prettier-ignore-end --> <!-- ALL-CONTRIBUTORS-LIST:END --> This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome! <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section --> [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-) <!-- ALL-CONTRIBUTORS-BADGE:END -->
