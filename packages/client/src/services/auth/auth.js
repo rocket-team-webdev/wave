@@ -6,6 +6,7 @@ import {
   reauthenticateWithCredential,
   reauthenticateWithPopup,
   OAuthProvider,
+  applyActionCode,
 } from "firebase/auth";
 
 if (!firebase.apps.length) {
@@ -116,6 +117,10 @@ export function reauthenticateUserWithGoogle() {
   const provider = new OAuthProvider("google.com");
 
   return reauthenticateWithPopup(auth.currentUser, provider);
+}
+
+export function handleVerifyEmail(actionCode) {
+  return applyActionCode(auth, actionCode);
 }
 
 // export async function handleGoogleSignIn() {
