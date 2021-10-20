@@ -326,7 +326,7 @@ export default function MusicPlayer() {
                         Queue
                       </Button>
                     </li>
-                    <li className="">
+                    <li>
                       <Button
                         className="dropdown-item fnt-light fnt-song-regular m-0"
                         onClick={handleClearQueue}
