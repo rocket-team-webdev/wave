@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import Layout from "../../../components/Layout";
@@ -10,11 +10,16 @@ import ResetPasswordSchema from "./reset-password-schema";
 
 import { PUBLIC } from "../../../constants/routes";
 import useQuery from "../../../hooks/useQuery";
-import { handleVerifyEmail } from "../../../services/auth/auth";
+import {
+  handleConfirmPasswordReset,
+  handleVerifyEmail,
+  handleVerifyPasswordResetCode,
+} from "../../../services/auth/auth";
 import Input from "../../../components/Input";
 
 function Reauthenticate() {
   const query = useQuery();
+  const history = useHistory();
   const [verifyError, setVerifyError] = useState(false);
 
   const mode = query.get("mode");
@@ -26,9 +31,15 @@ function Reauthenticate() {
     validationSchema: ResetPasswordSchema,
     onSubmit: async (resetPasswordState) => {
       try {
+        setVerifyError(false);
         const { newPassword } = resetPasswordState;
-        console.log(newPassword);
+
+        await handleVerifyPasswordResetCode(query.get("oobCode"));
+        await handleConfirmPasswordReset(query.get("oobCode"), newPassword);
+        toast("Password reset successfully", { type: "success" });
+        history.push(PUBLIC.SIGN_IN);
       } catch (error) {
+        setVerifyError(true);
         toast(error.message, { type: "error" });
       }
     },
@@ -36,8 +47,10 @@ function Reauthenticate() {
 
   useEffect(async () => {
     try {
-      setVerifyError(false);
-      await handleVerifyEmail(query.get("oobCode"));
+      if (mode === "verifyEmail") {
+        setVerifyError(false);
+        await handleVerifyEmail(query.get("oobCode"));
+      }
     } catch (error) {
       setVerifyError(true);
       toast(error.message, { type: "error" });
@@ -89,12 +102,12 @@ function Reauthenticate() {
                       errorMessage={formik.errors.newPassword}
                       hasErrorMessage={formik.touched.newPassword}
                     />
-                  </form>
-                  <div className="row">
-                    <div className="mt-2 col-auto ms-auto">
-                      <Button submitButton>Log in</Button>
+                    <div className="row">
+                      <div className="mt-2 col-auto ms-auto">
+                        <Button submitButton>Reset password</Button>
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </>
               ) : (
                 <>
