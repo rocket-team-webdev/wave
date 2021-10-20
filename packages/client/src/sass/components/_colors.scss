@@ -57,7 +57,7 @@ $playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
 }
 
 .clr-danger {
-  background: $lightDangerColor;
+  background: $lightDangerColor !important;
 }
 
 .clr-warning {

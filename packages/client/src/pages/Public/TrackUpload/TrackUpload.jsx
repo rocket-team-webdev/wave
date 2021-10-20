@@ -35,7 +35,7 @@ export default function TrackUpload() {
   const userId = userState.mongoId;
 
   useEffect(async () => {
-    const { data } = await getAllGenres();
+    const { data } = await getAllGenres(0, "");
     const genresArr = data.genres.map((genre) => genre.name);
     genresArr.unshift("Select genre");
     setGenres(genresArr);
