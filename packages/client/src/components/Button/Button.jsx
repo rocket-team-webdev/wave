@@ -7,37 +7,46 @@ export default function Button({
   secondaryBtn = false,
   isNegative = false,
   isSmall = false,
+  isDanger = false,
   fullWidth = false,
   submitButton = false,
   disabled = false,
+  classNames = "",
   children,
   handleClick = () => {},
   ...props
 }) {
-  let classNames = "custom-btn fx-rounded ";
+  let btnclassNames = `${classNames} custom-btn fx-rounded d-flex align-items-center justify-content-center `;
 
   if (isSmall) {
-    classNames += "fnt-caption small-btn";
-  } else {
-    classNames += "fnt-label-bold large-btn ";
-    if (primaryBtn && !isNegative && !secondaryBtn) {
-      classNames += "positive-primary-btn";
-    } else if (primaryBtn && isNegative && !secondaryBtn) {
-      classNames += "negative-primary-btn";
-    } else if (secondaryBtn && !isNegative) {
-      classNames += "positive-secondary-btn";
+    btnclassNames += "fnt-caption px-2 text-center follow-btn ";
+    if (isNegative) {
+      btnclassNames += "small-btn-negative";
     } else {
-      classNames += "negative-secondary-btn";
+      btnclassNames += "small-btn-positive ";
+    }
+  } else {
+    btnclassNames += "fnt-label-bold large-btn p-2 px-3 ";
+    if (isDanger) {
+      btnclassNames += " danger-btn ";
+    } else if (primaryBtn && !isNegative && !secondaryBtn) {
+      btnclassNames += "positive-primary-btn ";
+    } else if (primaryBtn && isNegative && !secondaryBtn) {
+      btnclassNames += "negative-primary-btn ";
+    } else if (secondaryBtn && !isNegative) {
+      btnclassNames += "positive-secondary-btn ";
+    } else {
+      btnclassNames += "negative-secondary-btn ";
     }
   }
 
   if (fullWidth) {
-    classNames += " w-100";
+    btnclassNames += " w-100";
   }
 
   return (
     <button
-      className={classNames}
+      className={btnclassNames}
       type={submitButton ? "submit" : "button"}
       disabled={disabled}
       onClick={handleClick}

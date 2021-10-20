@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const {
-  NODE_ENV = "development",
+  NODE_ENV = "production",
   MONGO_DB_URL_PRODUCTION,
   MONGO_DB_URL_DEVELOPMENT,
   MONGO_DB_URL_TEST,
@@ -11,6 +11,10 @@ const {
   PORT,
   ENCRYPTION_SALT_DEVELOPMENT,
   ENCRYPTION_SALT_PRODUCTION,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET,
+  CLOUDINARY_NAME,
+  WAVE_STATS_API_KEY,
 } = process.env;
 
 const CONFIG = {
@@ -24,6 +28,14 @@ const CONFIG = {
     encrypt: {
       salt: ENCRYPTION_SALT_PRODUCTION,
     },
+    cloudinary: {
+      key: CLOUDINARY_API_KEY,
+      secret: CLOUDINARY_API_SECRET,
+      name: CLOUDINARY_NAME,
+    },
+    statsServer: {
+      key: WAVE_STATS_API_KEY,
+    },
   },
   development: {
     app: {
@@ -35,6 +47,14 @@ const CONFIG = {
     encrypt: {
       salt: ENCRYPTION_SALT_DEVELOPMENT,
     },
+    cloudinary: {
+      key: CLOUDINARY_API_KEY,
+      secret: CLOUDINARY_API_SECRET,
+      name: CLOUDINARY_NAME,
+    },
+    statsServer: {
+      key: WAVE_STATS_API_KEY,
+    },
   },
   test: {
     app: {
@@ -42,6 +62,14 @@ const CONFIG = {
     },
     db: {
       url: MONGO_DB_URL_TEST,
+    },
+    cloudinary: {
+      key: CLOUDINARY_API_KEY,
+      secret: CLOUDINARY_API_SECRET,
+      name: CLOUDINARY_NAME,
+    },
+    statsServer: {
+      key: WAVE_STATS_API_KEY,
     },
   },
 };

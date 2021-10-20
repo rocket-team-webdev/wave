@@ -15,6 +15,16 @@
       "name": "Hugo Gomez",
       "email": "victorhugogote@gmail.com",
       "url": "https://github.com/labietelabiete"
+    },
+    {
+      "name": "Mathias Fortuna",
+      "email": "mathiasfortuna@hotmail.com",
+      "url": "https://github.com/mhfortuna"
+    },
+    {
+      "name": "Ricard Garcia",
+      "email": "imricardgarcia@gmail.com",
+      "url": "https://github.com/Ricard-Garcia"
     }
   ],
   "private": true,
@@ -23,10 +33,14 @@
   ],
   "scripts": {
     "client": "yarn workspace client start",
+    "client-dev": "yarn workspace client dev",
     "client-build": "yarn workspace client build",
     "client-test": "yarn workspace client test",
     "server": "yarn workspace server start",
-    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\""
+    "server-dev": "yarn workspace server dev",
+    "stats-server": "yarn workspace stats-server start",
+    "start": "concurrently --kill-others-on-fail \"yarn client\" \"yarn server\"",
+    "dev": "concurrently --kill-others-on-fail \"yarn client-dev\" \"yarn server-dev\""
   },
   "devDependencies": {
     "concurrently": "^6.2.1"

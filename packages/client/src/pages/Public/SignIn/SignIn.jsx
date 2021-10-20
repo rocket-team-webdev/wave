@@ -1,16 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { FaGoogle } from "react-icons/fa";
+import { trigger } from "../../../utils/customEvents";
+
 import signInSchema from "./sign-in-schema";
 import { createClient, signInUserData } from "../../../api/account-api";
-import { signInWithGoogle, signIn } from "../../../services/auth";
+import {
+  signInWithGoogle,
+  signIn,
+  signOut,
+  setCredentialsPersistance,
+} from "../../../services/auth";
 
+import JumboText from "../../../components/JumboText";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import Layout from "../../../components/Layout";
+import Checkbox from "../../../components/Checkbox";
+import Spinner from "../../../components/Spinner";
+
+import { isRegistering } from "../../../redux/user/actions";
+
+import { PUBLIC } from "../../../constants/routes";
+import FormWrapper from "../../../components/FormWrapper";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [saveCredentials, setSaveCredentials] = useState(false);
+  const dispatch = useDispatch();
+  const credentialsCheckbox = useRef();
+
+  const handleSaveCredentials = () => {
+    if (credentialsCheckbox.current.checked) {
+      setSaveCredentials(true);
+    } else {
+      setSaveCredentials(false);
+    }
+    setCredentialsPersistance(credentialsCheckbox);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -20,30 +50,31 @@ export default function SignIn() {
     validationSchema: signInSchema,
     onSubmit: async (signInState) => {
       setLoading(true);
-      setLoggedIn(false);
 
+      // Set save credentials
+      handleSaveCredentials();
       try {
         const signInResponse = await signIn(
           signInState.email,
           signInState.password,
         );
-
         const token = signInResponse.user.multiFactor.user.accessToken;
-        // const firebaseId = logInResponse.user.uid;
-        const response = await signInUserData(token);
-        console.log("Sign in response: ", response);
+        await signInUserData(token);
 
-        // TODO: Set to context, validate to db
-        setLoggedIn(true);
+        if (!signInResponse.user.multiFactor.user.emailVerified) {
+          signOut();
+          toast("Please verify your email!", { type: "error" });
+        }
       } catch (error) {
-        setLoginError(error.message);
-      } finally {
         setLoading(false);
+        toast(error.message, { type: "error" });
       }
     },
   });
 
   const handleGoogleSignIn = async () => {
+    dispatch(isRegistering(true));
+
     try {
       const googleResult = await signInWithGoogle();
       const {
@@ -52,84 +83,96 @@ export default function SignIn() {
         picture,
       } = googleResult.additionalUserInfo.profile;
 
-      const loggedUserObject = {
-        firstName: givenName,
-        lastName: familyName,
-        profilePicture: picture,
-      };
+      const formData = new FormData();
+      formData.append("profilePicture", picture);
+      formData.append("firstName", givenName);
+      formData.append("lastName", familyName);
 
-      await createClient(loggedUserObject);
-      setLoggedIn(true);
+      await createClient(formData);
+
+      dispatch(isRegistering(false));
+      trigger("setLoginReduxState");
     } catch (error) {
-      console.clear();
-      console.log("Failed Google sign in.");
+      toast(error.message, { type: "error" });
     }
   };
 
   return (
-    <>
-      <div className="row clr-white">
-        <div className="col col-12 col-md-6 fnt-jumbo p-4">
-          <p className="fnt-primary">WELCOME TO WAVEAPP.</p>
-          <p>LOG IN.</p>
-        </div>
-        <div className="col col-12 col-md-6 clr-light py-4 px-5 fx-rounded">
-          <form onSubmit={formik.handleSubmit}>
-            <h1 className="fnt-subtitle-bold mb-4">Log in</h1>
-            <Input
-              label="email"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="name@example.com"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              errorMessage={formik.errors.email}
-              hasErrorMessage={formik.touched.email}
-              classNames="mb-4"
-            />
-            <Input
-              label="password"
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-              errorMessage={formik.errors.password}
-              hasErrorMessage={formik.touched.password}
-              classNames="mb-4"
-            />
-            <div className="form-footer-wrapper p-0 row">
-              <div className="col col-12 col-md-4">
-                <input type="checkbox" className="me-2" id="rememberAccount" />
-                <label
-                  type="checkbox"
-                  htmlFor="rememberAccount"
-                  className="fnt-input-light"
-                >
-                  Remember account
-                </label>
-              </div>
-              <div className="d-flex justify-content-end col col-12 col-md-8 p-0">
-                <div className="d-inline-flex p-2 pe-4">
-                  <Button handleClick={handleGoogleSignIn}>Google</Button>
+    <Layout>
+      <div className="row p-0 m-0 col col-12 pb-5 pb-sm-0">
+        {loading ? (
+          <div className="col col-12 col-lg-6">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="col col-12 col-lg-6">
+            <JumboText cols="12" secText="Sign in." />
+          </div>
+        )}
+
+        <div className="col col-12 col-lg-6">
+          <FormWrapper formTitle="Log in">
+            <form onSubmit={formik.handleSubmit} className="row">
+              <Input
+                label="email"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                value={formik.values.email}
+                errorMessage={formik.errors.email}
+                hasErrorMessage={formik.touched.email}
+                classNames="mb-1"
+                disabled={loading}
+              />
+              <Input
+                label="password"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                hasForgotPassword
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                value={formik.values.password}
+                errorMessage={formik.errors.password}
+                hasErrorMessage={formik.touched.password}
+                classNames="mb-4"
+                disabled={loading}
+              />
+              <div className="form-footer-wrapper">
+                <div className="fnt-caption mt-4 row d-flex justify-content-between">
+                  <Checkbox
+                    label="Stay logged in"
+                    id="credentialsCheckbox"
+                    name="credentialsCheckbox"
+                    ref={credentialsCheckbox}
+                    checked={saveCredentials}
+                    onChange={handleSaveCredentials}
+                  />
+                  <div className="d-flex justify-content-end col col-12 col-md-7 p-0">
+                    <div className="d-inline-flex p-2 pe-2">
+                      <Button handleClick={handleGoogleSignIn}>
+                        <FaGoogle />
+                      </Button>
+                    </div>
+                    <div className="p-2">
+                      <Button submitButton>Log in</Button>
+                    </div>
+                  </div>
                 </div>
-                <div className="d-inline-flex p-2">
-                  <Button submitButton>Sign in</Button>
-                </div>
               </div>
-            </div>
-          </form>
-          {loading && !loginError && !loggedIn && <h3>Loading...</h3>}
-          {!loading && !loginError && loggedIn && <h3>Logged in!</h3>}
-          {!loading && loginError && !loggedIn && (
-            <h3>Login error: {loginError}</h3>
-          )}
+            </form>
+          </FormWrapper>
+          <div className="fnt-caption mt-4 pe-4 text-end">
+            First time in WaveApp?
+            <br />
+            Please, <Link to={PUBLIC.SIGN_UP}>sign up.</Link>
+          </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }

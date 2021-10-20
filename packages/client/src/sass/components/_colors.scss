@@ -1,9 +1,24 @@
-$primaryColor: rgb(115, 183, 247);
-$secondaryColor: rgb(46, 50, 66);
+$primaryColor: linear-gradient(-25deg, #4ba0c1, #8bcae6);
+$secondaryColor: #2a586a;
+$lightBlueColor: #8bcae6;
+$darkBlueColor: #4ba0c1;
+$darkColor: rgb(20, 20, 20);
 $grayColor: rgb(233, 233, 233);
 $lightColor: rgb(250, 250, 250);
+$lightColor60: rgba(250, 250, 250, 0.6);
 $lightColor20: rgba(250, 250, 250, 0.2);
-$white: rgb(255, 255, 255);
+$whiteColor: rgb(255, 255, 255);
+$darkDangerColor: rgb(218, 95, 100);
+$lightDangerColor: rgb(255, 206, 208);
+$darkSuccessColor: rgb(93, 172, 101);
+$lightSuccessColor: rgb(192, 238, 202);
+$darkWarning: rgb(255, 236, 181);
+
+$playlistGradient: linear-gradient(230deg, $lightColor 0%, $lightColor20 100%);
+
+:root {
+  --toastify-color-error: rgba(218, 95, 100, 1);
+}
 
 .clr-primary {
   background: $primaryColor;
@@ -11,6 +26,14 @@ $white: rgb(255, 255, 255);
 
 .clr-secondary {
   background: $secondaryColor;
+}
+
+.clr-light-blue {
+  background: $lightBlueColor;
+}
+
+.clr-dark-blue {
+  background: $darkBlueColor;
 }
 
 .clr-gray {
@@ -21,12 +44,24 @@ $white: rgb(255, 255, 255);
   background: $lightColor;
 }
 
+.clr-dark {
+  background: $darkColor;
+}
+
 .clr-light-20 {
   background: $lightColor20;
 }
 
 .clr-white {
-  background: $white;
+  background: $whiteColor;
+}
+
+.clr-danger {
+  background: $lightDangerColor;
+}
+
+.clr-warning {
+  background: $darkWarning;
 }
 
 .fnt-primary {
@@ -37,6 +72,14 @@ $white: rgb(255, 255, 255);
   color: $secondaryColor;
 }
 
+.fnt-light-blue {
+  color: $lightBlueColor;
+}
+
+.fnt-dark-blue {
+  color: $darkBlueColor;
+}
+
 .fnt-gray {
   color: $grayColor;
 }
@@ -45,6 +88,18 @@ $white: rgb(255, 255, 255);
   color: $lightColor;
 }
 
+.fnt-dark {
+  color: $darkColor;
+}
+
 .fnt-light-20 {
   color: $lightColor20;
+}
+
+.fnt-white {
+  color: $whiteColor !important;
+}
+
+.fnt-danger {
+  color: $darkDangerColor;
 }

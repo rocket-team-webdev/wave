@@ -9,12 +9,6 @@ export function makeAccountApi() {
   });
 }
 
-// export function makeAccountApi() {
-//   return axios.create({
-//     baseURL: `${API.MAIN}${API.ACCOUNT}`,
-//   });
-// }
-
 export function makeRegisterApi() {
   return axios.create({
     baseURL: `${API.MAIN}${API.REGISTER}`,
@@ -27,10 +21,6 @@ export function signInUserData(token) {
   });
 }
 
-// export function getAllProducts(api = makeAccountApi()) {
-//   return api.get(``);
-// }
-
 export async function getAccount(api = makeAccountApi()) {
   const token = await getCurrentUserToken();
   return api.get(``, {
@@ -38,52 +28,31 @@ export async function getAccount(api = makeAccountApi()) {
   });
 }
 
-export async function updateAccount(data, api = makeAccountApi()) {
+export async function updateAccount(file = {}, api = makeAccountApi()) {
   const token = await getCurrentUserToken();
-  return api.post(
-    ``,
-    { ...data },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    },
-  );
-}
-// export async function getClient(clientId, api = makeAccountApi()) {
-//   const token = await getCurrentUserToken();
-//   return api.get(`/${clientId}`, {
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-// }
 
-export async function createClient(clientData, api = makeRegisterApi()) {
-  const token = await getCurrentUserToken();
-  return api.post(
-    ``,
-    {
-      firstName: clientData.firstName,
-      lastName: clientData.lastName,
-      username: clientData.username,
-      country: clientData.country,
-      birthDate: clientData.birthDate,
-      profilePicture: clientData.profilePicture,
+  return api.put(``, file, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": `multipart/form-data"`,
     },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    },
-  );
+  });
 }
 
-// export async function updateClient(client, api = makeAccountApi()) {
-//   const token = await getCurrentUserToken();
-//   return api.post(
-//     `/${client.id}`,
-//     { client: client },
-//     {
-//       headers: { Authorization: `Bearer ${token}` },
-//     },
-//   );
-// }
+export async function deleteAccount(api = makeAccountApi()) {
+  const token = await getCurrentUserToken();
+  return api.delete(``, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
 
-// export function removeProductById(productId, api = makeClientsApi()) {
-//   return api.delete(`/${productId}`);
-// }
+export async function createClient(file = {}, api = makeRegisterApi()) {
+  const token = await getCurrentUserToken();
+
+  return api.post(``, file, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": `multipart/form-data"`,
+    },
+  });
+}

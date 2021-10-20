@@ -27,23 +27,33 @@
 .fnt-page-title,
 .fnt-subtitle-light,
 .fnt-subtitle-bold,
-.fnt-label-light,
-.fnt-label-bold {
+.fnt-form-title {
   font-family: "Pramukh";
+  transition: all 0.2s;
 }
 
+.fnt-label-light,
+.fnt-label-bold,
 .fnt-input-light,
 .fnt-input-bold,
 .fnt-song-light,
+.fnt-song-regular,
+.fnt-link-regular,
+.fnt-artist,
 .fnt-song-bold,
-.fnt-caption {
+.fnt-caption,
+.fnt-sorter,
+.fnt-smallest {
   font-family: "Switzer";
+  transition: all 0.2s;
 }
 
 // Sizes & styles
 .fnt-jumbo {
-  font-size: 205px;
-  line-height: 170px;
+  font-size: calc(48px + 10vw);
+  // font-size: 205px;
+  text-transform: uppercase;
+  hyphens: auto;
 }
 
 .fnt-sidebar {
@@ -51,17 +61,31 @@
 }
 
 .fnt-page-title {
-  font-size: 120px;
+  font-size: calc(62px + 5vw);
+  // font-size: 120px;
+}
+
+.fnt-sidebar,
+.fnt-label-light,
+.fnt-label-bold {
+  line-height: 1;
 }
 
 .fnt-subtitle-light,
 .fnt-subtitle-bold {
-  font-size: 93px;
+  font-size: calc(48px + 3vw);
+  // font-size: 93px;
+  line-height: 0.8;
 }
 
 .fnt-label-light,
 .fnt-label-bold {
-  font-size: 37px;
+  font-size: 19px;
+}
+
+.fnt-form-title {
+  font-size: 93px;
+  line-height: 0.7;
 }
 
 .fnt-input-light,
@@ -70,31 +94,56 @@
 }
 
 .fnt-song-light,
+.fnt-song-regular,
+.fnt-link-regular,
 .fnt-song-bold {
   font-size: 17px;
 }
 
+.fnt-artist {
+  font-size: 15px;
+}
+
 .fnt-caption {
   font-size: 15px;
+  line-height: 1.2;
+}
+
+.fnt-sorter {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.fnt-smallest {
+  font-size: 12px;
+  line-height: 1.2;
 }
 
 // Weights
 .fnt-label-bold,
 .fnt-song-bold,
-.fnt-input-bold {
+.fnt-input-bold,
+.fnt-smallest {
   font-weight: bold;
 }
 
 .fnt-jumbo,
 .fnt-page-title {
   font-weight: 900;
+  line-height: 0.85;
 }
 
 .fnt-subtitle-light,
-.fnt-label-light {
+.fnt-song-regular,
+.fnt-link-regular,
+.fnt-artist,
+.fnt-label-light,
+.fnt-sorter,
+.fnt-smallest {
   font-weight: normal;
 }
-.fnt-subtitle-light:hover {
+.fnt-subtitle-light:hover,
+.fnt-form-title {
   font-weight: 800;
 }
 
@@ -109,10 +158,14 @@
   font-weight: 300;
 }
 
+.fnt-uppercase {
+  text-transform: uppercase;
+}
+
 // Overflow
 .truncate {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 150px;
+  // max-width: 150px;
 }

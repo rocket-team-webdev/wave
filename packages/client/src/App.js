@@ -1,33 +1,63 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { PUBLIC, PRIVATE } from "./constants/routes";
-import Home from "./pages/Public/Home";
-import SignUp from "./pages/Public/SignUp";
-import SignIn from "./pages/Public/SignIn";
-import Account from "./pages/Private/Account";
-// import ResetPassword from "./pages/Public/ResetPassword/ResetPassword";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { onAuthStateChanged, getCurrentUser } from "./services/auth";
+import { logIn } from "./redux/user/actions";
+import { signInUserData } from "./api/account-api";
+import { on } from "./utils/customEvents";
+
+import RouterComponent from "./components/Router";
 
 function App() {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const userState = useSelector((state) => state.user);
+
+  async function handleExistingUser(firebaseUser) {
+    const token = firebaseUser.multiFactor.user.accessToken;
+    const dbUser = (await signInUserData(token)).data.data;
+
+    dispatch(
+      logIn({
+        firstName: dbUser.firstName,
+        profilePicture: dbUser.profilePicture || "",
+        isLogged: true,
+        mongoId: dbUser._id,
+        googleProvider:
+          firebaseUser.multiFactor.user.providerData[0].providerId ===
+          "google.com",
+      }),
+    );
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    onAuthStateChanged((user) => {
+      if (user && user.emailVerified && !userState.isRegistering) {
+        handleExistingUser(user);
+      } else {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    on("setLoginReduxState", () => {
+      const firebaseUser = getCurrentUser();
+      handleExistingUser(firebaseUser);
+    });
+  });
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path={PRIVATE.USER_ACCOUNT}>
-          <Account />
-        </Route>
-        <Route path={PUBLIC.SIGN_UP}>
-          <SignUp />
-        </Route>
-        <Route path={PUBLIC.SIGN_IN}>
-          <SignIn />
-        </Route>
-        {/* <Route path={PUBLIC.RESET_PASSWORD}>
-          <ResetPassword />
-        </Route> */}
-        <Route path={PUBLIC.HOME}>
-          <Home />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <HelmetProvider>
+      <Helmet titleTemplate="%s | WaveApp" defaultTitle="WaveApp">
+        <meta name="description" content="The wave is coming" />
+      </Helmet>
+      {!loading && <RouterComponent />}
+
+      <ToastContainer draggable theme="colored" />
+    </HelmetProvider>
   );
 }
 

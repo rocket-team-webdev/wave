@@ -22,14 +22,6 @@ const playlistSchema = new Schema(
       type: String,
       trim: true,
     },
-    cover: {
-      type: String,
-      trim: true,
-      validate: {
-        validator: (value) => validator.isURL(value),
-        message: () => `Track cover is not valid`,
-      },
-    },
     thumbnail: {
       type: String,
       trim: true,
@@ -42,10 +34,6 @@ const playlistSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    rating: {
-      type: Number,
-      default: 0.0,
-    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -53,6 +41,10 @@ const playlistSchema = new Schema(
     },
     tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: "track" }],
     followedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   {

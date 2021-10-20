@@ -9,9 +9,10 @@ const trackSchema = new Schema(
       trim: true,
       required: [true, "Track name is required"],
     },
-    rating: {
-      type: Number,
-      default: 0.0,
+    artist: {
+      type: String,
+      trim: true,
+      required: [true, "Track artist is required"],
     },
     url: {
       type: String,
@@ -25,14 +26,6 @@ const trackSchema = new Schema(
     popularity: {
       type: Number,
       default: 0,
-    },
-    thumbnail: {
-      type: String,
-      trim: true,
-      validate: {
-        validator: (value) => validator.isURL(value),
-        message: () => `Track thumbnail is not valid`,
-      },
     },
     color: {
       type: String,
@@ -54,9 +47,10 @@ const trackSchema = new Schema(
       ref: "user",
       required: [true, "User id is required"],
     },
-    albums: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "album" }],
-      required: [true, "Albums list is required"],
+    album: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "album",
+      required: [true, "Album id is required"],
     },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
@@ -65,6 +59,9 @@ const trackSchema = new Schema(
     timestamps: true,
   },
 );
+
+// indexes
+trackSchema.index({ name: "text", artist: "text" });
 
 const Track = mongoose.model("track", trackSchema);
 

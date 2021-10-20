@@ -1,5 +1,7 @@
 const Router = require("express").Router;
 const { accountController } = require("../controllers");
+const multer = require("multer"); //use multer to upload blob data
+const upload = multer(); // setup the multer
 
 const {
   authFirebaseMiddleware,
@@ -7,16 +9,19 @@ const {
 
 const accountRouter = Router();
 
-accountRouter.get(
-  "/account",
-  authFirebaseMiddleware,
-  accountController.getAccount,
+accountRouter.get("/", authFirebaseMiddleware, accountController.getAccount);
+const mdlUpload = upload.fields([{ name: "profilePicture" }]);
+
+accountRouter.put(
+  "/",
+  [authFirebaseMiddleware, mdlUpload],
+  accountController.updateAccount,
 );
 
-accountRouter.post(
-  "/account",
+accountRouter.delete(
+  "/",
   authFirebaseMiddleware,
-  accountController.updateAccount,
+  accountController.deleteAccount,
 );
 
 module.exports = {

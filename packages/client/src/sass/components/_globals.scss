@@ -18,13 +18,22 @@
   }
 
   // Guides
-  //   outline: 2px solid blue;
+  // outline: 2px solid blue;
+}
+
+input,
+input:before,
+input:after {
+  -webkit-user-select: initial;
+  -khtml-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
 }
 
 body {
   height: 100vh;
   margin: 0;
-  background: rgb(115, 183, 247);
   #root {
     height: 100%;
   }
@@ -48,11 +57,64 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: none;
-  border-bottom: 1px solid black;
-  -webkit-text-fill-color: black;
-  -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
+
+a {
+  color: c.$secondaryColor;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:hover {
+  font-weight: normal;
+  color: inherit;
+}
+
+a .dropwdown-item {
+  color: red;
+}
+
+.nav-link:visited {
+  color: c.$lightColor;
+}
+
+.fnt-smallest:visited {
+  color: c.$secondaryColor;
+}
+
+button {
+  border: none;
+  background: unset;
+}
+
+button:active {
+  outline: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               Global classes                               */
+/* -------------------------------------------------------------------------- */
+.h-fit-content {
+  height: fit-content;
+}
+.w-fit-content {
+  width: fit-content;
+}
+
+.light-hr {
+  border: 1px solid white !important;
+  margin: 5px 0;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                               Global effects                               */
 /* -------------------------------------------------------------------------- */

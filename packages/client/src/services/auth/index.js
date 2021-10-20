@@ -9,4 +9,6 @@ export {
   signIn,
   getCurrentUserToken,
   getCurrentUserEmail,
+  getCurrentUser,
+  setCredentialsPersistance,
 } from "./auth";

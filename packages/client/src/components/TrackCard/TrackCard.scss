@@ -1,0 +1,93 @@
+@use "../../sass/components/colors" as c;
+
+.card-inside {
+  min-height: 40px;
+}
+
+.card-hover {
+  transition: 0.3s;
+  .song-index {
+    min-width: 30px;
+  }
+
+  .title-and-artist,
+  .track-album {
+    width: 25%;
+  }
+
+  .track-playcounter,
+  .track-time {
+    width: 75px;
+  }
+}
+
+.card-placeholder {
+  background: c.$lightColor20;
+  &:hover {
+    background: c.$lightColor60;
+  }
+}
+
+.play-hover {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  object-fit: content;
+  min-width: 30px;
+
+  img {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+  }
+}
+
+.play-hover:hover {
+  cursor: pointer;
+  i {
+    opacity: 1;
+    top: 35%;
+    z-index: 500;
+  }
+}
+
+.play-hover i {
+  display: block;
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  color: inherit;
+}
+
+.card-hover:hover {
+  background-color: rgb(250, 250, 250, 0.2);
+  i {
+    opacity: 1;
+    top: 35%;
+    z-index: 500;
+  }
+}
+
+.trackcard-dropdown button {
+  color: c.$lightColor;
+}
+
+.dropdown-wrapper {
+  color: c.$lightColor;
+}
+
+.dropdown-item {
+  color: c.$lightColor !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgb(250, 250, 250, 0.2) !important;
+  color: c.$lightColor !important;
+}
+
+.dropdown-menu li {
+  position: relative;
+}

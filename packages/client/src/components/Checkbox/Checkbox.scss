@@ -1,0 +1,29 @@
+@use "../../sass/components/colors" as c;
+
+.checkbox-wrapper {
+  height: fit-content;
+
+  .custom-input-wrapper {
+    position: relative;
+    .custom-checkbox {
+      width: 12px;
+      height: 12px;
+      border: 2px solid c.$secondaryColor;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    input:checked + .custom-checkbox {
+      background: c.$secondaryColor;
+    }
+
+    input {
+      opacity: 0;
+      z-index: 9;
+    }
+  }
+
+  label {
+    text-transform: capitalize;
+  }
+}
