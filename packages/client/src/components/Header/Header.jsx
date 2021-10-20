@@ -18,7 +18,7 @@ function Header({ props }) {
   const history = useHistory();
 
   const navlinkClasses =
-    "fnt-caption d-flex justify-content-center align-items-center fnt-light nav-link";
+    "fnt-caption d-flex justify-content-center align-items-center fnt-light nav-link header-links";
 
   const handleSignOut = async () => {
     dispatch(logOut());

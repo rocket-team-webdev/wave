@@ -147,3 +147,11 @@ button:active {
   background: rgba(250, 250, 250, 0.2);
   backdrop-filter: blur(40px);
 }
+
+.header-links {
+  color: c.$lightColor !important;
+}
+.header-links:link,
+.header-links:visited {
+  color: c.$lightColor !important;
+}
