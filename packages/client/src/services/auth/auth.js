@@ -7,6 +7,8 @@ import {
   reauthenticateWithPopup,
   OAuthProvider,
   applyActionCode,
+  verifyPasswordResetCode,
+  confirmPasswordReset,
 } from "firebase/auth";
 
 if (!firebase.apps.length) {
@@ -121,6 +123,14 @@ export function reauthenticateUserWithGoogle() {
 
 export function handleVerifyEmail(actionCode) {
   return applyActionCode(auth, actionCode);
+}
+
+export function handleVerifyPasswordResetCode(actionCode) {
+  return verifyPasswordResetCode(auth, actionCode);
+}
+
+export function handleConfirmPasswordReset(actionCode, newPassword) {
+  return confirmPasswordReset(auth, actionCode, newPassword);
 }
 
 // export async function handleGoogleSignIn() {
