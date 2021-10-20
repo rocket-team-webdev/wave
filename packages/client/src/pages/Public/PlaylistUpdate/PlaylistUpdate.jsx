@@ -82,29 +82,21 @@ export default function PlaylistUpdate() {
     setIsLoading(false);
   }
 
-  // const initialPublicAccessible = () => {
-  // };
-
   const handlePublicAccessible = () => {
     const { checked } = publicAccessibleCheckbox.current;
     setPublicAccessible(!checked);
-    // formik.setFieldValue("publicAccessible", checked);
   };
 
   useEffect(() => {
     fetchPlaylist(playlistId);
   }, []);
 
-  // useEffect(() => {
-  //   initialPublicAccessible();
-  // }, [playlistState]);
-
   const thumbnailOnChange = async (files) => {
     formik.setFieldValue("thumbnail", files[0]);
   };
 
   return (
-    <Layout isNegative>
+    <Layout docTitle="Playlist update" isNegative>
       <div className="row">
         <div className="mb-5 d-flex">
           <JumboText priText={playlistState.name} cols="12" isNegative />

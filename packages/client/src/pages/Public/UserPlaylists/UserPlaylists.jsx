@@ -9,10 +9,14 @@ import {
   getUserPlaylists,
   getUserFollowingPlaylists,
 } from "../../../api/users-api";
+
 import { PUBLIC } from "../../../constants/routes";
+
 import BackButton from "../../../components/BackButton";
 import Spinner from "../../../components/Spinner";
+
 import { getUniqueListBy } from "../../../utils/lists";
+import { generatePossessive } from "../../../utils/possessiveFunction";
 
 function UserPlaylists() {
   const [loadStatus, setLoadStatus] = useState({
@@ -22,6 +26,8 @@ function UserPlaylists() {
   const [createdPlaylists, setCreatedPlaylists] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const [userPossessive, setUserPossessive] = useState([]);
+  const [docTitle, setDocTitle] = useState("Loading user");
+
   const history = useHistory();
 
   const { userId } = useRouteMatch(
@@ -32,11 +38,7 @@ function UserPlaylists() {
     try {
       const { data } = await getUserById(userId);
       // setUserData(data.data);
-      setUserPossessive(
-        data.data.firstName.slice(-1) === "s"
-          ? `${data.data.firstName}'`
-          : `${data.data.firstName}'s`,
-      );
+      setUserPossessive(generatePossessive(data.data.firstName));
     } catch (error) {
       if (error.response.status === 500) {
         toast("User not found", {
@@ -79,8 +81,12 @@ function UserPlaylists() {
     loadUser();
   }, []);
 
+  useEffect(() => {
+    setDocTitle(userPossessive);
+  }, [userPossessive]);
+
   return (
-    <Layout isNegative>
+    <Layout docTitle={docTitle} isNegative>
       <div className="row mb-3 mb-md-5">
         <div className="col col-12 col-md-9 mb-2 mb-md-0">
           <JumboText

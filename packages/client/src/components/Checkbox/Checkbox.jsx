@@ -18,7 +18,7 @@ const Checkbox = React.forwardRef((props, ref) => {
         <div className="custom-checkbox" />
       </div>
 
-      <label htmlFor={props.id} className="fnt-caption m-0">
+      <label htmlFor={props.id} className="fnt-caption m-0 fnt-secondary">
         {props.label}
       </label>
     </div>

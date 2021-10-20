@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
@@ -16,13 +16,19 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import RadioButtons from "../../../components/RadioButtons";
 import Spinner from "../../../components/Spinner";
+
 import { PUBLIC } from "../../../constants/routes";
+
+import { generatePossessive } from "../../../utils/possessiveFunction";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [popularView, setpopularView] = useState(true);
+  const [docTitle, setDocTitle] = useState("Loading home view");
+
   const userState = useSelector((state) => state.user);
   const userFirstName = userState.firstName;
+  const userPossessive = generatePossessive(userFirstName);
   const history = useHistory();
 
   const formik = useFormik({
@@ -45,8 +51,16 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    if (popularView) {
+      setDocTitle("General dashboard");
+    } else {
+      setDocTitle(`${userPossessive} dashboard`);
+    }
+  }, [popularView]);
+
   return (
-    <Layout isNegative>
+    <Layout docTitle={docTitle} isNegative>
       <div className="d-flex justify-content-between align-items-start row p-0 g-4 pt-4 pt-md-0 pb-4 pb-sm-0">
         {/* Top part */}
         <div className="d-flex top-part row p-0 m-0 mb-3 mb-md-5">

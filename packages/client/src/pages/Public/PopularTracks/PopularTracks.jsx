@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Helmet } from "react-helmet";
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 
@@ -28,19 +27,15 @@ export default function PopularTracks() {
   }, []);
 
   return (
-    <>
-      <Helmet>
-        <title>Top tracks</title>
-      </Helmet>
-      <Layout isNegative>
-        <div className="d-flex justify-content-between align-items-start row p-0 g-4">
-          {/* Left side */}
-          <div className="col col-12 col-md-6 left-side mt-4 px-4 p-md-0">
-            <div className="d-flex justify-content-between align-items-start">
-              <JumboText priText="The top 50" cols="11" isNegative />
-            </div>
+    <Layout docTitle="The top 50" isNegative>
+      <div className="d-flex justify-content-between align-items-start row p-0 g-4">
+        {/* Left side */}
+        <div className="col col-12 col-md-6 left-side mt-4 px-4 p-md-0">
+          <div className="d-flex justify-content-between align-items-start">
+            <JumboText priText="The top 50" cols="11" isNegative />
           </div>
-          <BackButton isNegative />
+
+          <BackButton classNames="mt-5" isNegative />
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
@@ -50,7 +45,7 @@ export default function PopularTracks() {
             <Spinner isNegative />
           )}
         </div>
-      </Layout>
-    </>
+      </div>
+    </Layout>
   );
 }

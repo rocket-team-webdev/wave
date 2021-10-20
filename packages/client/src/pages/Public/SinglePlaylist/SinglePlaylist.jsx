@@ -41,6 +41,7 @@ export default function SinglePlaylist() {
   const [followersCounter, setFollowersCounter] = useState(0);
   const [playlistGenres, setPlaylistGenres] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [docTitle, setDocTitle] = useState("Loading album");
 
   const userState = useSelector((state) => state.user);
   const queueState = useSelector((state) => state.queue);
@@ -69,7 +70,6 @@ export default function SinglePlaylist() {
     try {
       const { data } = await getPlaylistById(playlistId);
       setPlaylist(data.data);
-      console.log(data.data);
       setTracks(data.data.tracks);
       getGenresFromTracks(data.data.tracks);
       setIsFollowed(data.data.isFollowed);
@@ -139,8 +139,16 @@ export default function SinglePlaylist() {
     if (queueState.queue.length === 0) setIsPlaying(false);
   }, [queueState]);
 
+  useEffect(() => {
+    setDocTitle(playlist.name);
+  }, [playlist]);
+
   return (
-    <Layout thumbnailUrl={playlist.thumbnail} bgColor={playlist.primaryColor}>
+    <Layout
+      docTitle={docTitle}
+      thumbnailUrl={playlist.thumbnail}
+      bgColor={playlist.primaryColor}
+    >
       <div className="d-flex justify-content-between align-items-start row p-0 g-4">
         {/* Left side */}
         <div className="col col-12 col-md-6 left-side mt-4">

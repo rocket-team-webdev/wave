@@ -38,14 +38,12 @@ export default function JumboText({
             className={
               isNegative
                 ? "fnt-light mb-0 text-break"
-                : "fnt-primary mb-0 text-break"
+                : "fnt-primary fnt-light-blue mb-0 text-break"
             }
           >
             {priText}
           </p>
-          {secText && (
-            <p className="fnt-secondary mb-0 text-break">{secText}</p>
-          )}
+          {secText && <p className="fnt-dark mb-0 text-break">{secText}</p>}
         </div>
       )}
     </>

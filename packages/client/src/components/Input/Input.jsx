@@ -160,8 +160,8 @@ export default function Input({
           </p>
         )}
         {hasForgotPassword && (
-          <p className="col col-12 col-md-6 mt-2 mb-0 fnt-smallest text-end">
-            Forgot your password? Reset it{" "}
+          <p className="col col-12 col-md-6 mt-2 mb-0 fnt-smallest text-end w-100">
+            Forgot your password? Reset it
             <Link to={PUBLIC.RESET_PASSWORD}>here.</Link>
           </p>
         )}

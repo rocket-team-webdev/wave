@@ -1,3 +1,8 @@
+// import from .env
+
+const { REACT_APP_WAVE_API_ROUTE, REACT_APP_WAVE_STATS_API_ROUTE } =
+  process.env;
+
 // PUBLIC PAGES
 
 export const PUBLIC = {
@@ -41,7 +46,7 @@ export const PRIVATE = {
 // API
 
 export const API = {
-  MAIN: "http://localhost:4000/api",
+  MAIN: REACT_APP_WAVE_API_ROUTE,
   ACCOUNT: "/account",
   REGISTER: "/register",
   AUTHENTICATE: "/authenticate",
@@ -64,7 +69,6 @@ export const API = {
 // STATS API
 
 export const STATS_API = {
-  // MAIN: "http://localhost:8100/api",
-  MAIN: "https://wave-stats-api-dev.herokuapp.com/api",
+  MAIN: REACT_APP_WAVE_STATS_API_ROUTE,
   PLAYBACKS: "/playbacks",
 };
