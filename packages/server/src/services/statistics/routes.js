@@ -1,5 +1,11 @@
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+const { WAVE_STATS_API_ROUTE } = process.env;
+
 const STATS_API = {
-  MAIN: "https://wave-stats-api-dev.herokuapp.com/api",
+  MAIN: WAVE_STATS_API_ROUTE,
   PLAYBACKS: "/playbacks",
 };
 
