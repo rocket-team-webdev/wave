@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Upload() {
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
-  // const [selectedFile, setSelectedFile] = useState("");
 
   const previewFile = (file) => {
     const reader = new FileReader();
@@ -19,7 +19,6 @@ export default function Upload() {
   };
 
   const uploadImage = async (base64EncodedImage) => {
-    console.log(base64EncodedImage);
     try {
       await fetch("/api/upload", {
         method: "POST",
@@ -27,7 +26,7 @@ export default function Upload() {
         headers: { "Content-type": "application/json" },
       });
     } catch (error) {
-      console.error(error);
+      toast(`Error uploading image`, { type: "error" });
     }
   };
 

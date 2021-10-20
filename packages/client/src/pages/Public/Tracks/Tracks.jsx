@@ -47,7 +47,6 @@ export default function Tracks() {
   const fetchLikedSongs = async (likePage) => {
     try {
       const { data } = await getLikedTracks(likePage, 10);
-      // setLikedSongs((prev) => [...new Set([...prev, ...data.data])]);
       setLikedSongs((prev) => getUniqueListBy([...prev, ...data.data], "_id"));
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -178,7 +177,6 @@ export default function Tracks() {
               type="text"
               placeholder="Search"
               handleChange={handleSearchChange}
-              // handleBlur={handleSearchChange}
               value={searchBar}
               classNames="col-12 col-md-6 col-lg-4"
               isNegative

@@ -132,31 +132,3 @@ export function handleVerifyPasswordResetCode(actionCode) {
 export function handleConfirmPasswordReset(actionCode, newPassword) {
   return confirmPasswordReset(auth, actionCode, newPassword);
 }
-
-// export async function handleGoogleSignIn() {
-//   try {
-//     const googleResult = await signInWithGoogle();
-//     const {
-//       family_name: familyName,
-//       given_name: givenName,
-//       picture,
-//     } = googleResult.additionalUserInfo.profile;
-
-//     const loggedUserObject = {
-//       firstName: givenName,
-//       lastName: familyName,
-//       profilePicture: picture,
-//     };
-
-//     await createClient(loggedUserObject);
-//     // setLoggedIn(true);
-//     setTimeout(() => {
-//       history.push(PUBLIC.HOME);
-//     }, 500);
-//   } catch (error) {
-//     // setLoginError(error);
-//     // setLoggedIn(true);
-//     console.clear();
-//     console.log("Failed Google sign in.");
-//   }
-// }

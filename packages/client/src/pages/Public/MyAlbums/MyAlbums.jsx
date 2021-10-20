@@ -33,8 +33,6 @@ function MyAlbums() {
         data: { data },
       } = await getMyAlbums(createdPage, 10);
 
-      // const albumsArr = data.map((album) => album);
-      // setUserAlbums(albumsArr);
       setUserAlbums((prev) => getUniqueListBy([...prev, ...data], "_id"));
     } catch (error) {
       toast(error.message, { type: "error" });
@@ -47,8 +45,6 @@ function MyAlbums() {
       const {
         data: { data },
       } = await getLikedAlbums(likedPage, 10);
-      // const albumsArr = data.map((album) => album);
-      // setLikedAlbums(albumsArr);
       setLikedAlbums((prev) => getUniqueListBy([...prev, ...data], "_id"));
     } catch (error) {
       toast(error.message, { type: "error" });

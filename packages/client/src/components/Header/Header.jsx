@@ -7,8 +7,6 @@ import { signOut } from "../../services/auth";
 
 import waveappLogo from "../../assets/images/waveapp-logotype.svg";
 
-// import Button from "../Button";
-
 import "./Header.scss";
 import { clearQueue } from "../../redux/music-queue/actions";
 

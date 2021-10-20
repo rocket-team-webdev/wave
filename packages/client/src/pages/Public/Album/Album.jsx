@@ -80,8 +80,6 @@ export default function Album() {
 
   const handlePlaying = () => {
     if (tracks.length > 0) {
-      // eslint-disable-next-line no-debugger
-      // debugger;
       setIsPlaying(true);
       dispatch(clearQueue());
       const tracksArray = [];
@@ -242,7 +240,6 @@ export default function Album() {
                     data-bs-toggle="modal"
                     data-bs-target="#deleteAlbumModal"
                     type="button"
-                    // onClick={handleDeleteAlbum}
                   >
                     Delete
                   </button>

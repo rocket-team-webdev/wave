@@ -21,7 +21,7 @@ export const PUBLIC = {
   USER_VIEW: "/users",
   USERS: "/users",
   PLAYLISTS: "/playlists",
-  TRACK_EDIT: "/tracks/update", // TODO delete this or TRACK_UPDATE
+  TRACK_EDIT: "/tracks/update",
   TRACK_UPLOAD: "/tracks/upload",
   TRACK_UPDATE: "/tracks/update",
   ADD_ALBUM: "/albums/add",

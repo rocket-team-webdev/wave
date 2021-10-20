@@ -6,8 +6,6 @@ const transitionTime = 0.1;
 export const containerAnimation = {
   hidden: { opacity: 1, scale: 1 },
   visible: {
-    // opacity: 1,
-    // scale: 1,
     transition: {
       delayChildren: 0.3,
       staggerChildren: transitionTime,
@@ -42,7 +40,6 @@ export const pressedElement = {
 // ----------
 // Jumbo text
 // ----------
-// export const jumboAnimation =
 
 // -----
 // Heart
