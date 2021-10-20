@@ -76,11 +76,7 @@ export default function AppStats() {
 
             {loadStatus && (
               <>
-                <Chart
-                  chartData={topSongs}
-                  title="Top reproduced songs"
-                  // horizontal
-                />
+                <Chart chartData={topSongs} title="Top reproduced songs" />
                 <Chart
                   chartData={topGenres}
                   title="Top reproduced genres"

@@ -9,7 +9,6 @@
   justify-content: space-between;
   padding: 0.2rem;
   z-index: 999;
-  // overflow-x: hidden;
 }
 .rhap_container {
   background-color: c.$whiteColor;
@@ -38,7 +37,6 @@
   font-size: 25px;
   width: 25px;
   height: 25px;
-  // font-weight: bold;
 }
 
 .rhap_play-pause-button {
@@ -82,7 +80,6 @@
   flex: 1 1 auto;
   justify-content: flex-end;
   align-items: center;
-  // margin-right: 16px;
 }
 .rhap_shuffle-controls {
   display: flex;

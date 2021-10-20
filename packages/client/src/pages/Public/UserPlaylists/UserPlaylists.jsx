@@ -37,7 +37,6 @@ function UserPlaylists() {
   const loadUser = async () => {
     try {
       const { data } = await getUserById(userId);
-      // setUserData(data.data);
       setUserPossessive(generatePossessive(data.data.firstName));
     } catch (error) {
       if (error.response.status === 500) {

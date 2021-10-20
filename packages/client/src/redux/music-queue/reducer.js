@@ -26,7 +26,6 @@ const reducer = (state = initialState, action) => {
         willPlay: false,
         listPosition: action.payload.listPosition,
         queue: [
-          // ...state.queue.slice(0, state.listPosition),
           action.payload.track,
           ...state.queue.slice(state.listPosition + 1),
         ],

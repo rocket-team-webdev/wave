@@ -29,14 +29,6 @@ jest.mock("id3js/lib/id3", () => {
   return { fromFile: jest.fn() };
 });
 
-// const mock = function () {
-//   return {
-//     observe: jest.fn(),
-//     disconnect: jest.fn(),
-//   };
-// };
-// window.IntersectionObserver = mock;
-
 const tracksData = [
   {
     popularity: 0,
