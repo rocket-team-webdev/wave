@@ -37,6 +37,7 @@ import PopularTracks from "../../pages/Public/PopularTracks";
 import PopularAlbums from "../../pages/Public/PopularAlbums";
 import Search from "../../pages/Public/Search";
 import AppStats from "../../pages/Public/AppStats";
+import VerifyEmail from "../../pages/Public/VerifyEmail";
 
 export default function Router() {
   const queueState = useSelector((state) => state.queue);
@@ -49,6 +50,9 @@ export default function Router() {
         </PrivateRoute>
         <OnlyPublicRoute path={PUBLIC.RESET_PASSWORD} exact>
           <ResetPassword />
+        </OnlyPublicRoute>
+        <OnlyPublicRoute path={PUBLIC.VERIFY_EMAIL} exact>
+          <VerifyEmail />
         </OnlyPublicRoute>
         <PrivateRoute path={PUBLIC.TRACK_UPLOAD} exact>
           <TrackUpload />
