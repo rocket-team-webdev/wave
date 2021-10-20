@@ -47,13 +47,7 @@ export default function MusicPlayer() {
   const trackObject = queueState.isShuffled
     ? queueState.queue[queueState.shuffleOrder[listPosition]]
     : queueState.queue[listPosition];
-  // const [trackObject, setTrackObject] = useState(
-  //   queueState.isShuffled
-  //     ? queueState.queue[queueState.shuffleOrder[listPosition]]
-  //     : queueState.queue[listPosition],
-  // );
   const [isShuffle, setIsShuffle] = useState(queueState.isShuffled);
-  // const [repeatState, setRepeatState] = useState(queueState.repeatState);
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const audioPlayer = useRef(null);
@@ -76,13 +70,6 @@ export default function MusicPlayer() {
   };
 
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   return function cleanUp() {
-  //     console.log("unmounted");
-  //     setTrackObject(null);
-  //   };
-  // });
 
   const handlePlay = () => {
     dispatch(setPlayState(false));
@@ -163,11 +150,6 @@ export default function MusicPlayer() {
         ],
       ),
     );
-    // setRepeatState(
-    //   toggleStates[
-    //     statePosition === toggleStates.length - 1 ? 0 : statePosition + 1
-    //   ],
-    // );
   };
 
   const handleLike = async () => {
@@ -338,7 +320,6 @@ export default function MusicPlayer() {
                     <li className="dropend">
                       <a
                         className="dropdown-item fnt-light fnt-song-regular"
-                        // type="button"
                         data-bs-toggle="dropdown"
                         id="contextAddToPlaylistMusic"
                         href="#contextAddToPlaylistMusic"

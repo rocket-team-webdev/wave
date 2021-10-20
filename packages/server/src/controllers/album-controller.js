@@ -56,7 +56,6 @@ async function addAlbum(req, res, next) {
     // if there is a thumbnail
     if (thumbnail) {
       thumbnail = thumbnail[0];
-      console.log("What we take for upload", thumbnail);
       const thumbnailLocation = path.join(
         __dirname,
         "../../",

@@ -28,17 +28,6 @@ export async function getAccount(api = makeAccountApi()) {
   });
 }
 
-// export async function updateAccount(data, api = makeAccountApi()) {
-//   const token = await getCurrentUserToken();
-//   return api.post(
-//     ``,
-//     { ...data },
-//     {
-//       headers: { Authorization: `Bearer ${token}` },
-//     },
-//   );
-// }
-
 export async function updateAccount(file = {}, api = makeAccountApi()) {
   const token = await getCurrentUserToken();
 

@@ -7,7 +7,6 @@ const {
 
 const genreRouter = Router();
 
-// genreRouter.get("", [authFirebaseMiddleware], genreController.getGenres);
 genreRouter.get("", [authFirebaseMiddleware], genreController.getPopularGenres);
 
 module.exports = {

@@ -50,8 +50,6 @@ function MyPlaylists() {
       setFollowedPlaylists((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );
-
-      // setFollowedPlaylists(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -66,11 +64,6 @@ function MyPlaylists() {
     setPageFollowed(fetchPage);
     fetchFollowedPlaylists(fetchPage);
   };
-
-  // const fetchPlaylistsData = (fetchPage = 0) => {
-  //   fetchCreatedPlaylists(fetchPage);
-  //   fetchFollowedPlaylists(fetchPage);
-  // };
 
   const handleAddFollowedColumn = (playlist, isFollowed) => {
     try {

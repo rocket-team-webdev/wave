@@ -25,7 +25,6 @@ select.custom-positive-select {
   color: c.$secondaryColor;
   background-image: linear-gradient(45deg, transparent 50%, c.$grayColor 50%),
     linear-gradient(135deg, c.$grayColor 50%, transparent 50%);
-  //   linear-gradient(to right, c.$grayColor, c.$grayColor);
   background-position: calc(100% - 20px) calc(1em + 0px),
     calc(100% - 15px) calc(1em + 0px), calc(100% - 2.5em) 0.3em;
   background-size: 5px 5px, 5px 5px, 1px 1.5em;
@@ -54,7 +53,6 @@ select.custom-negative-select {
   color: c.$lightColor;
   background-image: linear-gradient(45deg, transparent 50%, c.$lightColor 50%),
     linear-gradient(135deg, c.$lightColor 50%, transparent 50%);
-  // linear-gradient(to right, c.$lightColor, c.$lightColor);
   background-position: calc(100% - 20px) calc(1em + 0px),
     calc(100% - 15px) calc(1em + 0px), calc(100% - 2.5em) 0.3em;
   background-size: 5px 5px, 5px 5px, 1px 1.5em;
@@ -69,7 +67,6 @@ select.custom-negative-select:focus {
     calc(100% - 2.5em) 0.3em;
   background-size: 5px 5px, 5px 5px, 1px 1.5em;
   background-repeat: no-repeat;
-  //   border-color: green;
   outline: 0;
 }
 

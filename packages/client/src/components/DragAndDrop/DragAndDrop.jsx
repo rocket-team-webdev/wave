@@ -1,10 +1,7 @@
 import React, { useMemo, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
-// import Input from "../Input";
 import AddIcon from "../SVGicons/AddIcon";
-
-import "./DragAndDrop.scss";
 
 export default function DragAndDrop({
   handleChange,
