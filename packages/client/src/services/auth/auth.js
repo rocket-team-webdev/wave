@@ -12,14 +12,23 @@ import {
 } from "firebase/auth";
 
 if (!firebase.apps.length) {
+  const { 
+REACT_APP_FB_API_KEY,
+REACT_APP_FB_AUTH_DOMAIN,
+REACT_APP_FB_PROJECT_ID,
+REACT_APP_FB_STORAGE_BUCKET,
+REACT_APP_FB_MSG_SENDER_ID,
+REACT_APP_FB_APP_ID,
+REACT_APP_FB_MEASUREMENT_ID } =
+  process.env;
   const firebaseConfig = {
-    apiKey: "AIzaSyAkNV3TlhB3J6zhmWBK_3XMY90z845Z2tA",
-    authDomain: "wave-5ccba.firebaseapp.com",
-    projectId: "wave-5ccba",
-    storageBucket: "wave-5ccba.appspot.com",
-    messagingSenderId: "452328699060",
-    appId: "1:452328699060:web:2b254e1dca9657544653e1",
-    measurementId: "G-35FSM0H7MY",
+    apiKey: REACT_APP_FB_API_KEY,
+    authDomain: REACT_APP_FB_AUTH_DOMAIN,
+    projectId: REACT_APP_FB_PROJECT_ID,
+    storageBucket: REACT_APP_FB_STORAGE_BUCKET,
+    messagingSenderId: REACT_APP_FB_MSG_SENDER_ID,
+    appId: REACT_APP_FB_APP_ID,
+    measurementId: REACT_APP_FB_MEASUREMENT_ID,
   };
 
   firebase.initializeApp(firebaseConfig);
