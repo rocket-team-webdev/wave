@@ -83,13 +83,13 @@ export default function SignIn() {
         picture,
       } = googleResult.additionalUserInfo.profile;
 
-      const loggedUserObject = {
-        firstName: givenName,
-        lastName: familyName,
-        profilePicture: picture,
-      };
+      const formData = new FormData();
+      formData.append("profilePicture", picture);
+      formData.append("firstName", givenName);
+      formData.append("lastName", familyName);
 
-      await createClient(loggedUserObject);
+      await createClient(formData);
+
       dispatch(isRegistering(false));
       trigger("setLoginReduxState");
     } catch (error) {

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 import Layout from "../../../components/Layout";
 import JumboText from "../../../components/JumboText";
 
 import { getAllTracks } from "../../../api/tracks-api";
 import TrackList from "../../../components/TrackList";
 import BackButton from "../../../components/BackButton";
+import Spinner from "../../../components/Spinner";
 
 export default function PopularTracks() {
+  const [isLoading, setIsLoading] = useState(true);
   const [tracks, setTracks] = useState();
 
   const loadPopularTracks = async () => {
@@ -17,6 +20,7 @@ export default function PopularTracks() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -36,7 +40,11 @@ export default function PopularTracks() {
         </div>
         {/* Right side */}
         <div className="col col-12 col-md-6 right-side pe-0">
-          {tracks && <TrackList tracks={tracks} />}
+          {!isLoading ? (
+            tracks && <TrackList tracks={tracks} />
+          ) : (
+            <Spinner isNegative />
+          )}
         </div>
       </div>
     </Layout>

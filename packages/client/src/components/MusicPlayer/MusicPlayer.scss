@@ -2,7 +2,7 @@
 
 .rhap_main-container {
   width: 100%;
-  position: fixed;
+  position: sticky;
   bottom: 0;
   display: flex;
   align-items: center;
@@ -50,6 +50,7 @@
 .rhap_current-time,
 .rhap_total-time {
   font-weight: 600;
+  color: c.$secondaryColor;
 }
 
 .rhap_progress-indicator {
@@ -157,6 +158,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: c.$secondaryColor;
+}
+
+.dropdown button {
+  color: c.$secondaryColor;
 }
 
 /* -------------------------------------------------------------------------- */

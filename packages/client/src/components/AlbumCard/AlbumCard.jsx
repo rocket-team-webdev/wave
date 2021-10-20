@@ -50,13 +50,6 @@ export default function AlbumCard({
     }
   };
 
-  let backgroundStyles = {};
-  if (thumbnail) {
-    backgroundStyles = {
-      backgroundImage: `url(${thumbnail})`,
-    };
-  }
-
   useEffect(() => {
     setLiked(isLiked);
   }, [isLiked]);
@@ -99,7 +92,7 @@ export default function AlbumCard({
             // Animation settings
             variants={fromBottom}
           >
-            <div className="thumbnail-card" style={backgroundStyles} />
+            <img className="thumbnail-card" src={thumbnail} alt={albumTitle} />
             <div
               className="heart-wrapper d-flex justify-content-end fnt-primary"
               data-testid="playlistCard"
@@ -110,14 +103,14 @@ export default function AlbumCard({
                 onClick={handleLike}
               >
                 {liked ? (
-                  <HeartIcon isFull isNegative />
+                  <HeartIcon isFull isNegative classNames="color-hov" />
                 ) : (
-                  <HeartIcon isNegative />
+                  <HeartIcon isNegative classNames="color-hov" />
                 )}
               </button>
             </div>
 
-            <p className="fnt-input-bold fnt-light mb-0 truncate">
+            <p className="fnt-input-bold fnt-light mb-0 truncate color-hov">
               {albumTitle.toUpperCase()}
             </p>
           </motion.div>

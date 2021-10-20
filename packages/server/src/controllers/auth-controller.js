@@ -18,9 +18,9 @@ async function signUp(req, res, next) {
         (k) => req.body[k] == "" && delete req.body[k],
       );
 
-      let profilePicture = req.files["profilePicture"];
-
-      let profilePictureUrl = DEFAULT_PROFILE_PICTURE;
+      let profilePicture = req.files?.profilePicture;
+      let profilePictureUrl =
+        req.body.profilePicture || DEFAULT_PROFILE_PICTURE;
 
       if (profilePicture) {
         profilePicture = profilePicture[0];
@@ -68,7 +68,7 @@ async function signUp(req, res, next) {
     }
 
     res
-      .status(409)
+      .status(200)
       .send({ message: "User already exists found", userId: data._id });
   } catch (error) {
     res.status(500).send({

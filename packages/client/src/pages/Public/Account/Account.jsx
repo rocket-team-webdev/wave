@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 import updateSchema from "./update-schema";
 
@@ -68,7 +69,7 @@ export default function Account() {
         profilePicture: data.data.profilePicture || "",
         firstName: data.data.firstName || "",
         lastName: data.data.lastName || "",
-        birthDate: data.data.birthDate.substr(0, 10) || "",
+        birthDate: data.data.birthDate?.substr(0, 10) || "",
         email: data.data.email || "",
         country: data.data.country || "",
       });
@@ -196,18 +197,17 @@ export default function Account() {
                 <div className="col-6 d-flex justify-content-end pe-0">
                   <Button submitButton>Save </Button>
                 </div>
-              </div>
-            </form>
-          </FormWrapper>
-        </div>
+              </form>
+            </FormWrapper>
+          </div>
 
-        <DeleteModal
-          id="deleteUserModal"
-          modalTitle="Removing user"
-          modalBody="Are you sure you want to delete this user?"
-          handleSubmit={handleDeleteAccount}
-        />
-      </div>
-    </Layout>
+          <DeleteModal
+            id="deleteUserModal"
+            modalTitle="Removing user"
+            modalBody="Are you sure you want to delete this user?"
+            handleSubmit={handleDeleteAccount}
+          />
+        </div>
+      </Layout>
   );
 }

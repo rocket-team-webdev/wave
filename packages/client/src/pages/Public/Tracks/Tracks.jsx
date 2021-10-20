@@ -14,9 +14,14 @@ import { searchTrack } from "../../../api/search-api";
 import useDebounce from "../../../hooks/useDebounce";
 import BackButton from "../../../components/BackButton";
 import { getUniqueListBy } from "../../../utils/lists";
+import Spinner from "../../../components/Spinner";
 
 export default function Tracks() {
   const location = useLocation();
+  const [loadStatus, setLoadStatus] = useState({
+    UploadedSongs: false,
+    LikedSongs: false,
+  });
   const [uploadedSongs, setUploadedSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const [searchBar, setSearchBar] = useState("");
@@ -33,10 +38,10 @@ export default function Tracks() {
       setUploadedSongs((prev) =>
         getUniqueListBy([...prev, ...data.data], "_id"),
       );
-      // setUploadedSongs(data.data);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, uploadedSongs: true }));
   };
 
   const fetchLikedSongs = async (likePage) => {
@@ -47,6 +52,7 @@ export default function Tracks() {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+    setLoadStatus((prev) => ({ ...prev, likedSongs: true }));
   };
 
   const fetchTracksData = (fetchPage = 0) => {
@@ -184,36 +190,44 @@ export default function Tracks() {
       <div className="row">
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Uploaded</div>
-          {uploadedSongs && (
-            <>
-              <TrackList
-                tracks={uploadedSongs}
-                setTracks={setUploadedSongs}
-                onAddLikedColumn={handleAddLikedColumn}
-                setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
-                hasSorter
-                isSearching={isSearching}
-                loadMoreTracks={fetchTracksData}
-                propPage={page}
-              />
-            </>
+          {loadStatus.uploadedSongs ? (
+            uploadedSongs && (
+              <>
+                <TrackList
+                  tracks={uploadedSongs}
+                  setTracks={setUploadedSongs}
+                  onAddLikedColumn={handleAddLikedColumn}
+                  setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
+                  hasSorter
+                  isSearching={isSearching}
+                  loadMoreTracks={fetchTracksData}
+                  propPage={page}
+                />
+              </>
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
         <div className="col col-12 col-md-6 pb-5 pb-md-0">
           <div className="fnt-page-title mb-4">Liked</div>
-          {likedSongs && (
-            <>
-              <TrackList
-                tracks={likedSongs}
-                setTracks={setLikedSongs}
-                onAddLikedColumn={handleAddLikedColumn}
-                setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
-                hasSorter
-                isSearching={isSearching}
-                loadMoreTracks={fetchTracksDataLiked}
-                propPage={pageLiked}
-              />
-            </>
+          {loadStatus.likedSongs ? (
+            likedSongs && (
+              <>
+                <TrackList
+                  tracks={likedSongs}
+                  setTracks={setLikedSongs}
+                  onAddLikedColumn={handleAddLikedColumn}
+                  setColumnsOnDeleteTrack={handleUpdateColumnsOnDeleteTrack}
+                  hasSorter
+                  isSearching={isSearching}
+                  loadMoreTracks={fetchTracksDataLiked}
+                  propPage={pageLiked}
+                />
+              </>
+            )
+          ) : (
+            <Spinner classNames="ms-2" isNegative />
           )}
         </div>
       </div>
