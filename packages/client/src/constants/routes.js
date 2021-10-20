@@ -34,6 +34,7 @@ export const PUBLIC = {
   NOT_FOUND: "/404",
   POPULAR: "/popular",
   SEARCH: "/search",
+  VERIFY_EMAIL: "/email-verification",
 };
 
 // PRIVATE PAGES
