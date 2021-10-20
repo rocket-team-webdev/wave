@@ -55,7 +55,7 @@ function App() {
 
   return (
     <>
-      <Helmet titleTemplate="%s - WaveApp" defaultTitle="WaveApp">
+      <Helmet titleTemplate="%s | WaveApp" defaultTitle="WaveApp">
         <meta name="description" content="The wave is coming" />
       </Helmet>
       {!loading && <RouterComponent />}
