@@ -4,7 +4,13 @@ import React from "react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 
-import { render, screen, cleanup, fireEvent } from "../../utils/test-utils";
+import {
+  render,
+  screen,
+  cleanup,
+  fireEvent,
+  waitFor,
+} from "../../utils/test-utils";
 import "@testing-library/jest-dom";
 
 import Home from "../../pages/Public/Home";
@@ -33,6 +39,8 @@ describe("Home Page test", () => {
       </Router>,
     );
 
+    await waitFor(() => screen.getAllByTestId("layout"));
+
     // Home page rendered - Popular
     expect(screen.getByText(/general dashboard/i)).toBeInTheDocument();
   });
@@ -45,6 +53,8 @@ describe("Home Page test", () => {
         <Home />
       </Router>,
     );
+
+    await waitFor(() => screen.getAllByTestId("layout"));
 
     // Home page rendered - Popular
     expect(screen.getByText(/general dashboard/i)).toBeInTheDocument();

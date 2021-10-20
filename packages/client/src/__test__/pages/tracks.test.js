@@ -79,6 +79,8 @@ describe("Tracks Page test", () => {
       </Router>,
     );
 
+    await waitFor(() => screen.getAllByTestId("layout"));
+
     // tracks page rendered
     expect(screen.getAllByText(/my songs/i)[1]).toBeInTheDocument();
   });
