@@ -4,7 +4,7 @@
 
 WaveApp is a streaming music web application where you can share and discover songs, playlists and albums with other users. Built with MongoDB, Express, Node, Laravel, Firebase, Cloudinary and Laravel for the server side, and React, Redux for the client side.
 
-> You can see deployed our application [here](https://musikverein.netlify.app/)
+> You can see deployed our application [here](https://the-wave-app.netlify.app/)
 
 # 🚀 Getting Started
 
