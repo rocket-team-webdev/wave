@@ -52,7 +52,6 @@ export default function SignUp() {
         formData.append("birthDate", signUpState.birthDate);
         formData.append("country", signUpState.country);
         formData.append("email", signUpState.email);
-        formData.append("password", signUpState.password);
         await signUpWithEmailAndPassword(
           signUpState.email,
           signUpState.password,
