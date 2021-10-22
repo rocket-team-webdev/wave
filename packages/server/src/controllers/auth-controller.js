@@ -9,6 +9,7 @@ const { DEFAULT_PROFILE_PICTURE } = require("../utils/default-presets");
 
 async function signUp(req, res, next) {
   const { firebaseId } = req.user;
+  const { firstName, lastName, birthDate, country, email } = req.body;
 
   try {
     const data = await db.User.findOne({ firebaseId }, { _id: 1 });
@@ -58,7 +59,11 @@ async function signUp(req, res, next) {
 
       const newUser = await db.User.create({
         ...req.user,
-        ...req.body,
+        firstName,
+        lastName,
+        birthDate,
+        country,
+        email,
         profilePicture: profilePictureUrl,
       });
 
